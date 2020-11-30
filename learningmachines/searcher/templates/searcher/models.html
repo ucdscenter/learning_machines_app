@@ -1,0 +1,46 @@
+{% extends 'searcher/base.html' %}
+{% block title %}Model List{% endblock title%}
+{% block content %}
+<div class="col-12 page-header pt-3" align="center" >
+       <div id="legend">
+        <h1><span class="main-color">|</span> Models <span class="main-color">|</span></h1>
+      </div>
+</div>
+
+<div class="col-10 pt-3" style="background-color:white">
+  <h3>Running Models</h3>
+  <div id="running_div">
+    
+  </div>
+  <h3>Saved Models</h3>
+  <div id="saved_div">
+    
+  </div>
+  <h3>Recent Models</h3>
+  <div id="recent_div">
+    
+  </div>
+</div>
+
+
+{% endblock content %}
+
+
+{% block footer_javascript_section %}
+
+
+<script>
+  let data = "{{data|escapejs}}"
+  data = JSON.parse(data)
+  let RUNNING_MODELS =  data.running_models
+  let SAVED_MODELS = data.saved_models
+  let RECENT_MODELS = data.recent_models
+</script>
+
+<script src="/static/searcher/js/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/static/searcher/js/d3.min.js"></script>
+<script src="/static/searcher/js/crossfilter.js"></script>
+<script src="/static/searcher/js/dc.min.js"></script>
+<script src="/static/searcher/show_models.js"></script>
+{% endblock footer_javascript_section %}

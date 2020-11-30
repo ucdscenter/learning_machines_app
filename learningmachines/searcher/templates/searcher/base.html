@@ -1,0 +1,175 @@
+{# HTML5 declaration #}
+<!DOCTYPE html>
+<html>
+{# Make modifiable head elements #}
+<head>
+  <title>{% block title %}Home {% endblock title %} | Catalyst</title>
+
+  <link rel="icon" type="image/x-icon" href="/static/searcher/images/box.png" />
+  <!-- For iPhone 4 Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/searcher/images/box.png" />
+  <!-- For iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/searcher/images/box.png" />
+  <!-- For iPhone:-->
+  <link rel="apple-touch-icon-precomposed" href="/static/searcher/images/box.png" /> 
+
+  {% block head_favicon %}
+  {% endblock head_favicon %}
+  {% block head_meta %}
+  {% block head_meta_charset %}
+  <meta http-equiv="Content-Type"
+        content="text/html; charset=utf-8"/>
+  {% endblock head_meta_charset %}
+  {% block head_meta_contentlanguage %}
+  <meta http-equiv="Content-Language" value="en-US"/>
+  {% endblock head_meta_contentlanguage %}
+  {% block head_meta_viewport %}
+  <!--<meta name="viewport"
+        content="width=device-width, initial-scale=1.0">-->
+  {% endblock head_meta_viewport %}
+  {% endblock head_meta %}
+  {% block head_css %}
+  {% block head_css_site %}
+    <link rel="stylesheet" href="/static/searcher/css/bootstrap.min.css">
+    <link href="/static/searcher/fonts/roboto_robotoslab.css" rel="stylesheet">
+    <link  href="/static/searcher/fonts/material_icons.css" rel="stylesheet"->
+    <link rel="stylesheet" href="/static/searcher/mymain.css">
+  {% endblock head_css_site %}
+  {% block head_css_section %}
+   
+  {% endblock head_css_section %}
+  {% block head_css_page %}
+  {% endblock head_css_page %}
+  {% endblock head_css %}
+</head>
+
+<body>
+{# Navigation Menu #}
+{% csrf_token %}
+<nav class="navbar navbar-expand-lg " id="main-nav">
+
+  <div class="navbar-header">
+     <!--<a class="navbar-brand" href="/"><img src="//lcdn.uc.edu/uc-assets/images/logos/uclogo.png" width="75" height="30" alt="mobile logo" class="img-fluid" /><span class="sr-only">University of Cincinnati</span></a>-->
+     <a class="navbar-brand" href="/" style="color: #002a31;"><span style="font-family: 'Roboto Slab', serif;" class="main-color" id="main-color">learning</span><span style="font-family: 'Roboto Slab', serif;" class="other-color" id="other-color"> || </span><span style="font-family: 'Roboto Slab', serif;">machines</span></a>
+  </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span ><i class="material-icons center_icon">list</i></span>
+  </button>
+  <div class="navbar-collapse collapse" id="navbarSupportedContent">
+
+    <ul class="nav navbar-nav mr-auto">
+      <li class="nav-item" id="search-btn"><a class="nav-link" href="/searcher/search/" id="search-nav"> | Get Started | </a></li>
+      {% if user.is_authenticated %}
+      <li class="nav-item" id="search-btn"><a class="nav-link" href="/searcher/models/" id="search-nav"> | Models | </a></li>
+      {% endif %}
+      <!--<li class="nav-item"><a class="nav-link" href="/learn/" id="learn-nav">Learn</a></li>
+      <li class="nav-item"><a class="nav-link" href="/analyze/" id="analyze-nav">Analyze</a></li>-->
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right" align="right">
+      {% if user.is_authenticated %}
+      <li class="nav-item pointer" href="#" id="navbarDropdown" data-toggle="dropdown"
+         aria-haspopup="true" aria-expanded="false">
+         <a class="nav-link pointer clickpointer">Account <i class="material-icons center_icon">keyboard_arrow_down</i></a>
+      </li>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="border: 1px solid var(--main-color); box-shadow: 0px 2px 2px grey">
+        <a class="dropdown-item specialtext" href="/accounts/user/">Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/accounts/change_pw/">Password</a>
+         <div class="dropdown-divider"></div>
+        <a class="dropdown-item specialtext" href="/accounts/logout/">Logout</a>
+      </div>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="/accounts/login/">Login</a></li>
+     
+      {% endif %}
+    </ul>
+  </div>
+
+</nav>
+
+
+{# Document Body #}
+<div id="site-wrapper" class="mt-0 pt-0">
+  <p class="hidden third-color" id="third-color"></p>
+  <div class="container-fluid">
+    <div id="base-row" class="row justify-content-center">
+      {% block content %}
+
+      if you see this, something is wrong!
+      {% endblock content %}
+    </div>
+  </div>
+
+
+  <div class="row footer align-items-center justify-content-center">
+    <div class="col-10">
+      <div class="row">
+        <div class="col-3">
+          <a class="navbar-brand" href="/" style="color: #002a31;"><span style="font-family: 'Roboto Slab', serif;" class="main-color" id="main-color">re</span><span style="font-family: 'Roboto Slab', serif;" class="other-color" id="other-color"> || </span><span style="font-family: 'Roboto Slab', serif;">search</span></a>
+          <h6>UC DIGITAL SCHOLARSHIP CENTER</h6>
+          <h6>LANGSAM LIBRARY | 2911 WOODSIDE DRIVE, CINCINNATI, OH</h6>
+          <h6>PHONE | 513.556.8794</h6>
+        </div>
+        <div class="col-3">
+          <img alt="uc footer logo" src="//lcdn.uc.edu/ucdhs/images/uc-logo@2x.png" style="max-width: 150px; margin-bottom: 1.5rem">
+          <img alt="mellon footer logo" src="/static/searcher/images/mellon-foundation-logo.png" style="max-width: 150px; margin-bottom: 1.5rem">
+          
+        </div>
+        <div class="col-3">
+          
+        </div>
+        <div class="col-3">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+{# The Footer #}
+
+
+</body>
+{# Set of blocks that can be used to display JavaScript files #}
+{% block footer_javascript %}
+{% block footer_javascript_site %}
+
+<script src="/static/searcher/js/jquery.min.js"></script>
+<script src="/static/searcher/js/popper.min.js" type="module"></script>
+<script src="/static/searcher/js/bootstrap.min.js"></script>
+<script>
+  let thing = window.location.pathname
+  if(thing == '/learn/'){
+    $('#learn-nav').addClass('nav-page-disp')
+  }
+  if(thing == '/search/'){
+    $('#search-nav').addClass('nav-page-disp')
+  }
+  if(thing == '/analyze/'){
+    $('#analyze-nav').addClass('nav-page-disp')
+  }
+  if(window.innerHeight < 700){
+    $('.screen-col').height(700)
+  }
+  else{
+    $('.screen-col').height(window.innerHeight)
+  }
+ 
+  
+</script>
+
+{% endblock footer_javascript_site %}
+{% block footer_javascript_section %}
+ {% endblock footer_javascript_section %}
+{% block footer_javascript_page %}
+{% endblock footer_javascript_page %}
+{% endblock footer_javascript %}
+</html>

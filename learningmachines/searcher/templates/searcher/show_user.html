@@ -1,0 +1,62 @@
+{% extends 'searcher/base.html' %}
+{% block title %}Account{% endblock title%}
+{% block content %}
+<div class="col-6 screen-col bg-color mt-3 mb-3" align="center" style="border-radius: 10px; box-shadow: 0px 0px 5px 2px grey">
+    <div class="mt-5" >
+        <h1>Account</h1>
+
+
+    </div>
+  <form class="form-horizontal" action="" method="POST">
+    {% csrf_token %}
+    <fieldset>
+     
+      <div class="control-group">
+        <!-- E-mail -->
+        <h5 class="mb-0 mt-2"><label class="control-label mb-1" for="email">E-mail</label></h5>
+        <div class="controls">
+          <input type="text" id="email" name="email" placeholder="{{ profile.email }}" class="input-xlarge form-control" style="width:40%">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <!-- Institute -->
+        <h5 class="mb-0 mt-2"><label class="control-label mb-1" for="institute">Institute</label></h5>
+        <div class="controls">
+          <input type="text" id="institute" name="institute" placeholder="{{ profile.institute }}" class="input-xlarge form-control" style="width:40%">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <!-- Department-->
+        <h5 class="mb-0 mt-2"><label class="control-label mb-1" for="department">Department</label></h5>
+        <div class="controls">
+          <input type="text" id="department" name="department" placeholder="{{ profile.department }}"
+                 class="input-xlarge form-control" style="width:40%">
+        </div>
+      </div>
+      <br>
+      <div class="control-group">
+        <!-- Button -->
+        <div class="controls">
+            <button class="btn btn-primary big-button" style="font-size: 20px">Update</button>
+        </div>
+        <br>
+      </div>
+
+    </fieldset>
+  </form>
+  <div class="control-group">
+    <!-- Button -->
+    <div class="controls">
+        <a class="btn btn-dark big-button" style="font-size: 20px; background-color: var(--other-color); color:black" href="/searcher/accounts/change_pw/">Change Password</a>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+{% block footer_javascript_page %}
+  <script>
+      $('#site-wrapper').addClass('home-bg')
+  </script>
+{% endblock footer_javascript_page %}

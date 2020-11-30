@@ -1,0 +1,20 @@
+{% extends 'searcher/base.html' %}
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+
+<div class="col-6 screen-col align-middle pt-5" align="center">
+    <div class="">
+        <h1 style="font-size: 100px;">re<span style="color: var(--other-color">|</span><span style="color: var(--main-color)">|</span>search</h1>
+    <p>A platform for collaborative language research and teaching, bringing together humanistic methods with technical innovations.</p>
+    <a class="btn btn-primary mt-5 big-button"  href="/searcher/search/">Get Started</a>
+    </div>
+</div>
+
+
+{% endblock content %}
+{% block footer_javascript_page %}
+	<script>
+	    $('#site-wrapper').addClass('home-bg')
+	</script>
+{% endblock footer_javascript_page %}
