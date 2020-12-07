@@ -48,7 +48,8 @@ function wrapper(){
 			if(c == 'links'){
 				if (add_info =='saved_div'){
 					table_rows.append("div")
-							.attr("class", "col-sm-4 col-md-3 col-lg-2 col-query mb-2").attr("align", "center").append("a").attr("class", "btn btn-secondary").attr("href", "")
+							.attr("class", "col-sm-4 col-md-3 col-lg-2 col-query mb-2").attr("align", "center").append("a").attr("class", "btn btn-secondary").attr("href", function(d){
+								return "/searcher/vis/?method=" + d.vis_type + "&q_pk=" + d.q_pk })
 							.text(function(d){
 								return "Open Model"
 					})
@@ -126,6 +127,10 @@ function wrapper(){
 		
 		
 		return;
+	}
+
+	function formatURL(d){
+
 	}
 
 	function postSaveQuery(d){

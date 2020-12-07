@@ -15,5 +15,7 @@ urlpatterns = [
 	path('save_query/', views.save_query, name='save'),
 
 	path('cancel_task/', views.cancel_task, name='cancel_task'),
-	path('poll_tasks/', views.poll_tasks, name="poll_tasks")	
+	path('poll_tasks/', views.poll_tasks, name="poll_tasks"),	
+	path('vis/', views.show_vis, name='show_vis'),
+	path('load_formatted/', views.load_formatted, name='load_formatted')
 ]

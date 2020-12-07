@@ -26,7 +26,7 @@ class SearchResults_ES:
 			connection_class=RequestsHttpConnection,
 			timeout=300
 		)
-		self.esDoc = namedtuple('esDoc', ['doc_id', 'journal_title', 'article_title', 'authors', 'date', 'text'])
+		self.esDoc = namedtuple('esDoc', ['doc_id', 'journal_title', 'article_title', 'authors', 'date', 'text', 'doi'])
 		self.page_hits = None
 		self.num_docs = 0
 		self.scroll_id = None
@@ -89,7 +89,7 @@ class SearchResults_ES:
 		article_title = source[ES_FIELDS['doc_title'][self.database]] if ES_FIELDS['doc_title'][self.database] in source else ''
 		journal_title = source[u'JournalTitle'] if 'JournalTitle' in source else ''
 		date = source.get(ES_FIELDS['date'][self.database]) if ES_FIELDS['date'][self.database] in source else ''
-		
+		doi = source["doi"] if "doi" in source else ""
 		authors = []
 		if self.database in ES_FIELDS['author']:
 			if ES_FIELDS['author'][self.database] in source:
@@ -108,7 +108,8 @@ class SearchResults_ES:
 			article_title=article_title,
 			authors=authors,
 			text=full_text,
-			date=date
+			date=date,
+			doi=doi
 		)
 	def _sub_dates(self, doc):
 		return False

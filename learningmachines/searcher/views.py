@@ -16,6 +16,8 @@ from .decorators import access_required
 from .models import Profile
 from .models import QueryRequest, VisRequest, DocFilter
 from celery.result import AsyncResult
+from learningmachines.credentials import RNLP_DATA_DIR
+import os
 
 
 def index(request):
@@ -38,6 +40,12 @@ def search_page(request):
 			special_access.append(1)
 	ctxt = {'special_access' : special_access}
 	return render(request, 'searcher/search_template.html', ctxt)
+
+
+def show_vis(request):
+	ctxt = { "hi" : "there"}
+	html_path = 'searcher/2d_word2vec.html'
+	return render(request, html_path, ctxt)
 
 @access_required('all')
 def process_search(request):
@@ -169,6 +177,52 @@ def start_model_run(request):
 	#rsp_obj = { "hi" : "there"}
 	return HttpResponse(json.dumps(rsp_obj))
 
+
+def load_formatted(request):
+	from .s3_client import S3Client
+	q_pk = request.GET.get('q_pk')
+	qh = QueryHandler(q_pk=q_pk)
+	vis_request = VisRequest.objects.get(query=qh.q)
+	print("DOC NUM")
+	print(vis_request.docfilter.docs)
+	model_display_info = {
+		"corpus" : qh.q.database,
+		"term" : qh.q.query_str,
+		"docs" : vis_request.docfilter.docs,
+		"stopwords" : vis_request.docfilter.stop_words,
+		"ys" :  vis_request.docfilter.start_year,
+		"ye" : vis_request.docfilter.end_year,
+	}
+
+	s3_c = S3Client()
+
+	method = vis_request.method.replace(" ", "+");
+	modelname = vis_request.model_name.replace('*', '"')
+	if method == 'hdsr':
+		method = "multilevel_lda"
+	f_file_name = method + "_formatted.json"
+	f_path = os.path.join(modelname, f_file_name)
+	model_dir = os.path.join(RNLP_DATA_DIR, modelname)
+
+	s3 = S3Client()
+	if os.path.exists(model_dir) and method == 'multilevel_lda':
+		rmtree(model_dir)
+
+	if s3.check_file_exists(os.path.join(f_path)):
+		data_obj =  s3.read_fileobj(f_path)
+		data_obj.set_socket_timeout(300)
+		data_str = data_obj.read()
+		data_obj.close()
+		rsp_obj = {"model_info" : model_display_info, "data" :json.loads(data_str.decode('utf-8'))}
+		rsp_str = json.dumps(rsp_obj)
+		return HttpResponse(rsp_str, content_type="application/json")
+	else:
+		return HttpResponse(json.dumps("No file"), status=400)
+
+
+	#rsp_obj = {"model_info" : model_info, "data" : data}
+	rsp_obj = {"error" : "something went wrong"}
+	return HttpResponse(json.dumps(rsp_obj), status=400)
 
 def delete_query(request):
 	q_pk = request.GET.get('q_pk')

@@ -2,25 +2,25 @@ import string
 import os
 import boto3
 
-from learningmachines.credentials import RNLP_DATA_DIR, S3_RNLP_DATA_DIR, MODEL_ADDRESS
+from learningmachines.credentials import RNLP_DATA_DIR, S3_RNLP_DATA_DIR,  AWS_PROFILE, S3_BUCKET
 
 
 class S3Client:
-    def __init__(self, aws_profile, bucket_name):
+    def __init__(self):
         self.client = boto3.client(
             's3',
-            aws_access_key_id=aws_profile['ACCESS_KEY'],
-            aws_secret_access_key=aws_profile['SECRET_KEY'],
+            aws_access_key_id=AWS_PROFILE['ACCESS_KEY'],
+            aws_secret_access_key=AWS_PROFILE['SECRET_KEY'],
             region_name='us-east-2'
         )
-        self.bucket = bucket_name
+        self.bucket = S3_BUCKET
 
     def upload(self, local_file, remote_file):
         print("UPLOADING FILE")
         self.client.upload_file(local_file, self.bucket, remote_file)
 
     def upload_folder(self, folder_name):
-        folder_path = os.path.join(LDA_MODEL_ADDRESS, folder_name)
+        folder_path = os.path.join(RNLP_DATA_DIR, folder_name)
         for file in os.listdir(folder_path):
             file_path = os.path.join(folder_path, file)
             s3_path = os.path.join(S3_RNLP_DATA_DIR, folder_name, file)

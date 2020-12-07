@@ -35,13 +35,18 @@ def run_model(self, qry_str, q_pk=None):
 	r = qh.update_status("Running Model")
 	if r == "Cancelled":
 		return "CANCEL"
-
 	nlp_model_manager = NLPModelManager(qry_str, dct=learned_dict, q_pk=q_pk, qh=qh)
 	model = nlp_model_manager.create_model()
 
+	r = qh.update_status("Formatting Data")
+	if r == "Cancelled":
+		return "CANCEL"
 	formatted_manager = FormattedDataManager(qry_str, dct=learned_dict, q_pk=q_pk, qh=qh, model=model)
-
-	print(model)
+	formatted_manager.create_data()
+	r = qh.update_status("Uploading Data")
+	if r == "Cancelled":
+		return "CANCEL"
+	formatted_manager.upload_data()
 	r = qh.update_status("Finished", finished=True)
 	if r == "Cancelled":
 		return "CANCEL!"
