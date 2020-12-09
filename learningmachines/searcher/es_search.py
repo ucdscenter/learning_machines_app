@@ -126,6 +126,7 @@ class SearchResults_ES:
 				return False
 
 	def format_qry(self):
+		print(self.qry_obj)
 		qry = self.qry_obj['qry'].replace('+', ' ')
 		start = self.qry_obj['start'] if self.qry_obj['start'].split("-")[0].isdigit() else None
 		end = self.qry_obj['end'] if self.qry_obj['end'].split("-")[0].isdigit() else None
@@ -161,7 +162,7 @@ class SearchResults_ES:
 				time_range['lte'] = '{}'.format(end)
 			else:
 				time_range['lte'] = '{}-12-31'.format(end)
-		if time_range:
+		if time_range is None:
 			must_terms.append({
 			   'range': {
 				   ES_FIELDS['date'][self.database]: time_range
@@ -197,6 +198,7 @@ class SearchResults_ES:
 			query = {'bool': bool_terms}
 		else:
 			query = {'match_all': {}}
+		print(query)
 		return query
 
 	def do_search(self):

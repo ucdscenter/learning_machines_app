@@ -1,6 +1,7 @@
 import os
 from gensim.models.callbacks import CallbackAny2Vec
 from .es_search import SearchResults_ES
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 #from .s3_client import S3Client
 
 
@@ -28,6 +29,7 @@ class NLPModelManager:
 		self.model = None
 		self.method = qry_str['method'] if qry_str['method'] is not 'hdsr' else 'multilevel_lda'
 		self.save = save
+		self.doc_count = 0
 
 	def create_model(self):
 		print(self.qry_str)
@@ -54,7 +56,23 @@ class NLPModelManager:
 
 	def mlmom_run(self):
 		return 
-	def dfr_run(self):
+	def taggedDocIter(self):
+		print(self.qry_str)
+		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
+		self.doc_count = 0
+		for i, doc in enumerate(docs):
+			self.doc_count += 1
+			yield TaggedDocument(doc, [i])
+
+	def d2v_run(self, num_features=200, min_count=1, window=5, max_vocab=10000):
+		tagged_docs = self.taggedDocIter()
+		self.model = Doc2Vec(vector_size=num_features, window=window, min_count=min_count, epochs=20)
+		total_count = self.doc_count
+		self.model.build_vocab(self.taggedDocIter())
+		self.model.train(self.taggedDocIter(), total_examples=self.model.corpus_count, epochs=self.model.epochs)
+		if self.save:
+			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2v_dict")
+			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2vv")
 		return 
 	def pylda_run(self):
 		return 
@@ -72,5 +90,5 @@ class NLPModelManager:
 			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_w2v_dict")
 			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_w2v")
 		return 
-	def d2v_run(self):
+	def dfr_run(self):
 		return 

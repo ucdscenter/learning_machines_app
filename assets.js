@@ -9,7 +9,7 @@ const JS = [
     'crossfilter/crossfilter.js',
     'd3/dist/d3.min.js',
     'dc/dist/dc.min.js',
-    'popper.js/dist/popper.min.js',
+    'popper.js/dist/popper.js',
     'daterangepicker/daterangepicker.js',
     'moment/min/moment.min.js',
     'three/build/three.min.js'

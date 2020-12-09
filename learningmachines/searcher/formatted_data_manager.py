@@ -93,7 +93,47 @@ class FormattedDataManager:
 		}
 		self.formatted_data = w2v_data
 		return
+
 	def d2v_run(self):
+		self.create_meta()
+		doc_no = len(self.meta_str.split("\n")) - 1
+		d_embs = np.zeros((1,1))
+		for x in range(0, doc_no):
+			if x == 0:
+				d_embs = np.zeros((doc_no, len(self.model.docvecs[x])))
+			d_embs[x] = self.model.docvecs[x]
+
+		normalized_embs = StandardScaler().fit_transform(d_embs)
+		clustering = AffinityPropagation(random_state=0).fit(d_embs)
+		pca_result = PCA(n_components=2)
+	
+		pca_result.fit(normalized_embs)
+		pca_result = pca_result.transform(normalized_embs)
+		emb_list = pca_result.tolist()
+		data_dict = dict()
+		index = 0
+		split_docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
+		for doc in split_docs:
+			#new_vec = self.model.infer_vector(doc)
+			sims = self.model.docvecs.most_similar([index], topn=10)
+			sims = sims[1:]
+			sims_list = []
+			for s in sims:
+				sims_list.append([s[0].item(), s[1]])
+			proj = emb_list[index]
+			data_dict[index] = {
+				"proj" : proj,
+				"sims" : sims_list,
+				"cluster" : clustering.labels_[index].item()
+			}
+			index+=1
+
+		d2v_data = {
+			"dict_data" : data_dict,
+			"metadata" : self.meta_str,
+			"word_top_docs" : []
+		}
+		self.formatted_data = d2v_data
 		return 
 
 

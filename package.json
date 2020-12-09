@@ -23,6 +23,7 @@
     "daterangepicker": "^3.0.5",
     "dc": "^4.0.3",
     "jquery": "^3.5.0",
+    "jquery-ui": "^1.12.1",
     "moment": "^2.24.0",
     "popper.js": "^1.16.1",
     "three": "^0.115.0"
