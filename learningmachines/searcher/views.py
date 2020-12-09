@@ -44,7 +44,13 @@ def search_page(request):
 
 def show_vis(request):
 	ctxt = { "hi" : "there"}
-	html_path = 'searcher/2d_word2vec.html'
+	method = request.GET.get("method")
+	print(method)
+	html_path = "searcher/error_page.html"
+	if method == "word2vec":
+		html_path = 'searcher/2d_word2vec.html'
+	if method == "doc2vec":
+		html_path = 'searcher/2d_doc2vec.html'
 	return render(request, html_path, ctxt)
 
 @access_required('all')

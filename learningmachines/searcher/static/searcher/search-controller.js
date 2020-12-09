@@ -17,7 +17,8 @@ async function renderDataBaseSelect(dbdata){
   })
 
 
-  
+  let search_year_end = 'year'
+  let search_year_start = 'year'
   
   var height = 40
 
@@ -258,8 +259,7 @@ async function getA(dbn, qry, timeExt, size){
   let family_select = $('#family-options-select').val();
 
 
-  let search_year_end = 'year'
-  let search_year_start = 'year'
+  
   
   search_year_start = $( "#start-year" ).val()
   search_year_end = $( "#end-year" ).val()
@@ -1036,8 +1036,8 @@ $('#submit-wrapper-button').click(function(e){
     var filters = updateFilters()
       
       var postObj = { 
-              start : $( "#start-year" ).val(),
-              end : $( "#end-year" ).val(),
+              start : search_year_start,//$( "#start-year" ).val(),
+              end : search_year_end,//$( "#end-year" ).val(),
               f_start : filters.years[0],
               f_end : filters.years[1],
               qry : qry,

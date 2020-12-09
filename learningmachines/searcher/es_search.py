@@ -162,7 +162,7 @@ class SearchResults_ES:
 				time_range['lte'] = '{}'.format(end)
 			else:
 				time_range['lte'] = '{}-12-31'.format(end)
-		if time_range is None:
+		if time_range:
 			must_terms.append({
 			   'range': {
 				   ES_FIELDS['date'][self.database]: time_range
