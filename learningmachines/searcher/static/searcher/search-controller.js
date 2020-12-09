@@ -1002,12 +1002,26 @@ function renderVisParams(dbn, qry, method, fromhistory){
     $(".not-w2v").addClass("hidden")
     $(".lda-options").removeClass("hidden")
     $("#word2vec-doc2vec-chooser").removeClass("hidden")
-    $('#method-radio').on("click", function(d){
+    /*$('#method-radio').on("click", function(d){
       let vec_method = $('#method-radio>.active').attr("id")
       method = vec_method.split("-")[0]
+      console.log(method)
+      $('#method-name').text(method)
+      $('#static-method').val(method)
+    })*/
+    $("#doc2vec-radio").on("click", function(d){
+      console.log("doc2vec")
+      method = "doc2vec"
       $('#method-name').text(method)
       $('#static-method').val(method)
     })
+    $("#word2vec-radio").on("click", function(d){
+      console.log("word2vec")
+      method = "word2vec"
+      $('#method-name').text(method)
+      $('#static-method').val(method)
+    })
+    
     
   }
  $('#static-method').val(method)
