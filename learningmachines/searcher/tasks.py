@@ -11,6 +11,8 @@ from .query_handler import QueryHandler
 from .corpus_manager import CorpusManager
 from .nlp_model_manager import NLPModelManager
 from .formatted_data_manager import FormattedDataManager
+
+
 @celery_app.task(bind=True, name='searcher.tasks.run_model', max_retries=3)
 def run_model(self, qry_str, q_pk=None):
 	qh = QueryHandler(q_pk=q_pk)

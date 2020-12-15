@@ -28,6 +28,7 @@ class NLPModelManager:
 		self.qh = qh
 		self.model = None
 		self.method = qry_str['method'] if qry_str['method'] is not 'hdsr' else 'multilevel_lda'
+		self.num_topics = qry_str['num_topics'] 
 		self.save = save
 		self.doc_count = 0
 
@@ -74,8 +75,24 @@ class NLPModelManager:
 			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2v_dict")
 			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2vv")
 		return 
-	def pylda_run(self):
+
+	def pylda_run(self, seed=100):
+		from gensim.models import LdaModel
+		docs = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+		corpus_docs = []
+		print("NUM TOPICS")
+		print(self.num_topics)
+		if self.num_topics == 'automatic':
+			print("CHANGING")
+			self.num_topics = int(self.qry_str['maximum_hits']) / 10
+		for d in docs:
+			corpus_docs.append(d)
+		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, alpha='symmetric', passes=15, random_state=seed)
+		if self.save:
+			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_lda_dict")
+			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_pylda")
 		return 
+
 	def w2v_run(self, num_features=200, min_count=1, window=5, max_vocab=10000):
 		from gensim.models import Word2Vec
 		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)

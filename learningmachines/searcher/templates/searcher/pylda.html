@@ -1,0 +1,140 @@
+<html lang="en">
+<head>
+
+
+  <link rel="icon" type="image/x-icon" href="static/searcher/images/box.png" />
+    <!-- For iPhone 4 Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/searcher/images/box.png" />
+    <!-- For iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/searcher/images/box.png" />
+    <!-- For iPhone:-->
+    <link rel="apple-touch-icon-precomposed" href="/static/ext/box.png" /> 
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.css">
+ 
+ <link rel="stylesheet" href="/static/searcher/css/bootstrap.min.css">
+ <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="/static/searcher/mymain.css">
+ <style>
+   .hidden{
+    display:none;
+   }
+   button {
+     background-color: var(--main-color);
+     border-radius: 5px;
+     border: 0px;
+   }
+   button:hover {
+    box-shadow: 0px 0px 5px grey;
+    cursor: pointer;
+   }
+
+ </style>
+<title></title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg " id="main-nav">
+
+  <div class="navbar-header">
+    <a class="navbar-brand" href="/" style="color: #002a31;">
+      <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
+      <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
+      <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
+      </a>
+
+  </div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span ><i class="material-icons center_icon">list</i></span>
+   </button>
+  <div class="navbar-collapse collapse" id="navbarSupportedContent">
+
+    <ul class="nav navbar-nav" align="left">
+
+    </ul>
+
+  </div>
+
+</nav>
+
+
+<div class="container-fluid">
+ <a id="downloadAnchorElem" style="display:none"></a>
+ <div class="row">
+   <div class="col-12" >
+
+      <div class="row pt-2 pb-2 info-header justify-content-center" >
+        <div class="col-12">
+          <div class="row">
+<div class="col-2">
+          <h6>Corpus : <span id="corpus"></span></h6>
+        </div>
+        <div class="col-2">
+          <h6>Term : <span id="term"></span></h6>
+        </div>
+        <div class="col-2">
+          <h6># Docs : <span id="dn"></span></h6>
+        </div>
+         <div class="col-2">
+          <h6># Topics : <span id="topics"></span></h6>
+        </div>
+         <div class="col-2">
+          <h6>Stopwords : <span id="stop_words" style="font-size:10px"></span></h6>
+        </div>
+        <div class="col-2">
+          <h6>Years : <span id="start"></span>-<span id="end"></h6>
+      </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+ </div>
+  <div class="row justify-content-center">
+    <div id="ldavis-holder" class="col-10 pt-2" style="background-color: white">
+      <div id="loading_show" align="center">
+        <h6>Formatting data, for doc counts above 3000 please allow a few seconds</h6>
+        <img src="/static/searcher/images/big-ajax-loader.gif" alt="loading">
+      </div>
+      <div id="ldavis_el"></div>
+       <label>This is slightly adapted from the <a href="https://pyldavis.readthedocs.io/en/latest/index.html">pyLDAvis</a> package led by Ben Mabey</label>
+    </div>
+    
+    </div>
+  </div>
+
+<script src="/static/searcher/js/jquery.min.js"></script>
+ <script type="text/javascript" src="/static/searcher/js/bootstrap.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+ <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+<script src='/static/searcher/pylda_data.js' type="text/javascript"></script>
+   <div class="row footer align-items-center justify-content-center">
+    <div class="col-10">
+      <div class="row">
+        <div class="col-3">
+           <a class="navbar-brand" href="/" style="color: #002a31;">
+      <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
+      <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
+      <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
+      </a>
+          <h6>UC DIGITAL SCHOLARSHIP CENTER</h6>
+          <h6>LANGSAM LIBRARY | 2911 WOODSIDE DRIVE, CINCINNATI, OH</h6>
+          <h6>PHONE | 513.556.8794</h6>
+        </div>
+        <div class="col-3">
+          <img alt="uc footer logo" src="//lcdn.uc.edu/ucdhs/images/uc-logo@2x.png" style="max-width: 150px; margin-bottom: 1.5rem">
+          <img alt="mellon footer logo" src="/static/searcher/images/mellon-foundation-logo.png" style="max-width: 150px; margin-bottom: 1.5rem">
+          
+        </div>
+        <div class="col-3">
+          
+        </div>
+        <div class="col-3">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

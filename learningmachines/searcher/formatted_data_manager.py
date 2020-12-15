@@ -47,6 +47,36 @@ class FormattedDataManager:
 	def dfr_run(self):
 		return 
 	def pylda_run(self):
+		import pyLDAvis
+		import pyLDAvis.gensim
+		docs = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+		tokenized_corpus = []
+		for d in docs:
+			tokenized_corpus.append(d)
+		ldavis_data = pyLDAvis.gensim.prepare(self.model, tokenized_corpus, self.dct)
+		self.formatted_data = ldavis_data.to_json()
+		"""
+		def pyLDAvis_data(self, model_dir):
+			import pyLDAvis
+			method = 'pyLDAvis'
+			modelname = model_dir
+			f_file_name = method + "_formatted.json"
+			f_path = os.path.join(modelname, f_file_name)
+			lda_params = {
+				'num_topics': -1,
+				'passes': -1,
+				'do_tfidf': False
+			}
+			if not model_dir:
+				return HttpResponse(json.dumps({'error': 'Folder is empty'}), status=400)
+			model_rslt = clusters_lda.load_lda_result(model_dir, lda_params=lda_params)
+			lda_ctxt = model_rslt.model_ctxt
+			ldavis_data = pyLDAvis.gensim.prepare(model_rslt.lda, lda_ctxt.corpus, lda_ctxt.dictionary)
+
+			s3 = S3Client(AWS_PROFILE, S3_BUCKET)
+			s3.upload_str(ldavis_data.to_json(), f_path)
+			return 1
+		"""
 		return 
 
 	def w2v_run(self, top_n=25):

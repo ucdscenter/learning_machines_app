@@ -8,7 +8,7 @@ from learningmachines.es_fields import ES_FIELDS, MAX_NUM_DOC_VIS
 from .pre_processing import  get_min_term_occurrence, clean_text
 
 class SearchResults_ES:
-	def __init__(self, database, qry_obj=None, min_count=None, sub_dates=None, dictionary=None, raw=True, cleaned=False):
+	def __init__(self, database, qry_obj=None, min_count=None, sub_dates=None, dictionary=None, tokenized=False, cleaned=False):
 		aws_auth = AWS4Auth(AWS_PROFILE['ACCESS_KEY'], AWS_PROFILE['SECRET_KEY'], 'us-east-2', 'es')
 		aws_host = AWS_PROFILE['AWS_HOST']
 		self.database = database
@@ -17,7 +17,7 @@ class SearchResults_ES:
 		self.min_count = min_count
 		self.sub_dates = sub_dates
 		self.dictionary = dictionary
-		self.raw = raw
+		self.tokenized = tokenized
 		self.es = ES(
 			hosts=[{'host': aws_host, 'port': 443}],
 			http_auth=aws_auth,
@@ -64,8 +64,11 @@ class SearchResults_ES:
 		retdoc = self._process_hit(self.page_hits[self.num_docs])
 		self.num_docs += 1
 		self.total_docs += 1
+
 		if self.cleaned:
 			return clean_text(retdoc)
+		elif self.tokenized:
+			return self.dictionary.doc2bow(clean_text(retdoc))
 		else:
 			return retdoc
 

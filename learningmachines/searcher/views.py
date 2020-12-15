@@ -51,6 +51,8 @@ def show_vis(request):
 		html_path = 'searcher/2d_word2vec.html'
 	if method == "doc2vec":
 		html_path = 'searcher/2d_doc2vec.html'
+	if method == 'pyLDAvis':
+		html_path = 'searcher/pylda.html'
 	return render(request, html_path, ctxt)
 
 @access_required('all')
@@ -130,7 +132,7 @@ def start_model_run(request):
 
 	if not request.user.is_anonymous:
 		query_request.user = request.user
-
+	print(qry_str)
 	doc_filter = DocFilter(
 		method = qry_str['method'],
 		min_occur = qry_str['min_occurrence'],
@@ -190,14 +192,15 @@ def load_formatted(request):
 	qh = QueryHandler(q_pk=q_pk)
 	vis_request = VisRequest.objects.get(query=qh.q)
 	print("DOC NUM")
-	print(vis_request.docfilter.docs)
+	print(vis_request.docfilter.doc_number)
 	model_display_info = {
 		"corpus" : qh.q.database,
 		"term" : qh.q.query_str,
-		"docs" : vis_request.docfilter.docs,
+		"docs" : vis_request.docfilter.doc_number,
 		"stopwords" : vis_request.docfilter.stop_words,
-		"ys" :  vis_request.docfilter.start_year,
-		"ye" : vis_request.docfilter.end_year,
+		"ys" :  vis_request.docfilter.start_year if vis_request.docfilter.start_year is not '-1' else 'Not-set',
+		"ye" : vis_request.docfilter.end_year if vis_request.docfilter.start_year is not '-1' else 'Not set',
+		"topics" : vis_request.docfilter.num_topics
 	}
 
 	s3_c = S3Client()
