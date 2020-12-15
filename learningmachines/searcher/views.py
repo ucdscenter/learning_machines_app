@@ -193,13 +193,14 @@ def load_formatted(request):
 	vis_request = VisRequest.objects.get(query=qh.q)
 	print("DOC NUM")
 	print(vis_request.docfilter.doc_number)
+
 	model_display_info = {
 		"corpus" : qh.q.database,
 		"term" : qh.q.query_str,
 		"docs" : vis_request.docfilter.doc_number,
 		"stopwords" : vis_request.docfilter.stop_words,
-		"ys" :  vis_request.docfilter.start_year if vis_request.docfilter.start_year is not '-1' else 'Not-set',
-		"ye" : vis_request.docfilter.end_year if vis_request.docfilter.start_year is not '-1' else 'Not set',
+		"ys" :  vis_request.docfilter.start_year if vis_request.docfilter.start_year != '-1' else 'Not set',
+		"ye" : vis_request.docfilter.end_year if vis_request.docfilter.end_year != '-1' else 'Not set',
 		"topics" : vis_request.docfilter.num_topics
 	}
 

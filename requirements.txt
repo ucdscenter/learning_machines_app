@@ -13,3 +13,4 @@ celery[sqs]==4.2.1
 kombu==4.6.11
 redis==3.5.3
 pycurl==7.19.3
+pyLDAvis==2.1.2
