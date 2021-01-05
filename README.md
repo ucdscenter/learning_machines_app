@@ -16,13 +16,18 @@ Install the python package requirements to the virtual env.
 ```bash
 pip install -r requirements.txt
 ```
-Follow the steps in README.npm.text to download frontent files
+Follow the steps in README.npm.text to download frontend files:
+1. update dependencies in package.json (or) run 'npm install <package> --save' (or) you can even give the github url
+2. run 'npm install' from directory where package.json is present
+3. update CSS array and JS array in assets.js
+3. run 'npm run-script webpack' to load js to project's static folder.
 
-Download redis (https://redis.io/)
 
 Create a credentials.py file in the learningmachines folder
 
-Contact the UC Digital Scholarship Center for elasticsearch IAM credentials and template to the to fill in the credentials.py information
+Contact the UC Digital Scholarship Center for elasticsearch IAM credentials, aws sqs, and template to the to fill in the credentials.py information, as well as connection to the dev database. 
+
+If you are using a local postgres server you can do the following:
 
 Create db and make migrations, and migrate
 ```bash
@@ -41,7 +46,7 @@ python manage.py createsuperuser
 To view the worker logs as well as the server logs, open two terminal windows. Activate your virtual environment in both terminal windows.
 
 ### Server
-In one window, cd into the folder that has the manage.py file, 
+In one terminal window, after activating your venv, cd into the folder that has the manage.py file, 
 
 ```bash
 python manage.py runserver 8000
