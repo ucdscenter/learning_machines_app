@@ -45,7 +45,7 @@ class NLPModelManager:
 		"""
 		if self.method == 'multilevel_lda':
 			self.mlmom_run()
-		if self.method == 'DFR+browser':
+		if self.method == 'DFR browser':
 			self.dfr_run()
 		if self.method == 'pyLDAvis':
 			self.pylda_run()
@@ -57,6 +57,7 @@ class NLPModelManager:
 
 	def mlmom_run(self):
 		return 
+
 	def taggedDocIter(self):
 		print(self.qry_str)
 		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
@@ -65,17 +66,23 @@ class NLPModelManager:
 			self.doc_count += 1
 			yield TaggedDocument(doc, [i])
 
-	def d2v_run(self, num_features=200, min_count=1, window=5, max_vocab=10000):
-		tagged_docs = self.taggedDocIter()
-		self.model = Doc2Vec(vector_size=num_features, window=window, min_count=min_count, epochs=20)
-		total_count = self.doc_count
-		self.model.build_vocab(self.taggedDocIter())
-		self.model.train(self.taggedDocIter(), total_examples=self.model.corpus_count, epochs=self.model.epochs)
+	def dfr_run(self, seed=100):
+		from gensim.models import LdaModel
+		docs = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+		corpus_docs = []
+		print("NUM TOPICS")
+		print(self.num_topics)
+		if self.num_topics == 'automatic':
+			print("CHANGING")
+			self.num_topics = int(self.qry_str['maximum_hits']) / 10
+		for d in docs:
+			corpus_docs.append(d)
+		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, alpha='symmetric', passes=15, random_state=seed)
 		if self.save:
-			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2v_dict")
-			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2vv")
+			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_lda_dict")
+			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_pylda")
 		return 
-
+	
 	def pylda_run(self, seed=100):
 		from gensim.models import LdaModel
 		docs = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
@@ -107,5 +114,15 @@ class NLPModelManager:
 			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_w2v_dict")
 			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_w2v")
 		return 
-	def dfr_run(self):
+
+	def d2v_run(self, num_features=200, min_count=1, window=5, max_vocab=10000):
+		tagged_docs = self.taggedDocIter()
+		self.model = Doc2Vec(vector_size=num_features, window=window, min_count=min_count, epochs=20)
+		total_count = self.doc_count
+		self.model.build_vocab(self.taggedDocIter())
+		self.model.train(self.taggedDocIter(), total_examples=self.model.corpus_count, epochs=self.model.epochs)
+		if self.save:
+			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2v_dict")
+			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2vv")
 		return 
+	

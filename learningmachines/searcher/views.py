@@ -53,6 +53,8 @@ def show_vis(request):
 		html_path = 'searcher/2d_doc2vec.html'
 	if method == 'pyLDAvis':
 		html_path = 'searcher/pylda.html'
+	if method == 'DFR browser':
+		html_path = 'searcher/dfr_index.html'
 	return render(request, html_path, ctxt)
 
 @access_required('all')
@@ -189,11 +191,11 @@ def start_model_run(request):
 def load_formatted(request):
 	from .s3_client import S3Client
 	q_pk = request.GET.get('q_pk')
+	print(request)
 	qh = QueryHandler(q_pk=q_pk)
 	vis_request = VisRequest.objects.get(query=qh.q)
 	print("DOC NUM")
 	print(vis_request.docfilter.doc_number)
-
 	model_display_info = {
 		"corpus" : qh.q.database,
 		"term" : qh.q.query_str,
@@ -228,9 +230,6 @@ def load_formatted(request):
 		return HttpResponse(rsp_str, content_type="application/json")
 	else:
 		return HttpResponse(json.dumps("No file"), status=400)
-
-
-	#rsp_obj = {"model_info" : model_info, "data" : data}
 	rsp_obj = {"error" : "something went wrong"}
 	return HttpResponse(json.dumps(rsp_obj), status=400)
 

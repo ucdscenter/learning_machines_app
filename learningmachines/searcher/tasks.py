@@ -39,7 +39,8 @@ def run_model(self, qry_str, q_pk=None):
 		return "CANCEL"
 	nlp_model_manager = NLPModelManager(qry_str, dct=learned_dict, q_pk=q_pk, qh=qh)
 	model = nlp_model_manager.create_model()
-
+	print("MODEL")
+	print(model)
 	r = qh.update_status("Formatting Data")
 	if r == "Cancelled":
 		return "CANCEL"
@@ -96,9 +97,6 @@ def get_docs(self, qry_str, q_pk=None):
 	if r == "Cancelled":
 		return "CANCEL!"
 	return rslts
-
-def create_dict(self, qry_str, q_pk=None):
-	return "Dict Created"
 
 
 @celery_app.task(bind=True, name='searcher.tasks.test_run_model', max_retries=3)
