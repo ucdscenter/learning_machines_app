@@ -83,7 +83,7 @@ class DfrAdapter:
         }
 
     def convert_tw(self):
-        topics = self.model.print_topics(num_topics=self.num_topics, num_words=50)
+        topics = self.model.show_topics(num_topics=self.num_topics, num_words=50)
         pattern = r'0.\d{3}\*"\w+"'
         topic_weight = []
         for topic in topics:

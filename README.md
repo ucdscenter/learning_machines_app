@@ -39,7 +39,12 @@ Create a django admin user
 ```bash
 python manage.py createsuperuser
 ```
-
+### Run redis server
+download redis: https://redis.io/
+Start redis:
+```
+redis-server
+```
 
 ## Starting Servers
 
@@ -66,4 +71,8 @@ login to localhost:8000/admin with the credentials from your superuser account. 
 
 
 ##TODO
+Troubleshooting celery:
+https://stackoverflow.com/questions/51273659/trouble-in-setting-celery-tasks-backend-in-python
+
+
 

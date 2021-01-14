@@ -6,7 +6,7 @@ nltk==3.4.5
 gensim==3.8.1
 tweet-preprocessor==0.5.0
 langdetect==1.0.8
-scikit-learn==0.23.2
+scikit-learn==0.24.0
 umap==0.1.1
 umap-learn==0.4.1
 celery[sqs]==4.2.1

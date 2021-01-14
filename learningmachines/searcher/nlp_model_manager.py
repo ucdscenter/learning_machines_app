@@ -77,7 +77,7 @@ class NLPModelManager:
 			self.num_topics = int(self.qry_str['maximum_hits']) / 10
 		for d in docs:
 			corpus_docs.append(d)
-		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, alpha='symmetric', passes=15, random_state=seed)
+		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=15, random_state=seed)
 		if self.save:
 			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_lda_dict")
 			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_pylda")
@@ -94,7 +94,7 @@ class NLPModelManager:
 			self.num_topics = int(self.qry_str['maximum_hits']) / 10
 		for d in docs:
 			corpus_docs.append(d)
-		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, alpha='symmetric', passes=15, random_state=seed)
+		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=15, random_state=seed)
 		if self.save:
 			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_lda_dict")
 			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_pylda")
