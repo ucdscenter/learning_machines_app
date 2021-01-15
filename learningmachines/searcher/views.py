@@ -208,7 +208,6 @@ def load_formatted(request):
 		"topics" : vis_request.docfilter.num_topics
 	}
 
-	s3_c = S3Client()
 
 	method = vis_request.method.replace(" ", "+");
 	modelname = vis_request.model_name.replace('*', '"')
@@ -219,9 +218,7 @@ def load_formatted(request):
 	model_dir = os.path.join(TEMP_MODEL_FOLDER, modelname)
 
 	s3 = S3Client()
-	#if os.path.exists(model_dir) and method == 'multilevel_lda':
-	#	rmtree(model_dir)
-
+	
 	if s3.check_file_exists(os.path.join(f_path)):
 		data_obj =  s3.read_fileobj(f_path)
 		data_obj.set_socket_timeout(300)

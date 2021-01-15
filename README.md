@@ -74,5 +74,10 @@ login to localhost:8000/admin with the credentials from your superuser account. 
 Troubleshooting celery:
 https://stackoverflow.com/questions/51273659/trouble-in-setting-celery-tasks-backend-in-python
 
+ADD in old model link reverse compatability
+
+Ngrams, other corpus prep steps
+
+
 
 
