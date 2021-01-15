@@ -2,7 +2,8 @@ import string
 import os
 import boto3
 
-from learningmachines.credentials import RNLP_DATA_DIR, S3_RNLP_DATA_DIR,  AWS_PROFILE, S3_BUCKET
+from learningmachines.credentials import  AWS_PROFILE
+from learningmachines.cfg import TEMP_MODEL_FOLDER, S3_RNLP_DATA_DIR, S3_BUCKET
 
 
 class S3Client:
@@ -20,7 +21,7 @@ class S3Client:
         self.client.upload_file(local_file, self.bucket, remote_file)
 
     def upload_folder(self, folder_name):
-        folder_path = os.path.join(RNLP_DATA_DIR, folder_name)
+        folder_path = os.path.join(TEMP_MODEL_FOLDER, folder_name)
         for file in os.listdir(folder_path):
             file_path = os.path.join(folder_path, file)
             s3_path = os.path.join(S3_RNLP_DATA_DIR, folder_name, file)
@@ -64,8 +65,8 @@ class S3Client:
         for key in keys:
             file_path = key['Key']
             file_name = file_path.split('/')[-1]
-            local_path = os.path.join(RNLP_DATA_DIR, folder_name, file_name)
-            local_folder = os.path.join(RNLP_DATA_DIR, folder_name)
+            local_path = os.path.join(TEMP_MODEL_FOLDER, folder_name, file_name)
+            local_folder = os.path.join(TEMP_MODEL_FOLDER, folder_name)
             if not os.path.exists(local_folder):
                 os.mkdir(local_folder)
             s3_size = self.client.head_object(Bucket=self.bucket, Key=key['Key'])['ContentLength']

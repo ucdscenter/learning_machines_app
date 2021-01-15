@@ -5,6 +5,7 @@ from sklearn.cluster import AffinityPropagation
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from .s3_client import S3Client
+from learningmachines.cfg import TEMP_MODEL_FOLDER
 import numpy as np
 import json
 
@@ -19,6 +20,7 @@ class FormattedDataManager:
 		self.method = qry_str['method'].replace(" ", "+") if qry_str['method'] is not 'hdsr' else 'multilevel_lda'
 		self.formatted_data = None
 		self.f_path = None
+		self.save = save
 
 	def create_data(self):
 		print(self.qry_str)
@@ -42,8 +44,23 @@ class FormattedDataManager:
 		if self.method == 'doc2vec':
 			self.d2v_run()
 		return self.model
+	def rm_stored_folder(self):
+		import shutil
+		shutil.rmtree(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"])
+		return
+
 	def mlmom_run(self):
-			return 
+		from .mlmom_adapter import MLMOMFormatter
+		self.create_meta()
+		mlformatter = MLMOMFormatter(self.qry_str, self.dct)
+		mlformatter.create()
+		formatted_d = mlformatter.get_data()
+		formatted_d["metadata"] = self.meta_str
+		self.formatted_data = formatted_d
+		if self.save == False:
+			self.rm_stored_folder()
+		return 
+
 	def dfr_run(self):
 		from gensim.models import LdaModel
 		from .dfr_adapter import DfrAdapter
@@ -59,6 +76,7 @@ class FormattedDataManager:
 		}
 		self.formatted_data = dfr_data
 		return 
+
 	def pylda_run(self):
 		import pyLDAvis
 		import pyLDAvis.gensim
@@ -192,4 +210,12 @@ class FormattedDataManager:
 	def upload_data(self):
 		s3 = S3Client()
 		s3.upload_str(json.dumps(self.formatted_data), self.f_path)
+		if self.save:
+			if os.path.exists(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"]):
+				return
+			else:
+				os.mkdir(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"])
+			wf = open(TEMP_MODEL_FOLDER + "/" + self.f_path, "w")
+			json.dump(self.formatted_data, wf)
+
 		return

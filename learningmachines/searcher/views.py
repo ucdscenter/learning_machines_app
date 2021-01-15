@@ -16,7 +16,7 @@ from .decorators import access_required
 from .models import Profile
 from .models import QueryRequest, VisRequest, DocFilter
 from celery.result import AsyncResult
-from learningmachines.credentials import RNLP_DATA_DIR
+from learningmachines.cfg import TEMP_MODEL_FOLDER
 import os
 
 
@@ -55,6 +55,8 @@ def show_vis(request):
 		html_path = 'searcher/pylda.html'
 	if method == 'DFR browser':
 		html_path = 'searcher/dfr_index.html'
+	if method == 'multilevel_lda' or method == 'hdsr':
+		html_path = 'searcher/hdsr_multi_vis_proj.html'
 	return render(request, html_path, ctxt)
 
 @access_required('all')
@@ -179,12 +181,12 @@ def start_model_run(request):
 	qry_str["model_name"] = model_name
 	
 	print(query_request.pk)
-	#task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
-	#rsp_obj = { 
-	#		"task_id" : task.id
-	#}
-	run_model(qry_str,q_pk=query_request.pk)
-	rsp_obj = { "hi" : "there"}
+	task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
+	rsp_obj = { 
+			"task_id" : task.id
+	}
+	#run_model(qry_str,q_pk=query_request.pk)
+	#rsp_obj = { "hi" : "there"}
 	return HttpResponse(json.dumps(rsp_obj))
 
 
@@ -214,11 +216,11 @@ def load_formatted(request):
 		method = "multilevel_lda"
 	f_file_name = method + "_formatted.json"
 	f_path = os.path.join(modelname, f_file_name)
-	model_dir = os.path.join(RNLP_DATA_DIR, modelname)
+	model_dir = os.path.join(TEMP_MODEL_FOLDER, modelname)
 
 	s3 = S3Client()
-	if os.path.exists(model_dir) and method == 'multilevel_lda':
-		rmtree(model_dir)
+	#if os.path.exists(model_dir) and method == 'multilevel_lda':
+	#	rmtree(model_dir)
 
 	if s3.check_file_exists(os.path.join(f_path)):
 		data_obj =  s3.read_fileobj(f_path)

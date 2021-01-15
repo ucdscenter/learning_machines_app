@@ -204,4 +204,7 @@ hr {
 	background-color: var(--other-color-subtle);
 	border-bottom: 1px solid var(--main-color);
 }
+.model_item {
+	border-bottom: 1px solid var(--third-color);
+}
 

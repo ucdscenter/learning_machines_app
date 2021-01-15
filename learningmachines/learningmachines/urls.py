@@ -22,6 +22,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import users
 
+from django.shortcuts import redirect
+
+def redirect_vis_view(request):
+    response = redirect('/searcher/vis')
+    return response
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     #account endpoints
@@ -32,6 +38,7 @@ urlpatterns = [
     path('accounts/user/', users.show_user, name='show_user'),
 
    	path('searcher/', include('searcher.urls')),
+    path('lda/vis', redirect_vis_view),
     path('', RedirectView.as_view(url='searcher', permanent=True)),
 
 ]

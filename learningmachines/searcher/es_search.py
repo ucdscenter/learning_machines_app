@@ -3,7 +3,8 @@ from elasticsearch import Elasticsearch as ES, RequestsHttpConnection
 from requests_aws4auth import AWS4Auth
 from collections import namedtuple
 
-from learningmachines.credentials import AWS_PROFILE, ES_MAX_SIZE, ES_SCROLL_SIZE
+from learningmachines.credentials import AWS_PROFILE
+from learningmachines.cfg import ES_MAX_SIZE, ES_SCROLL_SIZE
 from learningmachines.es_fields import ES_FIELDS, MAX_NUM_DOC_VIS
 from .pre_processing import  get_min_term_occurrence, clean_text
 
@@ -44,7 +45,7 @@ class SearchResults_ES:
 	def __iter__(self):
 		return self
 	def _stop_and_reset(self):
-		self.scroll_id = 0
+		self.scroll_id = None
 		self.num_docs = 0
 		self.page_hits = None
 		self.scroll_size = None

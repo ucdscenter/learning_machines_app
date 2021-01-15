@@ -1,15 +1,18 @@
 import os
 from gensim.models.callbacks import CallbackAny2Vec
-from .es_search import SearchResults_ES
+ 
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+from learningmachines.cfg import TEMP_MODEL_FOLDER
+from .es_search import SearchResults_ES
 #from .s3_client import S3Client
 
 
 """{'start': '1809', 'end': '2017', 'f_start': '-1', 'f_end': '-1', 'qry': 'apple', 'maximum_hits': '500', 'method': 'DFR browser', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 'automatic', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'model_name': 'apple_2020-11-20-19-27-52_6JZVI9179R'}"""
 
 """
+TODO implement per-pass check on database to see if model status has been cancelled
 class EpochLogger(CallbackAny2Vec):
-	def __init__(self, qh, num_passes=5):
+	def __init__(self, qh, num_passes=2):
 		self.epoch = 0
 		self.logger=None
 		self.title=None
@@ -56,6 +59,26 @@ class NLPModelManager:
 		return self.model
 
 	def mlmom_run(self):
+		from gensim.models import LdaModel
+		docs = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+		corpus_docs = []
+		print("NUM TOPICS")
+		print(self.num_topics)
+		if self.num_topics == 'automatic':
+			print("CHANGING")
+			self.num_topics = int(self.qry_str['maximum_hits']) / 20
+		for d in docs:
+			corpus_docs.append(d)
+		print(os.listdir("."))
+		if os.path.exists(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"]):
+			return
+		else:
+			os.mkdir(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"])
+		for seed in range(0, 600, 100):
+			self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=2, random_state=seed)
+			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] +  "/model_" + str(seed))
+		self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "/lda_dict")
+		self.model = None
 		return 
 
 	def taggedDocIter(self):
@@ -77,10 +100,10 @@ class NLPModelManager:
 			self.num_topics = int(self.qry_str['maximum_hits']) / 10
 		for d in docs:
 			corpus_docs.append(d)
-		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=15, random_state=seed)
+		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=2, random_state=seed)
 		if self.save:
-			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_lda_dict")
-			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_pylda")
+			self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_lda_dict")
+			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_pylda")
 		return 
 	
 	def pylda_run(self, seed=100):
@@ -94,10 +117,10 @@ class NLPModelManager:
 			self.num_topics = int(self.qry_str['maximum_hits']) / 10
 		for d in docs:
 			corpus_docs.append(d)
-		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=15, random_state=seed)
+		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=2, random_state=seed)
 		if self.save:
-			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_lda_dict")
-			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_pylda")
+			self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_lda_dict")
+			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_pylda")
 		return 
 
 	def w2v_run(self, num_features=200, min_count=1, window=5, max_vocab=10000):
@@ -111,8 +134,8 @@ class NLPModelManager:
 				max_final_vocab=max_vocab)
 				#callbacks=callback)
 		if self.save:
-			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_w2v_dict")
-			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_w2v")
+			self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_w2v_dict")
+			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_w2v")
 		return 
 
 	def d2v_run(self, num_features=200, min_count=1, window=5, max_vocab=10000):
@@ -122,7 +145,7 @@ class NLPModelManager:
 		self.model.build_vocab(self.taggedDocIter())
 		self.model.train(self.taggedDocIter(), total_examples=self.model.corpus_count, epochs=self.model.epochs)
 		if self.save:
-			self.dct.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2v_dict")
-			self.model.save('tempmodeldata/' + self.qry_str['model_name'] + "_d2vv")
+			self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_d2v_dict")
+			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_d2vv")
 		return 
 	
