@@ -5,7 +5,6 @@ import sys
 import bz2
 import string
 import gensim
-from gensim.corpora import Dictionary
 from gensim.models import LdaModel
 import datetime
 from sklearn.decomposition import PCA
@@ -17,11 +16,11 @@ from .es_search import SearchResults_ES
 from learningmachines.cfg import TEMP_MODEL_FOLDER
 
 class MLMOMFormatter:
-	def __init__(self, qry_str, dct=None):
+	def __init__(self, qry_str, cm=None):
 		self.qry_str = qry_str
 		self.model_name = qry_str['model_name']
 		self.num_topics = qry_str['num_topics']
-		self.dct = dct
+		self.cm = cm
 		if self.num_topics == 'automatic':
 			print("CHANGING")
 			self.num_topics = int(int(self.qry_str['maximum_hits']) / 10)
@@ -76,7 +75,7 @@ class MLMOMFormatter:
 		linksdict = {}
 		model_index = 0
 
-		corpus_iterator = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+		corpus_iterator = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
 
 		for x in range(0, 600, 100):
 			save_fp = TEMP_MODEL_FOLDER + "/" + self.model_name + "/model_"
@@ -173,7 +172,7 @@ class MLMOMFormatter:
 
 			mcount += 1
 			dcount = 0
-			corpus_iterator = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+			corpus_iterator = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
 			for doc in corpus_iterator:
 
 				doc_topics = lda1.get_document_topics(doc)

@@ -10,9 +10,9 @@ import numpy as np
 import json
 
 class FormattedDataManager:
-	def __init__(self, qry_str, dct=None, q_pk=None, qh=None, model=None, save=False):
+	def __init__(self, qry_str, cm=None, q_pk=None, qh=None, model=None, save=False):
 		self.qry_str = qry_str
-		self.dct = dct
+		self.cm = cm
 		self.q_pk = q_pk
 		self.qh = qh
 		self.model = model
@@ -52,7 +52,7 @@ class FormattedDataManager:
 	def mlmom_run(self):
 		from .mlmom_adapter import MLMOMFormatter
 		self.create_meta()
-		mlformatter = MLMOMFormatter(self.qry_str, self.dct)
+		mlformatter = MLMOMFormatter(self.qry_str, self.cm.dct)
 		mlformatter.create()
 		formatted_d = mlformatter.get_data()
 		formatted_d["metadata"] = self.meta_str
@@ -67,7 +67,7 @@ class FormattedDataManager:
 		self.create_meta()
 		adapter = DfrAdapter()
 		print(self.model)
-		dfr_obj = adapter.write_numerical_data(self.model, self.qry_str, self.dct)
+		dfr_obj = adapter.write_numerical_data(self.model, self.qry_str, self.cm)
 		dfr_data = {
 			"info" : dfr_obj["info"],
 			"dt" : dfr_obj["dt"],
@@ -80,11 +80,11 @@ class FormattedDataManager:
 	def pylda_run(self):
 		import pyLDAvis
 		import pyLDAvis.gensim
-		docs = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
 		tokenized_corpus = []
 		for d in docs:
 			tokenized_corpus.append(d)
-		ldavis_data = pyLDAvis.gensim.prepare(self.model, tokenized_corpus, self.dct)
+		ldavis_data = pyLDAvis.gensim.prepare(self.model, tokenized_corpus, self.cm.dct)
 		self.formatted_data = ldavis_data.to_json()
 		return 
 
@@ -196,14 +196,14 @@ class FormattedDataManager:
 		res = {}
 		word_docs_dict = {}
 		doc_index = 0
-		for word_idx, word in self.dct.items():
+		for word_idx, word in self.cm.dct.items():
 			res[word] = []
 		for doc in tokenized_docs:
-			doc_bow = self.dct.doc2bow(doc)
+			doc_bow = self.cm.dct.doc2bow(doc)
 			for word_pair in doc_bow:
-				res[self.dct[word_pair[0]]].append([doc_index, word_pair[1]])
+				res[self.cm.dct[word_pair[0]]].append([doc_index, word_pair[1]])
 			doc_index += 1
-		for word_idx, word in self.dct.items():
+		for word_idx, word in self.cm.dct.items():
 			res[word] = list(map(lambda x: x[0], sorted(res[word], key=operator.itemgetter(1), reverse=True)[0:num_top_docs]))
 		return res
 
