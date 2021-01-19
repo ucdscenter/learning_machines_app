@@ -19,21 +19,20 @@ def run_model(self, qry_str, q_pk=None):
 	r = qh.update_status("Fetching Documents")
 	if r == "Cancelled":
 		return "CANCEL"
-
-	es_iter = SearchResults_ES(database=qry_str['database'], qry_obj=qry_str)
-	"""
-	TODO NGRAMS
+	
 	r = qh.update_status("Learning Ngrams")
 	if r == "Cancelled":
 		return "CANCEL"
-	"""
+	corpus_manager = CorpusManager(qry_str)
+	corpus_manager.create_trigrams()
+
 	r = qh.update_status("Creating Dictionary")
 	if r == "Cancelled":
 		return "CANCEL"
 
-	corpus_manager = CorpusManager(qry_str)
+	
 	learned_dict = corpus_manager.create_dict()
-
+	"""
 	r = qh.update_status("Running Model")
 	if r == "Cancelled":
 		return "CANCEL"
@@ -53,6 +52,7 @@ def run_model(self, qry_str, q_pk=None):
 	r = qh.update_status("Finished", finished=True)
 	if r == "Cancelled":
 		return "CANCEL!"
+	"""
 	return
 
 @celery_app.task(bind=True, name='searcher.tasks.get_docs', max_retries=3)
