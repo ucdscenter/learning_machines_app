@@ -16,7 +16,13 @@ MIN_PARAGRAPH_LETTER_COUNT = 10
 import string
 
 rmchars = string.punctuation + "º"
+class TextHandler:
+    def __init__(self, qry_str):
+        self.qry_str = qry_str
 
+    def rm_stops(self):
+        return
+        
 def clean_text(doc):
     return doc.text.lower().translate(str.maketrans("", "", rmchars)).split(" ") if doc.text is not None else []
 

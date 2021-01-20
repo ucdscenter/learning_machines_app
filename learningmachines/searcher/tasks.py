@@ -19,32 +19,28 @@ def run_model(self, qry_str, q_pk=None):
 	r = qh.update_status("Fetching Documents")
 	if r == "Cancelled":
 		return "CANCEL"
-
-	es_iter = SearchResults_ES(database=qry_str['database'], qry_obj=qry_str)
-	"""
-	TODO NGRAMS
+	
 	r = qh.update_status("Learning Ngrams")
 	if r == "Cancelled":
 		return "CANCEL"
-	"""
+	corpus_manager = CorpusManager(qry_str)
+	corpus_manager.create_ngrams()
+
 	r = qh.update_status("Creating Dictionary")
 	if r == "Cancelled":
-		return "CANCEL"
-
-	corpus_manager = CorpusManager(qry_str)
-	learned_dict = corpus_manager.create_dict()
-
+		return "CANCEL"	
+	corpus_manager.create_dict()
 	r = qh.update_status("Running Model")
 	if r == "Cancelled":
 		return "CANCEL"
-	nlp_model_manager = NLPModelManager(qry_str, dct=learned_dict, q_pk=q_pk, qh=qh)
+	nlp_model_manager = NLPModelManager(qry_str, cm=corpus_manager, q_pk=q_pk, qh=qh)
 	model = nlp_model_manager.create_model()
 	print("MODEL")
 	print(model)
 	r = qh.update_status("Formatting Data")
 	if r == "Cancelled":
 		return "CANCEL"
-	formatted_manager = FormattedDataManager(qry_str, dct=learned_dict, q_pk=q_pk, qh=qh, model=model)
+	formatted_manager = FormattedDataManager(qry_str, cm=corpus_manager, q_pk=q_pk, qh=qh, model=model)
 	formatted_manager.create_data()
 	r = qh.update_status("Uploading Data")
 	if r == "Cancelled":
@@ -53,6 +49,7 @@ def run_model(self, qry_str, q_pk=None):
 	r = qh.update_status("Finished", finished=True)
 	if r == "Cancelled":
 		return "CANCEL!"
+	
 	return
 
 @celery_app.task(bind=True, name='searcher.tasks.get_docs', max_retries=3)

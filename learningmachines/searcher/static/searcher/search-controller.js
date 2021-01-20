@@ -32,7 +32,6 @@ async function renderDataBaseSelect(dbdata){
       return d + "_btn"
     })
 
-
 	var dbdivs = dbBtns.append("div")
 	.attr("class", "btn btn-success db-button row")
 	.style("background-color", function(d){
@@ -1041,6 +1040,8 @@ $('#submit-wrapper-button').click(function(e){
               f_start : filters.years[0],
               f_end : filters.years[1],
               qry : qry,
+              ngrams : $('#ngrams-check').prop("checked"),
+              tfidf : $('#tfidf-check').prop("checked"),
               maximum_hits : size,
               method : method,
               stop_words : $('#stop-word').val(),
