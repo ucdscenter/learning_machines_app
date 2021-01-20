@@ -38,7 +38,7 @@ class CorpusManager:
 
 		self.dct = dct
 
-	def create_ngrams(self, n=2, show=False):
+	def create_ngrams(self, n=3, show=False):
 		es_iter = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
 		bigram = Phrases(es_iter, min_count=1, threshold=1) # higher threshold fewer phrases.
 		if n > 2:

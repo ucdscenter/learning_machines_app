@@ -83,7 +83,7 @@ class NLPModelManager:
 
 	def taggedDocIter(self):
 		print(self.qry_str)
-		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, cleaned=True)
 		self.doc_count = 0
 		for i, doc in enumerate(docs):
 			self.doc_count += 1
@@ -125,7 +125,7 @@ class NLPModelManager:
 
 	def w2v_run(self, num_features=200, min_count=1, window=5, max_vocab=10000):
 		from gensim.models import Word2Vec
-		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, cleaned=True)
 		self.model = Word2Vec(
 				docs,
 				workers=1,

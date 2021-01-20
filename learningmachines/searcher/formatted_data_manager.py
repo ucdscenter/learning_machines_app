@@ -52,7 +52,7 @@ class FormattedDataManager:
 	def mlmom_run(self):
 		from .mlmom_adapter import MLMOMFormatter
 		self.create_meta()
-		mlformatter = MLMOMFormatter(self.qry_str, self.cm.dct)
+		mlformatter = MLMOMFormatter(self.qry_str, self.cm)
 		mlformatter.create()
 		formatted_d = mlformatter.get_data()
 		formatted_d["metadata"] = self.meta_str
@@ -151,7 +151,7 @@ class FormattedDataManager:
 		emb_list = pca_result.tolist()
 		data_dict = dict()
 		index = 0
-		split_docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
+		split_docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, cleaned=True)
 		for doc in split_docs:
 			#new_vec = self.model.infer_vector(doc)
 			sims = self.model.docvecs.most_similar([index], topn=10)
