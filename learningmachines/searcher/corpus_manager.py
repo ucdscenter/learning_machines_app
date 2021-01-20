@@ -39,6 +39,8 @@ class CorpusManager:
 		self.dct = dct
 
 	def create_ngrams(self, n=3, show=False):
+		if self.qry_str["ngrams"] == False:
+			return
 		es_iter = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
 		bigram = Phrases(es_iter, min_count=1, threshold=1) # higher threshold fewer phrases.
 		if n > 2:
@@ -52,6 +54,6 @@ class CorpusManager:
 				for phrase, score in self.bigram_model.export_phrases([bigram[doc]]):
 					print(phrase)
 					print(score)
-		return -1
+		return
 
 	

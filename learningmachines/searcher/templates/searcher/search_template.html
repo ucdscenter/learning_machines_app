@@ -403,7 +403,7 @@
                 <form id="run-model" target="_blank" action="/searcher/models/">
                 <div class="hidden mt-2" id="mlmom-options">
                    <h5 align="center">Multi Level Model of Models Parameters</h5>
-                  <div class="form-row">
+                  <div class="form-row hidden">
                     <label for="levelselect" class="col-form-label">Choose Model Levels <i data-container="body" data-toggle="popover" data-placement="right" data-content="Select article level to run the 6 models normally. Select paragraph level to pull only the paragraphs that contain the search term(s) and use the individual paragraphs as 'documents' in the model. Paragraph level increases performance speed." class="material-icons center_icon_options">info_outlined</i></label>
                     <select name="level_select" class="form-control form-control-sm" id="level-select">
                       <option value="article">Article Level</option>
@@ -430,18 +430,25 @@
                   </div>
                   <div class="form-row">
                     <div class="form-check"> 
+                      <input type="checkbox" class="form-check-input" id="ngrams-check" name="ngrams" checked>
+                      <label class="form-check-label" for="ngrams-check"><strong>N-Grams</strong> - if checked, will include common ngrams in corpus</label>
+                    </div>
+                    <i data-container="body" data-toggle="popover" data-placement="right" data-content="We calculate up to 4-grams using gensim's phraser model" class="material-icons center_icon_options">info_outlined</i>
+                  </div>
+                  <div class="form-row hidden">
+                    <div class="form-check"> 
                       <input type="checkbox" class="form-check-input" id="tfidf-check" name="tfidf">
                       <label class="form-check-label" for="tfidf-check"><strong>TFIDF</strong> - if checked, will run tfidf on the corpus before running the model.</label>
                     </div>
                     <i data-container="body" data-toggle="popover" data-placement="right" data-content="Running tfidf on the corpus before creating the model will reweight the words in the corpus, making rarely used words more impactful in the final model." class="material-icons center_icon_options">info_outlined</i>
                   </div>
-                  <div class="form-row">
+                  <!--<div class="form-row">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="remove-digit-select" name="remove_digits">
                         <label class="form-check-label" for="remove-digit-select"><strong>Remove digits</strong> - if checked, all numbers will be removed from corpus</label>
                         <i data-container="body" data-toggle="popover" data-placement="right" data-content="Rarely used, but if your corpus has a high number of digits this will remove them." class="material-icons center_icon_options">info_outlined</i>
                     </div>
-                  </div>
+                  </div>-->
                   <div class="form-row not-w2v">
                    <label for="num-topics" class="col-form-label">Number of Topics  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of topics for the LDA model to be created with. Play around with this until you find a number that you think accurately captures the corpus. If left on automatic, simply chooses the topic number based off of the number of docs/100, with a min of 5 and a max of 50." class="material-icons center_icon_options">info_outlined</i></label>
                   <select name="num_topics" class="form-control form-control-sm" id="num-topics">
@@ -559,7 +566,10 @@
 </script>
 
 <script src="/static/searcher/js/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="/static/searcher/popper.js"></script>
+<script src="/static/searcher/js/bootstrap.min.js"></script>
+<!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+<!--<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>-->
 <script src="/static/searcher/js/d3.min.js"></script>
 <script src="/static/searcher/js/crossfilter.js"></script>
 <script src="/static/searcher/js/dc.min.js"></script>

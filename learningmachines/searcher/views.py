@@ -127,7 +127,15 @@ def start_model_run(request):
 	from .params_helper import random_string, get_now
 
 	qry_str = {k: v[0] for k, v in dict(request.POST).items()}
-
+	
+	if qry_str['ngrams'] == 'true':
+		qry_str['ngrams'] = True
+	else:
+		qry_str['ngrams'] = False
+	if qry_str['tfidf'] == 'true':
+		qry_str['tfidf'] = True
+	else:
+		qry_str['tfidf'] = False
 
 	query_request = QueryRequest(
 		query_str=qry_str['qry'],
@@ -156,6 +164,7 @@ def start_model_run(request):
 	  	#remove_digits = 
 		#tfidf =
 		#para_filter_terms = 
+		#ngrams = 
 		auth_s = qry_str['auth_s'],
 		ml_keywords = qry_str['family_select'],
 		journal = qry_str['journal'],
@@ -181,12 +190,12 @@ def start_model_run(request):
 	qry_str["model_name"] = model_name
 	
 	print(query_request.pk)
-	#task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
-	#rsp_obj = { 
-	#			"task_id" : task.id
-	#}
-	run_model(qry_str,q_pk=query_request.pk)
-	rsp_obj = { "hi" : "there"}
+	task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
+	rsp_obj = { 
+				"task_id" : task.id
+	}
+	#run_model(qry_str,q_pk=query_request.pk)
+	#rsp_obj = { "hi" : "there"}
 	return HttpResponse(json.dumps(rsp_obj))
 
 
