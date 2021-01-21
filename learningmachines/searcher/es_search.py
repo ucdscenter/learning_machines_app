@@ -8,7 +8,7 @@ from collections import namedtuple
 from learningmachines.credentials import AWS_PROFILE
 from learningmachines.cfg import ES_MAX_SIZE, ES_SCROLL_SIZE
 from learningmachines.es_fields import ES_FIELDS, MAX_NUM_DOC_VIS
-from .pre_processing import  get_min_term_occurrence, clean_text
+from .pre_processing import  get_min_term_occurrence, TextHandler
 
 
 class SearchResults_ES:
@@ -37,6 +37,7 @@ class SearchResults_ES:
 		self.scroll_size = None
 		self.num_scroll = 0
 		self.total_docs = 0
+		self.th = TextHandler(self.qry_obj)
 		
 		self.cleaned = cleaned
 		if self.qry_obj != None:
@@ -72,7 +73,7 @@ class SearchResults_ES:
 
 		if self.cleaned:
 			if self.cm == None:
-				return clean_text(retdoc)
+				return self.th.clean_text(retdoc)
 			return self.cm._clean_text(retdoc)
 		elif self.tokenized:
 			return self.cm.doc2bow(retdoc)

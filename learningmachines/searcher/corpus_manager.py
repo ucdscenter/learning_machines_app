@@ -1,7 +1,7 @@
 from gensim.corpora import Dictionary
 from .es_search import SearchResults_ES
 import string
-from .pre_processing import clean_text
+from .pre_processing import TextHandler
 from gensim.models.phrases import Phraser, Phrases
 class CorpusManager:
 	def __init__(self, qry_str, q_pk=None):
@@ -12,17 +12,19 @@ class CorpusManager:
 		self.bigram_model = None
 		self.trigram_model = None
 		self.dct = None
+		self.th = TextHandler(self.qry_str)
 		
 
 	def _clean_text(self, doc):
 		if self.bigram_model != None:
 			if self.trigram_model != None:
-				return self.trigram_model[self.bigram_model[clean_text(doc)]]
+				return self.trigram_model[self.bigram_model[self.th.clean_text(doc)]]
 			else:
-				return self.bigram_model[clean_text(doc)]
+				return self.bigram_model[self.th.clean_text(doc)]
 		else:	
-			return clean_text(doc)
-		return clean_text(doc)
+			return self.th.clean_text(doc)
+		return self.th.clean_text(doc)
+	
 	def doc2bow(self, doc):
 		return self.dct.doc2bow(self._clean_text(doc))
 
