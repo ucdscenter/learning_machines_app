@@ -16,6 +16,14 @@ Install the python package requirements to the virtual env.
 ```bash
 pip install -r requirements.txt
 ```
+If installing on an ubuntu machines, you might get the error:
+```
+“Could not run curl-config: [Errno 2] No such file or directory” when installing pycurl
+```
+In which case run:
+```
+sudo apt install libcurl4-openssl-dev libssl-dev
+```
 Follow the steps in README.npm.text to download frontend files:
 1. update dependencies in package.json (or) run 'npm install <package> --save' (or) you can even give the github url
 2. run 'npm install' from directory where package.json is present

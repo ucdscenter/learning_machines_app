@@ -37,7 +37,8 @@ class SearchResults_ES:
 		self.scroll_size = None
 		self.num_scroll = 0
 		self.total_docs = 0
-		self.th = TextHandler(self.qry_obj)
+		if self.qry_obj != None:
+			self.th = TextHandler(self.qry_obj)
 		
 		self.cleaned = cleaned
 		if self.qry_obj != None:
