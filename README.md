@@ -49,10 +49,20 @@ python manage.py createsuperuser
 ```
 ### Run redis server
 download redis: https://redis.io/
+```
+sudo apt install redis-server
+```
+
 Start redis:
 ```
 redis-server
 ```
+### Fixing redis.py bug
+From the folder with manage.py in it, run:
+```
+mv ../venv/lib/python3.8/site-packages/celery/backends/async.py ../venv/lib/python3.8/site-packages/celery/backends/asynchronous.py 
+```
+Then open ../venv/lib/python3.8/site-packages/celery/backends/async.py ../venv/lib/python3.8/site-packages/celery/backends/redis.py and replace all occurrences of async with asynchronous
 
 ## Starting Servers
 
