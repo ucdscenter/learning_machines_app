@@ -22,10 +22,10 @@ class TextHandler:
         self.rmchars = string.punctuation + "º"
         self.rmchars = self.rmchars.replace("_", "").replace("-", "").replace("%", "")
         self.rm_words = get_stop_words('en')
-        addit_stops = self.qry_str['stop_words'].split(",")
-        addit_stops = [x.strip() for x in addit_stops]
+        addit_stops = self.qry_str['stop_words'].split(",") if 'stop_words' in self.qry_str else []
+        addit_stops = [x.strip() for x in addit_stops] 
         self.rm_words = self.rm_words + addit_stops
-        self.phrases = self.qry_str['phrases'].split(",")
+        self.phrases = self.qry_str['phrases'].split(",") if 'phrases' in self.qry_str else []
         self.phrases = [x.strip() for x in self.phrases]
 
     def rm_stops(self, doc_text):
