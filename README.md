@@ -35,7 +35,9 @@ Create a credentials.py file in the learningmachines folder
 
 Contact the UC Digital Scholarship Center for elasticsearch IAM credentials, aws sqs, and template to the to fill in the credentials.py information, as well as connection to the dev database. 
 
-If you are using a local postgres server you can do the following:
+In the SQS_QUEUE_NAME field, make a unique queue name for your local tasks to be sent to.
+
+If you are using a local postgres server you can do the following, but no need if using the default config, because that connects to a dev database that is already migrated:
 
 Create db and make migrations, and migrate
 ```bash
@@ -43,10 +45,12 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-Create a django admin user
+Create a django admin user, with your account info
 ```bash
 python manage.py createsuperuser
 ```
+
+
 ### Run redis server
 download redis: https://redis.io/
 ```
