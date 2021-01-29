@@ -37,6 +37,8 @@ Contact the UC Digital Scholarship Center for elasticsearch IAM credentials, aws
 
 In the SQS_QUEUE_NAME field, make a unique queue name for your local tasks to be sent to.
 
+
+ONLY DO THE RDS STEPS IF USING LOCAL DATABASE
 If you are using a local postgres server you can do the following, but no need if using the default config, because that connects to a dev database that is already migrated:
 
 Create db and make migrations, and migrate
