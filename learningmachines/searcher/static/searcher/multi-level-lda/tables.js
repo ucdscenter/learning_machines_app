@@ -167,7 +167,7 @@
 			corp = 'hathitrust_novels'
 		}
 		let page_str = ""
-		var doc_response = await d3.json("query?corpus=" + corp + "&id=" + doc_id );
+		var doc_response = await d3.json("/searcher/get_doc?database=" + corp + "&doc_id=" + doc_id );
 		console.log(doc_response)
 
 		if(para_index != undefined){

@@ -534,20 +534,33 @@ async function wrapper(){
 	
 	async function doItAll(mlmom_data=false){
 	let the_data = null
+	let addit_str = "&model=" + params.model //+ "&method=" + params.method
 	if(mlmom_data == false){
 		if(mlmom_data == false){
-  			the_data = await d3.json("/searcher/load_formatted?method=" + params.method + "&q_pk=" + params.q_pk);
+  			the_data = await d3.json("/searcher/load_formatted?method=" + params.method + "&q_pk=" + params.q_pk + addit_str);
   		}
 	}
 	mlmom_data = the_data.data
 	let model_info = the_data.model_info
-	$('#corpus').text(undefined_fixer(model_info.corpus))
-    $('#term').text(undefined_fixer(model_info.term))
-    $('#topics').text(undefined_fixer(model_info.topics))
-    $('#stop_words').text(undefined_fixer(model_info.stopwords).replace("-", ","))
-    $('#start').text(undefined_fixer(model_info.ys))
-    $('#end').text(undefined_fixer(model_info.ye))
-    $('#dn').text(undefined_fixer(model_info.docs))
+	if (params.q_pk != undefined){
+		params.corpus = model_info.corpus
+		$('#corpus').text(undefined_fixer(model_info.corpus))
+	    $('#term').text(undefined_fixer(model_info.term))
+	    $('#topics').text(undefined_fixer(model_info.topics))
+	    $('#stop_words').text(undefined_fixer(model_info.stopwords).replace("-", ","))
+	    $('#start').text(undefined_fixer(model_info.ys))
+	    $('#end').text(undefined_fixer(model_info.ye))
+	    $('#dn').text(undefined_fixer(model_info.docs))
+	}
+	else{
+		$('#corpus').text(undefined_fixer(params.corpus))
+		$('#term').text(undefined_fixer(params.model.split("#")))//[0].match(/\[(.*?)\]/g,'')[0].slice(1, -1)))
+		$('#topics').text(undefined_fixer(params.num_topics))
+		$('#stop_words').text(undefined_fixer(params.stop_words).replace("-", ","))
+		$('#start').text(undefined_fixer(params.ys))
+		$('#end').text(undefined_fixer(params.ye))
+		$('#dn').text(undefined_fixer(params.dn))
+	}
 	console.log(mlmom_data)
 
 	mlmom_data.formatted_proj.forEach(function(m){
