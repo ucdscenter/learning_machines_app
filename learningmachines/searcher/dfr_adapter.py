@@ -16,7 +16,7 @@ class DfrAdapter:
         #self.input_dir = input_dir
         self.model = None
         self.num_topics = None
-        self.dct = None
+        self.cm = None
         self.qry_str = None
 
 
@@ -62,11 +62,11 @@ class DfrAdapter:
         return meta_str
 
 
-    def write_numerical_data(self, model, qry_str, dct):
+    def write_numerical_data(self, model, qry_str, cm):
         self.model = model
         self.qry_str = qry_str
         self.num_topics = qry_str["num_topics"]
-        self.dct = dct
+        self.cm = cm
 
         if self.num_topics == 'automatic':
             print("CHANGING")
@@ -104,7 +104,7 @@ class DfrAdapter:
         return json.dumps(tw)
 
     def convert_dt(self):
-        corpus = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+        corpus = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
         i = [[] for k in range(self.num_topics)] #doc_idx
         x = [[] for k in range(self.num_topics)] #weights
         for doc_idx, bow in enumerate(corpus):

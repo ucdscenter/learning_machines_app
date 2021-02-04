@@ -1,3 +1,5 @@
+import os
+
 from datetime import datetime
 from elasticsearch import Elasticsearch as ES, RequestsHttpConnection
 from requests_aws4auth import AWS4Auth
@@ -6,10 +8,11 @@ from collections import namedtuple
 from learningmachines.credentials import AWS_PROFILE
 from learningmachines.cfg import ES_MAX_SIZE, ES_SCROLL_SIZE
 from learningmachines.es_fields import ES_FIELDS, MAX_NUM_DOC_VIS
-from .pre_processing import  get_min_term_occurrence, clean_text
+from .pre_processing import  get_min_term_occurrence, TextHandler
+
 
 class SearchResults_ES:
-	def __init__(self, database, qry_obj=None, min_count=None, sub_dates=None, dictionary=None, tokenized=False, cleaned=False):
+	def __init__(self, database, qry_obj=None, min_count=None, sub_dates=None, cm=None, tokenized=False, cleaned=False):
 		aws_auth = AWS4Auth(AWS_PROFILE['ACCESS_KEY'], AWS_PROFILE['SECRET_KEY'], 'us-east-2', 'es')
 		aws_host = AWS_PROFILE['AWS_HOST']
 		self.database = database
@@ -17,7 +20,7 @@ class SearchResults_ES:
 		self.qry_obj = qry_obj
 		self.min_count = min_count
 		self.sub_dates = sub_dates
-		self.dictionary = dictionary
+		self.cm = cm
 		self.tokenized = tokenized
 		self.es = ES(
 			hosts=[{'host': aws_host, 'port': 443}],
@@ -34,9 +37,11 @@ class SearchResults_ES:
 		self.scroll_size = None
 		self.num_scroll = 0
 		self.total_docs = 0
+		if self.qry_obj != None:
+			self.th = TextHandler(self.qry_obj)
 		
 		self.cleaned = cleaned
-		if self.qry_obj is not None:
+		if self.qry_obj != None:
 			self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else ES_MAX_SIZE)
 		else:
 			self.qry_obj = None
@@ -50,6 +55,7 @@ class SearchResults_ES:
 		self.page_hits = None
 		self.scroll_size = None
 		self.num_scroll = 0
+		self.total_docs = 0
 
 	def __next__(self):
 		if self.page_hits == None:
@@ -67,9 +73,11 @@ class SearchResults_ES:
 		self.total_docs += 1
 
 		if self.cleaned:
-			return clean_text(retdoc)
+			if self.cm == None:
+				return self.th.clean_text(retdoc)
+			return self.cm._clean_text(retdoc)
 		elif self.tokenized:
-			return self.dictionary.doc2bow(clean_text(retdoc))
+			return self.cm.doc2bow(retdoc)
 		else:
 			return retdoc
 
@@ -121,7 +129,7 @@ class SearchResults_ES:
 	def _min_count(self, doc):
 		terms = self.qry_obj['qry'].replace("+", " ").split(" ")
 		terms_count = get_min_term_occurrence(terms, doc)
-		if self.min_count is None:
+		if self.min_count == None:
 			return terms_count
 		else:
 			if terms_count >= self.min_count:
@@ -136,7 +144,7 @@ class SearchResults_ES:
 		end = self.qry_obj['end'] if self.qry_obj['end'].split("-")[0].isdigit() else None
 		jurisdiction = self.qry_obj.get('jurisdiction')
 		auth_qry = self.qry_obj.get('auth_s')
-		family_keyword = self.qry_obj.get('family') if self.qry_obj.get('family') is not 'both' else None
+		family_keyword = self.qry_obj.get('family') if self.qry_obj.get('family') != 'both' else None
 		journal = self.qry_obj.get('journal')
 
 		dump_corpus = False
@@ -149,7 +157,7 @@ class SearchResults_ES:
 			"query": qry
 		  }
 		})
-		elif auth_qry is not None and len(auth_qry) != 0:
+		elif auth_qry != None and len(auth_qry) != 0:
 			must_terms.append({
 			  "query_string": {
 				"default_field" : 'authors',
@@ -234,9 +242,6 @@ class SearchResults_ES:
 				print('scroll', self.num_scroll, self.scroll_size)
 				self.page_hits = es_qry['hits']['hits']
 				self.num_scroll += 1
-
-
-
 
 
 

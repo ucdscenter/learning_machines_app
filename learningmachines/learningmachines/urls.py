@@ -25,7 +25,12 @@ from . import users
 from django.shortcuts import redirect
 
 def redirect_vis_view(request):
-    response = redirect('/searcher/vis')
+    qry_str = {k: v[0] for k, v in dict(request.GET).items()}
+    print(qry_str)
+    params_str = "?"
+    for x in qry_str:
+        params_str = params_str + x + "=" + qry_str[x] + "&"
+    response = redirect('/searcher/vis' + params_str)
     return response
 
 urlpatterns = [

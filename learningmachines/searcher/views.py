@@ -46,6 +46,8 @@ def show_vis(request):
 	ctxt = { "hi" : "there"}
 	method = request.GET.get("method")
 	print(method)
+	if request.GET.get('model') != None and method == 'multilevel_lda':
+		return render(request, "searcher/multi_vis_proj.html")
 	html_path = "searcher/error_page.html"
 	if method == "word2vec":
 		html_path = 'searcher/2d_word2vec.html'
@@ -127,7 +129,15 @@ def start_model_run(request):
 	from .params_helper import random_string, get_now
 
 	qry_str = {k: v[0] for k, v in dict(request.POST).items()}
-
+	
+	if qry_str['ngrams'] == 'true':
+		qry_str['ngrams'] = True
+	else:
+		qry_str['ngrams'] = False
+	if qry_str['tfidf'] == 'true':
+		qry_str['tfidf'] = True
+	else:
+		qry_str['tfidf'] = False
 
 	query_request = QueryRequest(
 		query_str=qry_str['qry'],
@@ -156,6 +166,7 @@ def start_model_run(request):
 	  	#remove_digits = 
 		#tfidf =
 		#para_filter_terms = 
+		#ngrams = 
 		auth_s = qry_str['auth_s'],
 		ml_keywords = qry_str['family_select'],
 		journal = qry_str['journal'],
@@ -183,7 +194,7 @@ def start_model_run(request):
 	print(query_request.pk)
 	task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
 	rsp_obj = { 
-			"task_id" : task.id
+				"task_id" : task.id
 	}
 	#run_model(qry_str,q_pk=query_request.pk)
 	#rsp_obj = { "hi" : "there"}
@@ -193,24 +204,30 @@ def start_model_run(request):
 def load_formatted(request):
 	from .s3_client import S3Client
 	q_pk = request.GET.get('q_pk')
-	print(request)
-	qh = QueryHandler(q_pk=q_pk)
-	vis_request = VisRequest.objects.get(query=qh.q)
-	print("DOC NUM")
-	print(vis_request.docfilter.doc_number)
-	model_display_info = {
-		"corpus" : qh.q.database,
-		"term" : qh.q.query_str,
-		"docs" : vis_request.docfilter.doc_number,
-		"stopwords" : vis_request.docfilter.stop_words,
-		"ys" :  vis_request.docfilter.start_year if vis_request.docfilter.start_year != '-1' else 'Not set',
-		"ye" : vis_request.docfilter.end_year if vis_request.docfilter.end_year != '-1' else 'Not set',
-		"topics" : vis_request.docfilter.num_topics
-	}
+	modelname = request.GET.get('model')
+	if modelname == 'undefined' or modelname == None:
+		qh = QueryHandler(q_pk=q_pk)
+		vis_request = VisRequest.objects.get(query=qh.q)
+		print("DOC NUM")
+		print(vis_request.docfilter.doc_number)
+		model_display_info = {
+			"corpus" : qh.q.database,
+			"term" : qh.q.query_str,
+			"docs" : vis_request.docfilter.doc_number,
+			"stopwords" : vis_request.docfilter.stop_words,
+			"ys" :  vis_request.docfilter.start_year if vis_request.docfilter.start_year != '-1' else 'Not set',
+			"ye" : vis_request.docfilter.end_year if vis_request.docfilter.end_year != '-1' else 'Not set',
+			"topics" : vis_request.docfilter.num_topics
+		}
+		modelname = vis_request.model_name.replace('*', '"')
+		method = vis_request.method.replace(" ", "+");
+	else:
+		model_display_info = {}
+		method = request.GET.get('method').replace(" ", "+");
 
 
-	method = vis_request.method.replace(" ", "+");
-	modelname = vis_request.model_name.replace('*', '"')
+	
+	
 	if method == 'hdsr':
 		method = "multilevel_lda"
 	f_file_name = method + "_formatted.json"

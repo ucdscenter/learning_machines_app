@@ -12,7 +12,7 @@ from .es_search import SearchResults_ES
 """
 TODO implement per-pass check on database to see if model status has been cancelled
 class EpochLogger(CallbackAny2Vec):
-	def __init__(self, qh, num_passes=2):
+	def __init__(self, qh, num_passes=NUM_PASSES):
 		self.epoch = 0
 		self.logger=None
 		self.title=None
@@ -22,11 +22,12 @@ class EpochLogger(CallbackAny2Vec):
 		print(self.qh)
 		self.epoch = self.epoch + 1
 """
+NUM_PASSES = 10
 
 class NLPModelManager:
-	def __init__(self, qry_str, dct=None, q_pk=None, qh=None, save=False):
+	def __init__(self, qry_str, cm=None, q_pk=None, qh=None, save=False):
 		self.qry_str = qry_str
-		self.dct = dct
+		self.cm = cm
 		self.q_pk = q_pk
 		self.qh = qh
 		self.model = None
@@ -60,7 +61,7 @@ class NLPModelManager:
 
 	def mlmom_run(self):
 		from gensim.models import LdaModel
-		docs = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
 		corpus_docs = []
 		print("NUM TOPICS")
 		print(self.num_topics)
@@ -75,15 +76,15 @@ class NLPModelManager:
 		else:
 			os.mkdir(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"])
 		for seed in range(0, 600, 100):
-			self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=2, random_state=seed)
+			self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed)
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] +  "/model_" + str(seed))
-		self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "/lda_dict")
+		self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "/lda_dict")
 		self.model = None
 		return 
 
 	def taggedDocIter(self):
 		print(self.qry_str)
-		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, cleaned=True)
 		self.doc_count = 0
 		for i, doc in enumerate(docs):
 			self.doc_count += 1
@@ -91,7 +92,7 @@ class NLPModelManager:
 
 	def dfr_run(self, seed=100):
 		from gensim.models import LdaModel
-		docs = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
 		corpus_docs = []
 		print("NUM TOPICS")
 		print(self.num_topics)
@@ -100,15 +101,15 @@ class NLPModelManager:
 			self.num_topics = int(self.qry_str['maximum_hits']) / 10
 		for d in docs:
 			corpus_docs.append(d)
-		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=2, random_state=seed)
+		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed)
 		if self.save:
-			self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_lda_dict")
+			self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_lda_dict")
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_pylda")
 		return 
 	
 	def pylda_run(self, seed=100):
 		from gensim.models import LdaModel
-		docs = SearchResults_ES(database=self.qry_str['database'], dictionary=self.dct, qry_obj=self.qry_str, tokenized=True)
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
 		corpus_docs = []
 		print("NUM TOPICS")
 		print(self.num_topics)
@@ -117,15 +118,15 @@ class NLPModelManager:
 			self.num_topics = int(self.qry_str['maximum_hits']) / 10
 		for d in docs:
 			corpus_docs.append(d)
-		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.dct, alpha='symmetric', passes=2, random_state=seed)
+		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed)
 		if self.save:
-			self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_lda_dict")
+			self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_lda_dict")
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_pylda")
 		return 
 
-	def w2v_run(self, num_features=200, min_count=1, window=5, max_vocab=10000):
+	def w2v_run(self, num_features=200, min_count=1, window=5, max_vocab=1000):
 		from gensim.models import Word2Vec
-		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, cleaned=True)
 		self.model = Word2Vec(
 				docs,
 				workers=1,
@@ -134,7 +135,7 @@ class NLPModelManager:
 				max_final_vocab=max_vocab)
 				#callbacks=callback)
 		if self.save:
-			self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_w2v_dict")
+			self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_w2v_dict")
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_w2v")
 		return 
 
@@ -145,7 +146,7 @@ class NLPModelManager:
 		self.model.build_vocab(self.taggedDocIter())
 		self.model.train(self.taggedDocIter(), total_examples=self.model.corpus_count, epochs=self.model.epochs)
 		if self.save:
-			self.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_d2v_dict")
+			self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_d2v_dict")
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_d2vv")
 		return 
 	
