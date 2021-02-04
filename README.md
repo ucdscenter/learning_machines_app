@@ -35,11 +35,11 @@ Create a credentials.py file in the learningmachines folder
 
 Contact the UC Digital Scholarship Center for elasticsearch IAM credentials, aws sqs, and template to the to fill in the credentials.py information, as well as connection to the dev database. 
 
-In the SQS_QUEUE_NAME field, make a unique queue name for your local tasks to be sent to.
+In the SQS_QUEUE_NAME field, make a unique queue name for your local tasks to be sent to. The queue we use for development/production is 'learning-machines-celery', so just prepend your aws username plus "-" to this. For example, my local field is set to 'ez-learning-machines-celery'
 
+### Set up/connect to Database
 
-ONLY DO THE RDS STEPS IF USING LOCAL DATABASE
-If you are using a local postgres server you can do the following, but no need if using the default config, because that connects to a dev database that is already migrated:
+While working locally, general use your local automatically created sql db. To set that up:
 
 Create db and make migrations, and migrate
 ```bash
@@ -51,6 +51,15 @@ Create a django admin user, with your account info
 ```bash
 python manage.py createsuperuser
 ```
+Then follow the steps to create an admin account.
+
+#### Add access objects. 
+Now that you've created a superuser locally, go to localhost:8000/admin/ and login with those credentials. Click the add button next to the accesses item, and then select your own user, select 'all' as the endpoint and save. Repeat this step with the pubmed access. 
+
+
+
+####For connecting/testing on the development server:
+In the learningmachines/settings.py file, comment out the DATABASES object marked as FOR LOCAL, and uncomment the DATABASES object marked FOR DEV, then restart your server.
 
 
 ### Run redis server
@@ -88,19 +97,20 @@ In the other window, cd into the folder that has the celery.py file (learning_ma
 celery -A learningmachines worker -l INFO
 ```
 
+If you want to run them in the background without the logs, run
+```bash
+celery -A learningmachines worker -l INFO --detach
+```
 
-### Adding permissions
 
-login to localhost:8000/admin with the credentials from your superuser account. Alter the Accesses you would like to add to different users.
 
 
 ##TODO
+Upgrading to celery v6
+
 Troubleshooting celery:
 https://stackoverflow.com/questions/51273659/trouble-in-setting-celery-tasks-backend-in-python
 
-ADD in old model link reverse compatability
-
-Ngrams, other corpus prep steps
 
 
 
