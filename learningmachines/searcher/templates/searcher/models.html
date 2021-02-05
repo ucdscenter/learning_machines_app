@@ -1,12 +1,18 @@
 {% extends 'searcher/base.html' %}
 {% block title %}Model List{% endblock title%}
+{% block head_favicon %}
+{% endblock head_favicon %}
 {% block content %}
 <div class="col-12 page-header pt-3" align="center" >
        <div id="legend">
-        <h1><span class="main-color">|</span> Models <span class="main-color">|</span></h1>
+        <h1><span class="main-color">|</span> Models<span class="main-color">|</span></h1>
       </div>
 </div>
 
+<div class="col-10 pt-3" style="background-color: #d3d3d3;">
+  <h3>Model management</h3>
+  <p>Viewing running, saved and recent models. Once a model finishes running it well be moved to the recent table. Save that model to move it to the save models, and then you can view the generated visualization</p>
+</div>
 <div class="col-10 pt-3" style="background-color:white">
   <h3>Running Models</h3>
   <div id="running_div">

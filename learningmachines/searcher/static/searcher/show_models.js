@@ -132,7 +132,6 @@ function wrapper(){
 	function formatURL(d){
 
 	}
-
 	function postSaveQuery(d){
 		if(d.status == "Cancelled"){
 			return
@@ -174,6 +173,11 @@ function wrapper(){
 		})
 
 	}*/
+	if(RUNNING_MODELS.length > 0){
+		window.setTimeout(function () {
+  			window.location.reload();
+		}, 3000);
+	}
 
 	add_to_table(running_div, RUNNING_MODELS, 'running_div');
 	add_to_table(saved_div, SAVED_MODELS, 'saved_div');
