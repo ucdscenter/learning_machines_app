@@ -92,6 +92,7 @@ def get_doc(request):
 @access_required('all')
 def show_models(request):
 	from .params_helper import prepare_model_listing
+	from learningmachines.settings import DEBUG
 	if request.user.is_anonymous:
 		return redirect('/accounts/login/')
 
@@ -118,7 +119,8 @@ def show_models(request):
 
 	ctxt = { 'running_models' : running_models,
 			'saved_models' : saved_models,
-			'recent_models' : recent_models}
+			'recent_models' : recent_models,
+			'development' : DEBUG}
 
 	ctxt = {"data" : json.dumps(ctxt)}
 	return render(request, 'searcher/models.html', ctxt)

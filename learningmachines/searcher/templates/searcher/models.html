@@ -15,16 +15,24 @@
 </div>
 <div class="col-10 pt-3" style="background-color:white">
   <h3>Running Models</h3>
-  <div id="running_div">
-    
+  <div id="running_div" class="table_div pt-2">
+    <div class="table-holder row mb-2 mr-2 ml-2 pr-2 pl-2">
+      <h7>Nothing Here</h7>
+    </div>
   </div>
+  <hr>
   <h3>Saved Models</h3>
-  <div id="saved_div">
-    
+  <div id="saved_div" class="table_div pt-2">
+     <div class="table-holder row mb-2 mr-2 ml-2 pr-2 pl-2">
+      <h7>Nothing Here</h7>
+    </div>
   </div>
+  <hr>
   <h3>Recent Models</h3>
-  <div id="recent_div">
-    
+  <div id="recent_div" class="table_div pt-3">
+     <div class="table-holder row mb-2 mr-2 ml-2 pr-2 pl-2">
+      <h7>Nothing Here</h7>
+    </div>
   </div>
 </div>
 
@@ -38,6 +46,7 @@
 <script>
   let data = "{{data|escapejs}}"
   data = JSON.parse(data)
+  let DEV = data.development
   let RUNNING_MODELS =  data.running_models
   let SAVED_MODELS = data.saved_models
   let RECENT_MODELS = data.recent_models
