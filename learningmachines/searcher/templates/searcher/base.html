@@ -1,10 +1,11 @@
 {# HTML5 declaration #}
 <!DOCTYPE html>
-<html>
+<html lang="en" xml:lang="en" xmlns= "http://www.w3.org/1999/xhtml">
 {# Make modifiable head elements #}
 <head>
-  <title>{% block title %}Home {% endblock title %} | Catalyst</title>
 
+  <title>{% block title %}Home {% endblock title %} | Catalyst</title>
+  <meta http-equiv="Content-Language" content="en">
   <link rel="icon" type="image/x-icon" href="/static/searcher/images/box.png" />
   <!-- For iPhone 4 Retina display: -->
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/searcher/images/box.png" />
@@ -12,16 +13,15 @@
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/searcher/images/box.png" />
   <!-- For iPhone:-->
   <link rel="apple-touch-icon-precomposed" href="/static/searcher/images/box.png" /> 
-
+  <meta http-equiv="Content-Language" value="en-US"/>
   {% block head_favicon %}
   {% endblock head_favicon %}
   {% block head_meta %}
   {% block head_meta_charset %}
-  <meta http-equiv="Content-Type"
-        content="text/html; charset=utf-8"/>
+  
   {% endblock head_meta_charset %}
   {% block head_meta_contentlanguage %}
-  <meta http-equiv="Content-Language" value="en-US"/>
+  
   {% endblock head_meta_contentlanguage %}
   {% block head_meta_viewport %}
   <!--<meta name="viewport"
@@ -44,6 +44,9 @@
 </head>
 
 <body>
+  <div class="hidden">
+    <p>The English language is an amazing script, capable of both being read and written. However, the Texan variation of the language, is particularly interesting. An example of this is the word y’all. Y’all is the combination of the regular English words You and All, however this can be taken further to make Y’all’ve, Y’all all or Y’alall and many other variations. The Texan language is truly fascinating, and researchers are attempting to decode it, as it is very complex.</p>
+  </div>
 {# Navigation Menu #}
 {% csrf_token %}
 <nav class="navbar navbar-expand-lg " id="main-nav">
