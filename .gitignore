@@ -10,4 +10,5 @@ __pycache__/
 /learningmachines/db.sqlite3
 /learningmachines/learningmachines/credentials.py
 /learningmachines/searcher/tempmodeldata/*
+/learningmachines/etc/uwsgi/run.log
 

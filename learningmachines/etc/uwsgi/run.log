@@ -1,0 +1,41 @@
+*** Starting uWSGI 2.0.19.1 (64bit) on [Mon Feb  8 21:27:33 2021] ***
+compiled with version: 9.3.0 on 02 December 2020 15:47:25
+os: Linux-5.4.0-1030-aws #31-Ubuntu SMP Fri Nov 13 11:40:37 UTC 2020
+nodename: ip-172-31-2-159
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/ubuntu/learning_machines_app/learningmachines
+detected binary path: /home/ubuntu/learning_machines_app/venv/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/ubuntu/learning_machines_app/learningmachines/
+your processes number limit is 15702
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:8001 fd 3
+Python version: 3.8.5 (default, Jul 28 2020, 12:59:40)  [GCC 9.3.0]
+Python main interpreter initialized at 0x560f551e0730
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 166688 bytes (162 KB) for 2 cores
+*** Operational MODE: threaded ***
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x560f551e0730 pid: 92649 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 92649)
+spawned uWSGI worker 1 (pid: 92651, cores: 2)
+[pid: 92651|app: 0|req: 1/1] 173.20.152.48 () {48 vars in 951 bytes} [Mon Feb  8 21:27:35 2021] GET / => generated 0 bytes in 730 msecs (HTTP/1.1 301) 6 headers in 199 bytes (1 switches on core 0)
+[pid: 92651|app: 0|req: 2/2] 173.20.152.48 () {48 vars in 967 bytes} [Mon Feb  8 21:27:36 2021] GET /searcher => generated 0 bytes in 0 msecs (HTTP/1.1 301) 5 headers in 178 bytes (1 switches on core 1)
+[pid: 92651|app: 0|req: 3/3] 173.20.152.48 () {48 vars in 969 bytes} [Mon Feb  8 21:27:36 2021] GET /searcher/ => generated 7326 bytes in 83 msecs (HTTP/1.1 200) 7 headers in 349 bytes (1 switches on core 0)
+[pid: 92651|app: 0|req: 4/4] 173.20.152.48 () {48 vars in 969 bytes} [Mon Feb  8 21:33:40 2021] GET /searcher/ => generated 7326 bytes in 44 msecs (HTTP/1.1 200) 7 headers in 349 bytes (1 switches on core 1)
+[pid: 92651|app: 0|req: 5/5] 173.20.152.48 () {48 vars in 969 bytes} [Mon Feb  8 21:36:12 2021] GET /searcher/ => generated 7326 bytes in 51 msecs (HTTP/1.1 200) 7 headers in 349 bytes (1 switches on core 0)
+[pid: 92651|app: 0|req: 6/6] 173.20.152.48 () {48 vars in 969 bytes} [Mon Feb  8 21:36:13 2021] GET /searcher/ => generated 7326 bytes in 16 msecs (HTTP/1.1 200) 7 headers in 349 bytes (1 switches on core 1)
+[pid: 92651|app: 0|req: 7/7] 173.20.152.48 () {48 vars in 969 bytes} [Mon Feb  8 21:36:14 2021] GET /searcher/ => generated 7326 bytes in 16 msecs (HTTP/1.1 200) 7 headers in 349 bytes (1 switches on core 0)
+[pid: 92651|app: 0|req: 8/8] 173.20.152.48 () {48 vars in 969 bytes} [Mon Feb  8 21:36:14 2021] GET /searcher/ => generated 7326 bytes in 15 msecs (HTTP/1.1 200) 7 headers in 349 bytes (1 switches on core 1)
+[pid: 92651|app: 0|req: 9/9] 173.20.152.48 () {48 vars in 969 bytes} [Mon Feb  8 21:36:14 2021] GET /searcher/ => generated 7326 bytes in 15 msecs (HTTP/1.1 200) 7 headers in 349 bytes (1 switches on core 0)
+[pid: 92651|app: 0|req: 10/10] 173.20.152.48 () {48 vars in 951 bytes} [Mon Feb  8 21:36:24 2021] GET / => generated 0 bytes in 0 msecs (HTTP/1.1 301) 6 headers in 199 bytes (1 switches on core 1)
+[pid: 92651|app: 0|req: 11/11] 173.20.152.48 () {48 vars in 967 bytes} [Mon Feb  8 21:36:24 2021] GET /searcher => generated 0 bytes in 0 msecs (HTTP/1.1 301) 5 headers in 178 bytes (1 switches on core 0)
+[pid: 92651|app: 0|req: 12/12] 173.20.152.48 () {48 vars in 969 bytes} [Mon Feb  8 21:36:24 2021] GET /searcher/ => generated 7326 bytes in 43 msecs (HTTP/1.1 200) 7 headers in 349 bytes (1 switches on core 1)
+[pid: 92651|app: 0|req: 13/13] 173.20.152.48 () {48 vars in 969 bytes} [Mon Feb  8 21:37:59 2021] GET /searcher/ => generated 7326 bytes in 63 msecs (HTTP/1.1 200) 7 headers in 349 bytes (1 switches on core 0)
