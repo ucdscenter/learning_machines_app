@@ -102,9 +102,104 @@ If you want to run them in the background without the logs, run
 celery -A learningmachines worker -l INFO --detach
 ```
 
+## Setting up and running with uwsgi/nginx
+These steps are not necessary for running locally, only for setting up development/production servers.
+### uwsgi
+run 
+```
+sudo apt-get install build-essential python
+pip install uwsgi
+```
+#### Create file learning_machines_app/learningmachines/learningmachines/runserver.ini
+##### Copy this to file and change the /home/ubuntu/ parts of all paths to wherever your project repo is located
+```
+[uwsgi]
+socket = 127.0.0.1:8001
+chdir           = /home/ubuntu/learning_machines_app/learningmachines
+module          = cfg.wsgi
+master          = true
+processes       = 1
 
+threads = 2
+max-requests = 6000
+
+daemonize = /home/ubuntu/learning_machines_app/learningmachines/etc/uwsgi/run.log
+```
+##### Create folder learning_machines_app/learningmachines/etc/uwsgi
+```
+mkdir learning_machines_app/learningmachines/etc
+mkdir learning_machines_app/learningmachines/etc/uwsgi
+touch learning_machines_app/learningmachines/etc/uwsgi/run.log
+cd learning_machines_app/learningmachines
+```
+##### Start uwsgi
+from the folder conaining manage.py
+```
+uwsgi --ini learningmachines/runserver.ini
+```
+
+If error when installing uwsgi, try
+```
+sudo pip install python3.6-dev
+```
+### Set up nginx
+```
+sudo apt-get install nginx
+```
+##### Open "/etc/nginx/sites-enabled/default"
+```
+sudo vi /etc/nginx/sites-enabled/default
+```
+##### Copy this to file and change the /home/ubuntu/ parts of all paths to wherever your project repo is located
+```
+upstream django {
+        server 127.0.0.1:8001; #web socket
+    }
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        root /home/ubuntu/learning_machines_app/learningmachines;
+        uwsgi_pass django;
+        include /home/ubuntu/learning_machines_app/learningmachines/etc/uwsgi/uwsgi_params.config; #uwsgi_params
+    }
+    location /static {
+        alias /home/ubuntu/learning_machines_app/learningmachines/searcher/static/;
+    }
+}
+``` 
+Create folder and file py-server/etc/uwsgi/uwsgi_params.config and copy the texts to it.
+```
+uwsgi_param  QUERY_STRING       $query_string;
+uwsgi_param  REQUEST_METHOD     $request_method;
+uwsgi_param  CONTENT_TYPE       $content_type;
+uwsgi_param  CONTENT_LENGTH     $content_length;
+
+uwsgi_param  REQUEST_URI        $request_uri;
+uwsgi_param  PATH_INFO          $document_uri;
+uwsgi_param  DOCUMENT_ROOT      $document_root;
+uwsgi_param  SERVER_PROTOCOL    $server_protocol;
+uwsgi_param  REQUEST_SCHEME     $scheme;
+uwsgi_param  HTTPS              $https if_not_empty;
+
+uwsgi_param  REMOTE_ADDR        $remote_addr;
+uwsgi_param  REMOTE_PORT        $remote_port;
+uwsgi_param  SERVER_PORT        $server_port;
+uwsgi_param  SERVER_NAME        $server_name;
+```
+Start nginx
+```
+sudo service nginx start
+```
 
 ##TODO
+
+write instructions for https support with certbot, domain name work
 
 bert topic modeling endpoint
 
