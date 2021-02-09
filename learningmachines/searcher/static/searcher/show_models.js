@@ -1,5 +1,6 @@
 
 function wrapper(){
+	console.log(DEV)
 	console.log(RUNNING_MODELS)
 	console.log(SAVED_MODELS)
 	console.log(RECENT_MODELS)
@@ -20,7 +21,9 @@ function wrapper(){
 	}
 
 	function add_to_table(table_to_add, model_list_obj, add_info){
-		var table_class;
+		if(model_list_obj.length > 0){
+			table_to_add.select(".table-holder").remove()
+		}
 		var columns = ['query', 'database', 'time', 'topics', 'vis_type',  'status', 'links', 'action'];
 		if(add_info == 'running_div'){
 			table_class = 'running'
@@ -66,7 +69,7 @@ function wrapper(){
 								if (d.status == "Cancelled"){
 									return "btn btn-danger"
 								}
-								return "btn btn-secondary"
+								return "btn btn-info"
 								
 							})
 							.text(function(d){
@@ -132,7 +135,6 @@ function wrapper(){
 	function formatURL(d){
 
 	}
-
 	function postSaveQuery(d){
 		if(d.status == "Cancelled"){
 			return
@@ -145,12 +147,18 @@ function wrapper(){
 	}
 
 	function postDeleteQuery(d){
-		let postObj = { "q_pk" : d.q_pk, "task_id" : d.task_id}
-		  $.get('/searcher/delete_query/', postObj , function(d){
-            let response = d;
-            console.log(response)
-            location.reload()
-        })
+		var r = true
+		if (DEV == false){
+			 r = confirm("Are you sure you want to delete the model?")
+		}
+		if (r){
+			let postObj = { "q_pk" : d.q_pk, "task_id" : d.task_id}
+			  $.get('/searcher/delete_query/', postObj , function(d){
+	            let response = d;
+	            console.log(response)
+	            location.reload()
+	        })
+		}
 	}
 	function postCancelTask(d){
 		let postObj = { "q_pk" : d.q_pk, "task_id" : d.task_id}
@@ -174,6 +182,11 @@ function wrapper(){
 		})
 
 	}*/
+	if(RUNNING_MODELS.length > 0){
+		window.setTimeout(function () {
+  			window.location.reload();
+		}, 30000);
+	}
 
 	add_to_table(running_div, RUNNING_MODELS, 'running_div');
 	add_to_table(saved_div, SAVED_MODELS, 'saved_div');

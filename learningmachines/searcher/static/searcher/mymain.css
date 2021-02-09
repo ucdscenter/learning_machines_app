@@ -208,3 +208,11 @@ hr {
 	border-bottom: 1px solid var(--third-color);
 }
 
+.table_div {
+	border-radius: 2px;
+	background-color: #eee;
+	min-height: 50px;
+	max-height: 200px;
+	overflow-y: auto;
+}
+
