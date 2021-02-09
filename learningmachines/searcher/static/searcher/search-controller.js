@@ -1191,10 +1191,6 @@ let DATABASES =
                 'options' : [],
                 'name' : 'Anesthesiology'
               },
-              'CCHMC' : {
-                'options' : [],
-                'name' : 'CCHMC Notes'
-              },
               'TED' : {
                 'options' : [],
                 'name' : 'Ted Talks'
@@ -1231,10 +1227,7 @@ let DATABASES =
                 'options' : [],
                 'name' : 'SAA Abstracts'
               }, 
-              'Med_Applications' : {
-                'options' : [],
-                'name' : 'Med Applications'
-          	}
+             
           }
 let dbi = 0
 Object.keys(DATABASES).forEach(function(db){
