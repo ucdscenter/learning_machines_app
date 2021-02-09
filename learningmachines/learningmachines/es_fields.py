@@ -4,8 +4,8 @@ ES_FIELDS = {
         'Pubmed': 'pubmed_v3',
         'PMC': 'pmc_test',
         'JSTOR': 'jstor',
-        'foster': 'foster_care_note',
-        'foster_encounter': 'foster_care_encounter',
+        '': '_care_note',
+        '_encounter': '_care_encounter',
         'CaseLaw': 'case_law',
         'Archaeology': 'archaeology',
         'Latin': 'latin',
@@ -14,7 +14,7 @@ ES_FIELDS = {
         'ACJ': 'ac_justice',
         'AA': 'anesthesiology',
         'CaseLaw_v2': 'case_law_v2',
-        'CCHMC' : 'cchmc_notes',
+        '' : '_notes',
         'TED' : 'ted_talks',
         'Pulmonary' : 'pulmonary_notes',
         'Ehealth_Threads': 'alzheimer_threads', 
@@ -24,15 +24,15 @@ ES_FIELDS = {
         'Pubmed_COI': 'coi_statements',
         'Reddit' : 'parenting_subreddit', 
         'SAA_Abstracts': 'arch_abstracts',
-        'Med_Applications': 'family_medicine'
+        '': ''
     },
     'id': {
         'Covid':'paper_id',
         'Pubmed': 'PMID',
         'PMC': 'PMCID',
         'JSTOR': 'JSTOR_ID',
-        'foster': 'NOTE_ID',
-        'foster_encounter': 'NOTE_ID',
+        '': 'NOTE_ID',
+        '_encounter': 'NOTE_ID',
         'CaseLaw': 'CaseID',
         'Archaeology': 'ArticleID',
         'Latin': 'ArticleID',
@@ -41,7 +41,7 @@ ES_FIELDS = {
         'ACJ': 'Pid',
         'AA': 'SID',
         'CaseLaw_v2': 'CaseID',
-        'CCHMC' : 'NoteID',
+        '' : 'NoteID',
         'TED' : 'Talk_ID',
         'Pulmonary': 'NoteID',
         'Ehealth_Threads': 'id',
@@ -51,7 +51,7 @@ ES_FIELDS = {
         'Pubmed_COI': 'pmid',
         'Reddit' : 'ID',
         'SAA_Abstracts': 'id', 
-        'Med_Applications': 'id'
+        '': 'id'
     },
     'abstract': {
         'Covid':'abstract',
@@ -66,7 +66,7 @@ ES_FIELDS = {
         'ACJ': 'FullText',
         'AA': 'Abstract',
         'CaseLaw_v2': 'FullText',
-        'CCHMC' : 'FullText',
+        '' : 'FullText',
         'TED' : 'FullText',
         'Pulmonary': 'FullText',
         'Ehealth_Threads': 'text', 
@@ -76,15 +76,15 @@ ES_FIELDS = {
         'Pubmed_COI': 'coi',
         'Reddit' : 'FullText',
         'SAA_Abstracts': 'text',
-        'Med_Applications': 'text'
+        '': 'text'
     },
     'full_text': {
         'Covid':'fullText',
         'Pubmed': 'AbstractText',
         'PMC': 'FullText',
         'JSTOR': 'FullText',
-        'foster': 'HPI_SOCIAL_HISTORY',
-        'foster_encounter': 'HPI_SOCIAL_HISTORY',
+        '': 'HPI_SOCIAL_HISTORY',
+        '_encounter': 'HPI_SOCIAL_HISTORY',
         'CaseLaw': 'FullText',
         'Archaeology': 'FullText',
         'Latin': 'FullText',
@@ -93,7 +93,7 @@ ES_FIELDS = {
         'ACJ': 'FullText',
         'AA': 'Abstract',
         'CaseLaw_v2': 'FullText',
-        'CCHMC' : 'FullText',
+        '' : 'FullText',
         'TED' : 'FullText',
         'Pulmonary': 'FullText',
         'Ehealth_Threads': 'text',
@@ -103,7 +103,7 @@ ES_FIELDS = {
         'Pubmed_COI': 'coi',
         'Reddit' : 'FullText',
         'SAA_Abstracts': 'text', 
-        'Med_Applications': 'text'
+        '': 'text'
     },
     'doc_title' :
         {
@@ -111,8 +111,8 @@ ES_FIELDS = {
         'Pubmed': 'ArticleTitle',
         'PMC': 'ArticleTitle',
         'JSTOR': 'ArticleTitle',
-        'foster': 'PAT_ID',
-        'foster_encounter': 'PAT_ID',
+        '': 'PAT_ID',
+        '_encounter': 'PAT_ID',
         'CaseLaw': 'Name',
         'Archaeology': 'ArticleTitle',
         'Latin': 'ArticleTitle',
@@ -121,7 +121,7 @@ ES_FIELDS = {
         'ACJ': 'ArticleTitle',
         'AA': 'ArticleTitle',
         'CaseLaw_v2': 'Name',
-        'CCHMC' : 'NoteID',
+        '' : 'NoteID',
         'TED' : 'Name',
         'Pulmonary': 'NoteID',
         'Cannabis_News': 'link', 
@@ -130,7 +130,7 @@ ES_FIELDS = {
         'NPO_taxforms': 'id',
         'OHNPO_taxforms': 'id',
         'SAA_Abstracts': 'id', 
-        'Med_Applications': 'title'
+        '': 'title'
         },
     'author' :
         {
@@ -149,7 +149,7 @@ ES_FIELDS = {
         'Pubmed': 'ReleaseDate',
         'PMC': 'ReleaseDate',
         'JSTOR': 'ReleaseDate',
-        'foster': 'TODO',
+        '': 'TODO',
         'CaseLaw': 'DecisionDate',
         'Archaeology': 'ReleaseDate',
         'Latin': 'No_date',
@@ -158,7 +158,7 @@ ES_FIELDS = {
         'ACJ': 'PubDate',
         'AA': 'Date',
         'CaseLaw_v2': 'DecisionDate',
-        'CCHMC' : 'NoteDate',
+        '' : 'NoteDate',
         'TED' : 'PubDate',
         'Pulmonary': 'NoteDate',
         'Ehealth_Threads': 'date', 
@@ -169,24 +169,24 @@ ES_FIELDS = {
         'Pubmed_COI': 'pub_year',
         'Reddit' : 'Date',
         'SAA_Abstracts': 'date', 
-        'Med_Applications': 'date'
+        '': 'date'
     },
     'doc_type': {
-        'foster': 'note',
-        'foster_encounter': 'note'
+        '': 'note',
+        '_encounter': 'note'
     },
     'info': {
         'Covid':['paper_id','bib_entries','authors'],
         'Pubmed': ['PMID', 'ReleaseDate'],
         'PMC': ['ID', 'Journal', 'Pub Date', 'Authors'],
         'JSTOR': ['ID', 'Journal', 'Pub Date', 'Authors'],
-        'foster': ['TODO'],
+        '': ['TODO'],
         'CaseLaw': ['ID', 'Date'],
         'Ehealth': ['id', 'date'],
         'TCP': ['ID', 'PubDate', 'Authors'],
         'ACJ': ['ID', 'PubDate'],
         'CaseLaw_v2': ['ID', 'Date'],
-        'CCHMC' : ['NoteID','NoteDate'],
+        '' : ['NoteID','NoteDate'],
         'TED' : ['Talk_ID', 'PubDate'],
         'Pulmonary':['NoteID', 'NoteDate'],
         'Ehealth_Threads': ['id', 'date'], 
@@ -197,7 +197,7 @@ ES_FIELDS = {
         'Pubmed_COI': ['pmid','journal', 'authors'],
         'Reddit' : ['ID', 'Date'],
         'SAA_Abstracts': ['id', 'date'], 
-        'Med_Applications': ['id', 'date']
+        '': ['id', 'date']
     }
 }
 MAX_NUM_DOC_VIS = {
@@ -205,7 +205,7 @@ MAX_NUM_DOC_VIS = {
     'Pubmed': 20000,
     'PMC': 20000,
     'JSTOR': 4000,
-    'foster': 10000,
+    '': 10000,
     'CaseLaw': 6000,
     'Archaeology': 5000,
     'Latin': 20000,
@@ -215,7 +215,7 @@ MAX_NUM_DOC_VIS = {
     'searchpage' : 144000,
     'CaseLaw_v2' : 6000,
     'AA' : 23000,
-    'CCHMC' : 20000,
+    '' : 20000,
     'TED' : 20000,
     'Pulmonary': 20000,
     'Ehealth_Threads': 20000,
@@ -226,5 +226,5 @@ MAX_NUM_DOC_VIS = {
     'Pubmed_COI': 20000,
     'Reddit' : 50000,
     'SAA_Abstracts': 20000, 
-    'Med_Applications': 4000
+    '': 4000
 }
