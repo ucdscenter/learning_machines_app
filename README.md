@@ -196,7 +196,7 @@ Start nginx
 ```
 sudo service nginx start
 ```
-
+Now, your site will be running at whatever ip address you set up the instance in.
 ##TODO
 
 write instructions for https support with certbot, domain name work
