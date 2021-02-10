@@ -131,7 +131,7 @@ def start_model_run(request):
 	from .params_helper import random_string, get_now
 
 	qry_str = {k: v[0] for k, v in dict(request.POST).items()}
-	
+
 	if qry_str['ngrams'] == 'true':
 		qry_str['ngrams'] = True
 	else:
