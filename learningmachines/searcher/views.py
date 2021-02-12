@@ -165,6 +165,7 @@ def start_model_run(request):
 		phrases = qry_str['phrases'],
 	  	replacement = qry_str['replacement'],
 	  	num_topics = qry_str['num_topics'],
+	  	num_clusters = qry_str['num_clusters'],
 	  	#remove_digits = 
 		#tfidf =
 		#para_filter_terms = 

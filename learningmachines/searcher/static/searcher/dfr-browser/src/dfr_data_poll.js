@@ -1,6 +1,5 @@
 async function thewrapper(){
 
-
   if(params.q_pk == undefined){
     console.log("Model Undefined")
      function undefined_fixer(info){
@@ -27,8 +26,6 @@ async function thewrapper(){
   else{
     console.log(params.q_pk)
     console.log(params.method)
-
-
     
     d3.json("/searcher/load_formatted?method="  + params.method +"&q_pk=" + params.q_pk, function(error, data){
    

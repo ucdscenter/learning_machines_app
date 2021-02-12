@@ -44,11 +44,12 @@ class TextHandler:
         return repl_str
             
     def clean_text(self, doc, ngram=False):
-
         if self.phrases != [""]:
             doc_text = self.replace_phrases(doc.text)
         else:
             doc_text = doc.text
+            if doc_text == None:
+                doc_text = "" 
         split_text = doc_text.lower().translate(str.maketrans("", "", self.rmchars))
         split_text = split_text.replace("-", " ").split(" ") if doc_text != None else []
 

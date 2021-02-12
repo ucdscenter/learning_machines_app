@@ -1,7 +1,7 @@
 import os
 from gensim.models.callbacks import CallbackAny2Vec
 from .es_search import SearchResults_ES
-from sklearn.cluster import AffinityPropagation
+from sklearn.cluster import AffinityPropagation, KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from .s3_client import S3Client
@@ -101,7 +101,8 @@ class FormattedDataManager:
 			index += 1
 		
 		normalized_embs = StandardScaler().fit_transform(w_embs)
-		clustering = AffinityPropagation(random_state=0).fit(w_embs)
+		#clustering = AffinityPropagation(random_state=0).fit(w_embs)
+		clustering = KMeans(n_clusters=int(self.qry_str['num_clusters']), random_state=0).fit(w_embs)
 		pca_result = PCA(n_components=2)
 	
 		pca_result.fit(normalized_embs)
@@ -143,7 +144,8 @@ class FormattedDataManager:
 			d_embs[x] = self.model.docvecs[x]
 
 		normalized_embs = StandardScaler().fit_transform(d_embs)
-		clustering = AffinityPropagation(random_state=0).fit(d_embs)
+		#clustering = AffinityPropagation(random_state=0).fit(d_embs)
+		clustering = KMeans(n_clusters=int(self.qry_str['num_clusters']), random_state=0).fit(d_embs)
 		pca_result = PCA(n_components=2)
 	
 		pca_result.fit(normalized_embs)

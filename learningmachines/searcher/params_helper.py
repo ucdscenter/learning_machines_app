@@ -21,11 +21,15 @@ def hash_params(params):
 
 
 def prepare_model_listing(the_obj, q):
+	if the_obj.method == 'word2vec' or the_obj.method == 'doc2vec':
+		num_topics = the_obj.docfilter.num_clusters
+	else:
+		num_topics = the_obj.docfilter.num_topics
 	ret_obj = {
 		"query" : ' ' if len(q.query_str) == 0 else q.query_str,
 		"database" : q.database,
 		"time" : datetime.datetime.strftime(q.created_time, "%m-%d-%y %H:%M"),
-		"topics" : the_obj.docfilter.num_topics,
+		"topics" : num_topics,
 		"status" : the_obj.status,
 		"vis_type" : the_obj.method,
 		"links" : the_obj.model_name,

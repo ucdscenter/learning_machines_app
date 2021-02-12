@@ -60,7 +60,8 @@ class DocFilter(models.Model):
     )
 
     docs = models.CharField(max_length=200, default='')
-    num_topics = models.CharField(default="automatic", max_length=10)
+    num_topics = models.CharField(default="20", max_length=10)
+    num_clusters = models.CharField(default="20", max_length=10)
     min_occur = models.IntegerField(default=-1)
     max_occur = models.IntegerField(default=-1)
     stop_words = models.CharField(max_length=500, default='')
