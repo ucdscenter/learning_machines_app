@@ -119,7 +119,8 @@ function doItAll(){
 
         // require.js not available: dynamically load d3 & LDAvis
         LDAvis_load_lib("https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", function(){
-             LDAvis_load_lib("/static/searcher/pyldavis.js", function(){
+
+             LDAvis_load_lib("https://learningmachines-static.s3.amazonaws.com/static/searcher/pyldavis.js", function(){
                      new LDAvis("#" + "ldavis_el", ldavis_el_data);
                 })
              });

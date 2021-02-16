@@ -1,4 +1,6 @@
+
 {% extends 'searcher/base.html' %}
+{% load static %}
 {% block title %}Model List{% endblock title%}
 {% block head_favicon %}
 {% endblock head_favicon %}
@@ -52,10 +54,10 @@
   let RECENT_MODELS = data.recent_models
 </script>
 
-<script src="/static/searcher/js/jquery.min.js"></script>
+<script src="{% static 'searcher/js/jquery.min.js' %}"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="/static/searcher/js/d3.min.js"></script>
-<script src="/static/searcher/js/crossfilter.js"></script>
-<script src="/static/searcher/js/dc.min.js"></script>
-<script src="/static/searcher/show_models.js"></script>
+<script src="{% static 'searcher/js/d3.min.js' %}"></script>
+<script src="{% static 'searcher/js/crossfilter.js' %}"></script>
+<script src="{% static 'searcher/js/dc.min.js' %}"></script>
+<script src="{% static 'searcher/show_models.js' %}"></script>
 {% endblock footer_javascript_section %}

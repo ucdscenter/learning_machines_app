@@ -11,4 +11,5 @@ __pycache__/
 /learningmachines/learningmachines/credentials.py
 /learningmachines/searcher/tempmodeldata/*
 /learningmachines/etc/uwsgi/run.log
+/learningmachines/static/*
 

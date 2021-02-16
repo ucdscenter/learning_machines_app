@@ -1,4 +1,5 @@
 {# HTML5 declaration #}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" xml:lang="en" xmlns= "http://www.w3.org/1999/xhtml">
 {# Make modifiable head elements #}
@@ -6,13 +7,14 @@
 
   <title>{% block title %}Home {% endblock title %} | Catalyst</title>
   <meta http-equiv="Content-Language" content="en">
-  <link rel="icon" type="image/x-icon" href="/static/searcher/images/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="{% static 'searcher/images/favicon.ico' %}" />
+
   <!-- For iPhone 4 Retina display: -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/searcher/images/favicon.ico" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'searcher/images/favicon.ico' %}" />
   <!-- For iPad: -->
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/searcher/images/favicon.ico" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'searcher/images/favicon.ico' %}" />
   <!-- For iPhone:-->
-  <link rel="apple-touch-icon-precomposed" href="/static/searcher/images/favicon.ico" /> 
+  <link rel="apple-touch-icon-precomposed" href="{% static 'searcher/images/favicon.ico' %}" /> 
   <meta http-equiv="Content-Language" value="en-US"/>
   {% block head_favicon %}
   {% endblock head_favicon %}
@@ -30,10 +32,12 @@
   {% endblock head_meta %}
   {% block head_css %}
   {% block head_css_site %}
-    <link rel="stylesheet" href="/static/searcher/css/bootstrap.min.css">
-    <link href="/static/searcher/fonts/roboto_robotoslab.css" rel="stylesheet">
-    <link  href="/static/searcher/fonts/material_icons.css" rel="stylesheet"->
-    <link rel="stylesheet" href="/static/searcher/mymain.css">
+
+    <!--<link rel="stylesheet" href="/static/searcher/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="{% static 'searcher/css/bootstrap.min.css' %}">
+    <link href="{% static 'searcher/fonts/roboto_robotoslab.css' %}" rel="stylesheet">
+    <link  href="{% static 'searcher/fonts/material_icons.css' %}" rel="stylesheet"->
+    <link rel="stylesheet" href="{% static 'searcher/mymain.css' %}">
   {% endblock head_css_site %}
   {% block head_css_section %}
    
@@ -121,7 +125,7 @@
         </div>
         <div class="col-3">
           <img alt="uc footer logo" src="//lcdn.uc.edu/ucdhs/images/uc-logo@2x.png" style="max-width: 150px; margin-bottom: 1.5rem">
-          <img alt="mellon footer logo" src="/static/searcher/images/mellon-foundation-logo.png" style="max-width: 150px; margin-bottom: 1.5rem">
+          <img alt="mellon footer logo" src="{% static 'searcher/images/mellon-foundation-logo.png' %}" style="max-width: 150px; margin-bottom: 1.5rem">
           
         </div>
         <div class="col-3">
@@ -148,10 +152,9 @@
 {# Set of blocks that can be used to display JavaScript files #}
 {% block footer_javascript %}
 {% block footer_javascript_site %}
-
-<script src="/static/searcher/js/jquery.min.js"></script>
-<script src="/static/searcher/js/popper.min.js" type="module"></script>
-<script src="/static/searcher/js/bootstrap.min.js"></script>
+<script src="{% static 'searcher/js/jquery.min.js' %}"></script>
+<script src="{% static 'searcher/js/popper.min.js' %}" type="module"></script>
+<script src="{% static 'searcher/js/bootstrap.min.js' %}"></script>
 <script>
   let thing = window.location.pathname
   if(thing == '/learn/'){
