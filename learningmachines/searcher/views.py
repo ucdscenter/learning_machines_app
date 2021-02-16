@@ -20,6 +20,7 @@ from learningmachines.cfg import TEMP_MODEL_FOLDER
 import os
 
 
+
 def index(request):
 	ctxt = {}
 	return render(request, 'searcher/index.html', ctxt)
@@ -27,6 +28,14 @@ def index(request):
 def home(request):
 	ctxt = {}
 	return render(request, 'searcher/home.html', ctxt)
+
+def proxy_static(request):
+	print(request)
+	f = request.GET.get('f')
+	if f[-2:] != 'js':
+		return render(request, "searcher/error_page.html", ctxt)
+	static_f = open('searcher/templates/searcher/' + f, 'r')
+	return HttpResponse(static_f.read(), content_type="text/javascript")
 
 @access_required('all')
 def search_page(request):

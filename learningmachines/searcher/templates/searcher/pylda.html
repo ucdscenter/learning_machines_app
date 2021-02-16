@@ -1,20 +1,24 @@
+{# HTML5 declaration #}
+{% load static %}
 <html lang="en">
 <head>
 
-
-  <link rel="icon" type="image/x-icon" href="static/searcher/images/favicon.ico" />
+  <title>pyLda</title>
+ <link rel="icon" type="image/x-icon" href="{% static 'searcher/images/favicon.ico' %}" />
     <!-- For iPhone 4 Retina display: -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/searcher/images/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'searcher/images/favicon.ico %'" />
     <!-- For iPad: -->
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/searcher/images/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'searcher/images/favicon.ico %'" />
     <!-- For iPhone:-->
     <link rel="apple-touch-icon-precomposed" href="/static/ext/favicon.ico" /> 
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.css">
+ <!--<link rel="stylesheet" href="/static/searcher/src/bootstrap.min.css">-->
+ <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/bmabey/pyLDAvis/files/ldavis.v1.0.0.css">
  
- <link rel="stylesheet" href="/static/searcher/css/bootstrap.min.css">
- <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="/static/searcher/mymain.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{% static 'searcher/css/bootstrap.min.css' %}">
+  <link href="{% static 'searcher/fonts/roboto_robotoslab.css' %}" rel="stylesheet">
+    <link  href="{% static 'searcher/fonts/material_icons.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'searcher/mymain.css' %}">
  <style>
    .hidden{
     display:none;
@@ -94,7 +98,7 @@
     <div id="ldavis-holder" class="col-10 pt-2" style="background-color: white">
       <div id="loading_show" align="center">
         <h6>Formatting data, for doc counts above 3000 please allow a few seconds</h6>
-        <img src="/static/searcher/images/big-ajax-loader.gif" alt="loading">
+        <img src="{% static 'searcher/images/big-ajax-loader.gif' %}" alt="loading">
       </div>
       <div id="ldavis_el"></div>
        <label>This is slightly adapted from the <a href="https://pyldavis.readthedocs.io/en/latest/index.html">pyLDAvis</a> package led by Ben Mabey</label>
@@ -103,12 +107,12 @@
     </div>
   </div>
 
-<script src="/static/searcher/js/jquery.min.js"></script>
- <script type="text/javascript" src="/static/searcher/js/bootstrap.min.js"></script>
+<script src="{% static 'searcher/js/jquery.min.js' %}"></script>
+ <script type="text/javascript" src="{% static 'searcher/js/bootstrap.min.js' %}"></script>
 <script src="https://d3js.org/d3.v3.min.js"></script>
  <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
 <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-<script src='/static/searcher/pylda_data.js' type="text/javascript"></script>
+<script src="{% static 'searcher/pylda_data.js' %}" type="text/javascript"></script>
    <div class="row footer align-items-center justify-content-center">
     <div class="col-10">
       <div class="row">
@@ -124,7 +128,7 @@
         </div>
         <div class="col-3">
           <img alt="uc footer logo" src="//lcdn.uc.edu/ucdhs/images/uc-logo@2x.png" style="max-width: 150px; margin-bottom: 1.5rem">
-          <img alt="mellon footer logo" src="/static/searcher/images/mellon-foundation-logo.png" style="max-width: 150px; margin-bottom: 1.5rem">
+          <img alt="mellon footer logo" src="{% static 'searcher/images/mellon-foundation-logo.png' %}" style="max-width: 150px; margin-bottom: 1.5rem">
           
         </div>
         <div class="col-3">
