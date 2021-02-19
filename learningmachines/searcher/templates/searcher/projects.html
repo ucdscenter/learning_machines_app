@@ -1,0 +1,45 @@
+{% extends 'searcher/base.html' %}
+{% block title %}Projects{% endblock title%}
+{% block content %}
+<div class="col-8 screen-col bg-color mt-3 mb-3" align="center" style="border-radius: 10px; box-shadow: 0px 0px 5px 2px grey">
+       <div id="legend" class="mt-5">
+        <h1>Projects</h1>
+        <div class="row mb-5 mt-5">
+        	<div class="col-12">
+        		<h4><a href="/searcher/projects/?name=dapl">Dakota Access Pipeline Twitter Networks</a></h4>
+        	</div>
+
+        	<div class="col-12">
+        		<h4><a href="/searcher/projects/?name=blm&type=networks-aug">Twitter Ferguson Protests Networks August</a></h4>
+        		<h4><a href="/searcher/projects/?name=blm&type=networks-novdec">Twitter Ferguson Protests Networks Nov-Dec</a></h4>
+        		<h4><a href="/searcher/projects/?name=blm&type=basic-aug">Twitter Ferguson Protests Timelines August</a></h4>
+        		<h4><a href="/searcher/projects/?name=blm&type=basic-novdec">Twitter Ferguson Protests Timelines Nov-Dec</a></h4>
+
+        	</div>
+        	<div class="col-12">
+        		<h4><a href="/searcher/projects/?name=debates">2016 Presidential Debate Twitter Networks</a></h4>
+        	</div>
+        	<div class="col-12">
+        		<h4><a href="/searcher/projects/?name=library_docs">Library Document Data Dashboard</a></h4>
+        	</div>
+        	<div class="col-12">
+        		<h4><a href="/searcher/projects/?name=insta_art">Instagram Networks</a></h4>
+        	</div>
+        	<div class="col-12">
+        		<h4><a href="https://ucdscenter.github.io/climate_race_maps/">CO2 Emissions Maps</a></h4>
+        	</div>
+        	<div class="col-12">
+        		<h4><a href="/searcher/projects/?name=vent_notes">Ventilation Notes</a></h4>
+        		<h4><a href="/searcher/projects/?name=vent_notes&sample=True">Ventilation Notes Samples</a></h4>
+        	</div>
+        </div>
+      </div>
+
+
+
+{% endblock content %}
+{% block footer_javascript_page %}
+  <script>
+      $('#site-wrapper').addClass('home-bg')
+  </script>
+{% endblock footer_javascript_page %}
