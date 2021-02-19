@@ -1,0 +1,89 @@
+<html>
+<style>
+    .labeltext {
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 8px;
+    }
+    .hidden {
+    	display:none;
+    }
+    #map-1 { height: 600px; }
+    #map-2 { height: 600px; }
+
+    .info {
+	    padding: 6px 8px;
+	    font: 14px/16px Arial, Helvetica, sans-serif;
+	    background: white;
+	    background: rgba(255,255,255,0.8);
+	    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	    border-radius: 5px;
+	}
+	.info h4 {
+    	margin: 0 0 5px;
+    	color: #777;
+	}
+
+	.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.9;
+}
+.hidden {
+	display : none;
+}
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<link rel="stylesheet" href="/static/climate_maps/src/leaflet/leaflet.css" />
+
+<body>
+	<div class="container-fluid">
+
+		<div class="row">
+
+			<div class="col-12" align="center">
+				<h1>Georgia Climate-Race Exploratory Vis</h1>
+				<div class="row">
+					<div class="col-12 hidden" id="loading-div">
+						<img src="/static/climate_maps/big-ajax-loader.gif">
+					</div>
+					<div class="col-6" id="map-1-div">
+						<h3 id="map-1-label"></h3>
+						<div id="map-1">
+							
+						</div>
+
+					</div>
+
+					<div class="col-6" id="map-2-div">
+						<h3 id="map-2-label"></h3>
+						<div id="map-2">
+							
+						</div>
+
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+<svg id='viz'></svg>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/static/climate_maps/src/d3.v5.js"></script>
+<script type="text/javascript" src="/static/climate_maps/src/crossfilter.js"></script>
+<script type="text/javascript" src="/static/climate_maps/src/dc.js"></script>
+<script src="/static/climate_maps/src/leaflet/leaflet.js"></script>
+	<script type="text/javascript" src="http://d3js.org/queue.v1.min.js"></script>
+	<script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script> 
+
+<script src='/static/climate_maps/climate_data.js'></script>

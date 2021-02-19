@@ -12,7 +12,7 @@ from .pre_processing import  get_min_term_occurrence, TextHandler
 
 
 class SearchResults_ES:
-	def __init__(self, database, qry_obj=None, min_count=None, sub_dates=None, cm=None, tokenized=False, cleaned=False):
+	def __init__(self, database, qry_obj=None, min_count=None, sub_dates=None, cm=None, tokenized=False, cleaned=False, rand=False):
 		aws_auth = AWS4Auth(AWS_PROFILE['ACCESS_KEY'], AWS_PROFILE['SECRET_KEY'], 'us-east-2', 'es')
 		aws_host = AWS_PROFILE['AWS_HOST']
 		self.database = database
@@ -37,6 +37,7 @@ class SearchResults_ES:
 		self.scroll_size = None
 		self.num_scroll = 0
 		self.total_docs = 0
+		self.rand = rand
 		if self.qry_obj != None:
 			self.th = TextHandler(self.qry_obj)
 		
@@ -164,6 +165,8 @@ class SearchResults_ES:
 				"query": auth_qry
 			  }
 		})
+
+
 		if start:
 			if len(start.split('-')) == 3:
 				time_range['gte'] = '{}'.format(start)
@@ -210,6 +213,13 @@ class SearchResults_ES:
 			query = {'bool': bool_terms}
 		else:
 			query = {'match_all': {}}
+
+		if self.rand:
+			#query = {'function_score' : { "query" : query}, "random_score" : {}}
+			query = {"function_score": {
+				"query": query,
+				"random_score": { "seed" : 100}, 
+				}}
 		print(query)
 		return query
 

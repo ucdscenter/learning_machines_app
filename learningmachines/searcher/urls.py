@@ -18,5 +18,6 @@ urlpatterns = [
 	path('poll_tasks/', views.poll_tasks, name="poll_tasks"),	
 	path('vis/', views.show_vis, name='show_vis'),
 	path('load_formatted/', views.load_formatted, name='load_formatted'),
-	path('proxy_static/', views.proxy_static, name='proxy_static')
+	path('proxy_static/', views.proxy_static, name='proxy_static'),
+	path('projects/', views.projects, name='projects')
 ]

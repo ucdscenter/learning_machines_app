@@ -1,0 +1,203 @@
+
+{# HTML5 declaration #}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Day Network</title>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/x-icon" href="{% static 'searcher/images/favicon.ico' %}" />
+    <!-- For iPhone 4 Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'searcher/images/favicon.ico %'" />
+    <!-- For iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'searcher/images/favicon.ico %'" />
+    <!-- For iPhone:-->
+    <link rel="apple-touch-icon-precomposed" href="{% static 'ext/favicon.ico' %}" /> 
+ <!--<link rel="stylesheet" href="{% static 'searcher/src/bootstrap.min.css">-->
+
+<link rel="stylesheet" href="{% static 'searcher/debates/ext/css/bootstrap.min.css' %}"/>
+  <link rel="stylesheet" href="{% static 'searcher/debates/ext/css/dc.css' %}"> 
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+ <style>
+ .hide {
+  display:none;
+ }
+ .show{
+  display:inline;
+ }
+ .no_display {
+  display:none;
+ }
+ .bot{
+  stroke: red;
+  stroke-width: 100px;
+ }
+ .rowmouseover{
+  border: 2px solid darkred;
+ }
+ .bar-select{
+  stroke: black;
+  stroke-width: 1.5px;
+ }
+
+ .redhighlight{
+  stroke: darkred;
+  stroke-opacity: .8;
+ }
+ .node-norm{
+  stroke:grey;
+  fill: lightgrey;
+  opacity: .6;
+
+ }
+
+ .center_icon {
+    position: relative;
+    top: 5px;
+    left: 2px;
+}
+
+ .node-select{
+  stroke:black;
+  fill: red;
+  opacity: 1;
+ }
+ .link-select{
+  stroke: red;
+  stroke-opacity: 1;
+ }
+ .link-norm{
+  stroke
+ }
+ .row-norm{
+  background-color:grey;
+ }
+ .row-select{
+  background-color:red;
+ }
+ tr {
+  border: 2px solid white;
+ }
+ td, th {
+  padding: 1px 4px;
+  border-bottom: 1px solid #ddd;
+}
+
+button, table {
+  font-family: monospace;
+}
+
+.tag-button {
+  background-color: white;
+  stroke: black;
+  border-bottom: 3px solid white;
+  }
+
+.tag-button:hover {
+  transition: .2s;
+  box-shadow: 0px 5px 5px grey;
+  border: .5px solid darkred;
+}
+
+.tag-button:focus span{
+
+  transform: rotate(360deg);
+  transition: 1s;
+};
+
+
+ </style>
+
+
+ 
+</head>
+<body ng-app="twitterstuff">
+  <div class='container-fluid'>
+    <div ng-controller="twitterselect">
+
+
+    <div class='row'>
+      <!--<div class='col-lg-3'>
+        <h5>Toggle Node Size By:</h5>
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-primary active" ng-click='toggleButton(1)'>
+            <input type="radio" name="options"  id="option1" > Tweets
+          </label>
+          <label class="btn btn-primary" ng-click='toggleButton(2)'>
+            <input type="radio" name="options"  id="option2" checked> Followers
+          </label>
+        </div>
+      </div>-->
+      <div class='col-lg-2 col-md-2 col-sm-2'>
+       
+        <button class="btn tag-button" id="prev-handle" style="font-size: 18px;"> <span class="material-icons center_icon">chevron_left</span>Prev Handle</button>
+      </div>
+
+      <div class='col-lg-1 col-md-1 col-sm-1'>
+       
+        <button class="btn tag-button" id="pauseplay" style="font-size: 18px;"> <span class="material-icons" style="top: 6px">pause_circle_filled</span></button>
+      </div>
+      <div class='col-lg-2 col-md-2 col-sm-2'>
+       
+        <button class="btn tag-button" id="next-handle" style="font-size: 18px;">Next Handle<span class="material-icons center_icon">chevron_right</span></button>
+      </div>
+
+      <div class='col-lg-2 col-md-2 col-sm-2'>
+       
+        <button class="btn tag-button" id="next-handle" style="font-size: 18px;" data-container="body" data-toggle="popover" data-placement="bottom" data-content="This network shows interactions between users. Every node is a twitter user, sized by the number of their tweets captured. Each link is an interaction between two twitter users, sized relative to the type of interaction, with relative weights as reply>quote>retweet>mentions">Info<span class="material-icons center_icon">info</span></button>
+      </div>
+       <!--<div class="col-lg-2">
+        <h5 style="stroke:white;">&nbsp</h5>
+        <button class="btn btn-primary" id="restoreButton">Restore Links</button>
+      </div>
+         <div class="col-lg-2">
+        <h5 style="stroke:white;">&nbsp</h5>
+        <button class="btn btn-primary" id="botsButton">Hide Trolls</button>
+        <button class="btn btn-primary" id="newsButton">Hide News</button>
+        </div>
+        <div class="col-lg-5">
+        <h5 style="stroke:white;">&nbsp</h5>
+        <input type="text" id="searchName" placeholder="handle to highlight"></input>
+        <button class="btn btn-primary" id="nameButton">Remove</button>
+        </div>-->
+    </div>
+    <div class="row">
+      <div class="col-sm-9">
+        <div id="barchart">
+        </div>
+        <div id="network" style="min-height: 750px"></div>
+      </div>
+      <div class='col-sm-3' id="graph-table" style="overflow: auto; height:750px">
+        <h4>Users by centrality</h4>
+    </div>
+
+    <div class="row">
+     <div class='col-sm-9'>
+   
+    </div>
+    
+    </div>
+
+    </div>
+    </div>
+  </div>
+    
+    <script src="{% static 'searcher/debates/ext/angular.js' %}"></script>
+    <script src="{% static 'searcher/debates/ext/d3.v5.min.js' %}"></script>
+   <!-- <script src="/ext/crossfilter.js' %}"></script>
+     <script src="/ext/dc.js' %}"></script>-->
+   
+    <script src="{% static 'searcher/debates/ext/jquery.min.js' %}"></script>
+    <script src="{% static 'searcher/debates/ext/bootstrap.min.js' %}"></script>
+    <script src="{% static 'searcher/debates/rnlp-debates.js' %}"></script>
+  
+
+    <script>
+      const filepath = "{% static 'searcher/debates/' %}"
+    </script>
+
+
+
+
+</body>
+</html>

@@ -20,6 +20,8 @@ from learningmachines.cfg import TEMP_MODEL_FOLDER
 import os
 
 
+ 
+
 
 def index(request):
 	ctxt = {}
@@ -28,6 +30,46 @@ def index(request):
 def home(request):
 	ctxt = {}
 	return render(request, 'searcher/home.html', ctxt)
+
+
+"""
+    url(r'^projects/debates', project_handler.get_page),
+    url(r'^projects/blm', project_handler.get_blm_page),
+    url(r'^projects/dapl', project_handler.get_dapl_page),
+    url(r'^projects/library_docs', project_handler.get_library_auths),
+    url(r'^projects/insta_art', project_handler.get_insta_art),
+    url(r'^projects/climate_maps', project_handler.get_climate_maps),
+    url(r'^projects/vent_notes', project_handler.get_vent_notes),
+"""
+def projects(request):
+	ctxt = {}
+	print(request)
+	project_name = request.GET.get('name')
+	html = 'searcher/projects.html'
+	if project_name == 'blm':
+		thetype = request.GET.get('type')
+		if thetype == 'basic-aug':	
+			html = 'searcher/projects/blm-basic-stats-aug.html'
+		if thetype == 'basic-novdec':
+			html = 'searcher/projects/blm-basic-stats-nov-dec.html'
+		if thetype == 'networks-aug' :
+			html = 'searcher/projects/blm-all-vis-aug.html'
+		if thetype == 'networks-novdec' :
+			html = 'searcher/projects/blm-all-vis-nov-dec.html'
+	if project_name == 'debates':
+		html = 'searcher/projects/debates_paper.html'
+	if project_name == 'dapl':
+		html = 'searcher/projects/DAPL-vis-range.html'
+	if project_name == 'library_docs':
+		html = 'searcher/projects/library_docs.html'
+	if project_name == 'insta_art':
+		html = 'searcher/projects/insta_projector.html'
+	if project_name == 'climate_maps':
+		html = 'searcher/projects/climate_maps.html'
+	if project_name == 'vent_notes':
+		html = 'searcher/projects/vent_notes.html'
+
+	return render(request, html, ctxt)
 
 def proxy_static(request):
 	print(request)

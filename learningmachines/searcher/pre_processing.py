@@ -36,9 +36,6 @@ class TextHandler:
         repl_str = doc_text
         for phrase in self.phrases:
             repl_phrase = phrase.replace(" ", "_")
-            print(phrase)
-            print(repl_phrase)
-            print(repl_str.find(phrase))
             repl_str = repl_str.replace(phrase, repl_phrase)
 
         return repl_str

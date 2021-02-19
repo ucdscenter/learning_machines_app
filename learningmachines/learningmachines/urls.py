@@ -33,6 +33,18 @@ def redirect_vis_view(request):
     response = redirect('/searcher/vis' + params_str)
     return response
 
+def redirect_proj_view(request):
+    qry_str = {k: v[0] for k, v in dict(request.GET).items()}
+    print(qry_str)
+    print(request.path.split("/")[2])
+    params_str = "?"
+    params_str = '?name=' + request.path.split("/")[2]
+    for x in qry_str:
+        params_str = params_str + x + "=" + qry_str[x] + "&"
+    print(params_str)
+    response = redirect('/searcher/projects' + params_str)
+    return response
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     #account endpoints
@@ -44,8 +56,20 @@ urlpatterns = [
 
    	path('searcher/', include('searcher.urls')),
     path('lda/vis', redirect_vis_view),
+
+    path('projects/debates/', redirect_proj_view),
+    path('projects/blm/', redirect_proj_view),
+    path('projects/dapl/', redirect_proj_view),
+    path('projects/library_docs/', redirect_proj_view),
+    path('projects/insta_art/', redirect_proj_view),
+    path('projects/climate_maps/', redirect_proj_view),
+    path('projects/vent_notes/', redirect_proj_view),
+
+
     path('', RedirectView.as_view(url='searcher', permanent=True)),
 
 ]
+
+
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

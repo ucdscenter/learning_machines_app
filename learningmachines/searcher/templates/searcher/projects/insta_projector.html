@@ -1,0 +1,73 @@
+{# HTML5 declaration #}
+{% load static %}
+<!doctype html>
+<html lang="en">
+<style>
+    .labeltext {
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 8px;
+    }
+    .hidden {
+      display:none;
+    }
+    .selected_edge {
+      stroke : steelblue;
+      stroke-width : 1.5px;
+      stroke-opacity : 1;
+    }
+    .deselected_node {
+      opacity : .3;
+    }
+    .mouseover {
+      position : absolute;
+      background-color: steelblue;
+      width : 200px;
+      z-index : 1000000;
+      font-size: 8px;
+    }
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+<body>
+  <div class="mouseover">
+    <p>hi there</p>
+  </div>
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <div class="col-12" align="center">
+        <h1>Art Hashtags Exploratory Vis</h1>
+        <div class="row">
+          <div class="col-12" id="loading-div">
+            <h6 id="loading-label">Loading data</h6>
+            <img src="{% static 'searcher/insta_static/big-ajax-loader.gif' %}">
+          </div>
+          <div class="col-12 hidden" id="vis-div">
+            <svg id="graph_svg">
+              
+            </svg>
+
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'searcher/insta_static/src/d3.v5.js' %}"></script>
+<script type="text/javascript" src="{% static 'searcher/insta_static/src/crossfilter.js' %}"></script>
+<script type="text/javascript" src="{% static 'searcher/insta_static/src/dc.js' %}"></script>
+  <script type="text/javascript" src="http://d3js.org/queue.v1.min.js"></script>
+  <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script> 
+<script>
+      const filepath = "{% static 'searcher/insta_static/' %}"
+    </script>
+
+
+<script type="text/javascript" src="{% static 'searcher/insta_static/insta_projector.js' %}"></script>

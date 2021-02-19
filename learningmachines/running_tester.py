@@ -6,15 +6,16 @@ from searcher.corpus_manager import CorpusManager
 
 
 def test_es_search(qry_str):
-	print(os.getcwd())
-	
-	e = SearchResults_ES(qry_str['database'], qry_str, cleaned=True)
+	e = SearchResults_ES(qry_str['database'], qry_str, cleaned=False, rand=True)
+	x = 0
 	for doc in e:
 		print(doc)
-	print("THROUGH ONCE")
-	for doc in e:
-		print(doc)
-	print("THROUGH TWICE")
+		x += 1
+
+	print(x)
+	#print("THROUGH ONCE")
+	#for doc in e:
+	#	print(doc)
 	return
 
 def test_ngrams(qry_str):
@@ -44,11 +45,11 @@ def test_cleaning(qry_str):
 		print(th.clean_text(doc))
 
 if __name__ == '__main__':
-	test_qry_obj = {'start': '1809', 'end': '2017', 'f_start': '-1', 'f_end': '-1', 'qry': '', 'maximum_hits': '500', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 'automatic', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500'}
-	test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': 'restaurant', 'ngrams': True, 'tfidf': False, 'maximum_hits': '100', 'method': 'DFR browser', 'stop_words': 'restaurant, restaurants', 'replacement': '', 'phrases': 'multivariate analyses, catered event', 'level_select': 'article', 'num_topics': '20', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '100'}
+	test_qry_obj = {'start': '1809', 'end': '2017', 'f_start': '-1', 'f_end': '-1', 'qry': '', 'maximum_hits': '1800', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 'automatic', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500'}
+	#test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': 'restaurant', 'ngrams': True, 'tfidf': False, 'maximum_hits': '100', 'method': 'DFR browser', 'stop_words': 'restaurant, restaurants', 'replacement': '', 'phrases': 'multivariate analyses, catered event', 'level_select': 'article', 'num_topics': '20', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '100'}
 	"""test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': 'restaurant', 'ngrams': True, 'tfidf': False, 'maximum_hits': '100', 'method': 'DFR browser', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': '20', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '100'}
 	"""
+	test_es_search(test_qry_obj)
 
 
-
-	test_cleaning(test_qry_obj) 
+	#test_cleaning(test_qry_obj) 

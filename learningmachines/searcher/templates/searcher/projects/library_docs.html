@@ -1,0 +1,101 @@
+{# HTML5 declaration #}
+{% load static %}
+<!doctype html>
+<html>
+<style>
+    .labeltext {
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 8px;
+    }
+    .hidden {
+    	display:none;
+    }
+    .selected { fill : steelblue; }
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<body>
+	<div class="container-fluid">
+
+		<div class="row">
+
+			<div class="col-12" align="center">
+				<h1>Library Docs Exploratory Vis</h1>
+				<div class="row">
+					<div class="col-12" id="loading-div">
+						<img src="{% static 'searcher/library/big-ajax-loader.gif' %}">
+					</div>
+					<div class="col-12 hidden" id="dashboard-div">
+						<div class="row">
+							<div class="col-12">
+							    <div id="monthly-doc-chart">
+							        <strong>Monthly Published Document Count by Author-grouped by affiliation</strong>
+							        <span class="reset" style="display: none;">range: <span class="filter"></span></span>
+							        <a class="reset" href="javascript:dc.filterAll(); dc.renderAll();;"
+							           style="display: none;">reset</a>
+
+							        <div class="clearfix"></div>
+							    </div>
+						    	<div class="col-12">
+							    <div id="total-doc-chart">
+							    </div>
+							    <p class="muted pull-right" style="margin-right: 15px;">select a time range to zoom in</p>
+						    	</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-3">
+								<div id="affiliation-row-chart">
+									Affiliation by Author Count
+								</div>
+							</div>
+							<div class="col-3">
+								<div id="journal-row-chart">
+									Journal by Author Count
+								</div>
+							</div>
+							<div class="col-3">
+								<div id="fund-row-chart">
+									Fund Sponsor by Author Count
+								</div>
+							</div>
+							<div class="col-3">
+								<div id="cite-row-chart">
+									Citation # by Author Count
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-1">
+							</div>
+							<div class="col-10">
+							    <div>
+							        <div class="dc-data-count">
+							            <span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a class="button button-default"
+							                href="javascript:dc.filterAll(); dc.renderAll();">Reset All</a>
+							        </div>
+							    </div>
+							    <table class="table table-hover dc-data-table">
+							    </table>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+<svg id='viz'></svg>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'searcher/library/src/d3.v5.js' %}"></script>
+<script type="text/javascript" src="{% static 'searcher/library/src/crossfilter.js' %}"></script>
+<script type="text/javascript" src="{% static 'searcher/library/src/dc.js' %}"></script>
+<script>
+      const filepath = "{% static 'searcher/library/' %}"
+    </script>
+<script src="{% static 'searcher/library/dc_authordocs.js' %}"></script>
+

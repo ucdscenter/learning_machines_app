@@ -12,4 +12,11 @@ __pycache__/
 /learningmachines/searcher/tempmodeldata/*
 /learningmachines/etc/uwsgi/run.log
 /learningmachines/static/*
+/learningmachines/searcher/static/searcher/vent_notes/
+/learningmachines/searcher/static/searcher/climate_maps/
+/learningmachines/searcher/static/searcher/debates/
+/learningmachines/searcher/static/searcher/insta_static/
+/learningmachines/searcher/static/searcher/library/
+/learningmachines/searcher/static/searcher/blm/
+
 
