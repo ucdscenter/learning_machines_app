@@ -240,18 +240,18 @@ def start_model_run(request):
 		#task_id=task.id,
 		)
 
+
 	query_request.save()
 	doc_filter.save()
 	vis.save()
 	qry_str["model_name"] = model_name
-	
 	print(query_request.pk)
-	task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
-	rsp_obj = { 
-				"task_id" : task.id
-	}
-	#run_model(qry_str,q_pk=query_request.pk)
-	#rsp_obj = { "hi" : "there"}
+	#task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
+	#rsp_obj = { 
+	#			"task_id" : task.id
+	#}
+	run_model(qry_str,q_pk=query_request.pk)
+	rsp_obj = { "hi" : "there"}
 	return HttpResponse(json.dumps(rsp_obj))
 
 

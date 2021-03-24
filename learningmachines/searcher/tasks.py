@@ -70,7 +70,7 @@ def get_docs(self, qry_str, q_pk=None):
 	count = 0
 	for doc in es:
 		if doc.text:
-			num_occur = es._min_count(doc.text)
+			num_occur = es._min_count(doc)
 		else:
 			num_occur = 0
 		doc_obj = {
