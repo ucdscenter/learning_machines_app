@@ -66,19 +66,32 @@ function doItAll(){
   function undefined_fixer(thing){
     return thing
   }
+  let addit_str = "&model=" + params.model
+  d3.json("/searcher/load_formatted?method=" + params.method + "&q_pk=" + params.q_pk + addit_str, function(error, the_data){
+    console.log(the_data)
+    var model_info = the_data.model_info
+    if (params.q_pk != undefined){
+       $('#corpus').text(undefined_fixer(model_info.corpus))
+       $('#term').text(undefined_fixer(model_info.term))
+      $('#topics').text(undefined_fixer(model_info.topics))
+      $('#stop_words').text(undefined_fixer(model_info.stopwords).replace("-", ","))
+      $('#start').text(undefined_fixer(model_info.ys))
+      $('#end').text(undefined_fixer(model_info.ye))
+      $('#dn').text(undefined_fixer(model_info.docs))
+      ldavis_el_data = JSON.parse(the_data.data)
+    }
+    else{
+         $('#corpus').text(undefined_fixer(params.corpus))
+      $('#term').text(undefined_fixer(params.model.split("#")[0].match(/\[(.*?)\]/g,'')[0].slice(1, -1)))
+      $('#topics').text(undefined_fixer(params.num_topics))
+      $('#stop_words').text(undefined_fixer(params.stop_words).replace("-", ","))
+      $('#start').text(undefined_fixer(params.ys))
+      $('#end').text(undefined_fixer(params.ye))
+      $('#dn').text(undefined_fixer(params.dn))
+      ldavis_el_data = the_data.data
+    }
 
-  d3.json("/searcher/load_formatted?method=" + params.method + "&q_pk=" + params.q_pk, function(error, data){
-    console.log(data)
-    var model_info = data.model_info
-
-     $('#corpus').text(undefined_fixer(model_info.corpus))
-    $('#term').text(undefined_fixer(model_info.term))
-    $('#topics').text(undefined_fixer(model_info.topics))
-    $('#stop_words').text(undefined_fixer(model_info.stopwords).replace("-", ","))
-    $('#start').text(undefined_fixer(model_info.ys))
-    $('#end').text(undefined_fixer(model_info.ye))
-    $('#dn').text(undefined_fixer(model_info.docs))
-    ldavis_el_data = JSON.parse(data.data)
+    
     console.log(ldavis_el_data)
     $('#loading_show').addClass("hidden")
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ldavis_el_data));
@@ -106,7 +119,8 @@ function doItAll(){
 
         // require.js not available: dynamically load d3 & LDAvis
         LDAvis_load_lib("https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js", function(){
-             LDAvis_load_lib("/static/searcher/pyldavis.js", function(){
+
+             LDAvis_load_lib("https://learningmachines-static.s3.amazonaws.com/static/searcher/pyldavis.js", function(){
                      new LDAvis("#" + "ldavis_el", ldavis_el_data);
                 })
              });

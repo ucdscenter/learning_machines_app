@@ -148,5 +148,5 @@ class NLPModelManager:
 		if self.save:
 			self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_d2v_dict")
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_d2vv")
-		return 
+		return
 	

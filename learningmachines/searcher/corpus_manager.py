@@ -44,9 +44,9 @@ class CorpusManager:
 		if self.qry_str["ngrams"] == False:
 			return
 		es_iter = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
-		bigram = Phrases(es_iter, min_count=5, threshold=100) # higher threshold fewer phrases.
+		bigram = Phrases(es_iter, min_count=1, threshold=10) # higher threshold fewer phrases.
 		if n > 2:
-			trigram = Phrases(bigram[es_iter],min_count=5, threshold=100)
+			trigram = Phrases(bigram[es_iter], min_count=1, threshold=10)
 			self.trigram_model = Phraser(trigram)
 		self.bigram_model = Phraser(bigram)
 

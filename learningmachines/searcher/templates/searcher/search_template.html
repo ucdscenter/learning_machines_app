@@ -1,4 +1,5 @@
 {% extends 'searcher/base.html' %}
+{% load static %}
 {% block title %}Search{% endblock title%}
 
 
@@ -69,9 +70,8 @@
     margin-left : 4px;
     margin-right: 4px
   }
-
   .loading-holder {
-    background: url(/static/searcher/images/ajax-loader.gif) center center no-repeat;
+    background: url({% static 'searcher/images/ajax-loader.gif' %}) center center no-repeat;
   }
 
   .btn {
@@ -284,7 +284,7 @@
             <h3>Filter Docs containing <span id="search-qry"></span> <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="These bar graphs show the selected doc counts over both time and occurrence of search term. Click and drag across the graphs to additionally filter texts for the model. If documents were fetched with no search term, occurrence is simply the number of words in the document" class="material-icons center_icon_h3">info_outlined</i></h3>
              <div class="row ">
                <div class="col-12">
-                 <img src="/static/searcher/images/big-ajax-loader.gif"/ id="loading-img">
+                 <img src="{% static 'searcher/images/big-ajax-loader.gif' %}"/ id="loading-img">
                </div>
                <div class="dc-doc-count col-12">
                   <p><span class="filter-count"></span> selected out of <span class="total-count"></span> records | <a
@@ -357,10 +357,18 @@
             <h3>Select Visualization/Model Type <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Choose the model type and visualization you wish to create. We recommend using dfr or pylda to run initial smaller models to establish a good topic number and stop words, then run model of models on a full corpus with those parameters to examine in depth. The vector methods offer additional functionality in terms of exploring intra-word and intra-document relationships" class="material-icons center_icon_h3">info_outlined</i></h3>
             <div class="row">
                <!--<div class="col-6">-->
+                <div class="btn btn-success db-button fig mt-3 col-6 justify-content-center" id="multilevel_lda">
+                  <div class="vis-img-hover "><p style=" word-break: normal;
+    white-space: normal; padding: 5px" class="justify-content-center">Our most robust visualization. Runs 6 models of the corpus and clusters them, providing three linked visualizations.Good tool for comparing topics and their meanings, as well as most stable method. Allows for document exploration. Takes the longest to run</p></div>
+                                <img src="{% static 'searcher/images/btns/mlmom-btn.png' %}" alt="multi level model of models" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
+                <figcaption class="figure-caption ">Multi Level Model of Models</figcaption>
+              </div>
+              <!--</div>-->
+               <!--<div class="col-6">-->
                 <div class="btn btn-success db-button fig mt-3 col-6 justify-content-center" id='DFR browser'>
                   <div class="vis-img-hover"><p style=" word-break: normal;
     white-space: normal; padding: 5px" class="justify-content-center">A good overview vis for exploration. Provides a number methods to explore how topics occur over time as well as an interface to show words in topics, topics in documents and other helpful information.</p></div>
-                <img src="/static/searcher/images/btns/dfr-btn.png" alt="topic browser" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
+                <img src="{% static 'searcher/images/btns/dfr-btn.png' %}" alt="topic browser" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
                 <figcaption class="figure-caption">Topic Browser</figcaption>
               </div>
               <!--</div>-->
@@ -369,16 +377,8 @@
                   <div class="vis-img-hover"><p style=" word-break: normal;
     white-space: normal; padding: 5px" class="justify-content-center">A good visualization to explore how topics relate to each other in size and meaning, projecting them onto a 2d space. Provides the most robust word-topic exploration functionality of all our tools</p></div>
 
-                                <img src="/static/searcher/images/btns/pylda-btn.png" alt="py lda vis" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
+                                <img src="{% static 'searcher/images/btns/pylda-btn.png' %}" alt="py lda vis" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
                 <figcaption class="figure-caption ">PyLda Vis</figcaption>
-              </div>
-              <!--</div>-->
-              <!--<div class="col-6">-->
-                <div class="btn btn-success db-button fig mt-3 col-6 justify-content-center" id="multilevel_lda">
-                  <div class="vis-img-hover "><p style=" word-break: normal;
-    white-space: normal; padding: 5px" class="justify-content-center">Our most robust visualization. Runs 6 models of the corpus and clusters them, providing three linked visualizations.Good tool for comparing topics and their meanings, as well as most stable method. Allows for document exploration. Takes the longest to run</p></div>
-                                <img src="/static/searcher/images/btns/mlmom-btn.png" alt="multi level model of models" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
-                <figcaption class="figure-caption ">Multi Level Model of Models</figcaption>
               </div>
               <!--</div>-->
               <!--<div class="col-6">-->
@@ -386,7 +386,7 @@
                 <div class="btn btn-success db-button fig mt-3 col-6 justify-content-center" id="word2vec">
                   <div class="vis-img-hover"><p style=" word-break: normal;
     white-space: normal; padding: 5px" class="justify-content-center">Learns word (or document) meanings based off of their context and pca projects the words onto 2d space after clustering them. Good for large corpora and looking at word (or document) relationships. Not an lda method. </p></div>
-                                <img src="/static/searcher/images/btns/w2v-btn.png" alt="word to vector" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
+                                <img src="{% static 'searcher/images/btns/w2v-btn.png' %}" alt="word to vector" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
                 <figcaption class="figure-caption ">Word2Vec/Doc2Vec</figcaption>
               </div>
 
@@ -450,8 +450,9 @@
                     </div>
                   </div>-->
                   <div class="form-row not-w2v">
-                   <label for="num-topics" class="col-form-label">Number of Topics  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of topics for the LDA model to be created with. Play around with this until you find a number that you think accurately captures the corpus. If left on automatic, simply chooses the topic number based off of the number of docs/100, with a min of 5 and a max of 50." class="material-icons center_icon_options">info_outlined</i></label>
-                  <select name="num_topics" class="form-control form-control-sm" id="num-topics">
+                   <label for="num-topics" class="col-form-label">Number of Topics  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of topics for the LDA model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="material-icons center_icon_options">info_outlined</i></label>
+                    <input class="form-control form-control-sm" type="number" id="num_topics" name="num_topics" min="2" max="50" value="20">
+                  <!--<select name="num_topics" class="form-control form-control-sm" id="num-topics">
                     <option value="25">25</option>
                     <option value="5">5</option>
                     <option value="10">10</option>
@@ -463,7 +464,7 @@
                     <option value="40">40</option>
                     <option value="45">45</option>
                     <option value="50">50</option>
-                  </select>
+                  </select>-->
                   <label for="passes-select" class="col-form-label hidden">Passes : </label>
                   <select name="passes" class="form-control form-control-sm hidden" id="passes-select">
                     <option value="5">5</option>
@@ -476,6 +477,10 @@
                     <option value="150">150</option>
                     <option value="200">200</option>
                   </select>
+                </div>
+                <div class="form-row vector-options">
+                   <label for="num_clusters" class="col-form-label">Number of Clusters  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of clusters for the vector model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="material-icons center_icon_options">info_outlined</i></label>
+                    <input class="form-control" type="number" id="num_clusters" value="15" min="2" max="50">
                 </div>
                 <div class="form-row mt-2">
                   <label for="stop-word" class="col-3 col-form-label">Stop word list <i data-container="body" data-toggle="popover" data-placement="right" data-content="Often, the top words in many topics will be common filler terms or the original search terms themselves. Add them in here to remove them from the model, making the meaningful words more prominent. Remember to use all forms of a word to completely extirpate it. i.e. animal, animals, animalistic if 'animal' appears in all your topics" class="material-icons center_icon_options">info_outlined</i></label>
@@ -565,17 +570,17 @@
   let special_access = '{{ special_access }}'
 </script>
 
-<script src="/static/searcher/js/jquery.min.js"></script>
-<script type="text/javascript" src="/static/searcher/popper.js"></script>
-<script src="/static/searcher/js/bootstrap.min.js"></script>
+<script src="{% static 'searcher/js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
+<script src="{% static 'searcher/js/bootstrap.min.js' %}"></script>
 <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
 <!--<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>-->
-<script src="/static/searcher/js/d3.min.js"></script>
-<script src="/static/searcher/js/crossfilter.js"></script>
-<script src="/static/searcher/js/dc.min.js"></script>
-<script src="/static/searcher/database_year_count.js"></script>
-<script src="/static/searcher/running_time_parameters.js"></script>
-<script src="/static/searcher/search-controller.js"></script>
+<script src="{% static 'searcher/js/d3.min.js' %}"></script>
+<script src="{% static 'searcher/js/crossfilter.js' %}"></script>
+<script src="{% static 'searcher/js/dc.min.js' %}"></script>
+<script src="{% static 'searcher/database_year_count.js' %}"></script>
+<script src="{% static 'searcher/running_time_parameters.js' %}"></script>
+<script src="{% static 'searcher/search-controller.js' %}"></script>
 {% endblock footer_javascript_section %}
 
 

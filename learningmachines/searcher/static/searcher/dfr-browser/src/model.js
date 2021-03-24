@@ -40,7 +40,10 @@ model = function (spec) {
         set_topic_scaled;
 
     my.ready = { };
-    my.worker = new Worker("/static/searcher/dfr-browser/js/worker.min.js");
+    //'https://learningmachines-static.s3.amazonaws.com/static/searcher/dfr-browser/js/worker.min.js'
+    //my.worker = new Worker("/static/searcher/dfr-browser/js/worker.min.js");
+    my.worker = new Worker("/searcher/proxy_static/?f=dfr-worker.min.js");
+    //my.worker = new Worker('https://learningmachines-static.s3.amazonaws.com/static/searcher/dfr-browser/js/worker.min.js');
     my.worker.fs = d3.map();
     my.worker.onmessage = function (e) {
         var f = my.worker.fs.get(e.data.what);

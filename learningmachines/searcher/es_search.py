@@ -9,17 +9,17 @@ from learningmachines.credentials import AWS_PROFILE
 from learningmachines.cfg import ES_MAX_SIZE, ES_SCROLL_SIZE
 from learningmachines.es_fields import ES_FIELDS, MAX_NUM_DOC_VIS
 from .pre_processing import  get_min_term_occurrence, TextHandler
+import sys
 
+sys.setrecursionlimit(5000)
 
 class SearchResults_ES:
-	def __init__(self, database, qry_obj=None, min_count=None, sub_dates=None, cm=None, tokenized=False, cleaned=False):
+	def __init__(self, database, qry_obj=None, cm=None, tokenized=False, cleaned=False, rand=False):
 		aws_auth = AWS4Auth(AWS_PROFILE['ACCESS_KEY'], AWS_PROFILE['SECRET_KEY'], 'us-east-2', 'es')
 		aws_host = AWS_PROFILE['AWS_HOST']
 		self.database = database
 		self.es_index = ES_FIELDS['index'][database]
 		self.qry_obj = qry_obj
-		self.min_count = min_count
-		self.sub_dates = sub_dates
 		self.cm = cm
 		self.tokenized = tokenized
 		self.es = ES(
@@ -37,15 +37,21 @@ class SearchResults_ES:
 		self.scroll_size = None
 		self.num_scroll = 0
 		self.total_docs = 0
+		self.rand = rand
 		if self.qry_obj != None:
 			self.th = TextHandler(self.qry_obj)
 		
 		self.cleaned = cleaned
 		if self.qry_obj != None:
 			self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else ES_MAX_SIZE)
+			self.qry_obj['f_start'] = int(self.qry_obj['f_start']) if 'f_start' in qry_obj else -1
+			self.qry_obj['f_end'] = int(self.qry_obj['f_end']) if 'f_end' in qry_obj else -1
+			self.qry_obj['min_occurrence'] = int(self.qry_obj['min_occurrence']) if 'min_occurrence' in qry_obj else -1
+			self.qry_obj['max_occurrence'] = int(self.qry_obj['max_occurrence']) if 'max_occurrence' in qry_obj else -1
 		else:
 			self.qry_obj = None
-		
+
+			
 
 	def __iter__(self):
 		return self
@@ -72,14 +78,20 @@ class SearchResults_ES:
 		self.num_docs += 1
 		self.total_docs += 1
 
-		if self.cleaned:
-			if self.cm == None:
-				return self.th.clean_text(retdoc)
-			return self.cm._clean_text(retdoc)
-		elif self.tokenized:
-			return self.cm.doc2bow(retdoc)
+		
+		if self._sub_dates(retdoc) == False:
+			return self.__next__()
+		elif self._min_count(retdoc) == False:
+			return self.__next__()
 		else:
-			return retdoc
+			if self.cleaned:
+				if self.cm == None:
+					return self.th.clean_text(retdoc)
+				return self.cm._clean_text(retdoc)
+			elif self.tokenized:
+				return self.cm.doc2bow(retdoc)
+			else:
+				return retdoc
 
 	def get_doc(self, doc_id):
 		doc = {
@@ -124,16 +136,25 @@ class SearchResults_ES:
 			doi=doi
 		)
 	def _sub_dates(self, doc):
+		if self.qry_obj['f_start'] == -1:
+			return True
+		if doc.date == None:
+			return False
+		doc_year = int(doc.date.split('-')[0])
+		if doc_year > self.qry_obj['f_start'] and doc_year < self.qry_obj['f_end']:
+			return True
 		return False
 
 	def _min_count(self, doc):
 		terms = self.qry_obj['qry'].replace("+", " ").split(" ")
-		terms_count = get_min_term_occurrence(terms, doc)
-		if self.min_count == None:
+		terms_count = get_min_term_occurrence(terms, doc.text)
+		if self.qry_obj == None:
+			return terms_count
+		if self.qry_obj['min_occurrence'] == -1:
 			return terms_count
 		else:
-			if terms_count >= self.min_count:
-				return True
+			if terms_count >= self.qry_obj['min_occurrence'] and terms_count <= self.qry_obj['max_occurrence']:
+				return terms_count
 			else:
 				return False
 
@@ -164,6 +185,8 @@ class SearchResults_ES:
 				"query": auth_qry
 			  }
 		})
+
+
 		if start:
 			if len(start.split('-')) == 3:
 				time_range['gte'] = '{}'.format(start)
@@ -210,6 +233,13 @@ class SearchResults_ES:
 			query = {'bool': bool_terms}
 		else:
 			query = {'match_all': {}}
+
+		if self.rand:
+			#query = {'function_score' : { "query" : query}, "random_score" : {}}
+			query = {"function_score": {
+				"query": query,
+				"random_score": {}, 
+				}}
 		print(query)
 		return query
 

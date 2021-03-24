@@ -20,6 +20,9 @@ from learningmachines.cfg import TEMP_MODEL_FOLDER
 import os
 
 
+ 
+
+
 def index(request):
 	ctxt = {}
 	return render(request, 'searcher/index.html', ctxt)
@@ -27,6 +30,54 @@ def index(request):
 def home(request):
 	ctxt = {}
 	return render(request, 'searcher/home.html', ctxt)
+
+
+"""
+    url(r'^projects/debates', project_handler.get_page),
+    url(r'^projects/blm', project_handler.get_blm_page),
+    url(r'^projects/dapl', project_handler.get_dapl_page),
+    url(r'^projects/library_docs', project_handler.get_library_auths),
+    url(r'^projects/insta_art', project_handler.get_insta_art),
+    url(r'^projects/climate_maps', project_handler.get_climate_maps),
+    url(r'^projects/vent_notes', project_handler.get_vent_notes),
+"""
+def projects(request):
+	ctxt = {}
+	print(request)
+	project_name = request.GET.get('name')
+	html = 'searcher/projects.html'
+	if project_name == 'blm':
+		thetype = request.GET.get('type')
+		if thetype == 'basic-aug':	
+			html = 'searcher/projects/blm-basic-stats-aug.html'
+		if thetype == 'basic-novdec':
+			html = 'searcher/projects/blm-basic-stats-nov-dec.html'
+		if thetype == 'networks-aug' :
+			html = 'searcher/projects/blm-all-vis-aug.html'
+		if thetype == 'networks-novdec' :
+			html = 'searcher/projects/blm-all-vis-nov-dec.html'
+	if project_name == 'debates':
+		html = 'searcher/projects/debates_paper.html'
+	if project_name == 'dapl':
+		html = 'searcher/projects/DAPL-vis-range.html'
+	if project_name == 'library_docs':
+		html = 'searcher/projects/library_docs.html'
+	if project_name == 'insta_art':
+		html = 'searcher/projects/insta_projector.html'
+	if project_name == 'climate_maps':
+		html = 'searcher/projects/climate_maps.html'
+	if project_name == 'vent_notes':
+		html = 'searcher/projects/vent_notes.html'
+
+	return render(request, html, ctxt)
+
+def proxy_static(request):
+	print(request)
+	f = request.GET.get('f')
+	if f[-2:] != 'js':
+		return render(request, "searcher/error_page.html", ctxt)
+	static_f = open('searcher/templates/searcher/' + f, 'r')
+	return HttpResponse(static_f.read(), content_type="text/javascript")
 
 @access_required('all')
 def search_page(request):
@@ -131,7 +182,7 @@ def start_model_run(request):
 	from .params_helper import random_string, get_now
 
 	qry_str = {k: v[0] for k, v in dict(request.POST).items()}
-	
+
 	if qry_str['ngrams'] == 'true':
 		qry_str['ngrams'] = True
 	else:
@@ -165,6 +216,7 @@ def start_model_run(request):
 		phrases = qry_str['phrases'],
 	  	replacement = qry_str['replacement'],
 	  	num_topics = qry_str['num_topics'],
+	  	num_clusters = qry_str['num_clusters'],
 	  	#remove_digits = 
 		#tfidf =
 		#para_filter_terms = 
@@ -188,18 +240,18 @@ def start_model_run(request):
 		#task_id=task.id,
 		)
 
+
 	query_request.save()
 	doc_filter.save()
 	vis.save()
 	qry_str["model_name"] = model_name
-	
 	print(query_request.pk)
-	task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
-	rsp_obj = { 
-				"task_id" : task.id
-	}
-	#run_model(qry_str,q_pk=query_request.pk)
-	#rsp_obj = { "hi" : "there"}
+	#task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
+	#rsp_obj = { 
+	#			"task_id" : task.id
+	#}
+	run_model(qry_str,q_pk=query_request.pk)
+	rsp_obj = { "hi" : "there"}
 	return HttpResponse(json.dumps(rsp_obj))
 
 

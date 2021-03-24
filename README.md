@@ -1,7 +1,7 @@
 # learning_machines_app
 app repository for learning machines rebuild
 
-#Development Environment
+# Development Environment
 
 ## Getting Started
 
@@ -11,6 +11,16 @@ Create a virtualenv, and activate it
 ```bash
 python3 -m venv whatever_you_want_to_name_this
 source whatever_you_want_to_name_this/bin/activate
+```
+
+if running on ec2 ubuntu instance you'll use a virtualenv command instead, and you'll have to install some packages
+```
+sudo apt update
+sudo apt install python3-pip
+sudo apt install virtualenv
+virtualenv -p python3 venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 Install the python package requirements to the virtual env.
 ```bash

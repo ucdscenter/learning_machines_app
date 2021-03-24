@@ -970,10 +970,30 @@ function renderVisSelect(dbn, qry){
 
 }
 
+const MAX_TOPICS = 50
+const MIN_TOPICS = 1
+
 function renderVisParams(dbn, qry, method, fromhistory){
 
   $('#submit-wrapper-button').off("click")
   $('#method-name').text(method)
+  $('#num_topics').change(function(e){
+    if ($('#num_topics').val() > MAX_TOPICS){
+      $('#num_topics').val(MAX_TOPICS)
+    }
+    if ($('#num_topics').val() < MIN_TOPICS){
+      $('#num_topics').val(MIN_TOPICS)
+    }
+  })
+
+  $('#num_clusters').change(function(e){
+    if ($('#num_clusters').val() > MAX_TOPICS){
+      $('#num_clusters').val(MAX_TOPICS)
+    }
+    if ($('#num_clusters').val() < MIN_TOPICS){
+      $('#num_clusters').val(MIN_TOPICS)
+    }
+  })
 
   console.log(method)
   $('#form-div').css("background-color", DATABASES[dbn].color)
@@ -981,24 +1001,28 @@ function renderVisParams(dbn, qry, method, fromhistory){
     $('#mlmom-options').addClass("hidden")
      $(".not-w2v").removeClass("hidden")
     $(".lda-options").removeClass("hidden")
+    $(".vector-options").addClass("hidden");
     $("#word2vec-doc2vec-chooser").addClass("hidden")
   }
   if(method == "pyLDAvis"){
     $('#mlmom-options').addClass("hidden")
      $(".not-w2v").removeClass("hidden")
     $(".lda-options").removeClass("hidden")
+    $(".vector-options").addClass("hidden");
     $("#word2vec-doc2vec-chooser").addClass("hidden")
   }
   if(method == "multilevel_lda"){
     $(".lda-options").removeClass("hidden")
     $(".not-w2v").removeClass("hidden")
     $('#mlmom-options').removeClass("hidden")
+    $(".vector-options").addClass("hidden");
     $("#word2vec-doc2vec-chooser").addClass("hidden")
   }
   if(method == "word2vec" || method == 'doc2vec'){
     $('#mlmom-options').addClass("hidden")
     $('#params-label').text("Word2Vec/Doc2Vec Parameters")
     $(".not-w2v").addClass("hidden")
+    $(".vector-options").removeClass("hidden");
     $(".lda-options").removeClass("hidden")
     $("#word2vec-doc2vec-chooser").removeClass("hidden")
     /*$('#method-radio').on("click", function(d){
@@ -1009,13 +1033,11 @@ function renderVisParams(dbn, qry, method, fromhistory){
       $('#static-method').val(method)
     })*/
     $("#doc2vec-radio").on("click", function(d){
-      console.log("doc2vec")
       method = "doc2vec"
       $('#method-name').text(method)
       $('#static-method').val(method)
     })
     $("#word2vec-radio").on("click", function(d){
-      console.log("word2vec")
       method = "word2vec"
       $('#method-name').text(method)
       $('#static-method').val(method)
@@ -1048,7 +1070,8 @@ $('#submit-wrapper-button').click(function(e){
               replacement : $('#word-replacement').val(),
               phrases : $('#phrases').val(),
               level_select : $('#level-select').val(),
-              num_topics : $('#num-topics').val(),
+              num_topics : $('#num_topics').val(),
+              num_clusters : $('#num_clusters').val(),
               passes : 20,
               database : selected_database,
               journal : $('#journal-options-select').val(),
