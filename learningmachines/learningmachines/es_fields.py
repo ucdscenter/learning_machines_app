@@ -213,7 +213,7 @@ MAX_NUM_DOC_VIS = {
     'TCP': 1500,
     'ACJ': 20000,
     'searchpage' : 144000,
-    'CaseLaw_v2' : 6000,
+    'CaseLaw_v2' : 20000,
     'AA' : 23000,
     '' : 20000,
     'TED' : 20000,
