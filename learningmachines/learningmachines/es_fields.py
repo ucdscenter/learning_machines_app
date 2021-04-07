@@ -206,7 +206,7 @@ MAX_NUM_DOC_VIS = {
     'PMC': 20000,
     'JSTOR': 4000,
     '': 10000,
-    'CaseLaw': 6000,
+    'CaseLaw': 20000,
     'Archaeology': 5000,
     'Latin': 20000,
     'Ehealth': 20000,
