@@ -3,16 +3,18 @@ import datetime
 import hashlib
 import string
 import json
-
+import pytz
+from django.utils import timezone
 
 def random_string(size=10, chars=string.ascii_uppercase + string.digits):
     return "".join(random.choice(chars) for x in range(size))
 
 def get_now(ret_string=True):
+	print(timezone.localtime(timezone.now()))
 	if ret_string:
-		return datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+		return timezone.localtime(timezone.now()).strftime("%Y-%m-%d-%H-%M-%S")
 	else:
-		return datetime.datetime.now()
+		return timezone.localtime(timezone.now())
 
 
 def hash_params(params):
@@ -25,10 +27,11 @@ def prepare_model_listing(the_obj, q):
 		num_topics = the_obj.docfilter.num_clusters
 	else:
 		num_topics = the_obj.docfilter.num_topics
+	print(timezone.localtime(q.created_time))
 	ret_obj = {
 		"query" : ' ' if len(q.query_str) == 0 else q.query_str,
 		"database" : q.database,
-		"time" : datetime.datetime.strftime(q.created_time, "%m-%d-%y %H:%M"),
+		"time" : timezone.localtime(q.created_time).strftime("%m/%d/%y %I:%M %p"),
 		"topics" : num_topics,
 		"status" : the_obj.status,
 		"vis_type" : the_obj.method,
