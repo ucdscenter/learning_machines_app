@@ -28,14 +28,14 @@ class CorpusManager:
 	def doc2bow(self, doc):
 		return self.dct.doc2bow(self._clean_text(doc))
 
-	def create_dict(self, min_filter=1, max_filter=.7):
+	def create_dict(self, min_filter=3, max_filter=.7):
 		es_iter = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str)
-		dct = Dictionary(documents=None, prune_at=1000000)
+		dct = Dictionary(documents=None, prune_at=200000)
 		
 		for x in es_iter:
 			dct.add_documents([self._clean_text(x)])
 
-		dct.filter_extremes(no_below=min_filter, no_above=max_filter, keep_n=1000000)
+		dct.filter_extremes(no_below=min_filter, no_above=max_filter, keep_n=200000)
 		print(len(dct.keys()))
 
 		self.dct = dct
@@ -44,9 +44,9 @@ class CorpusManager:
 		if self.qry_str["ngrams"] == False:
 			return
 		es_iter = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
-		bigram = Phrases(es_iter, min_count=1, threshold=10) # higher threshold fewer phrases.
+		bigram = Phrases(es_iter, min_count=1, threshold=100) # higher threshold fewer phrases.
 		if n > 2:
-			trigram = Phrases(bigram[es_iter], min_count=1, threshold=10)
+			trigram = Phrases(bigram[es_iter], min_count=1, threshold=100)
 			self.trigram_model = Phraser(trigram)
 		self.bigram_model = Phraser(bigram)
 
