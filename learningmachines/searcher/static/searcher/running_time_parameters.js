@@ -49,7 +49,7 @@ var database_runtimes = {
 	"a" : 0.184,
 	"b" : 0, 
 	"count" : 412521,
-	"max" : 6000
+	"max" : 100000
 	},
 
 	"Archaeology" : {
@@ -92,7 +92,7 @@ var database_runtimes = {
 	"a" : 0.184,
 	"b" : 0, 
 	"count" : 324998,
-	"max" : 6000
+	"max" : 100000
 	},
 	"CCHMC" : {
 	"a" : 0,

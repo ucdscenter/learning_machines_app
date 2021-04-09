@@ -79,11 +79,9 @@ def parse_terms(terms):
 def get_min_term_occurrence(terms, doc):
     the_terms = parse_terms(terms)
     import re
-    #print(min([len(re.findall(term, doc)) for term in terms]))
     count = 0
     if len(terms[0]) == 0:
-        return len(doc)
-
+        return len(doc.split())
     try:
         for term in the_terms:
             count += len(re.findall(term, doc.lower()))
