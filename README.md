@@ -208,10 +208,20 @@ sudo service nginx start
 ```
 Now, your site will be running at whatever ip address you set up the instance in.
 ##TODO
+model_page remodel
+
+hyperparam_evaluation_script
+
+block_non_auth_users for model viewing
+
+task_cancellation
 
 write instructions for https support with certbot, domain name work
 
-bert topic modeling endpoint
+bert topic modeling endpoint:
+
+https://www.kaggle.com/dskswu/topic-modeling-bert-lda
+https://towardsdatascience.com/topic-modeling-with-bert-779f7db187e6
 
 basic sentiment analysis endpoint
 
@@ -226,8 +236,6 @@ accounts testing/password reset work
 general application test suites
 
 deploy tools (docker? jeckyl?)
-
-backward compatability for non-mlmom links
 
 transfer over static visualizations folder from old version
 
