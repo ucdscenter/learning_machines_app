@@ -9,13 +9,13 @@ from .models import Profile, Access, VisRequest, QueryRequest, DocFilter
 
 class QueryRequestAdmin(admin.ModelAdmin):
     search_fields = ('created_time', 'keywords')
-    list_filter = ('query_str', 'database')
+    list_filter = ('query_str', 'database', )
     readonly_fields=('id',)
 
 
 
 class VisRequestAdmin(admin.ModelAdmin):
-    search_fields = ('created_time', 'model_name')
+    search_fields = ('created_time', 'model_name', 'query')
     list_filter = ('query', 'method')
 
 
