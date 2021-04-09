@@ -147,7 +147,7 @@ class SearchResults_ES:
 
 	def _min_count(self, doc):
 		terms = self.qry_obj['qry'].replace("+", " ").split(" ")
-		terms_count = get_min_term_occurrence(terms, doc.text)
+		terms_count = get_min_term_occurrence(terms, doc.text) if doc.text != None else 0
 		if self.qry_obj == None:
 			return terms_count
 		if self.qry_obj['min_occurrence'] == -1:
