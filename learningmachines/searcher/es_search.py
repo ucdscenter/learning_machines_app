@@ -38,6 +38,8 @@ class SearchResults_ES:
 		self.num_scroll = 0
 		self.total_docs = 0
 		self.rand = rand
+		if 'rand' in self.qry_obj:
+			self.rand = self.qry_obj['rand']
 		if self.qry_obj != None:
 			self.th = TextHandler(self.qry_obj)
 		
@@ -238,7 +240,7 @@ class SearchResults_ES:
 			#query = {'function_score' : { "query" : query}, "random_score" : {}}
 			query = {"function_score": {
 				"query": query,
-				"random_score": {}, 
+				"random_score": {"seed": 10, "field": ES_FIELDS['id'][self.database]},
 				}}
 		print(query)
 		return query

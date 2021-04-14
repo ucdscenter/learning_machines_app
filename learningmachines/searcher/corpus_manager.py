@@ -28,7 +28,7 @@ class CorpusManager:
 	def doc2bow(self, doc):
 		return self.dct.doc2bow(self._clean_text(doc))
 
-	def create_dict(self, min_filter=3, max_filter=.7):
+	def create_dict(self, min_filter=1, max_filter=.7):
 		es_iter = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str)
 		dct = Dictionary(documents=None, prune_at=200000)
 		
@@ -36,6 +36,7 @@ class CorpusManager:
 			dct.add_documents([self._clean_text(x)])
 
 		dct.filter_extremes(no_below=min_filter, no_above=max_filter, keep_n=200000)
+		print("dict length")
 		print(len(dct.keys()))
 
 		self.dct = dct
