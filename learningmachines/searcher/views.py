@@ -31,6 +31,49 @@ def home(request):
 	ctxt = {}
 	return render(request, 'searcher/home.html', ctxt)
 
+def password_reset(request,
+                   template_name='registration/password_reset_form.html',
+                   email_template_name='registration/password_reset_email.html',
+                   subject_template_name='registration/password_reset_subject.txt',
+                   password_reset_form= 'regestration/password_reset',
+                   post_reset_redirect=None,
+                   from_email=None,
+                   extra_context=None,
+                   html_email_template_name=None,
+                   extra_email_context=None):
+    warnings.warn("The password_reset() view is superseded by the "
+                  "class-based PasswordResetView().",
+                  RemovedInDjango21Warning, stacklevel=2)
+    if post_reset_redirect is None:
+        post_reset_redirect = reverse('password_reset_done')
+    else:
+        post_reset_redirect = resolve_url(post_reset_redirect)
+    if request.method == "POST":
+        form = password_reset_form(request.POST)
+        if form.is_valid():
+            opts = {
+                'use_https': request.is_secure(),
+                'token_generator': token_generator,
+                'from_email': from_email,
+                'email_template_name': email_template_name,
+                'subject_template_name': subject_template_name,
+                'request': request,
+                'html_email_template_name': html_email_template_name,
+                'extra_email_context': extra_email_context,
+            }
+            form.save(**opts)
+            return HttpResponseRedirect(post_reset_redirect)
+    else:
+        form = password_reset_form()
+    context = {
+        'form': form,
+        'title': _('Password reset'),
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+
+    return TemplateResponse(request, template_name, context)
+
 
 """
     url(r'^projects/debates', project_handler.get_page),
