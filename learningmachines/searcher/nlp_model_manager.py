@@ -4,25 +4,41 @@ from gensim.models.callbacks import CallbackAny2Vec
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from learningmachines.cfg import TEMP_MODEL_FOLDER
 from .es_search import SearchResults_ES
+from gensim.models.callbacks import CallbackAny2Vec
 #from .s3_client import S3Client
 
 
 """{'start': '1809', 'end': '2017', 'f_start': '-1', 'f_end': '-1', 'qry': 'apple', 'maximum_hits': '500', 'method': 'DFR browser', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 'automatic', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'model_name': 'apple_2020-11-20-19-27-52_6JZVI9179R'}"""
+NUM_PASSES = 10
 
-"""
-TODO implement per-pass check on database to see if model status has been cancelled
+class QueryCancelledException(Exception):
+	pass
+
 class EpochLogger(CallbackAny2Vec):
-	def __init__(self, qh, num_passes=NUM_PASSES):
+	'''Callback to log information about training'''
+	def __init__(self, qh, num_passes=0):
 		self.epoch = 0
-		self.logger=None
-		self.title=None
+		self.logger = None
 		self.qh = qh
 		self.num_passes = num_passes
+
+	def on_epoch_begin(self, model):
+		print("Epoch #{} start".format(self.epoch))
+	def get_value(self, topics=10, model=None, other_model=None):
+		print("Epoch #{} end".format(self.epoch))
+		if self.qh != None:
+			if self.qh.get_status() == 'Cancelled':
+				raise QueryCancelledException()
+		self.epoch += 1
+		return None
 	def on_epoch_end(self, model):
-		print(self.qh)
-		self.epoch = self.epoch + 1
-"""
-NUM_PASSES = 10
+		print("Epoch #{} end".format(self.epoch))
+		if self.qh != None:
+			print(self.qh.get_status())
+			if self.qh.get_status() == 'Cancelled':
+				raise QueryCancelledException()
+		self.epoch += 1
+
 
 class NLPModelManager:
 	def __init__(self, qry_str, cm=None, q_pk=None, qh=None, save=False):
@@ -76,7 +92,11 @@ class NLPModelManager:
 		else:
 			os.mkdir(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"])
 		for seed in range(0, 600, 100):
-			self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed)
+			try:
+				self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed, callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
+			except QueryCancelledException:
+				return
+			#self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed)
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] +  "/model_" + str(seed))
 		self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "/lda_dict")
 		self.model = None
@@ -101,7 +121,11 @@ class NLPModelManager:
 			self.num_topics = int(self.qry_str['maximum_hits']) / 10
 		for d in docs:
 			corpus_docs.append(d)
-		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed)
+		try:
+			self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed, callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
+		except QueryCancelledException:
+			return
+
 		if self.save:
 			self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_lda_dict")
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_pylda")
@@ -118,7 +142,10 @@ class NLPModelManager:
 			self.num_topics = int(self.qry_str['maximum_hits']) / 10
 		for d in docs:
 			corpus_docs.append(d)
-		self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed)
+		try:
+			self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed, callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
+		except QueryCancelledException:
+			return
 		if self.save:
 			self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_lda_dict")
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_pylda")
