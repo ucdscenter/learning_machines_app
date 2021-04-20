@@ -38,10 +38,11 @@ class SearchResults_ES:
 		self.num_scroll = 0
 		self.total_docs = 0
 		self.rand = rand
-		if 'rand' in self.qry_obj:
-			self.rand = self.qry_obj['rand']
+		
 		if self.qry_obj != None:
 			self.th = TextHandler(self.qry_obj)
+			if 'rand' in self.qry_obj:
+				self.rand = self.qry_obj['rand']
 		
 		self.cleaned = cleaned
 		if self.qry_obj != None:
