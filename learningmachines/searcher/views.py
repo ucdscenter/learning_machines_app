@@ -318,7 +318,9 @@ def save_query(request):
 def cancel_task(request):
 	q_pk = request.GET.get('q_pk')
 	qh = QueryHandler(q_pk=q_pk)
-	return HttpResponse(qh.cancel_task(), status=200)
+	rsp = qh.cancel_task()
+	print(rsp)
+	return HttpResponse(rsp, status=200)
 
 
 def poll_tasks(request):
