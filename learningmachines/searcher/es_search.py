@@ -10,11 +10,12 @@ from learningmachines.cfg import ES_MAX_SIZE, ES_SCROLL_SIZE
 from learningmachines.es_fields import ES_FIELDS, MAX_NUM_DOC_VIS
 from .pre_processing import  get_min_term_occurrence, TextHandler
 import sys
+from gensim.models.doc2vec import TaggedDocument
 
 sys.setrecursionlimit(5000)
 
 class SearchResults_ES:
-	def __init__(self, database, qry_obj=None, cm=None, tokenized=False, cleaned=False, rand=False):
+	def __init__(self, database, qry_obj=None, cm=None, tokenized=False, cleaned=False, rand=False, taggedDoc=False):
 		aws_auth = AWS4Auth(AWS_PROFILE['ACCESS_KEY'], AWS_PROFILE['SECRET_KEY'], 'us-east-2', 'es')
 		aws_host = AWS_PROFILE['AWS_HOST']
 		self.database = database
@@ -37,11 +38,13 @@ class SearchResults_ES:
 		self.scroll_size = None
 		self.num_scroll = 0
 		self.total_docs = 0
+		self.taggedDoc=taggedDoc
 		self.rand = rand
-		if 'rand' in self.qry_obj:
-			self.rand = self.qry_obj['rand']
+		
 		if self.qry_obj != None:
 			self.th = TextHandler(self.qry_obj)
+			if 'rand' in self.qry_obj:
+				self.rand = self.qry_obj['rand']
 		
 		self.cleaned = cleaned
 		if self.qry_obj != None:
@@ -87,9 +90,17 @@ class SearchResults_ES:
 			return self.__next__()
 		else:
 			if self.cleaned:
+				final_doc = None
 				if self.cm == None:
-					return self.th.clean_text(retdoc)
-				return self.cm._clean_text(retdoc)
+					final_doc = self.th.clean_text(retdoc)
+				else:
+					final_doc =  self.cm._clean_text(retdoc)
+				#for doc2vec iter
+				if self.taggedDoc:
+					final_doc = TaggedDocument(final_doc, [self.total_docs])
+				return final_doc
+
+
 			elif self.tokenized:
 				return self.cm.doc2bow(retdoc)
 			else:

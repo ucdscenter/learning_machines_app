@@ -52,8 +52,10 @@ class FormattedDataManager:
 	def mlmom_run(self):
 		from .mlmom_adapter import MLMOMFormatter
 		self.create_meta()
-		mlformatter = MLMOMFormatter(self.qry_str, self.cm)
+		mlformatter = MLMOMFormatter(self.qry_str, self.cm, qh=self.qh)
 		mlformatter.create()
+		if self.qh.get_status() == "Cancelled":
+			return
 		formatted_d = mlformatter.get_data()
 		formatted_d["metadata"] = self.meta_str
 		self.formatted_data = formatted_d
@@ -84,12 +86,17 @@ class FormattedDataManager:
 		tokenized_corpus = []
 		for d in docs:
 			tokenized_corpus.append(d)
+		
+		if self.qh.get_status() == "Cancelled":
+			return
 		ldavis_data = pyLDAvis.gensim.prepare(self.model, tokenized_corpus, self.cm.dct)
 		self.formatted_data = ldavis_data.to_json()
 		return 
 
 	def w2v_run(self, top_n=25):
 		self.create_meta()
+		if self.qh.get_status() == "Cancelled":
+			return
 		word_top_docs = self._calc_word_docs()
 
 		w_embs = np.zeros((1,1))
@@ -99,12 +106,14 @@ class FormattedDataManager:
 				w_embs = np.zeros((len(self.model.wv.vocab), len(self.model.wv[word_obj])))
 			w_embs[index] = self.model.wv[word_obj]
 			index += 1
-		
+		if self.qh.get_status() == "Cancelled":
+			return
 		normalized_embs = StandardScaler().fit_transform(w_embs)
 		#clustering = AffinityPropagation(random_state=0).fit(w_embs)
 		clustering = KMeans(n_clusters=int(self.qry_str['num_clusters']), random_state=0).fit(w_embs)
 		pca_result = PCA(n_components=2)
-	
+		if self.qh.get_status() == "Cancelled":
+			return
 		pca_result.fit(normalized_embs)
 		pca_result = pca_result.transform(normalized_embs)
 		emb_list = pca_result.tolist()
@@ -136,6 +145,8 @@ class FormattedDataManager:
 
 	def d2v_run(self):
 		self.create_meta()
+		if self.qh.get_status() == "Cancelled":
+			return
 		doc_no = len(self.meta_str.split("\n")) - 1
 		d_embs = np.zeros((1,1))
 		for x in range(0, doc_no):
@@ -147,13 +158,16 @@ class FormattedDataManager:
 		#clustering = AffinityPropagation(random_state=0).fit(d_embs)
 		clustering = KMeans(n_clusters=int(self.qry_str['num_clusters']), random_state=0).fit(d_embs)
 		pca_result = PCA(n_components=2)
-	
+		if self.qh.get_status() == "Cancelled":
+			return
 		pca_result.fit(normalized_embs)
 		pca_result = pca_result.transform(normalized_embs)
 		emb_list = pca_result.tolist()
 		data_dict = dict()
 		index = 0
 		split_docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, cleaned=True)
+		if self.qh.get_status() == "Cancelled":
+			return
 		for doc in split_docs:
 			#new_vec = self.model.infer_vector(doc)
 			sims = self.model.docvecs.most_similar([index], topn=10)

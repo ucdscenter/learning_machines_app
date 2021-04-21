@@ -27,7 +27,6 @@ def prepare_model_listing(the_obj, q):
 		num_topics = the_obj.docfilter.num_clusters
 	else:
 		num_topics = the_obj.docfilter.num_topics
-	print(timezone.localtime(q.created_time))
 	ret_obj = {
 		"query" : ' ' if len(q.query_str) == 0 else q.query_str,
 		"database" : q.database,
