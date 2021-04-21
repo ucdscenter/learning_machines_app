@@ -16,11 +16,12 @@ from .es_search import SearchResults_ES
 from learningmachines.cfg import TEMP_MODEL_FOLDER
 
 class MLMOMFormatter:
-	def __init__(self, qry_str, cm=None):
+	def __init__(self, qry_str, cm=None, qh=None):
 		self.qry_str = qry_str
 		self.model_name = qry_str['model_name']
 		self.num_topics = qry_str['num_topics']
 		self.cm = cm
+		self.qh = qh
 		if self.num_topics == 'automatic':
 			print("CHANGING")
 			self.num_topics = int(int(self.qry_str['maximum_hits']) / 10)
@@ -31,10 +32,12 @@ class MLMOMFormatter:
 		self.formatted_m = []
 		self.graph = {"nodes" : [], "links" : []}
 		self.multi_data = None
+
 	def get_data(self):
 		return self.multi_data
 
 	def create(self):
+
 		save_fp = TEMP_MODEL_FOLDER + "/" + self.model_name + "/model_"
 		for x in range(0, 600, 100):
 			x1 = int(x / 100)
@@ -71,6 +74,9 @@ class MLMOMFormatter:
 			model_info_json["level"] = '1'
 			self.formatted_m.append(model_info_json)
 
+		if self.qh.get_status() == "Cancelled":
+			return
+
 		doc_graphlinks = {}
 		linksdict = {}
 		model_index = 0
@@ -81,6 +87,8 @@ class MLMOMFormatter:
 			save_fp = TEMP_MODEL_FOLDER + "/" + self.model_name + "/model_"
 			lda1 = gensim.models.LdaModel.load(save_fp + str(x))
 			doc_index = 0
+			if self.qh.get_status() == "Cancelled":
+				return
 			
 			for doc in corpus_iterator:
 				topics_in_doc = lda1.get_document_topics(doc, minimum_probability=0.01)
@@ -128,10 +136,13 @@ class MLMOMFormatter:
 		base_nps = scaler.fit_transform(base_nps)
 		pca = PCA(n_components=2)
 		pca_result = pca.fit_transform(base_nps)
-
+		if self.qh.get_status() == "Cancelled":
+			return
 
 		#clustering = AffinityPropagation().fit(base_nps)
 		clustering = KMeans(n_clusters=self.num_topics).fit(base_nps)
+		if self.qh.get_status() == "Cancelled":
+			return
 		print("AP finished")
 		data = []
 		print_dict = dict()
@@ -142,7 +153,10 @@ class MLMOMFormatter:
 		tcount = 0
 
 		for x in range(0, 600, 100):
+			
 			lda1 = gensim.models.LdaModel.load(save_fp + str(x))
+			if self.qh.get_status() == "Cancelled":
+				return
 			model_obj = {}
 			corpus_obj = {}
 
