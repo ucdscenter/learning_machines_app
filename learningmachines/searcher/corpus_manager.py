@@ -3,8 +3,9 @@ from .es_search import SearchResults_ES
 import string
 from .pre_processing import TextHandler
 from gensim.models.phrases import Phraser, Phrases
+
 class CorpusManager:
-	def __init__(self, qry_str, q_pk=None):
+	def __init__(self, qry_str, q_pk=None, query_handler=None):
 		self.qry_str = qry_str
 		self.q_pk = q_pk
 		self.ngrams_model = None
@@ -13,6 +14,7 @@ class CorpusManager:
 		self.trigram_model = None
 		self.dct = None
 		self.th = TextHandler(self.qry_str)
+		self.query_handler = query_handler
 		
 
 	def _clean_text(self, doc):
@@ -28,14 +30,19 @@ class CorpusManager:
 	def doc2bow(self, doc):
 		return self.dct.doc2bow(self._clean_text(doc))
 
-	def create_dict(self, min_filter=3, max_filter=.7):
+	def create_dict(self, min_filter=1, max_filter=.7):
 		es_iter = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str)
 		dct = Dictionary(documents=None, prune_at=200000)
-		
+		iter_count = 0
 		for x in es_iter:
 			dct.add_documents([self._clean_text(x)])
+			if iter_count % 1000 == 0:
+				if self.query_handler.get_status() == "Cancelled":
+					return
+			iter_count += 1
 
 		dct.filter_extremes(no_below=min_filter, no_above=max_filter, keep_n=200000)
+		print("dict length")
 		print(len(dct.keys()))
 
 		self.dct = dct

@@ -12,6 +12,7 @@ __pycache__/
 /learningmachines/searcher/tempmodeldata/*
 /learningmachines/etc/uwsgi/run.log
 /learningmachines/static/*
+/learningmachines/eval_data/lda_hyperparams/*
 /learningmachines/searcher/static/searcher/vent_notes/
 /learningmachines/searcher/static/searcher/climate_maps/
 /learningmachines/searcher/static/searcher/debates/
