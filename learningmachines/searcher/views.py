@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from learningmachines.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
 
 import json
 import logging
@@ -31,59 +33,7 @@ def home(request):
 	ctxt = {}
 	return render(request, 'searcher/home.html', ctxt)
 
-def password_reset(request,
-                   template_name='registration/password_reset_form.html',
-                   email_template_name='registration/password_reset_email.html',
-                   subject_template_name='registration/password_reset_subject.txt',
-                   password_reset_form= 'regestration/password_reset',
-                   post_reset_redirect=None,
-                   from_email=None,
-                   extra_context=None,
-                   html_email_template_name=None,
-                   extra_email_context=None):
-    warnings.warn("The password_reset() view is superseded by the "
-                  "class-based PasswordResetView().",
-                  RemovedInDjango21Warning, stacklevel=2)
-    if post_reset_redirect is None:
-        post_reset_redirect = reverse('password_reset_done')
-    else:
-        post_reset_redirect = resolve_url(post_reset_redirect)
-    if request.method == "POST":
-        form = password_reset_form(request.POST)
-        if form.is_valid():
-            opts = {
-                'use_https': request.is_secure(),
-                'token_generator': token_generator,
-                'from_email': from_email,
-                'email_template_name': email_template_name,
-                'subject_template_name': subject_template_name,
-                'request': request,
-                'html_email_template_name': html_email_template_name,
-                'extra_email_context': extra_email_context,
-            }
-            form.save(**opts)
-            return HttpResponseRedirect(post_reset_redirect)
-    else:
-        form = password_reset_form()
-    context = {
-        'form': form,
-        'title': _('Password reset'),
-    }
-    if extra_context is not None:
-        context.update(extra_context)
 
-    return TemplateResponse(request, template_name, context)
-
-
-"""
-    url(r'^projects/debates', project_handler.get_page),
-    url(r'^projects/blm', project_handler.get_blm_page),
-    url(r'^projects/dapl', project_handler.get_dapl_page),
-    url(r'^projects/library_docs', project_handler.get_library_auths),
-    url(r'^projects/insta_art', project_handler.get_insta_art),
-    url(r'^projects/climate_maps', project_handler.get_climate_maps),
-    url(r'^projects/vent_notes', project_handler.get_vent_notes),
-"""
 def projects(request):
 	ctxt = {}
 	print(request)
@@ -368,4 +318,14 @@ def poll_tasks(request):
 
 	return HttpResponse("Task_info", status=200)
 
-
+def searcher(request):
+    sub = forms.Searcher()
+    if request.method == 'POST':
+        sub = forms.Searcher(request.POST)
+        subject = 'Reset your Password'
+        message = 'Please follow the steps for reset your password'
+        recepient = str(sub['Email'].value())
+        send_mail(subject, 
+            message, EMAIL_HOST_USER, [recepient], fail_silently = False)
+        return render(request, 'searcher/success.html', {'recepient': recepient})
+    return render(request, 'searcher/index2.html', {'form':sub})

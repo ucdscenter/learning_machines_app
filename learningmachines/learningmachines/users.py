@@ -3,11 +3,13 @@ from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from learningmachines.settings import EMAIL_HOST_USER
 from searcher.models import Profile,Access#, VisRequest
 from django.contrib.messages import info
 #from cfg.dev_config import SKPN_ADDRESS
 import json
 import re
+
 
 
 def login_user(request):
@@ -87,47 +89,23 @@ def change_password(request):
         user.save()
         info(request, "password successfully changed")
         return redirect('/searcher/home/')
-""" 
-def password_reset(request):
-    if request.method == "POST":
-        domain = request.headers['Host']
-        password_reset_form = PasswordResetForm(request.POST)
-        if password_reset_form.is_valid():
-            data = password_reset_form.cleaned_data['email']
-            associated_users = User.objects.filter(Q(email=data))
-            # You can use more than one way like this for resetting the password.
-            # ...filter(Q(email=data) | Q(username=data))
-            # but with this you may need to change the password_reset form as well.
-            if associated_users.exists():
-                for user in associated_users:
-                    subject = "Password Reset Requested"
-                    email_template_name = "searcher/accounts/password_reset_email.txt"
-                    c = {
-                        "email": user.email,
-                        'domain': domain,
-                        'site_name': 'Interface',
-                        "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                        "user": user,
-                        'token': default_token_generator.make_token(user),
-                        'protocol': 'http',
-                    }
-                    email = render_to_string(email_template_name, c)
-                    try:
-                        send_mail(subject, email, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
-                    except BadHeaderError:
-                        return HttpResponse('Invalid header found.')
-                    return redirect("/core/password_reset/done/")
-    password_reset_form = PasswordResetForm()
-    return render(request=request, template_name="searcher/accounts/password_reset.html",
-                  context={"password_reset_form": password_reset_form})
-    password_reset_done = PasswordResetDone()
-    return render(request=request, template_name="searcher/accounts/password_reset.html",
-                  context={"password_reset_done": password_reset_done})
-    password_reset_confirm = PasswordResetConfirm()
-    return render(request=request, template_name="searcher/accounts/password_reset.html",
-                  context={"password_reset_confirm": password_reset_confirm})
 
- """
+def password_reset(request):
+    if request.method == 'GET':
+        html = 'searcher/password_reset.html'
+        return render(request, html, {})
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        subject = 'Reset your password'
+        message = 'This is so'
+        recepient = email
+        send_mail(subject, 
+            message, EMAIL_HOST_USER, [recepient], fail_silently = False)
+        html = 'searcher/password_reset_sent.html'
+        return render(request, html, {})
+
+
+
 
 def show_user(request):
     if request.user.is_anonymous:

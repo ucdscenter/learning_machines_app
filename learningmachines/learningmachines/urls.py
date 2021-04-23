@@ -57,8 +57,9 @@ urlpatterns = [
     path('accounts/logout/', users.logout_user, name='logout_user'),
     path('accounts/change_pw/', users.change_password, name='change_password'),
     path('accounts/user/', users.show_user, name='show_user'),
-    
-   	path('searcher/', include('searcher.urls')),
+    path('accounts/password_reset', users.password_reset, name='password_reset'),
+
+    path('searcher/', include('searcher.urls')),
     path('lda/vis', redirect_vis_view),
 
     path('projects/debates/', redirect_proj_view),
@@ -73,18 +74,6 @@ urlpatterns = [
     path('', RedirectView.as_view(url='searcher', permanent=True)),
 
 
-    path('reset_password/', 
-        auth_views.PasswordResetView.as_view(template_name = "searcher/password_reset.html"), 
-        name = "reset_password"),
-    path('reset_password_sent/', 
-        auth_views.PasswordResetDoneView.as_view(template_name = "searcher/password_reset_sent.html"), 
-        name = "password_reset_done"),
-    path('reset/<uidb64>/<token>/', 
-        auth_views.PasswordResetConfirmView.as_view(template_name = "searcher/password_reset_form.html"), 
-        name = "password_reset_confirm"),
-    path('reset_password_complete/', 
-        auth_views.PasswordResetCompleteView.as_view(template_name = "searcher/password_reset_complete.html"), 
-        name = "password_reset_complete"),
   
 
 ]
