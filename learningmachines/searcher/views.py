@@ -153,8 +153,13 @@ def show_models(request):
 	saved_models = []
 	recent_models = []
 	#cancelled_models = []
-	for q in query_requests:	
-		vis_request = VisRequest.objects.get(query=q)
+	for q in query_requests:
+		vis_request = []
+		try:
+			vis_request = VisRequest.objects.get(query=q)
+		except:
+			continue
+
 		if vis_request.status == 'Cancelled':
 			recent_models.append(prepare_model_listing(vis_request, q))
 		#	q.delete()
