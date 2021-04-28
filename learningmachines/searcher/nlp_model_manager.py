@@ -6,6 +6,7 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from learningmachines.cfg import TEMP_MODEL_FOLDER
 from .es_search import SearchResults_ES
 from gensim.models.callbacks import CallbackAny2Vec
+from .sentiment_model import SentimentModel
 #from .s3_client import S3Client
 
 
@@ -74,6 +75,8 @@ class NLPModelManager:
 			self.w2v_run()
 		if self.method == 'doc2vec':
 			self.d2v_run()
+		if self.method == 'sentiment':
+			self.sm_run()
 		return self.model
 
 	def mlmom_run(self):
@@ -179,4 +182,18 @@ class NLPModelManager:
 			self.cm.dct.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_d2v_dict")
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_d2vv")
 		return
+
+
+	def taggedDocIter(self):
+		print(self.qry_str)
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, cleaned=True)
+		self.doc_count = 0
+		for i, doc in enumerate(docs):
+			self.doc_count += 1
+			yield TaggedDocument(doc, [i])
+
+	def sm_run(self):
+		self.model=SentimentModel(trained_on='reviews')
+		return
+
 	

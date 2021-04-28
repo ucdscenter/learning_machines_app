@@ -191,6 +191,17 @@ class FormattedDataManager:
 		self.formatted_data = d2v_data
 		return 
 
+	def sm_run(self):
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
+		predictions=self.model.predict(docs)
+		sm_data={
+		'document': doc[i],
+		'pos': predictions[i][0],
+		'neg': predictions[i][1]
+		for i in range(len(docs))}
+		self.formatted_data=sm_data
+		return
+
 
 	def create_meta(self):
 		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str)
