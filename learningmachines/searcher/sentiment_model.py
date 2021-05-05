@@ -17,7 +17,7 @@ class SentimentModel:
 		self.cleaned_docs = []
 
 	def load_tokenizer(self):
-		if self.trained_on=='reviews':
+		if self.trained_on=='yelp':
 			f = open('searcher/trained_models/yelp_tokenizer_10000.pickle', 'rb')
 			self.tokenizer=pickle.load(f)
 
@@ -31,15 +31,15 @@ class SentimentModel:
 
 	def convert_text_to_padded(self, docs):
 		self.load_tokenizer()
-		for text in docs:
-			self.cleaned_docs.append(self.clean_text(text))
+		for d in docs:
+			self.cleaned_docs.append(self.clean_text(d.text))
 		#self.cleaned_docs=[self.clean_text(text) for text in docs]
 		self.sequences=self.tokenizer.texts_to_sequences(self.cleaned_docs)
 		self.padded=pad_sequences(self.sequences, maxlen=200)
 
 
 	def load_model(self):
-		if self.trained_on=='reviews':
+		if self.trained_on=='yelp':
 			self.model=tf.keras.models.load_model('searcher/trained_models/yelp_lstm_128_embed_300.h5')
 
 	def predict(self, docs):

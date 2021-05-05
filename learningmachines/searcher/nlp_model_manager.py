@@ -193,7 +193,9 @@ class NLPModelManager:
 			yield TaggedDocument(doc, [i])
 
 	def sm_run(self):
-		self.model=SentimentModel(trained_on='reviews')
+		print(self.qry_str)
+		selected_model = self.qry_str['sentiment_select']
+		self.model=SentimentModel(trained_on=selected_model)
 		return
 
 	

@@ -392,7 +392,7 @@
 
               <!--</div>-->
 
-                      <div class="btn btn-success db-button fig mt-3 col-6 justify-content-center" id="sentiment_analyses">
+                      <div class="btn btn-success db-button fig mt-3 col-6 justify-content-center" id="sentiment">
                   <div class="vis-img-hover"><p style=" word-break: normal;
     white-space: normal; padding: 5px" class="justify-content-center">Learns word (or document) meanings based off of their context and pca projects the words onto 2d space after clustering them. Good for large corpora and looking at word (or document) relationships. Not an lda method. </p></div>
                                 <img src="" alt="word to vector" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
@@ -409,6 +409,12 @@
               <div class="col-12 mt-2" id="form-div" style="border-radius : 10px; border-color: white; border-width: 1px">
                
                 <form id="run-model" target="_blank" action="/searcher/models/">
+                <div class="hidden mt-2" id="sentiment-options">
+                  <label for="sentiment-select" class="col-form-label">Select Base Sentiment Model : </label>
+                  <select name="sentiment-select" class="form-control form-control-sm " id="sentiment-select">
+                    <option value="yelp">yelp</option>
+                  </select>
+                </div>
                 <div class="hidden mt-2" id="mlmom-options">
                    <h5 align="center">Multi Level Model of Models Parameters</h5>
                   <div class="form-row hidden">
