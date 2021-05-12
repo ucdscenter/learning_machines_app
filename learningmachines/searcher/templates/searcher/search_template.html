@@ -352,7 +352,7 @@
           </div>          
         </div>
 
-        <div class="search-section hidden lightbg row justify-content-center" id="select-vis-div" >
+        <div class="search-section hidden lightbg row justify-content-center" id="select-vis-div" style="overflow-y: auto" >
           <div class="col-10">
             <h3>Select Visualization/Model Type <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Choose the model type and visualization you wish to create. We recommend using dfr or pylda to run initial smaller models to establish a good topic number and stop words, then run model of models on a full corpus with those parameters to examine in depth. The vector methods offer additional functionality in terms of exploring intra-word and intra-document relationships" class="material-icons center_icon_h3">info_outlined</i></h3>
             <div class="row">
@@ -395,7 +395,7 @@
                       <div class="btn btn-success db-button fig mt-3 col-6 justify-content-center" id="sentiment">
                   <div class="vis-img-hover"><p style=" word-break: normal;
     white-space: normal; padding: 5px" class="justify-content-center">Learns word (or document) meanings based off of their context and pca projects the words onto 2d space after clustering them. Good for large corpora and looking at word (or document) relationships. Not an lda method. </p></div>
-                                <img src="" alt="word to vector" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
+                                <img src="{% static 'searcher/images/btns/sentiment.png' %}" alt="word to vector" class="figure-img img-fluid rounded" style="height: 200px; width: 400px">
                 <figcaption class="figure-caption ">Sentiment Analysis</figcaption>
               </div>
 
