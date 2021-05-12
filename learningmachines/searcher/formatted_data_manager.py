@@ -43,6 +43,8 @@ class FormattedDataManager:
 			self.w2v_run()
 		if self.method == 'doc2vec':
 			self.d2v_run()
+		if self.method == 'sentiment':
+			self.sm_run()
 		return self.model
 	def rm_stored_folder(self):
 		import shutil
@@ -191,6 +193,18 @@ class FormattedDataManager:
 		self.formatted_data = d2v_data
 		return 
 
+	def sm_run(self):
+		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, cleaned=False)
+		predictions = self.model.predict(docs)
+
+		sm_data = []
+		for i, doc in enumerate(docs):
+			#sm_data.append({ 'document': doc, 'pos': predictions[i][0],'neg': predictions[i][1] })
+			sm_data.append({ 'document': doc, 'score': predictions[i].tolist() })
+		self.formatted_data=sm_data
+	
+		return
+
 
 	def create_meta(self):
 		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str)
@@ -208,7 +222,7 @@ class FormattedDataManager:
 
 	def _calc_word_docs(self, num_top_docs=10):
 		import operator
-		tokenized_docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
+		tokenized_docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=False)
 		res = {}
 		word_docs_dict = {}
 		doc_index = 0
