@@ -1,7 +1,7 @@
 import json
 import os
 from celery.result import AsyncResult
-from celery.task.control import revoke
+#from celery import revoke
 from .models import QueryRequest, VisRequest
 
 class QueryHandler:
@@ -28,7 +28,7 @@ class QueryHandler:
 	def cancel_task(self):
 		#Not implemented for SQS
 		if self.task_id:
-			revoke(self.task_id, terminate=True)
+			#revoke(self.task_id, terminate=True)
 			data = {'rslt': self.task.result, 'state': self.task.state}
 			return data
 		else:
