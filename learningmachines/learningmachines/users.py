@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from learningmachines.settings import EMAIL_HOST_USER
-from searcher.models import Profile,Access#, VisRequest
+from searcher.models import Profile,Access, VisRequest
 from django.contrib.messages import info
 #from cfg.dev_config import SKPN_ADDRESS
 import json
@@ -89,22 +88,6 @@ def change_password(request):
         user.save()
         info(request, "password successfully changed")
         return redirect('/searcher/home/')
-
-def password_reset(request):
-    if request.method == 'GET':
-        html = 'searcher/password_reset.html'
-        return render(request, html, {})
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        subject = 'Reset your password'
-        message = 'This is so'
-        recepient = email
-        send_mail(subject, 
-            message, EMAIL_HOST_USER, [recepient], fail_silently = False)
-        html = 'searcher/password_reset_sent.html'
-        return render(request, html, {})
-
-
 
 
 def show_user(request):

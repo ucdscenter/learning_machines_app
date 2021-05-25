@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.messages.api import success
 from django.urls import path
 from django.urls import include
 from django.views.generic import RedirectView
@@ -24,7 +25,7 @@ from django.conf.urls.static import static
 from . import users
 
 from django.shortcuts import redirect
-from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 
 
@@ -57,15 +58,19 @@ urlpatterns = [
     path('accounts/logout/', users.logout_user, name='logout_user'),
     path('accounts/change_pw/', users.change_password, name='change_password'),
     path('accounts/user/', users.show_user, name='show_user'),
-    path('accounts/password_reset', users.password_reset, name='password_reset'),
-
+    path('accounts/password_reset/', PasswordResetView.as_view(
+        extra_email_context={ 'site_name': 'Learning Machines App' }
+    ), name='password_reset'),
+    path('accounts/password_reset/done', PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('accounts/reset/<uidb64>/<token>', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('accounts/reset/done', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('searcher/', include('searcher.urls')),
     path('lda/vis', redirect_vis_view),
 
     path('projects/debates/', redirect_proj_view),
     path('projects/blm/', redirect_proj_view),
     path('projects/dapl/', redirect_proj_view),
-    path('projects/library_docs/', redirect_proj_view),
+    path('projects/library_docs/', redirect_proj_view), 
     path('projects/insta_art/', redirect_proj_view),
     path('projects/climate_maps/', redirect_proj_view),
     path('projects/vent_notes/', redirect_proj_view),
