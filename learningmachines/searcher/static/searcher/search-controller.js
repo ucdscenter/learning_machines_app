@@ -1045,6 +1045,9 @@ function renderVisParams(dbn, qry, method, fromhistory){
     
     
   }
+  if (method == 'sentiment'){
+    $('#sentiment-options').removeClass("hidden")
+  }
  $('#static-method').val(method)
 
 
@@ -1082,7 +1085,8 @@ $('#submit-wrapper-button').click(function(e){
               excluded : excludedDocs, 
               min_occurrence : filters.counts[0],
               max_occurrence : filters.counts[1],
-              doc_count : d3.select('#final_count').text()
+              doc_count : d3.select('#final_count').text(),
+              sentiment_select : $("#sentiment-select").val()
           }
             console.log(postObj)
         $.post('/searcher/start_model_run/', postObj, function(d){

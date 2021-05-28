@@ -93,7 +93,8 @@ class VisRequest(Request):
             ('DFR browser', 'DFR'),
             ('mlmom', 'mlmom'),
             ('doc2vec', 'd2v'),
-            ('word2vec', 'w2v')
+            ('word2vec', 'w2v'),
+            ('sentiment', 'sentiment')
         )
     )
     query = models.ForeignKey(QueryRequest, on_delete=models.CASCADE)

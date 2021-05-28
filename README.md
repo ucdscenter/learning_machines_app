@@ -208,13 +208,9 @@ sudo service nginx start
 ```
 Now, your site will be running at whatever ip address you set up the instance in.
 ##TODO
-model_page remodel
-
-hyperparam_evaluation_script
+make it load balanced/auto-scaled, both frontend and workers.
 
 block_non_auth_users for model viewing
-
-task_cancellation
 
 write instructions for https support with certbot, domain name work
 
@@ -227,8 +223,6 @@ basic sentiment analysis endpoint
 
 pretrain and save elasticsearch index based ngram models/language models
 
-build in rds based task cancellation
-
 ensure elasticsearch connections don't fail/timeout during large queries, build in a retry element
 
 accounts testing/password reset work
@@ -237,11 +231,9 @@ general application test suites
 
 deploy tools (docker? jeckyl?)
 
-transfer over static visualizations folder from old version
-
 add in twitter as db option
 
-Upgrading to celery v6 (wait until sqs compatable)
+Upgrading to celery v5 (wait until sqs compatable)
 
 Troubleshooting celery:
 https://stackoverflow.com/questions/51273659/trouble-in-setting-celery-tasks-backend-in-python

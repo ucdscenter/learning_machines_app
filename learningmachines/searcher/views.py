@@ -32,15 +32,6 @@ def home(request):
 	return render(request, 'searcher/home.html', ctxt)
 
 
-"""
-    url(r'^projects/debates', project_handler.get_page),
-    url(r'^projects/blm', project_handler.get_blm_page),
-    url(r'^projects/dapl', project_handler.get_dapl_page),
-    url(r'^projects/library_docs', project_handler.get_library_auths),
-    url(r'^projects/insta_art', project_handler.get_insta_art),
-    url(r'^projects/climate_maps', project_handler.get_climate_maps),
-    url(r'^projects/vent_notes', project_handler.get_vent_notes),
-"""
 def projects(request):
 	ctxt = {}
 	print(request)
@@ -110,6 +101,8 @@ def show_vis(request):
 		html_path = 'searcher/dfr_index.html'
 	if method == 'multilevel_lda' or method == 'hdsr':
 		html_path = 'searcher/hdsr_multi_vis_proj.html'
+	if method == 'sentiment':
+		html_path = 'searcher/sentiment.html'
 	return render(request, html_path, ctxt)
 
 @access_required('all')
@@ -159,7 +152,6 @@ def show_models(request):
 			vis_request = VisRequest.objects.get(query=q)
 		except:
 			continue
-
 		if vis_request.status == 'Cancelled':
 			recent_models.append(prepare_model_listing(vis_request, q))
 		#	q.delete()
@@ -287,12 +279,10 @@ def load_formatted(request):
 		model_display_info = {}
 		method = request.GET.get('method').replace(" ", "+");
 
-
-	
-	
 	if method == 'hdsr':
 		method = "multilevel_lda"
 	f_file_name = method + "_formatted.json"
+	print(method)
 	f_path = os.path.join(modelname, f_file_name)
 	model_dir = os.path.join(TEMP_MODEL_FOLDER, modelname)
 
@@ -303,7 +293,9 @@ def load_formatted(request):
 		data_obj.set_socket_timeout(300)
 		data_str = data_obj.read()
 		data_obj.close()
-		rsp_obj = {"model_info" : model_display_info, "data" :json.loads(data_str.decode('utf-8'))}
+		the_data = json.loads(data_str.decode('utf-8'))
+		print(the_data)
+		rsp_obj = {"model_info" : model_display_info, "data" : the_data}
 		rsp_str = json.dumps(rsp_obj)
 		return HttpResponse(rsp_str, content_type="application/json")
 	else:
