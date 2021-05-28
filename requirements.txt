@@ -15,5 +15,5 @@ redis==3.5.3
 pyLDAvis==2.1.2
 stop-words==2018.7.23
 boto3==1.16.53
-django-storages==1.9.1
+django-storages==1.11.1
 tensorflow==2.4.1
