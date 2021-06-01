@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from learningmachines.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
 
 import json
 import logging
@@ -327,4 +329,14 @@ def poll_tasks(request):
 
 	return HttpResponse("Task_info", status=200)
 
-
+def searcher(request):
+    sub = forms.Searcher()
+    if request.method == 'POST':
+        sub = forms.Searcher(request.POST)
+        subject = 'Reset your Password'
+        message = 'Please follow the steps for reset your password'
+        recepient = str(sub['Email'].value())
+        send_mail(subject, 
+            message, EMAIL_HOST_USER, [recepient], fail_silently = False)
+        return render(request, 'searcher/success.html', {'recepient': recepient})
+    return render(request, 'searcher/index2.html', {'form':sub})

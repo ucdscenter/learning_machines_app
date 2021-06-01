@@ -1,12 +1,14 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from searcher.models import Profile,Access#, VisRequest
+from searcher.models import Profile,Access, VisRequest
 from django.contrib.messages import info
 #from cfg.dev_config import SKPN_ADDRESS
 import json
 import re
+
 
 
 def login_user(request):
