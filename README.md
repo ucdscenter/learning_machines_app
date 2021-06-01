@@ -15,11 +15,13 @@ source whatever_you_want_to_name_this/bin/activate
 
 if running on ec2 ubuntu instance you'll use a virtualenv command instead, and you'll have to install some packages
 ```
+git clone https://github.com/ucdscenter/learning_machines_app.git
 sudo apt update
 sudo apt install python3-pip
 sudo apt install virtualenv
 virtualenv -p python3 venv
 source venv/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 Install the python package requirements to the virtual env.
@@ -82,12 +84,6 @@ Start redis:
 ```
 redis-server
 ```
-### Fixing redis.py bug
-From the folder with manage.py in it, run:
-```
-mv ../venv/lib/python3.8/site-packages/celery/backends/async.py ../venv/lib/python3.8/site-packages/celery/backends/asynchronous.py 
-```
-Then open ../venv/lib/python3.8/site-packages/celery/backends/async.py ../venv/lib/python3.8/site-packages/celery/backends/redis.py and replace all occurrences of async with asynchronous
 
 ## Starting Servers
 
@@ -208,16 +204,20 @@ sudo service nginx start
 ```
 Now, your site will be running at whatever ip address you set up the instance in.
 ##TODO
+make it load balanced/auto-scaled, both frontend and workers.
+
+block_non_auth_users for model viewing
 
 write instructions for https support with certbot, domain name work
 
-bert topic modeling endpoint
+bert topic modeling endpoint:
+
+https://www.kaggle.com/dskswu/topic-modeling-bert-lda
+https://towardsdatascience.com/topic-modeling-with-bert-779f7db187e6
 
 basic sentiment analysis endpoint
 
 pretrain and save elasticsearch index based ngram models/language models
-
-build in rds based task cancellation
 
 ensure elasticsearch connections don't fail/timeout during large queries, build in a retry element
 
@@ -227,13 +227,9 @@ general application test suites
 
 deploy tools (docker? jeckyl?)
 
-backward compatability for non-mlmom links
-
-transfer over static visualizations folder from old version
-
 add in twitter as db option
 
-Upgrading to celery v6 (wait until sqs compatable)
+Upgrading to celery v5 (wait until sqs compatable)
 
 Troubleshooting celery:
 https://stackoverflow.com/questions/51273659/trouble-in-setting-celery-tasks-backend-in-python

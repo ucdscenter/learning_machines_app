@@ -23,7 +23,7 @@ def run_model(self, qry_str, q_pk=None):
 	r = qh.update_status("Learning Ngrams")
 	if r == "Cancelled":
 		return "CANCEL"
-	corpus_manager = CorpusManager(qry_str)
+	corpus_manager = CorpusManager(qry_str, query_handler=qh)
 	corpus_manager.create_ngrams()
 
 	r = qh.update_status("Creating Dictionary")
@@ -70,7 +70,7 @@ def get_docs(self, qry_str, q_pk=None):
 	count = 0
 	for doc in es:
 		if doc.text:
-			num_occur = es._min_count(doc.text)
+			num_occur = es._min_count(doc)
 		else:
 			num_occur = 0
 		doc_obj = {

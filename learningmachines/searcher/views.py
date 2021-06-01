@@ -22,7 +22,7 @@ from learningmachines.cfg import TEMP_MODEL_FOLDER
 import os
 
 
- 
+SEND_WORKER = True
 
 
 def index(request):
@@ -103,6 +103,8 @@ def show_vis(request):
 		html_path = 'searcher/dfr_index.html'
 	if method == 'multilevel_lda' or method == 'hdsr':
 		html_path = 'searcher/hdsr_multi_vis_proj.html'
+	if method == 'sentiment':
+		html_path = 'searcher/sentiment.html'
 	return render(request, html_path, ctxt)
 
 @access_required('all')
@@ -146,8 +148,12 @@ def show_models(request):
 	saved_models = []
 	recent_models = []
 	#cancelled_models = []
-	for q in query_requests:	
-		vis_request = VisRequest.objects.get(query=q)
+	for q in query_requests:
+		vis_request = []
+		try:
+			vis_request = VisRequest.objects.get(query=q)
+		except:
+			continue
 		if vis_request.status == 'Cancelled':
 			recent_models.append(prepare_model_listing(vis_request, q))
 		#	q.delete()
@@ -233,18 +239,21 @@ def start_model_run(request):
 		#task_id=task.id,
 		)
 
+
 	query_request.save()
 	doc_filter.save()
 	vis.save()
 	qry_str["model_name"] = model_name
-	
 	print(query_request.pk)
-	task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
-	rsp_obj = { 
-				"task_id" : task.id
-	}
-	#run_model(qry_str,q_pk=query_request.pk)
-	#rsp_obj = { "hi" : "there"}
+	if SEND_WORKER:
+		task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
+		rsp_obj = { 
+					"task_id" : task.id
+		}
+	else:
+		run_model(qry_str,q_pk=query_request.pk)
+
+	rsp_obj = { "hi" : "there"}
 	return HttpResponse(json.dumps(rsp_obj))
 
 
@@ -272,12 +281,10 @@ def load_formatted(request):
 		model_display_info = {}
 		method = request.GET.get('method').replace(" ", "+");
 
-
-	
-	
 	if method == 'hdsr':
 		method = "multilevel_lda"
 	f_file_name = method + "_formatted.json"
+	print(method)
 	f_path = os.path.join(modelname, f_file_name)
 	model_dir = os.path.join(TEMP_MODEL_FOLDER, modelname)
 
@@ -288,7 +295,9 @@ def load_formatted(request):
 		data_obj.set_socket_timeout(300)
 		data_str = data_obj.read()
 		data_obj.close()
-		rsp_obj = {"model_info" : model_display_info, "data" :json.loads(data_str.decode('utf-8'))}
+		the_data = json.loads(data_str.decode('utf-8'))
+		print(the_data)
+		rsp_obj = {"model_info" : model_display_info, "data" : the_data}
 		rsp_str = json.dumps(rsp_obj)
 		return HttpResponse(rsp_str, content_type="application/json")
 	else:
@@ -309,7 +318,9 @@ def save_query(request):
 def cancel_task(request):
 	q_pk = request.GET.get('q_pk')
 	qh = QueryHandler(q_pk=q_pk)
-	return HttpResponse(qh.cancel_task(), status=200)
+	rsp = qh.cancel_task()
+	print(rsp)
+	return HttpResponse(rsp, status=200)
 
 
 def poll_tasks(request):

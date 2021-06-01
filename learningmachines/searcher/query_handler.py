@@ -1,14 +1,14 @@
 import json
 import os
 from celery.result import AsyncResult
-from celery.task.control import revoke
+#from celery import revoke
 from .models import QueryRequest, VisRequest
 
 class QueryHandler:
 	def __init__(self, q_pk=None, task_id=None):
 		self.task_id = task_id
 		self.q_pk = q_pk
-		self.q = None if q_pk is None else QueryRequest.objects.get(pk=q_pk)
+		self.q = None if q_pk == None else QueryRequest.objects.get(pk=q_pk)
 		self.v = None
 		
 	def _init_v(self):
@@ -28,7 +28,7 @@ class QueryHandler:
 	def cancel_task(self):
 		#Not implemented for SQS
 		if self.task_id:
-			revoke(self.task_id, terminate=True)
+			#revoke(self.task_id, terminate=True)
 			data = {'rslt': self.task.result, 'state': self.task.state}
 			return data
 		else:
@@ -38,19 +38,21 @@ class QueryHandler:
 			return "Marked for Cancellation"
 
 	def get_status(self):
-		if self.q_pk is None:
+		if self.q_pk == None:
 			return None
-		if self.v == None:
-			self._init_v()
+		self._init_v()
 		print(self.v.status)
 		return self.v.status
 
 	def update_status(self, new_state, finished=False, saved=False):
-		if self.q_pk is None:
+		if self.q_pk == None:
 			return None
-		if self.v == None:
-			self._init_v()
-		if self.v.status is "Cancelled":
+		#update task status
+		self._init_v()
+
+		print("TASK STATUS")
+		print(self.v.status)
+		if self.v.status == "Cancelled":
 			return "Cancelled"
 
 		self.v.status = new_state
@@ -59,5 +61,7 @@ class QueryHandler:
 		if saved:
 			self.v.is_saved = True
 		self.v.save()
+		print("NEW TASK STATUS")
+		print(self.v.status)
 		return "Updated"
 

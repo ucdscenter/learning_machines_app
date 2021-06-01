@@ -19,8 +19,25 @@ function wrapper(){
 		"links" : "",
 		"action" : "",
 	}
+	let steps_format = d3.format(".2p")
+	let time_p = d3.timeParse("%m/%d/%y %M:%S %p")
 
+	let steps = {
+		"Scheduled" : 0/6,
+		"Fetching Documents" : 1/6,
+		"Learning Ngrams" : 2/6,
+		"Creating Dictionary" : 3/6,
+		"Running Model" : 4/6,
+		"Formatting Data" : 5/6,
+		"Uploading Data" : 6/6,
+		"Finished" : ""
+	}
 	function add_to_table(table_to_add, model_list_obj, add_info){
+		model_list_obj = model_list_obj.sort(function(a,b){ 
+			console.log(time_p(a.time))
+			return time_p(b.time) - time_p(a.time)
+		})
+		console.log(model_list_obj)
 		if(model_list_obj.length > 0){
 			table_to_add.select(".table-holder").remove()
 		}
@@ -45,16 +62,18 @@ function wrapper(){
 							.attr("id", function(d){
 								console.log(d)
 								return d.task_id
+							}).attr("title", function(d){
+								return JSON.stringify(d);
 							})
 
 		columns.forEach(function(c){
 			if(c == 'links'){
 				if (add_info =='saved_div'){
 					table_rows.append("div")
-							.attr("class", "col-sm-4 col-md-3 col-lg-2 col-query mb-2").attr("align", "center").append("a").attr("class", "btn btn-secondary").attr("href", function(d){
+							.attr("class", "col-sm-4 col-md-3 col-lg-1 col-query mb-2").attr("align", "center").append("a").attr("class", "btn btn-success").attr("href", function(d){
 								return "/searcher/vis/?method=" + d.vis_type + "&q_pk=" + d.q_pk })
 							.text(function(d){
-								return "Open Model"
+								return "Open"
 					})
 					table_rows.append("div")
 							.attr("class", "col-sm-4 col-md-3 col-lg-2 col-query mb-2").attr("align", "center").append("a").attr("class", "btn btn-warning")//.attr("href", "")
@@ -64,7 +83,7 @@ function wrapper(){
 				}
 				if(add_info == 'recent_div'){
 					table_rows.append("div")
-							.attr("class", "col-sm-4 col-md-3 col-lg-2 col-query mb-2").attr("align", "center").append("a")
+							.attr("class", "col-sm-4 col-md-3 col-lg-1 col-query mb-2").attr("align", "center").append("a")
 							.attr("class", function(d){
 								if (d.status == "Cancelled"){
 									return "btn btn-danger"
@@ -76,7 +95,7 @@ function wrapper(){
 								if(d.status == "Cancelled"){
 									return "Cancelled"
 								}
-								return "Save Model"
+								return "Save"
 							}).on("click", postSaveQuery)
 					table_rows.append("div")
 							.attr("class", "col-sm-4 col-md-3 col-lg-2 col-query mb-2").attr("align", "center").append("a").attr("class", "btn btn-warning")
@@ -88,7 +107,7 @@ function wrapper(){
 			else if(c == 'action'){
 				if(add_info == 'running_div'){
 				let table_col_form = table_rows.append("div")
-							.attr("class", "col-sm-4 col-md-3 col-lg-2 col-query mb-2")
+							.attr("class", "col-sm-4 col-md-3 col-lg-1 col-query mb-2")
 							.attr("align", "center")
 
 				table_col_form.append("button")
@@ -115,14 +134,19 @@ function wrapper(){
 								}
 							})
 							.text(function(d){
-								return d[c]
+								console.log(d[c])
+								return d[c] + " " + steps_format(steps[d[c]])
 							})
 				}
 			}
 			else {
-				table_rows.append("div").attr("class", "col-sm-4 col-md-3 col-lg-1 col-query").append("h6").attr("class", "mt-3").text(function(d){
-					//console.log(d[c])
-					return  d[c]
+				var col_width = "col-lg-2"
+				if(c == 'topics'){
+					col_width = "col-lg-1"
+				}
+				table_rows.append("div").attr("class", "col-sm-4 col-md-3 "+ col_width +" col-query").append("h6").attr("class", "mt-3").text(function(d){
+					
+					return  d[c] 
 				})
 			}
 	})

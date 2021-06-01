@@ -1,6 +1,6 @@
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem.porter import PorterStemmer
-from stop_words import get_stop_words
+from nltk.corpus import stopwords
 import itertools
 import os
 import collections
@@ -21,10 +21,12 @@ class TextHandler:
         self.qry_str = qry_str
         self.rmchars = string.punctuation + "º"
         self.rmchars = self.rmchars.replace("_", "").replace("-", "").replace("%", "")
-        self.rm_words = get_stop_words('en')
+        self.rm_words = set(stopwords.words('english'))
         addit_stops = self.qry_str['stop_words'].split(",") if 'stop_words' in self.qry_str else []
-        addit_stops = [x.strip() for x in addit_stops] 
-        self.rm_words = self.rm_words + addit_stops
+        #addit_stops = [x.strip() for x in addit_stops] 
+        #self.rm_words = self.rm_words + addit_stops
+        addit_stops = [x.strip() for x in addit_stops]
+        self.rm_words = list(self.rm_words) + addit_stops
         self.phrases = self.qry_str['phrases'].split(",") if 'phrases' in self.qry_str else []
         self.phrases = [x.strip() for x in self.phrases]
 
@@ -79,11 +81,9 @@ def parse_terms(terms):
 def get_min_term_occurrence(terms, doc):
     the_terms = parse_terms(terms)
     import re
-    #print(min([len(re.findall(term, doc)) for term in terms]))
     count = 0
     if len(terms[0]) == 0:
-        return len(doc)
-
+        return len(doc.split())
     try:
         for term in the_terms:
             count += len(re.findall(term, doc.lower()))
