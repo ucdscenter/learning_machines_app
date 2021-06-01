@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'learningmachines.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 #FOR LOCAL
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -87,20 +87,6 @@ DATABASES = {
         },
     }
 }
-""" DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'lbofiynr',                      # Or path to database file if using sqlite3.
-        'USER': DEV_DB_PROFILE['user'],                      # Not used with sqlite3.
-        'PASSWORD': DEV_DB_PROFILE['password'],                  # Not used with sqlite3.
-        'HOST': 'queenie.db.elephantsql.com',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
-        'TEST': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        },
-    }
-} """
 
 #FOR DEV
 """
@@ -114,7 +100,7 @@ DATABASES = {
         'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
-"""
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
