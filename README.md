@@ -15,11 +15,13 @@ source whatever_you_want_to_name_this/bin/activate
 
 if running on ec2 ubuntu instance you'll use a virtualenv command instead, and you'll have to install some packages
 ```
+git clone https://github.com/ucdscenter/learning_machines_app.git
 sudo apt update
 sudo apt install python3-pip
 sudo apt install virtualenv
 virtualenv -p python3 venv
 source venv/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 Install the python package requirements to the virtual env.
@@ -82,12 +84,6 @@ Start redis:
 ```
 redis-server
 ```
-### Fixing redis.py bug
-From the folder with manage.py in it, run:
-```
-mv ../venv/lib/python3.8/site-packages/celery/backends/async.py ../venv/lib/python3.8/site-packages/celery/backends/asynchronous.py 
-```
-Then open ../venv/lib/python3.8/site-packages/celery/backends/async.py ../venv/lib/python3.8/site-packages/celery/backends/redis.py and replace all occurrences of async with asynchronous
 
 ## Starting Servers
 
