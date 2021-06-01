@@ -47,7 +47,13 @@
       <div class="control-group">
 
         <div class="controls">
-          <a class="btn btn-dark big-button" href="/accounts/create_user/" style="font-size: 20px; background-color: var(--other-color); color:black; ">Sign up</a>
+          <a class="btn btn-dark big-button" href="/accounts/create_user/" style="font-size: 20px; background-color: var(--other-color); color:black;">Sign up</a>
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+            <a href = "{% url 'password_reset' %}"
+              class="btn btn-dark big-button mt-5" style="font-size: 20px; background-color: var(--other-color); color:black;">Forgot Password?</a>
         </div>
       </div>
 
@@ -55,10 +61,7 @@
   </form>
 </div>
 
-<div class = "d-flex justify-content-center links">
-  Forgot password? <a href = "{% url 'password_reset' %}"
-  class = "m1-2">Reset password</a>
-</div>
+
 
 {% endblock content %}
 {% block footer_javascript_page %}
