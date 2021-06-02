@@ -1,9 +1,10 @@
 from kombu.utils.url import safequote
 from .credentials import AWS_PROFILE, SQS_QUEUE_NAME
+from .settings import REDIS_URL
 
 CELERY_SETTINGS = {
-   'BROKER_URL': 'redis://localhost:6379/0',
-   'CELERY_RESULT_BACKEND': 'redis://localhost:6379',
+   'BROKER_URL': REDIS_URL + '/0',
+   'CELERY_RESULT_BACKEND': REDIS_URL,
 
 }
 
