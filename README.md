@@ -18,11 +18,11 @@ if running on ec2 ubuntu instance you'll use a virtualenv command instead, and y
 git clone https://github.com/ucdscenter/learning_machines_app.git
 sudo apt update
 sudo apt install python3-pip
+sudo apt install libcurl4-openssl-dev libssl-dev
 sudo apt install virtualenv
 virtualenv -p python3 venv
 source venv/bin/activate
 pip install --upgrade pip
-pip install -r requirements.txt
 ```
 Install the python package requirements to the virtual env.
 ```bash
