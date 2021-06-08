@@ -139,31 +139,40 @@ def get_doc(request):
 def show_models(request):
 	from .params_helper import prepare_model_listing
 	from learningmachines.settings import DEBUG
+	from datetime import datetime
 	if request.user.is_anonymous:
 		return redirect('/accounts/login/')
 
 	user = request.user
-	query_requests = QueryRequest.objects.filter(user=user).all()
+	query_requests = QueryRequest.objects.filter(user=user).filter(created_time__gte='2021-05-30').all()#[:2]
 	running_models = []
 	saved_models = []
 	recent_models = []
 	#cancelled_models = []
 	for q in query_requests:
-		vis_request = []
+		
 		try:
 			vis_request = VisRequest.objects.get(query=q)
+			print(vis_request)
 		except:
 			continue
-		if vis_request.status == 'Cancelled':
-			recent_models.append(prepare_model_listing(vis_request, q))
-		#	q.delete()
-		elif not vis_request.is_finished:
-			running_models.append(prepare_model_listing(vis_request, q))
-		elif vis_request.is_saved:
-			saved_models.append(prepare_model_listing(vis_request, q))
-		else:
-			recent_models.append(prepare_model_listing(vis_request, q))
-
+		
+		#for legacy handling, deals with visrequests that have no docfilter
+		try:
+			dfilter = vis_request.docfilter
+			print(dfilter)
+			if vis_request.status == 'Cancelled':
+				recent_models.append(prepare_model_listing(vis_request, q))
+			#	q.delete()
+			elif not vis_request.is_finished:
+				running_models.append(prepare_model_listing(vis_request, q))
+			elif vis_request.is_saved:
+				saved_models.append(prepare_model_listing(vis_request, q))
+			else:
+				recent_models.append(prepare_model_listing(vis_request, q))
+		except:
+			continue
+		
 		
 	qry_str = {k: v[0] for k, v in dict(request.POST).items()}
 
@@ -174,6 +183,28 @@ def show_models(request):
 
 	ctxt = {"data" : json.dumps(ctxt)}
 	return render(request, 'searcher/models.html', ctxt)
+
+@access_required('all')
+def show_history(request):
+	if request.user.is_anonymous:
+		return redirect('/accounts/login/')
+	user = request.user
+	vis_requests = VisRequest.objects.filter(user=user).filter(created_time__lte='2021-06-01').all().order_by('-created_time')[:50]
+	request_records = []
+	for v in vis_requests:
+		request_records.append({
+		'query_id' : -1,
+		'time' : v.created_time,
+		'parameters' : '',
+		'search_url' : '',
+		'vis_requests' : [{
+			'url' : v.url,
+			'name' : v.url.split('?')[1].replace('%2C', ',').replace('+', ' ').replace('&', ' ')
+		}]
+		})
+	
+	html = 'searcher/history.html'
+	return render(request, html, {'requests': request_records})
 
 @access_required('all')
 def start_model_run(request):
@@ -330,13 +361,13 @@ def poll_tasks(request):
 	return HttpResponse("Task_info", status=200)
 
 def searcher(request):
-    sub = forms.Searcher()
-    if request.method == 'POST':
-        sub = forms.Searcher(request.POST)
-        subject = 'Reset your Password'
-        message = 'Please follow the steps for reset your password'
-        recepient = str(sub['Email'].value())
-        send_mail(subject, 
-            message, EMAIL_HOST_USER, [recepient], fail_silently = False)
-        return render(request, 'searcher/success.html', {'recepient': recepient})
-    return render(request, 'searcher/index2.html', {'form':sub})
+	sub = forms.Searcher()
+	if request.method == 'POST':
+		sub = forms.Searcher(request.POST)
+		subject = 'Reset your Password'
+		message = 'Please follow the steps for reset your password'
+		recepient = str(sub['Email'].value())
+		send_mail(subject, 
+			message, EMAIL_HOST_USER, [recepient], fail_silently = False)
+		return render(request, 'searcher/success.html', {'recepient': recepient})
+	return render(request, 'searcher/index2.html', {'form':sub})
