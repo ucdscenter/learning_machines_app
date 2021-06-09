@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from .credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO
+from .credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO, DB_ENV
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -77,59 +77,53 @@ WSGI_APPLICATION = 'learningmachines.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-#FOR LOCAL
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'TEST': {
+if DB_ENV == 'LOCAL':
+    DATABASES = {
+        'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        },
+            'TEST': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            },
+        }
     }
-}
-"""
-#FOR DEV
-
-"""
-
-
-DATABASES = {
+if DB_ENV == 'PRODUCTION':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'dev_db',                      # Or path to database file if using sqlite3.
+            'USER': DEV_DB_PROFILE['user'],                      # Not used with sqlite3.
+            'PASSWORD': DEV_DB_PROFILE['password'],                  # Not used with sqlite3.
+            #'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',             
+            'HOST': 'mellon-db-01.cykdbek7llhv.us-east-2.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }
+if DB_ENV == 'DEV':
+    """DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'dev_db',                      # Or path to database file if using sqlite3.
+            'USER': DEV_DB_PROFILE['user'],                      # Not used with sqlite3.
+            'PASSWORD': DEV_DB_PROFILE['password'],                  # Not used with sqlite3.
+            'HOST': 'mlmom-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }"""
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'dev_db',                      # Or path to database file if using sqlite3.
         'USER': DEV_DB_PROFILE['user'],                      # Not used with sqlite3.
         'PASSWORD': DEV_DB_PROFILE['password'],                  # Not used with sqlite3.
-        'HOST': 'mlmom-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-"""
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'dev_db',                      # Or path to database file if using sqlite3.
-        'USER': ,                      # Not used with sqlite3.
-        'PASSWORD': ,                  # Not used with sqlite3.
         'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
-"""
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'dev_db',                      # Or path to database file if using sqlite3.
-        'USER': DEV_DB_PROFILE['user'],                      # Not used with sqlite3.
-        'PASSWORD': DEV_DB_PROFILE['password'],                  # Not used with sqlite3.
-        #'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',             
-        'HOST': 'mellon-db-01.cykdbek7llhv.us-east-2.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 

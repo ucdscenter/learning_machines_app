@@ -25,7 +25,7 @@ import os
 SEND_WORKER = True
 
 
-def index(request):
+def index(request, exception=None):
 	ctxt = {}
 	return render(request, 'searcher/index.html', ctxt)
 
