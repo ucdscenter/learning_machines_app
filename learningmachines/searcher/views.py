@@ -21,6 +21,8 @@ from celery.result import AsyncResult
 from learningmachines.cfg import TEMP_MODEL_FOLDER
 import os
 
+from django.views.decorators.clickjacking import xframe_options_exempt
+
 
 SEND_WORKER = True
 
@@ -33,7 +35,7 @@ def home(request):
 	ctxt = {}
 	return render(request, 'searcher/home.html', ctxt)
 
-
+@xframe_options_exempt
 def projects(request):
 	ctxt = {}
 	print(request)
