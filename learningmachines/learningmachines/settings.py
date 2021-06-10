@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 from .credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO, DB_ENV
 import os
+
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
+mimetypes.add_type("text/js", ".js", True)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -24,7 +28,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = DJANGO_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = not S3_OBJECT['USE_S3']
 ALLOWED_HOSTS = ['modelofmodels.io', 'themlmom.com', '52.15.92.90', 'localhost',]
 
 # Application definition

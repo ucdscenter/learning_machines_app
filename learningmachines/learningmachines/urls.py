@@ -43,12 +43,13 @@ def redirect_vis_view(request):
 
 def redirect_proj_view(request):
     qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-    print(qry_str)
-    print(request.path.split("/")[2])
     params_str = "?"
     params_str = '?name=' + request.path.split("/")[2]
     for x in qry_str:
-        params_str = params_str + x + "=" + qry_str[x] + "&"
+        if len(qry_str[x]) == 0:
+            params_str = params_str +'&' + x
+        else:
+            params_str = params_str + x + "=" + qry_str[x] + "&"
     print(params_str)
     response = redirect('/searcher/projects' + params_str)
     return response
