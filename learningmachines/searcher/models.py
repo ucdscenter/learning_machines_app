@@ -37,6 +37,8 @@ class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_time = models.DateTimeField(default=timezone.now)
     url = models.CharField(max_length=1000)
+    class Meta:
+        abstract = True
     def start(self):
         self.created_time = timezone.now()
         self.save()
@@ -48,6 +50,7 @@ class Request(models.Model):
 class QueryRequest(Request):
     database = models.CharField(max_length=20, default='')
     query_str = models.CharField(max_length=1000, default='')
+
 
 class DocFilter(models.Model):
     method = models.CharField(

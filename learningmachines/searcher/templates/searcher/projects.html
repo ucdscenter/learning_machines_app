@@ -1,7 +1,7 @@
 {% extends 'searcher/base.html' %}
 {% block title %}Projects{% endblock title%}
 {% block content %}
-<div class="col-8 screen-col bg-color mt-3 mb-3" align="center" style="border-radius: 10px; box-shadow: 0px 0px 5px 2px grey">
+<div class="col-8 bg-color mt-3 mb-3" align="center" style="border-radius: 10px; box-shadow: 0px 0px 5px 2px grey;">
        <div id="legend" class="mt-5">
         <h1>Projects</h1>
         <div class="row mb-5 mt-5">
@@ -32,6 +32,13 @@
         		<h4><a href="/searcher/projects/?name=vent_notes">Ventilation Notes</a></h4>
         		<h4><a href="/searcher/projects/?name=vent_notes&sample=True">Ventilation Notes Samples</a></h4>
         	</div>
+        </div>
+
+        <h3>Hathitrust Anthropocene Novels</h3>
+        <div class="col-12">
+            <h4><a href="https://vis.modelofmodels.io/lda/vis?method=hdsr&model=full_pages&num_topics=40&tfidf=False&passes=20&corpus=HathiTrust&level_select=article&dn=710,790&nodesize=docs">All pages as docs: 710,790 pages</a></h4>
+            <h4><a href="https://vis.modelofmodels.io/lda/vis?method=hdsr&model=page_climate_post_1945&num_topics=40&tfidf=False&passes=20&corpus=HathiTrust&level_select=article&dn=28,831&nodesize=docs">POST 1945 Climate: "bomb", "atom", "nuclear", "pollution", "climate", "environment", "earth": 28,831 pages</a></h4>
+            <h4><a href="https://vis.modelofmodels.io/lda/vis?method=hdsr&model=page_climate_pre_1945&num_topics=40&tfidf=False&passes=20&corpus=HathiTrust&level_select=article&dn=6,831&nodesize=docs">PRE 1945 Climate: "bomb", "atom", "nuclear", "pollution", "climate", "environment", "earth": 6,831 pages</a></h4>
         </div>
       </div>
 

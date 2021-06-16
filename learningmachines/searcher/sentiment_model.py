@@ -8,7 +8,6 @@ from tensorflow.keras.layers import Embedding, LSTM, Dense, Bidirectional, Flatt
 
 
 class SentimentModel:
-
 	def __init__(self, trained_on=None):
 		self.trained_on=trained_on
 		self.model=None
@@ -49,4 +48,4 @@ class SentimentModel:
 
 		print("sequences", self.sequences[0])
 		self.predictions=self.model.predict(self.padded)
-		return self.predictions 
+		return self.predictions

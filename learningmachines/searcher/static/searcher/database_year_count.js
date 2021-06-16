@@ -209,5 +209,5 @@ let database_years = {
 
 }
 
-, 
+,
 }
