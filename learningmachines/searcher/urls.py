@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf.urls import handler404
 
+handler404 = views.index
 
 urlpatterns = [
 	path('', views.index, name='main'),
@@ -9,6 +11,7 @@ urlpatterns = [
 	path('process_search/', views.process_search, name='process_search'),
 	path('get_doc/', views.get_doc, name="get_doc"),
 	path('models/', views.show_models, name='show_models'),
+	path('show_history/', views.show_history, name='show_history'),
 	path('start_model_run/', views.start_model_run, name='update_filter'),
 	
 	path('delete_query/', views.delete_query, name='delete_task'),
@@ -19,5 +22,6 @@ urlpatterns = [
 	path('vis/', views.show_vis, name='show_vis'),
 	path('load_formatted/', views.load_formatted, name='load_formatted'),
 	path('proxy_static/', views.proxy_static, name='proxy_static'),
-	path('projects/', views.projects, name='projects')
+	path('projects/', views.projects, name='projects'),
+	
 ]

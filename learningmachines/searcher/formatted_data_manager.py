@@ -103,9 +103,10 @@ class FormattedDataManager:
 
 		w_embs = np.zeros((1,1))
 		index= 0
-		for word_obj in self.model.wv.vocab:
+		for word_obj in self.model.wv.index_to_key:
+			print(word_obj)
 			if index == 0:
-				w_embs = np.zeros((len(self.model.wv.vocab), len(self.model.wv[word_obj])))
+				w_embs = np.zeros((len(self.model.wv.index_to_key), len(self.model.wv[word_obj])))
 			w_embs[index] = self.model.wv[word_obj]
 			index += 1
 		if self.qh.get_status() == "Cancelled":
@@ -122,14 +123,13 @@ class FormattedDataManager:
 
 		data_dict = dict()
 		index = 0
-
-		for word_obj in self.model.wv.vocab:
+		for word_obj in self.model.wv.index_to_key:
 			sims = self.model.wv.most_similar(word_obj, topn=top_n)
 			sims_list = []
 			for s in sims:
 				sims_list.append([s[0], s[1]])
 			proj = emb_list[index]
-			count = self.model.wv.vocab[word_obj].count
+			count = 1 #self.model.wv[word_obj].count
 			data_dict[word_obj] = {
 				"proj" : proj,
 				"sims" : sims,
@@ -154,7 +154,7 @@ class FormattedDataManager:
 		for x in range(0, doc_no):
 			if x == 0:
 				d_embs = np.zeros((doc_no, len(self.model.docvecs[x])))
-			d_embs[x] = self.model.docvecs[x]
+			d_embs[x] = self.model.dv[x]
 
 		normalized_embs = StandardScaler().fit_transform(d_embs)
 		#clustering = AffinityPropagation(random_state=0).fit(d_embs)
@@ -176,7 +176,7 @@ class FormattedDataManager:
 			sims = sims[1:]
 			sims_list = []
 			for s in sims:
-				sims_list.append([s[0].item(), s[1]])
+				sims_list.append([s[0], s[1]])
 			proj = emb_list[index]
 			data_dict[index] = {
 				"proj" : proj,
@@ -222,7 +222,7 @@ class FormattedDataManager:
 
 	def _calc_word_docs(self, num_top_docs=10):
 		import operator
-		tokenized_docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=False)
+		tokenized_docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str, cleaned=True)
 		res = {}
 		word_docs_dict = {}
 		doc_index = 0

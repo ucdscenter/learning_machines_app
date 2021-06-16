@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.messages.api import success
-from django.urls import path
+from django.urls import path, re_path
 from django.urls import include
 from django.views.generic import RedirectView
 from django.conf.urls import url
@@ -27,7 +27,10 @@ from . import users
 from django.shortcuts import redirect
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
-
+def redirect_all_view(request, path=None):
+    print(path)
+    response = redirect('/searcher/')
+    return response
 
 def redirect_vis_view(request):
     qry_str = {k: v[0] for k, v in dict(request.GET).items()}
@@ -40,15 +43,21 @@ def redirect_vis_view(request):
 
 def redirect_proj_view(request):
     qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-    print(qry_str)
-    print(request.path.split("/")[2])
     params_str = "?"
     params_str = '?name=' + request.path.split("/")[2]
+    print("HI THERE!!!!")
     for x in qry_str:
-        params_str = params_str + x + "=" + qry_str[x] + "&"
+        if len(qry_str[x]) == 0:
+            params_str = params_str +'&' + x
+        else:
+            params_str = params_str +'&' + x + "=" + qry_str[x] + "&"
+    print(params_str[:-1])
+
     print(params_str)
     response = redirect('/searcher/projects' + params_str)
     return response
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -74,8 +83,9 @@ urlpatterns = [
     path('projects/insta_art/', redirect_proj_view),
     path('projects/climate_maps/', redirect_proj_view),
     path('projects/vent_notes/', redirect_proj_view),
-
-
+    #path('search/', redirect('searcher')),#RedirectView.as_view(url='searcher', permanent=True)),
+    #url(, home)
+    re_path(r'^(?P<path>.*)/$', redirect_all_view),
     path('', RedirectView.as_view(url='searcher', permanent=True)),
 
 

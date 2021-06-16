@@ -1,0 +1,46 @@
+{% extends 'searcher/base.html' %}
+{% block title %}Account{% endblock title%}
+{% block content %}
+<div class="col-12 page-header pt-3" align="center" >
+       <div id="legend">
+        <h1><span class="main-color">|</span> Search History <span class="main-color">|</span></h1>
+      </div>
+</div>
+
+<div class="col-10 pt-3" style="background-color:white">
+  <table class="table table-sm table-striped" id="history-table">
+    <caption>list of search and vis requests</caption>
+    <thead>
+    <tr>
+      <th scope="col">Keywords</th>
+      <th scope="col">Time</th>
+      <th scope="col">Endpoint</th>
+      <th scope="col">Database</th>
+      <th scope="col">Search Parameters</th>
+      <th scope="col">Links</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for request in requests %}
+    <tr>
+      <td>{{ request.keywords }}</td>
+      <td>{{ request.time }}</td>
+      <td>{{ request.endpoint }}</td>
+      <td>{{ request.database }}</td>
+      <td>{{ request.parameters }}</td>
+      <td>
+        <a href="/search/" class="little_text" style="color: var(--third-color)" ><b>Search</b></a><br>
+        {% for r in request.vis_requests %}
+        <a href="{{ r.url }}" class="little_text" target="_blank" style="color: var(--third-color)">{{ r.name }}</a><br>
+        {% endfor %}
+      </td>
+      
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+
+{% endblock content %}

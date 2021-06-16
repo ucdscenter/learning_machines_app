@@ -156,10 +156,10 @@ class NLPModelManager:
 			self.model = Word2Vec(
 					docs,
 					workers=1,
-					size=num_features,
+					vector_size=num_features,
 					min_count=min_count,
 					max_final_vocab=max_vocab,
-					iter=NUM_PASSES,
+					epochs=NUM_PASSES,
 					callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
 		except QueryCancelledException:
 			return
@@ -168,10 +168,10 @@ class NLPModelManager:
 			self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] + "_w2v")
 		return 
 
-	def d2v_run(self, num_features=200, min_count=1, window=5, max_vocab=10000):
+	def d2v_run(self, num_features=200, min_count=1, window=5, max_vocab=100000):
 		docs = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, cleaned=True, taggedDoc=True)
 		try:
-			self.model = Doc2Vec(vector_size=num_features, window=window, min_count=min_count, max_vocab=max_vocab, epochs=NUM_PASSES, callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
+			self.model = Doc2Vec(vector_size=num_features, window=window, min_count=min_count, max_vocab_size=max_vocab, epochs=NUM_PASSES, callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
 			total_count = self.doc_count
 			self.model.build_vocab(docs)
 			self.model.train(docs, total_examples=self.model.corpus_count, epochs=self.model.epochs)
