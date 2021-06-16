@@ -158,5 +158,17 @@ var database_runtimes = {
 	"b" : 0, 
 	"count" : 3577,
 	"max" : 4000
+	},
+	"Mayerson" : {
+	"a" : 0,
+	"b" : 0, 
+	"count" : 53,
+	"max" : 4000
+	},
+	"Mayerson_qna" : {
+	"a" : 0,
+	"b" : 0, 
+	"count" : 7672,
+	"max" : 8000
 	}
 }

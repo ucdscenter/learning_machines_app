@@ -1254,6 +1254,10 @@ let DATABASES =
                 'options' : [],
                 'name' : 'SAA Abstracts'
               }, 
+               'Med_Applications' : {
+                'options' : [],
+                'name' : 'Med Applications'
+            },
              
           }
 let dbi = 0

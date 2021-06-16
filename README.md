@@ -227,6 +227,9 @@ deploy tools (docker? jeckyl?)
 
 add in twitter as db option
 
+
+MAKE WORD2vec Word counts work
+
 Troubleshooting celery:
 https://stackoverflow.com/questions/51273659/trouble-in-setting-celery-tasks-backend-in-python
 
