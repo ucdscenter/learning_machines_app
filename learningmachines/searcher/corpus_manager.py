@@ -36,9 +36,10 @@ class CorpusManager:
 		iter_count = 0
 		for x in es_iter:
 			dct.add_documents([self._clean_text(x)])
-			if iter_count % 1000 == 0:
-				if self.query_handler.get_status() == "Cancelled":
-					return
+			if self.query_handler != None:
+				if iter_count % 1000 == 0:
+					if self.query_handler.get_status() == "Cancelled":
+						return
 			iter_count += 1
 
 		dct.filter_extremes(no_below=min_filter, no_above=max_filter, keep_n=200000)
