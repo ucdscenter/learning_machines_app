@@ -195,4 +195,3 @@ else:
     STATIC_ROOT = 'static'
     
 
-REDIS_URL='redis://localhost:6379'

@@ -2,3 +2,5 @@ version: "3.8"
 services:
   web:
     build: ./learningmachines
+  redis:
+    image: "redis:alpine"

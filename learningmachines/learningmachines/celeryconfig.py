@@ -1,6 +1,6 @@
 from kombu.utils.url import safequote
-from .credentials import AWS_PROFILE, SQS_QUEUE_NAME
-from .settings import REDIS_URL
+from .credentials import AWS_PROFILE, SQS_QUEUE_NAME, REDIS_URL
+
 
 CELERY_SETTINGS = {
    'BROKER_URL': REDIS_URL + '/0',
