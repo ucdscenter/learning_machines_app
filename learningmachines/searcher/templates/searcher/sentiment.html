@@ -23,12 +23,25 @@
 
   
   <style>
-
+    .doc_row {
+      background-color: white;
+    }
+    .mouseover {
+      position : absolute;
+      background-color: #d3d3d3;
+      width : 200px;
+      z-index : 1000000;
+      font-size: 15px;
+    }
   </style>
   <!--  Three.js CDN  -->
 
 </head>
 <body>
+
+    <div class="mouseover">
+    <p></p>
+  </div>
   <nav class="navbar navbar-expand-lg " id="main-nav">
 
   <div class="navbar-header">
@@ -53,8 +66,26 @@
 <div class="container-fluid" style="background-color:#eee">
   <div class="row">
    <div class="col-12" >
-    <div id="content">
-      
+    <div id="content" style="overflow-y: auto;">
+          <div class="row">
+        <div class="col-2">
+          <h6>Corpus : <span id="corpus"></span></h6>
+        </div>
+        <div class="col-2">
+          <h6>Term : <span id="term"></span></h6>
+        </div>
+        <div class="col-2">
+          <h6># Docs : <span id="dn"></span></h6>
+        </div>
+         <div class="col-2">
+          <h6>Stopwords : <span id="stop_words" style="font-size:10px"></span></h6>
+        </div>
+        <div class="col-2">
+          <h6>Years : <span id="start"></span>-<span id="end"></span></h6>
+      </div>
+    </div>
+      </div>
+      </div>
     </div>
 
    
