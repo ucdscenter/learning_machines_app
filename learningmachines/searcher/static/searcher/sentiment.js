@@ -81,7 +81,7 @@ async function wrapper(){
 
       let doc_width = width * 1
 
-      let row_height = 30
+      let row_height = 10
       let row_padding = 10
       let max_words = 0
      data.data.forEach(function(d){
@@ -118,16 +118,16 @@ async function wrapper(){
                         .enter()
                         .append("div")
                         .attr("class", "row doc_row")
-                        
+
                         //.attr("transform", function(d, i){
                          // return "translate(" + 15 + "," + (i * (row_height  + row_padding)) + ")"
                         //})
 
-      the_rows.append("div").attr("class", "col-lg-6 ml-2").append("p").attr("class", "").text(function(d){
+      the_rows.append("div").attr("class", "col-lg-6 ml-2").append("p").style("font-size", "10px").text(function(d){
         return d.document[2]
       })
 
-
+      let mouseover = d3.select(".mouseover")
 
       let the_divs = the_rows.append("div").attr("class", "col-lg-10 ml-2")
       let  the_svgs = the_divs.append("svg").attr("height", row_height + row_padding).attr("width", doc_width).attr("class", "doc_svg")
@@ -157,13 +157,22 @@ async function wrapper(){
         return colorScale(d[1])
       })
       .on("mouseover", function(d, i){
-        $('.mouseover').removeClass('hidden')
+       // $('.mouseover').removeClass('hidden')
             let data = { left: d3.event.pageX, top: d3.event.pageY}
-            $('.mouseover').offset(data)
-            $('.mouseover p').text(d[3])
+            //$('.mouseover').offset(data)
+            //$('.mouseover p').text(d[3])
+            mouseover.select("p").text(d[3])
+            mouseover.transition()    
+                .duration(200)    
+                .style("opacity", .8);    
+            mouseover
+                .style("left", (d3.event.pageX) + "px")   
+                .style("top", (d3.event.pageY - 28) + "px");  
       })
       .on("mouseout", function(d){
-
+          mouseover.transition()    
+                .duration(500)    
+                .style("opacity", 0); 
           //$('.mouseover').addClass('hidden')
       })
     }
