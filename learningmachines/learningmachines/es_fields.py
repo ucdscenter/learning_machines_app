@@ -1,5 +1,6 @@
 ES_FIELDS = {
     'index': {
+        'Care_Reviews':'care_reviews',
         'Covid':'covid_v4',
         'Pubmed': 'pubmed_v3',
         'PMC': 'pmc_test',
@@ -30,6 +31,7 @@ ES_FIELDS = {
 
     },
     'id': {
+        'Care_Reviews':'directURL',
         'Covid':'paper_id',
         'Pubmed': 'PMID',
         'PMC': 'PMCID',
@@ -59,6 +61,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'case_no'
     },
     'abstract': {
+        'Care_Reviews':'reviewText',
         'Covid':'abstract',
         'Pubmed': 'AbstractText',
         'PMC': 'Abstract',
@@ -86,6 +89,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'text',
     },
     'full_text': {
+        'Care_Reviews':'reviewText',
         'Covid':'fullText',
         'Pubmed': 'AbstractText',
         'PMC': 'FullText',
@@ -116,6 +120,7 @@ ES_FIELDS = {
     },
     'doc_title' :
         {
+        'Care_Reviews':'businessTitle',
         'Covid': 'title',
         'Pubmed': 'ArticleTitle',
         'PMC': 'ArticleTitle',
@@ -145,7 +150,8 @@ ES_FIELDS = {
         },
     'author' :
         {
-            'Covid': 'authors',
+        'Care_Reviews':'dataSource',
+        'Covid': 'authors',
         'PMC': 'ArticleTitle',
         'JSTOR': 'Authors',
         'TCP': 'Authors',
@@ -158,6 +164,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'interviewer'
         },
     'date': {
+        'Care_Reviews':'reviewDate',
         'Covid':'date',
         'Pubmed': 'ReleaseDate',
         'PMC': 'ReleaseDate',
@@ -191,6 +198,7 @@ ES_FIELDS = {
         'foster_encounter': 'note'
     },
     'info': {
+        'Care_Reviews':['businessTitle','dataSource','directURL'],
         'Covid':['paper_id','bib_entries','authors'],
         'Pubmed': ['PMID', 'ReleaseDate'],
         'PMC': ['ID', 'Journal', 'Pub Date', 'Authors'],
@@ -218,6 +226,7 @@ ES_FIELDS = {
     }
 }
 MAX_NUM_DOC_VIS = {
+    'Care_Reviews': 30000,
     'Covid': 144000,
     'Pubmed': 20000,
     'PMC': 20000,
