@@ -1174,7 +1174,11 @@ function getCookie(name) {
 	
 let DATABASES = 
               {
-      		'Covid' : {
+      		'Care_Reviews' : {
+            'options' : [],
+            'name' : 'ER & Urgent Care Reviews'
+          },
+          'Covid' : {
       		  'options' : [],
       		  'name' : 'COVID-19 Articles'
       		},

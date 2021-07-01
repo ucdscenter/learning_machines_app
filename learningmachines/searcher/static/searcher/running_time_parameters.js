@@ -20,7 +20,13 @@ TCP 1500
 ACJ 20000*/
 
 var database_runtimes = {
-   	"Covid" : {
+   	"Care_Reviews" : {
+	"a" : 0,
+	"b" : 0,
+	"count" : 26781,
+	"max" : 30000
+	},
+	"Covid" : {
 	"a" : 0.0127,
 	"b" : 1.8,
 	"count" : 13202,
