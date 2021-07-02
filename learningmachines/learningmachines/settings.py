@@ -28,8 +28,11 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = DJANGO_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = not S3_OBJECT['USE_S3']
-ALLOWED_HOSTS = ['modelofmodels.io', 'themlmom.com', '52.15.92.90', 'localhost',]
+
+ALLOWED_HOSTS = ['3.19.31.134']
+
 
 # Application definition
 
