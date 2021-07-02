@@ -20,7 +20,13 @@ TCP 1500
 ACJ 20000*/
 
 var database_runtimes = {
-   	"Care_Reviews" : {
+   	"caselaw_env" : {
+	"a" : 0,
+	"b" : 0,
+	"count" : 259568,
+	"max" : 260000
+	},
+	"Care_Reviews" : {
 	"a" : 0,
 	"b" : 0,
 	"count" : 26781,
