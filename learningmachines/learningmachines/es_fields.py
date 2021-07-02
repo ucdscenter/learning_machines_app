@@ -1,6 +1,7 @@
 ES_FIELDS = {
     'index': {
         'Care_Reviews':'care_reviews',
+        'caselaw_env':'caselaw_env',
         'Covid':'covid_v4',
         'Pubmed': 'pubmed_v3',
         'PMC': 'pmc_test',
@@ -32,6 +33,7 @@ ES_FIELDS = {
     },
     'id': {
         'Care_Reviews':'directURL',
+        'caselaw_env':'case_ID',
         'Covid':'paper_id',
         'Pubmed': 'PMID',
         'PMC': 'PMCID',
@@ -62,6 +64,7 @@ ES_FIELDS = {
     },
     'abstract': {
         'Care_Reviews':'reviewText',
+        'caselaw_env':'title',
         'Covid':'abstract',
         'Pubmed': 'AbstractText',
         'PMC': 'Abstract',
@@ -90,6 +93,7 @@ ES_FIELDS = {
     },
     'full_text': {
         'Care_Reviews':'reviewText',
+        'caselaw_env':'text',
         'Covid':'fullText',
         'Pubmed': 'AbstractText',
         'PMC': 'FullText',
@@ -120,7 +124,8 @@ ES_FIELDS = {
     },
     'doc_title' :
         {
-        'Care_Reviews':'businessTitle',
+        'Care_Reviews':'doc_title',
+        'caselaw_env':'title',
         'Covid': 'title',
         'Pubmed': 'ArticleTitle',
         'PMC': 'ArticleTitle',
@@ -151,6 +156,7 @@ ES_FIELDS = {
     'author' :
         {
         'Care_Reviews':'dataSource',
+        'caselaw_env':'URL',
         'Covid': 'authors',
         'PMC': 'ArticleTitle',
         'JSTOR': 'Authors',
@@ -165,6 +171,7 @@ ES_FIELDS = {
         },
     'date': {
         'Care_Reviews':'reviewDate',
+        'caselaw_env':'date',
         'Covid':'date',
         'Pubmed': 'ReleaseDate',
         'PMC': 'ReleaseDate',
@@ -199,6 +206,7 @@ ES_FIELDS = {
     },
     'info': {
         'Care_Reviews':['businessTitle','dataSource','directURL'],
+        'caselaw_env':['case_ID','title', 'date'],
         'Covid':['paper_id','bib_entries','authors'],
         'Pubmed': ['PMID', 'ReleaseDate'],
         'PMC': ['ID', 'Journal', 'Pub Date', 'Authors'],
@@ -227,6 +235,7 @@ ES_FIELDS = {
 }
 MAX_NUM_DOC_VIS = {
     'Care_Reviews': 30000,
+    'caselaw_env':260000,
     'Covid': 144000,
     'Pubmed': 20000,
     'PMC': 20000,

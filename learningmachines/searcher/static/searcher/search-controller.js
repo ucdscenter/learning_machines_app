@@ -1174,7 +1174,11 @@ function getCookie(name) {
 	
 let DATABASES = 
               {
-      		'Care_Reviews' : {
+      		'caselaw_env' : {
+            'options' : [],
+            'name' : 'CaseLaw Environment'
+          },
+          'Care_Reviews' : {
             'options' : [],
             'name' : 'ER & Urgent Care Reviews'
           },
