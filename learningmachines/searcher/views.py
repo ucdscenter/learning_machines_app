@@ -24,7 +24,7 @@ import os
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 
-SEND_WORKER = False
+SEND_WORKER = True
 
 
 def index(request, exception=None):
@@ -155,14 +155,12 @@ def show_models(request):
 		
 		try:
 			vis_request = VisRequest.objects.get(query=q)
-			print(vis_request)
 		except:
 			continue
 		
 		#for legacy handling, deals with visrequests that have no docfilter
 		try:
 			dfilter = vis_request.docfilter
-			print(dfilter)
 			if vis_request.status == 'Cancelled':
 				recent_models.append(prepare_model_listing(vis_request, q))
 			#	q.delete()

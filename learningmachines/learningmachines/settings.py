@@ -31,7 +31,7 @@ SECRET_KEY = DJANGO_SECRET
 
 DEBUG = not S3_OBJECT['USE_S3']
 
-ALLOWED_HOSTS = ['3.19.31.134']
+ALLOWED_HOSTS = ['3.19.31.134', 'localhost']
 
 
 # Application definition
