@@ -31,9 +31,12 @@ class SentimentModel:
 	def convert_text_to_padded(self, docs):
 		self.load_tokenizer()
 		for d in docs:
-			self.cleaned_docs.append(self.clean_text(d.text))
+			for s in d.text.split(". "):
+				self.cleaned_docs.append(self.clean_text(s))
+
 		#self.cleaned_docs=[self.clean_text(text) for text in docs]
 		self.sequences=self.tokenizer.texts_to_sequences(self.cleaned_docs)
+		print
 		self.padded=pad_sequences(self.sequences, maxlen=200)
 
 

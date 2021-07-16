@@ -1,0 +1,7 @@
+#!/bin/bash
+source venv/bin/activate
+CLIENT_EMAIL_PW='vonuavmikworwqlb'
+export CLIENT_EMAIL_PW
+cd learningmachines
+python manage.py runserver 8000
+

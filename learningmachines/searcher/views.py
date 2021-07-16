@@ -155,14 +155,12 @@ def show_models(request):
 		
 		try:
 			vis_request = VisRequest.objects.get(query=q)
-			print(vis_request)
 		except:
 			continue
 		
 		#for legacy handling, deals with visrequests that have no docfilter
 		try:
 			dfilter = vis_request.docfilter
-			print(dfilter)
 			if vis_request.status == 'Cancelled':
 				recent_models.append(prepare_model_listing(vis_request, q))
 			#	q.delete()
@@ -329,7 +327,6 @@ def load_formatted(request):
 		data_str = data_obj.read()
 		data_obj.close()
 		the_data = json.loads(data_str.decode('utf-8'))
-		print(the_data)
 		rsp_obj = {"model_info" : model_display_info, "data" : the_data}
 		rsp_str = json.dumps(rsp_obj)
 		return HttpResponse(rsp_str, content_type="application/json")
