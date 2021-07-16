@@ -115,7 +115,7 @@ if DB_ENV == 'DEV':
     RDS_DBNAME="dev_db"
 
     session = boto3.Session()
-    client = session.client('rds')
+    client = session.client('rds', region_name=RDS_REGION)
 
     token = client.generate_db_auth_token(DBHostname=RDS_ENDPOINT, Port=RDS_PORT, DBUsername=RDS_USR, Region=RDS_REGION)
     DATABASES = {
