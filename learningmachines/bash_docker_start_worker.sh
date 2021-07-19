@@ -1,6 +1,4 @@
 #!/bin/bash
 CLIENT_EMAIL_PW='vonuavmikworwqlb'
 export CLIENT_EMAIL_PW
-cd learningmachines
-python manage.py runserver 8000
-
+celery -A learningmachines worker
