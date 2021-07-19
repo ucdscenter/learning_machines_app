@@ -32,7 +32,7 @@ ES_FIELDS = {
 
     },
     'id': {
-        'Care_Reviews':'directURL',
+        'Care_Reviews':'UUID',
         'caselaw_env':'case_ID',
         'Covid':'paper_id',
         'Pubmed': 'PMID',
