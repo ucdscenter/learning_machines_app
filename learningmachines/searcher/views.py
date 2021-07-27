@@ -148,11 +148,14 @@ def show_vis(request):
 
 @access_required('all')
 def process_search(request):
+	print("pre_import")
 	from .tasks import get_docs
+	print("post import")
 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}
 	#task = get_docs.apply_async(args=[qry_str])
 	#rslts = task.get()
 	rslts = get_docs(qry_str)
+	print(rslts)
 	return HttpResponse(json.dumps(rslts), content_type="application/json")
 
 

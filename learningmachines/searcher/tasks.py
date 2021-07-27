@@ -64,7 +64,9 @@ def get_docs(self, qry_str, q_pk=None):
 	r = qh.update_status("Fetching Documents")
 	if r == "Cancelled":
 		return "CANCEL"
+	print("NOTHING")
 	es = SearchResults_ES(database=qry_str['database'], qry_obj=qry_str)
+	print("searchresults!")
 	rslt_json = []
 	terms = qry_str['qry'].replace("+", " ").split(" ")
 	count = 0
