@@ -1,5 +1,6 @@
 ES_FIELDS = {
     'index': {
+        'SEC_Texts': 'sec_texts',
         'china_newstranscripts' : 'china_newstranscripts',
         'Care_Reviews':'care_reviews',
         'caselaw_env':'caselaw_env',
@@ -33,6 +34,7 @@ ES_FIELDS = {
 
     },
     'id': {
+        'SEC_Texts': 'id',
         'china_newstranscripts' : 'id',
         'Care_Reviews':'UUID',
         'caselaw_env':'case_ID',
@@ -65,6 +67,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'case_no'
     },
     'abstract': {
+        'SEC_Texts': 'title',
         'china_newstranscripts' : 'description',
         'Care_Reviews':'reviewText',
         'caselaw_env':'title',
@@ -95,6 +98,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'text',
     },
     'full_text': {
+        'SEC_Texts': 'text',
         'china_newstranscripts' : 'text',
         'Care_Reviews':'reviewText',
         'caselaw_env':'text',
@@ -128,6 +132,7 @@ ES_FIELDS = {
     },
     'doc_title' :
         {
+        'SEC_Texts': 'title',
         'china_newstranscripts' : 'title',
         'Care_Reviews':'doc_title',
         'caselaw_env':'title',
@@ -160,6 +165,7 @@ ES_FIELDS = {
         },
     'author' :
         {
+        'SEC_Texts': 'title',
         'china_newstranscripts' : 'program',
         'Care_Reviews':'dataSource',
         'caselaw_env':'URL',
@@ -176,6 +182,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'interviewer'
         },
     'date': {
+        'SEC_Texts': 'date',
         'china_newstranscripts' : 'date',
         'Care_Reviews':'reviewDate',
         'caselaw_env':'date',
@@ -212,6 +219,7 @@ ES_FIELDS = {
         'foster_encounter': 'note'
     },
     'info': {
+        'SEC_Texts': ['title', 'date'],
         'china_newstranscripts' : ['title', 'date', 'program'],
         'Care_Reviews':['businessTitle','dataSource','directURL'],
         'caselaw_env':['case_ID','title', 'date'],
@@ -242,6 +250,7 @@ ES_FIELDS = {
     }
 }
 MAX_NUM_DOC_VIS = {
+    'SEC_Texts': 7500,
     'china_newstranscripts' : 223000,
     'Care_Reviews': 30000,
     'caselaw_env':260000,
