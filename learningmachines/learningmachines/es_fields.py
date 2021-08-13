@@ -1,5 +1,6 @@
 ES_FIELDS = {
     'index': {
+        'China_News' : 'china_newstranscripts',
         'Care_Reviews':'care_reviews',
         'caselaw_env':'caselaw_env',
         'Covid':'covid_v4',
@@ -32,6 +33,7 @@ ES_FIELDS = {
 
     },
     'id': {
+        'China_News' : 'id',
         'Care_Reviews':'UUID',
         'caselaw_env':'case_ID',
         'Covid':'paper_id',
@@ -63,6 +65,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'case_no'
     },
     'abstract': {
+        'China_News' : 'description',
         'Care_Reviews':'reviewText',
         'caselaw_env':'title',
         'Covid':'abstract',
@@ -92,6 +95,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'text',
     },
     'full_text': {
+        'China_News' : 'text',
         'Care_Reviews':'reviewText',
         'caselaw_env':'text',
         'Covid':'fullText',
@@ -124,6 +128,7 @@ ES_FIELDS = {
     },
     'doc_title' :
         {
+        'China_News' : 'title',
         'Care_Reviews':'doc_title',
         'caselaw_env':'title',
         'Covid': 'title',
@@ -155,6 +160,7 @@ ES_FIELDS = {
         },
     'author' :
         {
+        'China_News' : 'program',
         'Care_Reviews':'dataSource',
         'caselaw_env':'URL',
         'Covid': 'authors',
@@ -170,6 +176,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'interviewer'
         },
     'date': {
+        'China_News' : 'date',
         'Care_Reviews':'reviewDate',
         'caselaw_env':'date',
         'Covid':'date',
@@ -205,6 +212,7 @@ ES_FIELDS = {
         'foster_encounter': 'note'
     },
     'info': {
+        'China_News' : ['title', 'date', 'program'],
         'Care_Reviews':['businessTitle','dataSource','directURL'],
         'caselaw_env':['case_ID','title', 'date'],
         'Covid':['paper_id','bib_entries','authors'],
@@ -234,6 +242,7 @@ ES_FIELDS = {
     }
 }
 MAX_NUM_DOC_VIS = {
+    'China_News' : 223000,
     'Care_Reviews': 30000,
     'caselaw_env':260000,
     'Covid': 144000,
