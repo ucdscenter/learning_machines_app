@@ -1,5 +1,5 @@
 let database_years = {
-	"china_newstranscripts" :
+	"China_news" :
 	{
 	},
 	"Care_Reviews" : 

@@ -1174,7 +1174,7 @@ function getCookie(name) {
 	
 let DATABASES = 
               {
-          'china_newstranscripts' : {
+          'China_news' : {
             'options' : [],
             'name' : 'News Transcripts - China'
           },
