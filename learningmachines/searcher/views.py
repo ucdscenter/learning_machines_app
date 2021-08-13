@@ -27,6 +27,39 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 SEND_WORKER = True
 
 
+"""
+'Med_Applications': 'family_medicine',
+'Mayerson' : 'mayerson',
+'Mayerson_qna' : 'mayerson_qna'
+'foster': 'foster_care_note',
+'foster_encounter': 'foster_care_encounter',
+'CCHMC' : 'cchmc_notes',
+"""
+
+def permiss(doc_db, req):
+	protected_list = ['Med_Applications', 'Mayerson', 'Mayerson_qna', 'foster', 'foster_encounter', 'CCHMC']
+	allow_access = False
+	if doc_db in protected_list:
+		if req.user.is_anonymous:
+			return allow_access
+		accesses = req.user.access_set.all()
+		special_access = []
+		print(accesses)
+		for a in accesses:
+			print(a)
+			if a.endpoint == 'foster':
+				if doc_db == 'foster' or doc_db == 'foster_care_note':
+					allow_access = True
+			if a.endpoint == 'med_apps':
+				if doc_db == 'Med_Applications' or doc_db == 'CCHMC':
+					allow_access = True
+			if a.endpoint == 'mayerson_transcripts':
+				if doc_db == 'Mayerson' or doc_db == 'Mayerson_qna':
+					allow_access = True
+		return allow_access
+	else:
+		return True
+
 def index(request, exception=None):
 	ctxt = {}
 	return render(request, 'searcher/index.html', ctxt)
@@ -79,11 +112,15 @@ def search_page(request):
 	accesses = request.user.access_set.all()
 	special_access = []
 	for a in accesses:
+		#special_access.append(str(a.endpoint))
 		print(a)
 		if a.endpoint == 'foster':
 			special_access.append(0)
 		if a.endpoint == 'med_apps':
 			special_access.append(1)
+		if a.endpoint == 'mayerson_transcripts':
+			special_access.append(2)
+			special_access.append(3)
 	ctxt = {'special_access' : special_access}
 	return render(request, 'searcher/search_template.html', ctxt)
 
@@ -111,16 +148,23 @@ def show_vis(request):
 
 @access_required('all')
 def process_search(request):
+	print("pre_import")
 	from .tasks import get_docs
+	print("post import")
 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}
 	#task = get_docs.apply_async(args=[qry_str])
 	#rslts = task.get()
 	rslts = get_docs(qry_str)
+	print(rslts)
 	return HttpResponse(json.dumps(rslts), content_type="application/json")
+
 
 @access_required('all')
 def get_doc(request):
 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}
+	if permiss(qry_str['database'], request) == False:
+		return HttpResponse(json.dumps("No permissions"), status=403)
+
 	es = SearchResults_ES(database=qry_str['database'])
 	rslt = es.get_doc(qry_str['doc_id'])
 	if rslt is None:
@@ -320,7 +364,8 @@ def load_formatted(request):
 	print(method)
 	f_path = os.path.join(modelname, f_file_name)
 	model_dir = os.path.join(TEMP_MODEL_FOLDER, modelname)
-
+	if permiss(model_display_info['corpus'], request) == False:
+		return HttpResponse(json.dumps("No permissions"), status=403)
 	s3 = S3Client()
 	
 	if s3.check_file_exists(os.path.join(f_path)):

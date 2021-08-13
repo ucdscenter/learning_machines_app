@@ -4,7 +4,7 @@ async function renderDataBaseSelect(dbdata){
   console.log(special_access)
   access_obj = JSON.parse(special_access);
   console.log(access_obj)
-  removelist = ['CCHMC', 'Med_Applications']
+  removelist = ['CCHMC', 'Med_Applications', 'Mayerson', 'Mayerson_qna']
   access_obj.forEach(function(d){
     removelist[d] = ''
   })
@@ -1177,8 +1177,8 @@ let DATABASES =
           'china_newstranscripts' : {
             'options' : [],
             'name' : 'News Transcripts - China'
-          },{
-      		'caselaw_env' : {
+          },
+          'caselaw_env' : {
             'options' : [],
             'name' : 'CaseLaw Environment'
           },
@@ -1187,10 +1187,10 @@ let DATABASES =
             'name' : 'ER & Urgent Care Reviews'
           },
           'Covid' : {
-      		  'options' : [],
-      		  'name' : 'COVID-19 Articles'
-      		},
-	       'Pubmed' : {
+            'options' : [],
+            'name' : 'COVID-19 Articles'
+          },
+         'Pubmed' : {
                 'options' : [],
                 'name' : 'Pubmed Abstract'
               },
@@ -1230,6 +1230,10 @@ let DATABASES =
                 'options' : [],
                 'name' : 'Anesthesiology'
               },
+              'CCHMC' : {
+                'options' : [],
+                'name' : 'CCHMC Notes'
+              },
               'TED' : {
                 'options' : [],
                 'name' : 'Ted Talks'
@@ -1266,11 +1270,18 @@ let DATABASES =
                 'options' : [],
                 'name' : 'SAA Abstracts'
               }, 
-               'Med_Applications' : {
+              'Med_Applications' : {
                 'options' : [],
                 'name' : 'Med Applications'
             },
-             
+            'Mayerson' : {
+                'options' : [],
+                'name' : 'Mayerson'
+            },
+            'Mayerson_qna' : {
+                'options' : [],
+                'name' : 'Mayerson QNA'
+            },
           }
 let dbi = 0
 Object.keys(DATABASES).forEach(function(db){
@@ -1324,6 +1335,10 @@ let restoredFilters = { "ys" : -1, "ye" : -1, "min" : -1, "max" : -1}
 let loaded = getJsonFromUrl(window.location.search)
 let fromhistory = false
 async function wrapper(){
+
+  d3.select("#navbarDropdown").on("click", function(e){
+    d3.select("#account_dropdown").classed("show", !d3.select("#account_dropdown").classed("show"))
+  })
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
