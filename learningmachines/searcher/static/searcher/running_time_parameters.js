@@ -20,6 +20,12 @@ TCP 1500
 ACJ 20000*/
 
 var database_runtimes = {
+   	"china_newstranscripts" : {
+   		"a" : 0,
+   		"b" : 0,
+   		"count" : 222616,
+   		"max" : 223000
+   	},
    	"caselaw_env" : {
 	"a" : 0,
 	"b" : 0,
