@@ -1174,6 +1174,10 @@ function getCookie(name) {
 	
 let DATABASES = 
               {
+          'china_newstranscripts' : {
+            'options' : [],
+            'name' : 'News Transcripts - China'
+          },{
       		'caselaw_env' : {
             'options' : [],
             'name' : 'CaseLaw Environment'
