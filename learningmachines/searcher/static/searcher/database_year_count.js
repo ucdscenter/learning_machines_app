@@ -1,5 +1,5 @@
 let database_years = {
-	"sec_texts" :
+	'SEC_Texts' :
 	{
 		"1994": 29,
 		"1995": 59,
@@ -28,7 +28,8 @@ let database_years = {
 		"2018": 544,
 		"2019": 467
 	},
-	"china_newstranscripts" :
+
+	"China_news" :
 	{
 	},
 	"Care_Reviews" : 

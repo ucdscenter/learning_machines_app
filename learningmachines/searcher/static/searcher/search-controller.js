@@ -1174,11 +1174,11 @@ function getCookie(name) {
 	
 let DATABASES = 
               {
-          'sec_texts' : {
+          'SEC_Texts' : {
             'options' : [],
             'name' : 'Form 8K Sample'
           },
-          'china_newstranscripts' : {
+          'China_news' : {
             'options' : [],
             'name' : 'News Transcripts - China'
           },

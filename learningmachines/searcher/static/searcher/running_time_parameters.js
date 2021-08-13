@@ -20,13 +20,14 @@ TCP 1500
 ACJ 20000*/
 
 var database_runtimes = {
-   	"sec_texts" : {
+   	'SEC_Texts' : {
    		"a" : 0,
    		"b" : 0,
    		"count" : 7433,
    		"max" : 8000
    	},
-   	"china_newstranscripts" : {
+
+   	"China_news" : {
    		"a" : 0,
    		"b" : 0,
    		"count" : 222616,
