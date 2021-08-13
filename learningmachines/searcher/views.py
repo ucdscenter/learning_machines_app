@@ -364,8 +364,9 @@ def load_formatted(request):
 	print(method)
 	f_path = os.path.join(modelname, f_file_name)
 	model_dir = os.path.join(TEMP_MODEL_FOLDER, modelname)
-	if permiss(model_display_info['corpus'], request) == False:
-		return HttpResponse(json.dumps("No permissions"), status=403)
+	if 'corpus' in model_display_info:
+		if permiss(model_display_info['corpus'], request) == False:
+			return HttpResponse(json.dumps("No permissions"), status=403)
 	s3 = S3Client()
 	
 	if s3.check_file_exists(os.path.join(f_path)):

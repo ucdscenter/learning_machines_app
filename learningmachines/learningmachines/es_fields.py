@@ -1,7 +1,7 @@
 ES_FIELDS = {
     'index': {
         'SEC_Texts': 'sec_texts',
-        'China_News' : 'china_newstranscripts',
+        'china_newstranscripts' : 'china_newstranscripts',
         'Care_Reviews':'care_reviews',
         'caselaw_env':'caselaw_env',
         'Covid':'covid_v4',
@@ -35,7 +35,7 @@ ES_FIELDS = {
     },
     'id': {
         'SEC_Texts': 'id',
-        'China_News' : 'id',
+        'china_newstranscripts' : 'id',
         'Care_Reviews':'UUID',
         'caselaw_env':'case_ID',
         'Covid':'paper_id',
@@ -68,7 +68,7 @@ ES_FIELDS = {
     },
     'abstract': {
         'SEC_Texts': 'title',
-        'China_News' : 'description',
+        'china_newstranscripts' : 'description',
         'Care_Reviews':'reviewText',
         'caselaw_env':'title',
         'Covid':'abstract',
@@ -99,7 +99,7 @@ ES_FIELDS = {
     },
     'full_text': {
         'SEC_Texts': 'text',
-        'China_News' : 'text',
+        'china_newstranscripts' : 'text',
         'Care_Reviews':'reviewText',
         'caselaw_env':'text',
         'Covid':'fullText',
@@ -133,7 +133,7 @@ ES_FIELDS = {
     'doc_title' :
         {
         'SEC_Texts': 'title',
-        'China_News' : 'title',
+        'china_newstranscripts' : 'title',
         'Care_Reviews':'doc_title',
         'caselaw_env':'title',
         'Covid': 'title',
@@ -166,7 +166,7 @@ ES_FIELDS = {
     'author' :
         {
         'SEC_Texts': 'title',
-        'China_News' : 'program',
+        'china_newstranscripts' : 'program',
         'Care_Reviews':'dataSource',
         'caselaw_env':'URL',
         'Covid': 'authors',
@@ -183,7 +183,7 @@ ES_FIELDS = {
         },
     'date': {
         'SEC_Texts': 'date',
-        'China_News' : 'date',
+        'china_newstranscripts' : 'date',
         'Care_Reviews':'reviewDate',
         'caselaw_env':'date',
         'Covid':'date',
@@ -220,7 +220,7 @@ ES_FIELDS = {
     },
     'info': {
         'SEC_Texts': ['title', 'date'],
-        'China_News' : ['title', 'date', 'program'],
+        'china_newstranscripts' : ['title', 'date', 'program'],
         'Care_Reviews':['businessTitle','dataSource','directURL'],
         'caselaw_env':['case_ID','title', 'date'],
         'Covid':['paper_id','bib_entries','authors'],
@@ -251,7 +251,7 @@ ES_FIELDS = {
 }
 MAX_NUM_DOC_VIS = {
     'SEC_Texts': 7500,
-    'China_News' : 223000,
+    'china_newstranscripts' : 223000,
     'Care_Reviews': 30000,
     'caselaw_env':260000,
     'Covid': 144000,

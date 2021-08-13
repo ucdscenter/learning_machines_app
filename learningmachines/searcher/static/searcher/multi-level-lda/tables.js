@@ -1,7 +1,9 @@
 'use strict'
 
 	function handleClusterDocsTable(clusterData){
+
 		if (clusterData.collapsed == undefined){
+
 			formatDocsForTable([clusterData.topic], clusterData.color)
 		}
 		else{
@@ -14,6 +16,7 @@
 	}
 
 	function formatDocsForTable(docsIndexes, tcolor){
+		console.log(docsIndexes)
 		let tableData = {}
 		if (docsIndexes.length > 1 && docsIndexes[0][0][0][1] > -1){
 			docsIndexes.forEach(function(topic){
@@ -30,24 +33,23 @@
 		});
 		}
 		else{
-		docsIndexes.forEach(function(topic){
-			topic.forEach(function(doc){
-				if(tableData[metaData[doc[0][0]][8]] == undefined){
-					tableData[metaData[doc[0][0]][8]] = [metaData[doc[0][0]], doc[1]]
-				}
-				else{
-					tableData[metaData[doc[0][0]][8]][1] += doc[1]
-				}
-				
+			docsIndexes.forEach(function(topic){
+				topic.forEach(function(doc){
+					if(tableData[metaData[doc[0][0]][8]] == undefined){
+						tableData[metaData[doc[0][0]][8]] = [metaData[doc[0][0]], doc[1], doc[0][1]]
+					}
+					else{
+						tableData[metaData[doc[0][0]][8]][1] += doc[1]
+					}
+					
 
-			})
-		});
+				})
+			});
 		}
 		renderDocsTable(Object.values(tableData), tcolor)
 	}
 
 	function renderDocsTable(tableData, tcolor){
-		console.log(tableData)
 		d3.selectAll("#dtbody").remove()
 		
 
@@ -99,6 +101,7 @@
 	};
 
 	function renderClustersTable(graphData){
+		console.log(graphData)
 		let ctable = d3.select("#clusters-table").append("table")
 			.attr('id', 'ctable')
 			.attr("class", "table")
@@ -122,10 +125,7 @@
 		})
 		header.append("th").attr("scope", "col").text("terms")
 
-
-
 		let ctbody = ctable.append("tbody")
-
 		var ctr = ctbody.selectAll("tr")
 			.data(graphData.clusters)
 			.enter()
@@ -159,6 +159,7 @@
 	async function renderDocumentView(doc_id, para_index){
 		let MIN_PARAGRAPH_LETTER_COUNT = 10
 		console.log(doc_id)
+		console.log(para_index)
 		var corp = params.corpus;
 		if (params.corpus == undefined){
 			corp = 'AA'
