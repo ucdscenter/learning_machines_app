@@ -42,7 +42,7 @@ class CorpusManager:
 						return
 			iter_count += 1
 
-		dct.filter_extremes(no_below=min_filter, no_above=max_filter, keep_n=200000)
+		dct.filter_extremes(no_below=min_filter, no_above=max_filter, keep_n=20000)
 		print("dict length")
 		print(len(dct.keys()))
 
