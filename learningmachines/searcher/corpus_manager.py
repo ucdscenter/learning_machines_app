@@ -32,7 +32,7 @@ class CorpusManager:
 
 	def create_dict(self, min_filter=1, max_filter=.7):
 		es_iter = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str)
-		dct = Dictionary(documents=None, prune_at=200000)
+		dct = Dictionary(documents=None, prune_at=150000)
 		iter_count = 0
 		for x in es_iter:
 			dct.add_documents([self._clean_text(x)])
@@ -42,7 +42,7 @@ class CorpusManager:
 						return
 			iter_count += 1
 
-		dct.filter_extremes(no_below=min_filter, no_above=max_filter, keep_n=20000)
+		dct.filter_extremes(no_below=min_filter, no_above=max_filter, keep_n=150000)
 		print("dict length")
 		print(len(dct.keys()))
 
