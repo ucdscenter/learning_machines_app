@@ -171,7 +171,7 @@
 		var doc_response = await d3.json("/searcher/get_doc?database=" + corp + "&doc_id=" + doc_id );
 		console.log(doc_response)
 
-		if(para_index != undefined){
+		if(para_index != undefined && para_index != -1){
 			if (params.corpus == 'hathitrust_novels' || params.corpus == 'HathiTrust'){
 				page_str = "pg. " + para_index;
 				let novel_d = JSON.parse(doc_response.data)
