@@ -6,20 +6,52 @@ from searcher.corpus_manager import CorpusManager
 from searcher.corpus_manager import CorpusManager
 from searcher.nlp_model_manager import NLPModelManager
 from searcher.formatted_data_manager import FormattedDataManager
+import json
+
+"""
+Purpose:
+Custom functions test the model pipeline classes in searcher app.
 
 
-def test_es_search(qry_str):
-	e = SearchResults_ES(qry_str['database'], qry_str, cleaned=True, rand=False)
-	x = 0
-	for doc in e:
-		#print(doc)
-		x += 1
+Functions
+test_es_search (qry_str, writefile=None):
 
-	print(x)
-	#print("THROUGH ONCE")
+qry_str: formatted object with the following format:
+	qry_obj = {
+	'start': filters documents occuring after this, formatted as 4 digits string,
+	 'end': filters documents occuring after this, formatted as 4 digits string,
+	  'f_start': filters documents occuring before this, formatted as 4 digits string but inside iterator, generally left to '-1',
+	  'f_end': filters documents occuring before this, formatted as 4 digits string but inside iterator, generally left to '-1', 
+	  'qry': elasticsearch querystring formatted query, left to empty string for full search. 
+	  'maximum_hits': maximum number of documents to fetch before reaching end of iterator,
+	   'method': method, 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'Care_Reviews', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'ngrams' : False, 'model_name' : 'test'}
+
+Inputs
+
+Outputs
+
+
+
+
+"""
+
+def test_es_search(qry_str, write_rslt=None):
+	e = SearchResults_ES(qry_str['database'], qry_str, cleaned=False, rand=False)
+	#x = 0
 	#for doc in e:
-	#	print(doc)
-	return
+	#	#print(doc)
+	#	x += 1
+
+	#print(x)
+	#print("THROUGH ONCE")
+	rslt = []
+	for doc in e:
+		if write_rslt != None:
+			rslt.append(doc)
+		print(doc)
+	if write_rslt != None:
+		json.dump(rslt, open(write_rslt, 'w'))
+	return e
 
 def test_ngrams(qry_str):
 	cm = CorpusManager(qry_str)
@@ -92,12 +124,13 @@ def test_run_model(qry_str):
 
 
 if __name__ == '__main__':
-	test_qry_obj = {'start': '1809', 'end': '2017', 'f_start': '1934', 'f_end': '1963', 'qry': 'apple', 'maximum_hits': '5000', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'ngrams' : False, 'model_name' : 'test'}
+	test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': '', 'maximum_hits': '10000', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'Care_Reviews', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'ngrams' : False, 'model_name' : 'test'}
 
 	#test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': 'restaurant', 'ngrams': True, 'tfidf': False, 'maximum_hits': '100', 'method': 'DFR browser', 'stop_words': 'restaurant, restaurants', 'replacement': '', 'phrases': 'multivariate analyses, catered event', 'level_select': 'article', 'num_topics': '20', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '100'}
 	"""test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': 'restaurant', 'ngrams': True, 'tfidf': False, 'maximum_hits': '100', 'method': 'DFR browser', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': '20', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '100'}
 	"""
-	test_es_search(test_qry_obj)
+	test_es_search(test_qry_obj, write_rslt="Care_Reviews_10k.json")
+
 	#test_run_model(test_qry_obj)
 
 	#test_cleaning(test_qry_obj) 

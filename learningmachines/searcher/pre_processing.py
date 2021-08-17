@@ -52,8 +52,8 @@ class TextHandler:
         split_text = doc_text.lower().translate(str.maketrans("", "", self.rmchars))
         split_text = split_text.replace("-", " ").split(" ") if doc_text != None else []
 
-        if len(split_text) > 100000:
-            split_text = split_text[0:100000]
+        if len(split_text) > 40000:
+            split_text = split_text[0:40000]
         cleaned_text = self.rm_stops(split_text)
         return cleaned_text
 

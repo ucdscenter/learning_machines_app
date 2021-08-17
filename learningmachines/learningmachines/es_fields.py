@@ -30,7 +30,8 @@ ES_FIELDS = {
         'SAA_Abstracts': 'arch_abstracts',
         'Med_Applications': 'family_medicine',
         'Mayerson' : 'mayerson',
-        'Mayerson_qna' : 'mayerson_qna'
+        'Mayerson_qna' : 'mayerson_qna',
+        'hathitrust_novels' : 'hathitrust_novels'
 
     },
     'id': {
@@ -64,7 +65,8 @@ ES_FIELDS = {
         'SAA_Abstracts': 'id', 
         'Med_Applications': 'id',
         'Mayerson' : 'case_num',
-        'Mayerson_qna' : 'case_no'
+        'Mayerson_qna' : 'case_no',
+        'hathitrust_novels' : 'id'
     },
     'abstract': {
         'SEC_Texts': 'title',
@@ -96,6 +98,7 @@ ES_FIELDS = {
         'Med_Applications': 'text',
         'Mayerson' : 'text',
         'Mayerson_qna' : 'text',
+        'hathitrust_novels' : 'page_tokens'
     },
     'full_text': {
         'SEC_Texts': 'text',
@@ -129,6 +132,7 @@ ES_FIELDS = {
         'Med_Applications': 'text',
         'Mayerson' : 'text',
         'Mayerson_qna' : 'text',
+        'hathitrust_novels' : 'page_tokens'
     },
     'doc_title' :
         {
@@ -163,6 +167,7 @@ ES_FIELDS = {
         'Med_Applications': 'title',
         'Mayerson' : 'case_num',
         'Mayerson_qna' : 'case_no',
+        'hathitrust_novels' : 'title'
         },
     'author' :
         {
@@ -180,7 +185,8 @@ ES_FIELDS = {
         'Reddit' : 'ID',
         'Cannabis_News': 'title', 
         'Mayerson' : 'interviewer',
-        'Mayerson_qna' : 'interviewer'
+        'Mayerson_qna' : 'interviewer',
+        'hathitrust_novels' : 'author'
         },
     'date': {
         'SEC_Texts': 'date',
@@ -213,7 +219,8 @@ ES_FIELDS = {
         'SAA_Abstracts': 'date', 
         'Med_Applications': 'date',
         'Mayerson' : 'file_date',
-        'Mayerson_qna' : 'file_date'
+        'Mayerson_qna' : 'file_date',
+        'hathitrust_novels' : 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -248,7 +255,8 @@ ES_FIELDS = {
         'SAA_Abstracts': ['id', 'date'], 
         'Med_Applications': ['id', 'date'],
         'Mayerson' : ['case_num', 'file_date'],
-        'Mayerson_qna' : ['case_no', 'file_date']
+        'Mayerson_qna' : ['case_no', 'file_date'],
+         'hathitrust_novels' : ['title', 'date']
     }
 }
 MAX_NUM_DOC_VIS = {
@@ -285,4 +293,5 @@ MAX_NUM_DOC_VIS = {
     'Med_Applications': 4000,
     'Mayerson' : 20000,
     'Mayerson_qna' : 20000,
+    'hathitrust_novels' : 2000
 }
