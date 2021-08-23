@@ -272,14 +272,14 @@ class SearchResults_ES:
 			self.scroll_size = len(self.page_hits)	
 		else:
 			if self.scroll_id == None:
-				es_qry = self.es.search(index=self.es_index, scroll='1m', doc_type='document', body=doc)
+				es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
 				self.page_hits = es_qry['hits']['hits']
 
 				self.scroll_id = es_qry['_scroll_id']
 				self.scroll_size = len(es_qry['hits']['hits'])
 				self.num_scroll = 0
 			else:
-				es_qry = self.es.scroll(scroll_id=self.scroll_id, scroll='1m')
+				es_qry = self.es.scroll(scroll_id=self.scroll_id, scroll='5m')
 				self.scroll_id = es_qry['_scroll_id']
 				self.scroll_size = len(es_qry['hits']['hits'])
 				print('scroll', self.num_scroll, self.scroll_size)
