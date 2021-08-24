@@ -31,7 +31,7 @@ SECRET_KEY = DJANGO_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = not S3_OBJECT['USE_S3']
+DEBUG = True#not S3_OBJECT['USE_S3']
 
 ALLOWED_HOSTS = ['3.19.31.134', 'localhost']
 
@@ -131,6 +131,7 @@ if DB_ENV == 'DEV':
 
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -181,6 +182,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 USE_S3 = S3_OBJECT['USE_S3']
+
+REDIS_IP = '18.118.158.133' if USE_S3 else 'localhost'
+REDIS_URL='redis://'+ REDIS_IP +':6379'
 
 if USE_S3:
     # aws settings
