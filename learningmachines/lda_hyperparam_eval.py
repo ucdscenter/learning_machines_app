@@ -73,7 +73,7 @@ class ModelEvaluation:
 			print(perp)
 			return [lda_score, perp]
 
-	def run_lda_coherence(self, min_topics=20, max_topics=40, step_size=5, test=False):
+	def run_lda_coherence(self, min_topics=15, max_topics=40, step_size=5, test=False):
 		if self.corpus == None:
 			self.dictionary.create_ngrams()
 			self.dictionary.create_dict()
@@ -155,7 +155,7 @@ class ModelEvaluation:
 
 
 if __name__ == '__main__':
-	test_qry_obj = {'start': '1809', 'end': '2017', 'f_start': '-1', 'f_end': '-1', 'qry': '', 'maximum_hits': '2000', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'CaseLaw_v2', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'ngrams' : False, 'model_name' : 'test', 'rand' : True}
+	test_qry_obj = {'start': '1809', 'end': '2017', 'f_start': '-1', 'f_end': '-1', 'qry': '', 'maximum_hits': '10', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'CaseLaw_v2', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'ngrams' : False, 'model_name' : 'test', 'rand' : True}
 
 	me = ModelEvaluation(test_qry_obj)
 	me.run_lda_coherence(test=True)

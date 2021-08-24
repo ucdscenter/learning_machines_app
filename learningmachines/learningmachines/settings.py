@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 from .credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO, DB_ENV
 import os
+import sys
+import boto3
 
 import mimetypes
 mimetypes.add_type("text/css", ".css", True)
@@ -28,8 +30,11 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = DJANGO_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not S3_OBJECT['USE_S3']
-ALLOWED_HOSTS = ['modelofmodels.io', 'themlmom.com', '52.15.92.90', 'localhost',]
+
+DEBUG = True#not S3_OBJECT['USE_S3']
+
+ALLOWED_HOSTS = ['3.19.31.134', 'localhost']
+
 
 # Application definition
 
@@ -94,25 +99,36 @@ if DB_ENV == 'PRODUCTION':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'dev_db',                      # Or path to database file if using sqlite3.
-            'USER': DEV_DB_PROFILE['user'],                      # Not used with sqlite3.
-            'PASSWORD': DEV_DB_PROFILE['password'],                  # Not used with sqlite3.
-            #'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',             
+            'NAME': 'dev_db',                 # Or path to database file if using sqlite3.
+            'USER': DEV_DB_PROFILE['user'],       # Not used with sqlite3.
+            'PASSWORD': DEV_DB_PROFILE['password'],      # Not used with sqlite3.
+            #'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',          
             'HOST': 'mellon-db-01.cykdbek7llhv.us-east-2.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
+            'PORT': '5432',       # Set to empty string for default. Not used with sqlite3.
         }
     }
 if DB_ENV == 'DEV':
+    RDS_ENDPOINT="mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com"
+    RDS_PORT="5432"
+    RDS_USR="zhaowezra"
+    RDS_REGION="us-east-2"
+    RDS_DBNAME="dev_db"
+
+    session = boto3.Session()
+    client = session.client('rds', region_name=RDS_REGION)
+
+    token = client.generate_db_auth_token(DBHostname=RDS_ENDPOINT, Port=RDS_PORT, DBUsername=RDS_USR, Region=RDS_REGION)
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'dev_db',                      # Or path to database file if using sqlite3.
-        'USER': DEV_DB_PROFILE['user'],                      # Not used with sqlite3.
-        'PASSWORD': DEV_DB_PROFILE['password'],                  # Not used with sqlite3.
-        'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': RDS_DBNAME,       # Or path to database file if using sqlite3.
+            'USER': RDS_USR,                      # Not used with sqlite3.
+            'PASSWORD': token,          # Not used with sqlite3.
+            'HOST': RDS_ENDPOINT,                 # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': RDS_PORT,    
         }
     }
+
 
 
 
@@ -167,6 +183,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 USE_S3 = S3_OBJECT['USE_S3']
 
+REDIS_IP = '18.118.158.133' if USE_S3 else 'localhost'
+REDIS_URL='redis://'+ REDIS_IP +':6379'
+
 if USE_S3:
     # aws settings
     AWS_ACCESS_KEY_ID = AWS_PROFILE['ACCESS_KEY']
@@ -184,5 +203,3 @@ else:
     STATIC_URL = '/static/'
     STATIC_ROOT = 'static'
     
-
-REDIS_URL='redis://localhost:6379'
