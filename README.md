@@ -49,6 +49,22 @@ Contact the UC Digital Scholarship Center for elasticsearch IAM credentials, aws
 
 In the SQS_QUEUE_NAME field, make a unique queue name for your local tasks to be sent to. The queue we use for development/production is 'learning-machines-celery', so just prepend your aws username plus "-" to this. For example, my local field is set to 'ez-learning-machines-celery'
 
+### Set up AWS Profile
+
+Once you you have your aws iam credentials and the proper permissions, you'll want to setup your local aws profile for authentication.
+Install and configure local AWS profile
+```
+pip install awscli
+aws configure set aws_access_key_id YOUR_ACCESS_KEY
+aws configure set aws_secret_access_key YOUR_SECRET_KEY
+aws configure set region "us-east-2"
+aws configure set output "json"
+```
+
+Follow these steps to setup AWS RDS for accepting role authentication
+https://aws.amazon.com/premiumsupport/knowledge-center/rds-postgresql-connect-using-iam/
+
+
 ### Set up/connect to Database
 
 While working locally, general use your local automatically created sql db. To set that up:

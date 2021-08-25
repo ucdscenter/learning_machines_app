@@ -266,27 +266,27 @@ class SearchResults_ES:
                 self.num_docs = 0
                 query = self.format_qry()
                 doc = {'size': _max_hits,'query': query}
-		print('search query', doc)
-		if self.total_hits < _max_hits:
-			doc = {'size': self.total_hits,'query': query}
-			es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
-			self.page_hits = es_qry['hits']['hits']	
-			self.scroll_size = len(self.page_hits)	
-		else:
-			if self.scroll_id == None:
-				es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
-				self.page_hits = es_qry['hits']['hits']
+                print('search query', doc)
+                if self.total_hits < _max_hits:
+                        doc = {'size': self.total_hits,'query': query}
+                        es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
+                        self.page_hits = es_qry['hits']['hits']        
+                        self.scroll_size = len(self.page_hits)        
+                else:
+                        if self.scroll_id == None:
+                                es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
+                                self.page_hits = es_qry['hits']['hits']
 
-				self.scroll_id = es_qry['_scroll_id']
-				self.scroll_size = len(es_qry['hits']['hits'])
-				self.num_scroll = 0
-			else:
-				es_qry = self.es.scroll(scroll_id=self.scroll_id, scroll='5m')
-				self.scroll_id = es_qry['_scroll_id']
-				self.scroll_size = len(es_qry['hits']['hits'])
-				print('scroll', self.num_scroll, self.scroll_size)
-				self.page_hits = es_qry['hits']['hits']
-				self.num_scroll += 1
+                                self.scroll_id = es_qry['_scroll_id']
+                                self.scroll_size = len(es_qry['hits']['hits'])
+                                self.num_scroll = 0
+                        else:
+                                es_qry = self.es.scroll(scroll_id=self.scroll_id, scroll='5m')
+                                self.scroll_id = es_qry['_scroll_id']
+                                self.scroll_size = len(es_qry['hits']['hits'])
+                                print('scroll', self.num_scroll, self.scroll_size)
+                                self.page_hits = es_qry['hits']['hits']
+                                self.num_scroll += 1
 
 
 
