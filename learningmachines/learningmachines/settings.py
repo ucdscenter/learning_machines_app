@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',
     'searcher',
+
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 
 ROOT_URLCONF = 'learningmachines.urls'
@@ -127,7 +129,7 @@ if DB_ENV == 'PRODUCTION':
             'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
             'NAME': 'dev_db',                 # Or path to database file if using sqlite3.
             'USER': RDS_USR,       # Not used with sqlite3.
-            'PASSWORD': os.environ['RDS_PASSWORD'],f#regenerate_token(RDS_ENDPOINT),      # Not used with sqlite3.
+            'PASSWORD': os.environ['RDS_PASSWORD'],#regenerate_token(RDS_ENDPOINT),      # Not used with sqlite3.
             #'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',          
             'HOST': RDS_ENDPOINT,                      # Set to empty string for localhost. Not used with sqlite3.
             'PORT': RDS_PORT,       # Set to empty string for default. Not used with sqlite3.
