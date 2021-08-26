@@ -15,7 +15,7 @@ from .credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, 
 import os
 import sys
 import boto3
-
+from .refreshablesession import BotoSession
 import mimetypes
 mimetypes.add_type("text/css", ".css", True)
 mimetypes.add_type("text/js", ".js", True)
@@ -95,14 +95,19 @@ if DB_ENV == 'LOCAL':
             },
         }
     }
-if DB_ENV == 'PRODUCTION':
-    RDS_ENDPOINT='mellon-db-01.cykdbek7llhv.us-east-2.rds.amazonaws.com'
+
+if DB_ENV == 'DEV' or DB_ENV == 'PRODUCTION':
     RDS_PORT="5432"
     RDS_USR="zhaowezra"
     RDS_REGION="us-east-2"
     RDS_DBNAME="dev_db"
 
-    session = boto3.Session()
+
+if DB_ENV == 'PRODUCTION':
+    RDS_ENDPOINT='mellon-db-01.cykdbek7llhv.us-east-2.rds.amazonaws.com'
+
+
+    session = BotoSession().refreshable_session()
     client = session.client('rds', region_name=RDS_REGION)
 
     token = client.generate_db_auth_token(DBHostname=RDS_ENDPOINT, Port=RDS_PORT, DBUsername=RDS_USR, Region=RDS_REGION)
@@ -119,12 +124,8 @@ if DB_ENV == 'PRODUCTION':
     }
 if DB_ENV == 'DEV':
     RDS_ENDPOINT="mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com"
-    RDS_PORT="5432"
-    RDS_USR="zhaowezra"
-    RDS_REGION="us-east-2"
-    RDS_DBNAME="dev_db"
 
-    session = boto3.Session()
+    session = BotoSession().refreshable_session()
     client = session.client('rds', region_name=RDS_REGION)
 
     token = client.generate_db_auth_token(DBHostname=RDS_ENDPOINT, Port=RDS_PORT, DBUsername=RDS_USR, Region=RDS_REGION)
