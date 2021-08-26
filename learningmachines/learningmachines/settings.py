@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',
     'searcher',
-    'django_q'
 ]
 
 MIDDLEWARE = [
@@ -60,10 +59,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-Q_CLUSTER = {
-    "name": "dbupdate",
-    "orm": "default",  # Use Django's ORM + database for broker
-}
 
 ROOT_URLCONF = 'learningmachines.urls'
 #['/Users/ezraedgerton/Desktop/projects/learningmachines_folder/venv3_8/lib/python3.8/site-packages/django']
@@ -132,7 +127,7 @@ if DB_ENV == 'PRODUCTION':
             'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
             'NAME': 'dev_db',                 # Or path to database file if using sqlite3.
             'USER': RDS_USR,       # Not used with sqlite3.
-            'PASSWORD': os.environ['RDS_PASSWORD'],#regenerate_token(RDS_ENDPOINT),      # Not used with sqlite3.
+            'PASSWORD': os.environ['RDS_PASSWORD'],f#regenerate_token(RDS_ENDPOINT),      # Not used with sqlite3.
             #'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',          
             'HOST': RDS_ENDPOINT,                      # Set to empty string for localhost. Not used with sqlite3.
             'PORT': RDS_PORT,       # Set to empty string for default. Not used with sqlite3.
