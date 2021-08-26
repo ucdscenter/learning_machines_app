@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
-    'searcher'
+    'searcher',
+    'django_q'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+Q_CLUSTER = {
+    "name": "dbupdate",
+    "orm": "default",  # Use Django's ORM + database for broker
+}
 
 ROOT_URLCONF = 'learningmachines.urls'
 #['/Users/ezraedgerton/Desktop/projects/learningmachines_folder/venv3_8/lib/python3.8/site-packages/django']
@@ -96,27 +102,37 @@ if DB_ENV == 'LOCAL':
         }
     }
 
-if DB_ENV == 'DEV' or DB_ENV == 'PRODUCTION':
+
+def regenerate_token(endpoint, region='us-east-2'):
+    RDS_PORT="5432"
+    RDS_USR="zhaowezra"
+    RDS_REGION="us-east-2"
+    RDS_DBNAME="dev_db"
+    print(os.environ['RDS_PASSWORD'])
+    session = BotoSession().refreshable_session()
+    client = session.client('rds', region_name=region)
+    token = client.generate_db_auth_token(DBHostname=endpoint, Port=RDS_PORT, DBUsername=RDS_USR, Region=region)
+    print("Regenerating token")
+    return token
+
+RDS_ENDPOINT = ''
+if DB_ENV == 'PRODUCTION':
+    RDS_ENDPOINT='mellon-db-01.cykdbek7llhv.us-east-2.rds.amazonaws.com'
     RDS_PORT="5432"
     RDS_USR="zhaowezra"
     RDS_REGION="us-east-2"
     RDS_DBNAME="dev_db"
 
+    #session = BotoSession().refreshable_session()
+    #client = session.client('rds', region_name=RDS_REGION)
 
-if DB_ENV == 'PRODUCTION':
-    RDS_ENDPOINT='mellon-db-01.cykdbek7llhv.us-east-2.rds.amazonaws.com'
-
-
-    session = BotoSession().refreshable_session()
-    client = session.client('rds', region_name=RDS_REGION)
-
-    token = client.generate_db_auth_token(DBHostname=RDS_ENDPOINT, Port=RDS_PORT, DBUsername=RDS_USR, Region=RDS_REGION)
+    #token = client.generate_db_auth_token(DBHostname=RDS_ENDPOINT, Port=RDS_PORT, DBUsername=RDS_USR, Region=RDS_REGION)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
             'NAME': 'dev_db',                 # Or path to database file if using sqlite3.
             'USER': RDS_USR,       # Not used with sqlite3.
-            'PASSWORD': token,      # Not used with sqlite3.
+            'PASSWORD': os.environ['RDS_PASSWORD'],#regenerate_token(RDS_ENDPOINT),      # Not used with sqlite3.
             #'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',          
             'HOST': RDS_ENDPOINT,                      # Set to empty string for localhost. Not used with sqlite3.
             'PORT': RDS_PORT,       # Set to empty string for default. Not used with sqlite3.
@@ -124,19 +140,21 @@ if DB_ENV == 'PRODUCTION':
     }
 if DB_ENV == 'DEV':
     RDS_ENDPOINT="mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com"
+    RDS_PORT="5432"
+    RDS_USR="zhaowezra"
+    RDS_REGION="us-east-2"
+    RDS_DBNAME="dev_db"
 
-    session = BotoSession().refreshable_session()
-    client = session.client('rds', region_name=RDS_REGION)
 
-    token = client.generate_db_auth_token(DBHostname=RDS_ENDPOINT, Port=RDS_PORT, DBUsername=RDS_USR, Region=RDS_REGION)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
             'NAME': RDS_DBNAME,       # Or path to database file if using sqlite3.
             'USER': RDS_USR,                      # Not used with sqlite3.
-            'PASSWORD': token,          # Not used with sqlite3.
+            'PASSWORD': os.environ['RDS_PASSWORD'],#regenerate_token(RDS_ENDPOINT),           # Not used with sqlite3.
             'HOST': RDS_ENDPOINT,                 # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': RDS_PORT,    
+            'PORT': RDS_PORT, 
+            'CONN_MAX_AGE': 0  
         }
     }
 
