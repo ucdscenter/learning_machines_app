@@ -61,6 +61,14 @@ aws configure set region "us-east-2"
 aws configure set output "json"
 ```
 
+### Make ENV variables
+
+In  a new terminal, set the database password environment variable
+```
+RDS_PASSWORD='database password'
+export RDS_PASSWORD
+
+```
 Follow these steps to setup AWS RDS for accepting role authentication
 https://aws.amazon.com/premiumsupport/knowledge-center/rds-postgresql-connect-using-iam/
 
