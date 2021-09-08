@@ -1,5 +1,5 @@
 from kombu.utils.url import safequote
-from .credentials import AWS_PROFILE, SQS_QUEUE_NAME
+from .public_credentials import AWS_PROFILE, SQS_QUEUE_NAME
 from .settings import REDIS_URL
 from botocore.session import Session
 credentials = Session().get_credentials()
