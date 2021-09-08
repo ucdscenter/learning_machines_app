@@ -2,7 +2,7 @@ import string
 import os
 import boto3
 
-from learningmachines.credentials import  AWS_PROFILE
+from learningmachines.public_credentials import  AWS_PROFILE
 from learningmachines.cfg import TEMP_MODEL_FOLDER, S3_RNLP_DATA_DIR, S3_BUCKET
 
 

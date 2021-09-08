@@ -20,8 +20,8 @@ except:
 
 	DJANGO_SECRET = os.environ['DJANGO_SECRET']
 
-	#SQS_QUEUE_NAME = 'learning-machines-'
-	SQS_QUEUE_NAME = 'learning-machines-ez-local-'
+	SQS_QUEUE_NAME = 'learning-machines-'
+	#SQS_QUEUE_NAME = 'learning-machines-ez-local-'
 
 	REDIS_IP = os.environ['REDIS_IP']
 
