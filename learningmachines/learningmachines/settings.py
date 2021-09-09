@@ -105,7 +105,6 @@ def regenerate_token(endpoint, region='us-east-2'):
     RDS_USR="zhaowezra"
     RDS_REGION="us-east-2"
     RDS_DBNAME="dev_db"
-    print(os.environ['RDS_PASSWORD'])
     session = BotoSession().refreshable_session()
     client = session.client('rds', region_name=region)
     token = client.generate_db_auth_token(DBHostname=endpoint, Port=RDS_PORT, DBUsername=RDS_USR, Region=region)
