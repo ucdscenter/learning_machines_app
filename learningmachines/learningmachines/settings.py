@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from .credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO, DB_ENV
+from .public_credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO, DB_ENV, REDIS_URL
 import os
 import sys
 import boto3
@@ -105,7 +105,6 @@ def regenerate_token(endpoint, region='us-east-2'):
     RDS_USR="zhaowezra"
     RDS_REGION="us-east-2"
     RDS_DBNAME="dev_db"
-    print(os.environ['RDS_PASSWORD'])
     session = BotoSession().refreshable_session()
     client = session.client('rds', region_name=region)
     token = client.generate_db_auth_token(DBHostname=endpoint, Port=RDS_PORT, DBUsername=RDS_USR, Region=region)
@@ -209,8 +208,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 USE_S3 = S3_OBJECT['USE_S3']
 
-REDIS_IP = '18.118.158.133' if USE_S3 else 'localhost'
-REDIS_URL='redis://'+ REDIS_IP +':6379'
+
+REDIS_URL=REDIS_URL
+
 
 if USE_S3:
     # aws settings
