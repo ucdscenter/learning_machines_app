@@ -1,8 +1,10 @@
 import os
 
 try:
+	print("credentials file found")
 	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, S3_OBJECT, EMAIL_INFO
 except:
+	print("no credentials file found, searching system variables...")
 	AWS_PROFILE = {
 	    'ACCESS_KEY': '',
 	    'SECRET_KEY': '',
