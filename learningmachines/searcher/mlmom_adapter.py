@@ -81,7 +81,10 @@ class MLMOMFormatter:
 		linksdict = {}
 		model_index = 0
 
-		corpus_iterator = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
+		corpus_iter = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
+		corpus_iterator = []
+		for d in corpus_iter:
+			corpus_iterator.append(d)
 
 		for x in range(0, 600, 100):
 			save_fp = TEMP_MODEL_FOLDER + "/" + self.model_name + "/model_"
@@ -186,7 +189,7 @@ class MLMOMFormatter:
 
 			mcount += 1
 			dcount = 0
-			corpus_iterator = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
+			#corpus_iterator = SearchResults_ES(database=self.qry_str['database'], cm=self.cm, qry_obj=self.qry_str, tokenized=True)
 			for doc in corpus_iterator:
 
 				doc_topics = lda1.get_document_topics(doc)
