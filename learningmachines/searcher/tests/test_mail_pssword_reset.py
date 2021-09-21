@@ -10,7 +10,7 @@ class PasswordResetMailTests(TestCase):
         self.email = mail.outbox[0]
 
     def test_email_subject(self):
-        self.assertEqual('[Django Boards] Please reset your password', self.email.subject)
+        self.assertEqual('Password reset on Learning Machines App', self.email.subject)
 
     def test_email_body(self):
         context = self.response.context
@@ -22,7 +22,7 @@ class PasswordResetMailTests(TestCase):
         })
         self.assertIn(password_reset_token_url, self.email.body)
         self.assertIn('john', self.email.body)
-        self.assertIn('john@doe.com', self.email.body)
+        self.assertIn('receiving this email because you requested a password reset for your user account at Learning Machines App', self.email.body)
 
     def test_email_to(self):
         self.assertEqual(['john@doe.com',], self.email.to)
