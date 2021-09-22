@@ -65,8 +65,14 @@ aws configure set output "json"
 
 In  a new terminal, set the database password environment variable
 ```
-RDS_PASSWORD='database password'
+DJANGO_SECRET='generate django secret'
+export DJANGO_SECRET
+CLIENT_EMAIL_PW='generate client email'
+export CLIENT_EMAIL_PW
+RDS_PASSWORD='db password'
 export RDS_PASSWORD
+REDIS_IP='redis ip address'
+export REDIS_IP
 
 ```
 Follow these steps to setup AWS RDS for accepting role authentication
