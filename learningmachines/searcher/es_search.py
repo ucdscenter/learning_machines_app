@@ -179,6 +179,7 @@ class SearchResults_ES:
                 qry = self.qry_obj['qry'].replace('+', ' ')
                 start = self.qry_obj['start'] if self.qry_obj['start'].split("-")[0].isdigit() else None
                 end = self.qry_obj['end'] if self.qry_obj['end'].split("-")[0].isdigit() else None
+                min_care_rating = self.qry_obj.get('min_care_rating')
                 jurisdiction = self.qry_obj.get('jurisdiction')
                 auth_qry = self.qry_obj.get('auth_s')
                 family_keyword = self.qry_obj.get('family') if self.qry_obj.get('family') != 'both' else None
@@ -229,6 +230,8 @@ class SearchResults_ES:
                                 must_not_terms.append({
                                         'term': {'Jurisdiction': 'United States'}
                                 })
+                if min_care_rating and min_care_rating != '-1':
+                        must_terms.append({'term' : {'reviewRating' : min_care_rating}})
                 if journal and journal != 'all':
                         must_terms.append({'term': {'JournalTitle': journal}})
                 if family_keyword:

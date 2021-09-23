@@ -234,6 +234,8 @@ async function getArticles(qry, dbn, fromhistory, timeExt, size){
 
   let jurisdiction_select = $('#law-options-select').val()
 
+  
+
   loaded.filter_pk = 1
   getA(dbn, qry, timeExt, size)
 
@@ -257,7 +259,8 @@ async function getA(dbn, qry, timeExt, size){
   let auth_search_qry = $('#search-author').val()
   let family_select = $('#family-options-select').val();
 
-
+  let min_care_rating = $('#care_rating_low').val()
+  let max_care_rating = -1//$('#care_rating_high').val()
   
   
   search_year_start = $( "#start-year" ).val()
@@ -277,7 +280,7 @@ async function getA(dbn, qry, timeExt, size){
     search_year_start = 'year';
   }
 
-  let qry_str = "/searcher/process_search?database=" + dbn + "&qry=" + qry + '&start=' + search_year_start + '&end=' + search_year_end + '&maximum_hits=' + size + '&journal=' + journal_select + '&auth_s=' + auth_search_qry +'&family=' + family_select +'&jurisdiction=' + jurisdiction_select + query_id_str + "&filter_pk=" + loaded.filter_pk
+  let qry_str = "/searcher/process_search?database=" + dbn + "&qry=" + qry + '&min_care_rating=' + min_care_rating+ '&max_care_rating=' + max_care_rating + '&start=' + search_year_start + '&end=' + search_year_end + '&maximum_hits=' + size + '&journal=' + journal_select + '&auth_s=' + auth_search_qry +'&family=' + family_select +'&jurisdiction=' + jurisdiction_select + query_id_str + "&filter_pk=" + loaded.filter_pk
   console.log(qry_str)
   let articles = await d3.json(qry_str)
 
@@ -305,13 +308,19 @@ function renderSearchInput(d, dbdata){
 	})
 
   $('.doc-button').css("background-color", dbdata[d].color)
-
-  if(d == "Archaeology"){
+  if(d == 'Care_Reviews'){
+     $('#carereview-row-div').removeClass("hidden")
+     $('#archaeology-row-div').addClass("hidden")
+     $('#caselaw-row-div').addClass("hidden")
+     $('#family-row-div').addClass("hidden")
+  }
+  else if(d == "Archaeology"){
     $('#archaeology-row-div').removeClass("hidden")
     $('#caselaw-row-div').addClass("hidden")
     $('#coi-row-div').addClass("hidden")
     $('#family-row-div').addClass("hidden")
      $('#search-term-div').removeClass("hidden")
+     $('#carereview-row-div').addClass("hidden")
   }
   else if(d == 'Pubmed_COI'){
     $('#coi-row-div').removeClass("hidden")
@@ -323,6 +332,7 @@ function renderSearchInput(d, dbdata){
     })
     $('#archaeology-row-div').addClass("hidden")
     $('#caselaw-row-div').addClass("hidden")
+     $('#carereview-row-div').addClass("hidden")
   }
   //no more non federal jurisdiction
   /*else if (d == 'CaseLaw_v2'){
@@ -335,13 +345,15 @@ function renderSearchInput(d, dbdata){
      $('#archaeology-row-div').addClass("hidden")
      $('#search-term-div').removeClass("hidden")
      $('#family-row-div').removeClass("hidden")
+      $('#carereview-row-div').addClass("hidden")
   }
 
   else {
      $('#coi-row-div').addClass("hidden")
      $('#caselaw-row-div').addClass("hidden")
      $('#archaeology-row-div').addClass("hidden")
-      $('#family-row-div').addClass("hidden")
+    $('#family-row-div').addClass("hidden")
+    $('#carereview-row-div').addClass("hidden")
      $('#search-term-div').removeClass("hidden")
     
      
@@ -1079,6 +1091,8 @@ $('#submit-wrapper-button').click(function(e){
               database : selected_database,
               journal : $('#journal-options-select').val(),
               jurisdiction_select : $('#law-options-select').val(),
+              min_care_rating : $('#care_rating_low').val(),
+              // max_care_rating: $('#care_rating_high').val(),
               auth_s : $('#search-author').val(),
               family_select : $('#family-options-select').val(),
               included : includedDocs, 
