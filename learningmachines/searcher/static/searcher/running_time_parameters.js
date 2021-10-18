@@ -30,8 +30,8 @@ var database_runtimes = {
    	"China_news" : {
    		"a" : 0,
    		"b" : 0,
-   		"count" : 222616,
-   		"max" : 223000
+   		"count" : 188641,
+   		"max" : 199000
    	},
    	"caselaw_env" : {
 	"a" : 0,
