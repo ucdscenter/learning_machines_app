@@ -261,8 +261,8 @@ ES_FIELDS = {
 }
 MAX_NUM_DOC_VIS = {
     'SEC_Texts': 7500,
-    'china_newstranscripts' : 223000,
-    'China_news' : 223000,
+    'china_newstranscripts' : 189000,
+    'China_news' : 189000,
     'Care_Reviews': 30000,
     'caselaw_env':260000,
     'Covid': 144000,
