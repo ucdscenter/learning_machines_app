@@ -7,7 +7,7 @@ from botocore.session import Session
 from collections import namedtuple
 
 from learningmachines.public_credentials import AWS_PROFILE
-from learningmachines.cfg import ES_MAX_SIZE, ES_SCROLL_SIZE
+from learningmachines.cfg import ES_SCROLL_SIZE
 from learningmachines.es_fields import ES_FIELDS, MAX_NUM_DOC_VIS
 from .pre_processing import  get_min_term_occurrence, TextHandler
 import sys
@@ -51,7 +51,7 @@ class SearchResults_ES:
                 
                 self.cleaned = cleaned
                 if self.qry_obj != None:
-                        self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else ES_MAX_SIZE)
+                        self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
                         self.qry_obj['f_start'] = int(self.qry_obj['f_start']) if 'f_start' in qry_obj else -1
                         self.qry_obj['f_end'] = int(self.qry_obj['f_end']) if 'f_end' in qry_obj else -1
                         self.qry_obj['min_occurrence'] = int(self.qry_obj['min_occurrence']) if 'min_occurrence' in qry_obj else -1

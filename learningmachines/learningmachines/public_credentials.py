@@ -2,7 +2,7 @@ import os
 
 try:
 	print("credentials file found")
-	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, S3_OBJECT, EMAIL_INFO
+	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, RDS_ENDPOINT, S3_OBJECT, EMAIL_INFO
 except:
 	print("no credentials file found, searching system variables...")
 	AWS_PROFILE = {
@@ -21,6 +21,8 @@ except:
 
 
 	DJANGO_SECRET = os.environ['DJANGO_SECRET']
+
+	RDS_ENDPOINT='mellon-db-01.cykdbek7llhv.us-east-2.rds.amazonaws.com'
 
 	SQS_QUEUE_NAME = 'learning-machines-'
 	#SQS_QUEUE_NAME = 'learning-machines-ez-local-'

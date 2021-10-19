@@ -1,4 +1,4 @@
-ES_MAX_SIZE = 30000
+ES_MAX_SIZE = 100000
 ES_SCROLL_SIZE = 1000
 
 TEMP_MODEL_FOLDER = 'searcher/tempmodeldata'
