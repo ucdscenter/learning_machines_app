@@ -20,5 +20,5 @@ __pycache__/
 /learningmachines/searcher/static/searcher/library/
 /learningmachines/searcher/static/searcher/blm/
 /learningmachines/bash_docker_start_worker_local.sh
-
+/learningmachines/bash_aws_start_worker_local.sh
 
