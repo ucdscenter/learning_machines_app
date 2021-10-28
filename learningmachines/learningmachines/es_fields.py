@@ -260,7 +260,7 @@ ES_FIELDS = {
     }
 }
 MAX_NUM_DOC_VIS = {
-    'SEC_Texts': 7500,
+    'SEC_Texts': 2200,
     'china_newstranscripts' : 189000,
     'China_news' : 189000,
     'Care_Reviews': 30000,
