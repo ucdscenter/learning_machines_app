@@ -23,8 +23,8 @@ var database_runtimes = {
    	'SEC_Texts' : {
    		"a" : 0,
    		"b" : 0,
-   		"count" : 7433,
-   		"max" : 8000
+   		"count" : 21386,
+   		"max" : 22000
    	},
 
    	"China_news" : {
