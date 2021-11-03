@@ -36,8 +36,8 @@ var database_runtimes = {
    	"caselaw_env" : {
 	"a" : 0,
 	"b" : 0,
-	"count" : 259568,
-	"max" : 260000
+	"count" : 120859,
+	"max" : 121000
 	},
 	"Care_Reviews" : {
 	"a" : 0,
