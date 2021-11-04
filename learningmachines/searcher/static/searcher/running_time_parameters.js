@@ -23,21 +23,21 @@ var database_runtimes = {
    	'SEC_Texts' : {
    		"a" : 0,
    		"b" : 0,
-   		"count" : 7433,
-   		"max" : 8000
+   		"count" : 21386,
+   		"max" : 22000
    	},
 
    	"China_news" : {
    		"a" : 0,
    		"b" : 0,
-   		"count" : 222616,
-   		"max" : 223000
+   		"count" : 188641,
+   		"max" : 199000
    	},
    	"caselaw_env" : {
 	"a" : 0,
 	"b" : 0,
-	"count" : 259568,
-	"max" : 260000
+	"count" : 120859,
+	"max" : 121000
 	},
 	"Care_Reviews" : {
 	"a" : 0,

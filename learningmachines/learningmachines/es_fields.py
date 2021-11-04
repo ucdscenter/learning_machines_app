@@ -38,7 +38,7 @@ ES_FIELDS = {
         'SEC_Texts': 'id',
         'China_news' : 'id',
         'Care_Reviews':'UUID',
-        'caselaw_env':'case_ID',
+        'caselaw_env':'id',
         'Covid':'paper_id',
         'Pubmed': 'PMID',
         'PMC': 'PMCID',
@@ -260,11 +260,12 @@ ES_FIELDS = {
     }
 }
 MAX_NUM_DOC_VIS = {
-    'SEC_Texts': 7500,
-    'china_newstranscripts' : 223000,
-    'China_news' : 223000,
-    'Care_Reviews': 34000,
-    'caselaw_env':260000,
+
+    'SEC_Texts': 22000,
+    'china_newstranscripts' : 189000,
+    'China_news' : 189000,
+    'Care_Reviews': 30000,
+    'caselaw_env':121000,
     'Covid': 144000,
     'Pubmed': 20000,
     'PMC': 20000,
