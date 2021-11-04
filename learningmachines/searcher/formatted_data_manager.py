@@ -204,7 +204,6 @@ class FormattedDataManager:
 			for sentence in doc.text.split('. '):
 				sent_pred.append([len(sentence), predictions[j].tolist()[0]])
 				j += 1
-			print(sent_pred)
 			#sm_data.append({ 'document': doc, 'pos': predictions[i][0],'neg': predictions[i][1] })
 			sm_data.append({ 'document': doc, 'scores': sent_pred })
 		self.formatted_data=sm_data
