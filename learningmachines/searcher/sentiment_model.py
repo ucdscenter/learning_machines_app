@@ -1,11 +1,14 @@
 import pickle
 import pandas as pd
-import tensorflow as tf
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Embedding, LSTM, Dense, Bidirectional, Flatten, GRU
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
+
+class DummyPandasSeries:
+	def __init__(self, dummy):
+		self.data = dummy
+
+	def tolist(self):
+		return self.data
 
 class SentimentModel:
 	def __init__(self, trained_on=None):
@@ -15,40 +18,24 @@ class SentimentModel:
 		#self.clean_text=None
 		self.cleaned_docs = []
 
-	def load_tokenizer(self):
-		if self.trained_on=='yelp':
-			f = open('searcher/trained_models/yelp_tokenizer_10000.pickle', 'rb')
-			self.tokenizer=pickle.load(f)
 
-	def clean_text(self, text):
-		cleaned = text.replace("\\n", " ")
-		cleaned = cleaned.replace("\'", "'")
-		cleaned = cleaned.replace("\\r", " ")
-		cleaned = cleaned.replace("\\""", " ")
-		cleaned = ' '.join([x.strip() for x in cleaned.split()])
-		return cleaned
-
-	def convert_text_to_padded(self, docs):
-		self.load_tokenizer()
+	def convert_text(self, docs):
 		for d in docs:
 			for s in d.text.split(". "):
-				self.cleaned_docs.append(self.clean_text(s))
-
-		#self.cleaned_docs=[self.clean_text(text) for text in docs]
-		self.sequences=self.tokenizer.texts_to_sequences(self.cleaned_docs)
-		print
-		self.padded=pad_sequences(self.sequences, maxlen=200)
-
+				self.cleaned_docs.append(s)
 
 	def load_model(self):
-		if self.trained_on=='yelp':
-			self.model=tf.keras.models.load_model('searcher/trained_models/yelp_lstm_128_embed_300.h5')
+		self.model = SentimentIntensityAnalyzer()
+	def norm_score(self, doc_score):
+		lower, upper = -1, 1
+		l_norm =(doc_score['compound'] - lower)/(upper - lower)
+		dd = DummyPandasSeries([l_norm, doc_score['compound']])
+		return dd
 
 	def predict(self, docs):
-		self.convert_text_to_padded(docs)
+		self.convert_text(docs)
 		self.load_model()
-		print("padded", self.padded[0])
-
-		print("sequences", self.sequences[0])
-		self.predictions=self.model.predict(self.padded)
+		self.predictions = []
+		for cleaned_d in self.cleaned_docs:
+			self.predictions.append(self.norm_score(self.model.polarity_scores(cleaned_d)))
 		return self.predictions
