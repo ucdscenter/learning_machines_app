@@ -1,4 +1,14 @@
 version: "3.8"
 services:
+  worker:
+    build: 
+      context : ./learningmachines
+      dockerfile : ./learningmachines/Dockerfile
   web:
-    build: ./learningmachines
+    build:
+      context: ./learningmachines
+      dockerfile : ./searcher/Dockerfile
+    ports:
+      - "8000:8000"
+  redis:
+    image: "redis:alpine"
