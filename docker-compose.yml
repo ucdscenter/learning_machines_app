@@ -4,7 +4,7 @@ services:
     build: 
       context : ./learningmachines
       dockerfile : ./learningmachines/Dockerfile
-  web:
+  app:
     build:
       context: ./learningmachines
       dockerfile : ./searcher/Dockerfile

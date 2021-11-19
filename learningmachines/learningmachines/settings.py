@@ -65,7 +65,6 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'learningmachines.urls'
 #['/Users/ezraedgerton/Desktop/projects/learningmachines_folder/venv3_8/lib/python3.8/site-packages/django']
 
-print(os.path.join(BASE_DIR, 'templates'))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -133,7 +132,6 @@ if DB_ENV == 'PRODUCTION':
             'PORT': RDS_PORT,       # Set to empty string for default. Not used with sqlite3.
         }
     }
-    print(DATABASES['default'])
 if DB_ENV == 'DEV':
     RDS_ENDPOINT="mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com"
     RDS_PORT="5432"

@@ -17,3 +17,4 @@ stop-words==2018.7.23
 boto3==1.19.6
 django-storages==1.11.1
 vaderSentiment==3.3.2
+uwsgi==2.0.20
