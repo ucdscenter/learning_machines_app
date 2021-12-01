@@ -4,11 +4,11 @@ services:
     build: 
       context : ./learningmachines
       dockerfile : ./learningmachines/Dockerfile
-  app:
+  uwsgi:
     build:
       context: ./learningmachines
       dockerfile : ./searcher/Dockerfile
     ports:
-      - "8000:8000"
+      - "8001:8001"
   redis:
     image: "redis:alpine"
