@@ -2,3 +2,4 @@ static/
 searcher/static/
 learningmachines/credentials.py
 db.sqlite3
+eval_data/

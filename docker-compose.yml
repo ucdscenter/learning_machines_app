@@ -8,7 +8,14 @@ services:
     build:
       context: ./learningmachines
       dockerfile : ./searcher/Dockerfile
-    ports:
-      - "8001:8001"
+    expose:
+      - 8001
   redis:
     image: "redis:alpine"
+  nginx:
+    restart: always
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - uwsgi
