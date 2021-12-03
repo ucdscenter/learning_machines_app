@@ -1,0 +1,35 @@
+version: 0.2
+env:
+  secrets-manager:
+    #RAILS_MASTER_KEY: "uclib/TreatmentDB/dev/railsMasterKey:railsMasterKey"
+    POSTGRES_DB_CREDENTIALS: "prod/machineLearningApp/postgres"
+    
+    
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 049879149392.dkr.ecr.us-east-2.amazonaws.com
+      - REPOSITORY_URI=049879149392.dkr.ecr.us-east-2.amazonaws.com/modelofmodels_app
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      #- docker build  --build-arg POSTGRES_DB_CREDENTIALS -f ./docker/Dockerfile .
+      #- docker build -t $REPOSITORY_URI:latest --build-arg POSTGRES_DB_CREDENTIALS -f ./docker/Dockerfile .
+      - docker-compose build
+      - docker-compose up
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker-compose push $REPOSITORY_URI:latest
+      - docker-compose push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"uclib-treat-db-app","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json 
+artifacts:
+    files: imagedefinitions.json
