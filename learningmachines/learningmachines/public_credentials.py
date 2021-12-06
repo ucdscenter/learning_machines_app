@@ -1,7 +1,7 @@
 import os
 
 try:
-	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, RDS_ENDPOINT, S3_OBJECT, EMAIL_INFO
+	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, RDS_ENDPOINT, S3_OBJECT, EMAIL_INFO, DEBUG_SETTING
 	print("credentials file found")
 
 except:
@@ -13,13 +13,13 @@ except:
 	    'SESSION_TOKEN' : None
 	}
 
-	DB_ENV = 'PRODUCTION' #'LOCAL', 'PRODUCTION'
+	DB_ENV = 'DEV' #'LOCAL', 'PRODUCTION'
 
 	DEV_DB_PROFILE = {
 		'user' : 'zhaowezra',#'zhaowezra',
 		'password' : os.environ['RDS_PASSWORD']
 	}
-
+	DEBUG_SETTING = False
 
 	DJANGO_SECRET = os.environ['DJANGO_SECRET']
 
