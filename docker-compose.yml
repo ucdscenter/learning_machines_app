@@ -10,8 +10,6 @@ services:
       dockerfile : ./searcher/Dockerfile
     expose:
       - 8001
-  redis:
-    image: "redis:alpine"
   nginx:
     restart: always
     build: ./nginx
