@@ -9,7 +9,14 @@ services:
       context: ./learningmachines
       dockerfile : ./searcher/Dockerfile
     expose:
-      - 8001
+      - 8001      
+  redis:
+     build: ./redis-file
+     ports:
+        - 6379:6379
+     volumes:
+       - ./config/redis.conf:/redis.conf
+     command: [ "redis-server", "/redis.conf" ]
   nginx:
     restart: always
     build: ./nginx
