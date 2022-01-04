@@ -11,7 +11,7 @@ services:
     expose:
       - 8001      
   redis:
-     build: ./redis-file
+     build: ./redis
      ports:
         - 6379:6379
      volumes:
