@@ -1,7 +1,7 @@
 version: '3'
 services:
     redis:
-        image: redis:latest
+        build: ./redis-file
         ports:
             - 6379:6379
         volumes:
