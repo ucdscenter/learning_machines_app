@@ -195,5 +195,12 @@ var database_runtimes = {
 	"b" : 0, 
 	"count" : 7672,
 	"max" : 8000
+	},
+	"early_modern" : {
+	"a" : 0, 
+	"b" : 0,
+	"count" : 4959,
+	"max" : 6000
+
 	}
 }
