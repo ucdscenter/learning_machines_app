@@ -1300,6 +1300,10 @@ let DATABASES =
                 'options' : [],
                 'name' : 'Mayerson QNA'
             },
+            'early_modern' : {
+              'options' : [],
+              'name' : 'Early Modern JSTOR'
+            }
           }
 let dbi = 0
 Object.keys(DATABASES).forEach(function(db){
