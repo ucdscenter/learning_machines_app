@@ -32,8 +32,8 @@ phases:
       - echo Pushing the Docker images...
       - docker tag worker:latest  $REPOSITORY_URI_WORKER:$IMAGE_TAG
       - docker push $REPOSITORY_URI_WORKER:$IMAGE_TAG
-      - docker tag nginx:latest REPOSITORY_URI_NGINX:$IMAGE_TAG
-      - docker push REPOSITORY_URI_NGINX:$IMAGE_TAG
+      - docker tag nginx:latest $REPOSITORY_URI_NGINX:$IMAGE_TAG
+      - docker push $REPOSITORY_URI_NGINX:$IMAGE_TAG
       - docker tag redis:latest $REPOSITORY_URI_REDIS:$IMAGE_TAG
       - docker push $REPOSITORY_URI_REDIS:$IMAGE_TAG
       - docker tag uwsgi:latest $REPOSITORY_URI_UWSGI:$IMAGE_TAG
