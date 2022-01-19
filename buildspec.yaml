@@ -24,7 +24,7 @@ phases:
       - docker build  -t nginx  -f  ./nginx/Dockerfile .
       - docker build  -t uwsgi -f  ./learningmachines/searcher/Dockerfile .
       - docker build  -t redis -f  ./redis/Dockerfile .
-      - docker build  -t worker -f  ./learningmachines/Dockerfile .
+      - docker build  -t worker -f ./learningmachines/learningmachines/Dockerfile .
       
   post_build:
     commands:
