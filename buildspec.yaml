@@ -21,10 +21,10 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build  -t nginx  ./learning_machines_app/nginx/
-      - docker build  -t uwsgi  ./learning_machines_app/learningmachines/searcher/
-      - docker build  -t redis  ./learning_machines_app/nginx/
-      - docker build  -t worker ./learning_machines_app/learningmachines/
+      - docker build  -t nginx  -f  ./learning_machines_app/nginx/Dockerfile .
+      - docker build  -t uwsgi -f  ./learning_machines_app/learningmachines/searcher/Dockerfile
+      - docker build  -t redis -f  ./learning_machines_app/redis/Dockerfile .
+      - docker build  -t worker -f  ./learning_machines_app/learningmachines/Dockerfile
       
   post_build:
     commands:
