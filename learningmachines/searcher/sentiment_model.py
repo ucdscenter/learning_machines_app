@@ -24,8 +24,10 @@ class SentimentModel:
 
 	def convert_text(self, docs):
 		for d in docs:
+			temp_list_of_document = []
 			for s in d.text.split(". "):
-				self.cleaned_docs.append(s)
+				temp_list_of_document.append(s)
+			self.cleaned_docs.append(temp_list_of_document)
 
 	def norm_score(self, doc_score):
 		lower, upper = -1, 1
@@ -39,8 +41,11 @@ class SentimentModel:
 
 		self.predictions = []
 		for cleaned_d in self.cleaned_docs:
-			post_data = {'text_field' : cleaned_d}
+			# print(cleaned_d)
+			post_data = {'text_field' : json.dumps(cleaned_d)}
+			# post_data_json_object = json.dumps(post_data)
 			r = requests.post(SENTIMENT_URL, data=post_data)
 			print(r.text)
+			print('\n\n\n\n\n\n')
 			#self.predictions.append(self.norm_score(self.model.polarity_scores(cleaned_d)))
 		return self.predictions
