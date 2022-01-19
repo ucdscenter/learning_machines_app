@@ -19,7 +19,7 @@ except:
 		'user' : 'zhaowezra',#'zhaowezra',
 		'password' : os.environ['RDS_PASSWORD']
 	}
-	DEBUG_SETTING = False
+	DEBUG_SETTING = True #False
 
 	DJANGO_SECRET = os.environ['DJANGO_SECRET']
 

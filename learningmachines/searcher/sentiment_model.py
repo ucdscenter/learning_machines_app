@@ -4,7 +4,7 @@ import pandas as pd
 import requests
 import json
 
-SENTIMENT_URL = 'http://18.118.241.206:8080/sentiment'
+SENTIMENT_URL = 'http://3.143.238.30:8080/sentiment'
 
 class DummyPandasSeries:
 	def __init__(self, dummy):
