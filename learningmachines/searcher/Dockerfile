@@ -20,5 +20,5 @@ RUN pip install awscli
 RUN python -c 'import nltk; nltk.download("stopwords")'
 
 COPY . /docker_learningmachines/
-EXPOSE 8000
+EXPOSE 8001
 CMD ["bash", "bash_docker_start_app_local.sh"]
