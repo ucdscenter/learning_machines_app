@@ -3,6 +3,7 @@ import pandas as pd
 #from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import requests
 import json
+import time
 
 SENTIMENT_URL = 'http://3.143.238.30:8080/sentiment'
 
@@ -40,12 +41,13 @@ class SentimentModel:
 
 
 		self.predictions = []
+		start = time.time()
 		for cleaned_d in self.cleaned_docs:
-			# print(cleaned_d)
 			post_data = {'text_field' : json.dumps(cleaned_d)}
 			# post_data_json_object = json.dumps(post_data)
 			r = requests.post(SENTIMENT_URL, data=post_data)
 			print(r.text)
-			print('\n\n\n\n\n\n')
 			#self.predictions.append(self.norm_score(self.model.polarity_scores(cleaned_d)))
+		end = time.time()
+		print(end - start)
 		return self.predictions
