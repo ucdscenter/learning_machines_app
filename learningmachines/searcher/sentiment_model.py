@@ -40,14 +40,12 @@ class SentimentModel:
 		self.convert_text(docs)
 
 		self.predictions = []
-		# start = time.time()
 		# for cleaned_d in self.cleaned_docs:
 		post_data = {'text_field' : json.dumps(self.cleaned_docs)}
 			# post_data_json_object = json.dumps(post_data)
-		r = requests.post(SENTIMENT_URL, data=post_data)
-		print(r.text)
+		request_object = requests.post(SENTIMENT_URL, data=post_data)
+
+		json_response = request_object.json()
+		# print(json_response)
 			#self.predictions.append(self.norm_score(self.model.polarity_scores(cleaned_d)))
-		# end = time.time()
-		# print(end - start)
-		# return self.predictions
-		return r.text
+		return self.predictions
