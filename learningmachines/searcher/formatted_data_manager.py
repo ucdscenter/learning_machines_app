@@ -198,11 +198,12 @@ class FormattedDataManager:
 		predictions = self.model.predict(docs)
 
 		sm_data = []
-		j = 0
+		# j = 0
 		for i, doc in enumerate(docs):
+			j = 0
 			sent_pred = []
 			for sentence in doc.text.split('. '):
-				sent_pred.append([len(sentence), predictions[j].tolist()[0]])
+				sent_pred.append([len(sentence), predictions[i][j][0]])
 				j += 1
 			#sm_data.append({ 'document': doc, 'pos': predictions[i][0],'neg': predictions[i][1] })
 			sm_data.append({ 'document': doc, 'scores': sent_pred })

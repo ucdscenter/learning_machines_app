@@ -48,4 +48,4 @@ class SentimentModel:
 		json_response = request_object.json()
 		# print(json_response)
 			#self.predictions.append(self.norm_score(self.model.polarity_scores(cleaned_d)))
-		return self.predictions
+		return json_response
