@@ -4,7 +4,6 @@ env:
   secrets-manager:
     DJANGO_SECRETS: "dsc/learningmachineapp/dangoSecrets"
     
-
 phases:
 
   install:
