@@ -68,8 +68,3 @@ artifacts:
       files:
        - imagedefinitions4.json
       discard-paths: yes
-
-
-
-    files: imagedefinitions1.json
-  
