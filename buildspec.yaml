@@ -1,5 +1,10 @@
 version: 0.2
 
+env:
+  secrets-manager:
+    DJANGO_SECRETS: "dsc/learningmachineapp/dangoSecrets"
+    
+
 phases:
 
   install:
@@ -21,10 +26,10 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build  -t nginx  -f  ./nginx/Dockerfile .
-      - docker build  -t uwsgi -f  ./learningmachines/searcher/Dockerfile .
-      - docker build  -t redis -f  ./redis/Dockerfile .
-      - docker build  -t worker -f ./learningmachines/learningmachines/Dockerfile .
+      - docker build  -t nginx  --build-arg DJANGO_SECRETS  -f  ./nginx/Dockerfile .
+      - docker build  -t uwsgi  --build-arg DJANGO_SECRETS  -f  ./learningmachines/searcher/Dockerfile .
+      - docker build  -t redis  --build-arg DJANGO_SECRETS  -f  ./redis/Dockerfile .
+      - docker build  -t worker --build-arg DJANGO_SECRETS  -f ./learningmachines/learningmachines/Dockerfile .
       
   post_build:
     commands:
