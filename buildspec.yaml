@@ -53,5 +53,24 @@ phases:
       - cat imagedefinitions3.json
       - cat imagedefinitions4.json
 artifacts:
+  files:
+    - imagedefinitions1.json 
+  discard-paths: yes
+  secondary-artifacts:
+    artifact1:
+      files:
+        - imagedefinitions2.json
+      discard-paths: yes
+    artifact2:
+      files:
+        - imagedefinitions3.json
+      discard-paths: yes
+    artifact3:
+      files:
+       - imagedefinitions4.json
+      discard-paths: yes
+
+
+
     files: imagedefinitions1.json
   
