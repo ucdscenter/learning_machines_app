@@ -28,4 +28,6 @@ RUN pip install awscli
 RUN python -c 'import nltk; nltk.download("stopwords")'
 
 COPY .  /docker_learningmachines/
-CMD ["bash", "learningmachines/bash_docker_start_worker_local.sh"]
+CMD ["bash" ]
+
+#CMD ["bash", "learningmachines/bash_docker_start_worker_local.sh"]
