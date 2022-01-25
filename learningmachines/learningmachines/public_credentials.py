@@ -13,12 +13,13 @@ except:
 	if 'DJANGO_SECRETS' in os.environ:
 		print("django secrets found, setting system variables!")
 		print(os.environ['DJANGO_SECRETS'])
-		client = boto3.client('secretsmanager', region_name='us-east-2')
-		response = client.get_secret_value(
-    		SecretId=os.environ['DJANGO_SECRETS']
-		)
-		print(response)
-		database_secrets = json.loads(response['SecretString'])
+		#client = boto3.client('secretsmanager', region_name='us-east-2')
+		#response = client.get_secret_value(
+    	#	SecretId=os.environ['DJANGO_SECRETS']
+		#)
+		#print(response)
+		#database_secrets = json.loads(response['SecretString'])
+		database_secrets = json.loads(os.environ['DJANGO_SECRETS'])
 		print(database_secrets)
 		#set variables
 		rds_password = database_secrets['RDS_PASSWORD']
