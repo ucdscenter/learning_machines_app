@@ -4,7 +4,6 @@ env:
   secrets-manager:
     DJANGO_SECRETS: "dsc/learningmachineapp/dangoSecrets"
     
-
 phases:
 
   install:
@@ -44,14 +43,11 @@ phases:
       - docker tag uwsgi:latest $REPOSITORY_URI_UWSGI:$IMAGE_TAG
       - docker push $REPOSITORY_URI_UWSGI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"worker","imageUri":"%s"}]' $REPOSITORY_URI_WORKER:$IMAGE_TAG > imagedefinitions1.json
-      - printf '[{"name":"nginx","imageUri":"%s"}]' $REPOSITORY_URI_NGINX:$IMAGE_TAG > imagedefinitions2.json
-      - printf '[{"name":"uwsgi","imageUri":"%s"}]' $REPOSITORY_URI_UWSGI:$IMAGE_TAG > imagedefinitions3.json 
-      - printf '[{"name":"redis","imageUri":"%s"}]' $REPOSITORY_URI_REDIS:$IMAGE_TAG > imagedefinitions4.json
-      - cat imagedefinitions1.json 
-      - cat imagedefinitions2.json
-      - cat imagedefinitions3.json
-      - cat imagedefinitions4.json
+      - printf '[{"name":"worker","imageUri":"%s"}]' $REPOSITORY_URI_WORKER:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"nginx","imageUri":"%s"}]' $REPOSITORY_URI_NGINX:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"uwsgi","imageUri":"%s"}]' $REPOSITORY_URI_UWSGI:$IMAGE_TAG > imagedefinitions.json 
+      - printf '[{"name":"redis","imageUri":"%s"}]' $REPOSITORY_URI_REDIS:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
 artifacts:
-    files: imagedefinitions1.json
-  
+  files:
+    - imagedefinitions.json 
