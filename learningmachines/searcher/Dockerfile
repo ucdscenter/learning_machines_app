@@ -13,14 +13,9 @@ RUN apt install -y python3-pip
 RUN apt install -y libcurl4-openssl-dev libssl-dev
 RUN pip install --upgrade pip
 
-ARG RDS_PASSWORD
-ARG DJANGO_SECRET
-ARG CLIENT_EMAIL_PW
-ARG REDIS_IP
-ENV RDS_PASSWORD=$RDS_PASSWORD
-ENV DJANGO_SECRET=$DJANGO_SECRET
-ENV CLIENT_EMAIL_PW=$CLIENT_EMAIL_PW
-ENV REDIS_IP=$REDIS_IP
+
+ARG DJANGO_SECRETS
+ENV DJANGO_SECRETS=$DJANGO_SECRETS
 
 COPY ./learningmachines/requirements.txt  /docker_learningmachines/requirements.txt
 RUN pip install -r requirements.txt
@@ -29,4 +24,4 @@ RUN python -c 'import nltk; nltk.download("stopwords")'
 
 COPY . /docker_learningmachines/
 EXPOSE 8001
-CMD ["bash", "learningmachines/bash_docker_start_app_local.sh"]
+CMD ["bash", "learningmachines/bash_docker_start_app.sh"]
