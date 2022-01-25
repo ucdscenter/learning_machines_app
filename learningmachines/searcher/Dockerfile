@@ -29,6 +29,4 @@ RUN python -c 'import nltk; nltk.download("stopwords")'
 
 COPY . /docker_learningmachines/
 EXPOSE 8001
-CMD [ "bash" ]
-
-#CMD ["bash", "learningmachines/bash_docker_start_app_local.sh"]
+CMD ["bash", "learningmachines/bash_docker_start_app_local.sh"]
