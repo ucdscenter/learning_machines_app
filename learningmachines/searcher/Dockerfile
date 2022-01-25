@@ -13,7 +13,6 @@ RUN apt install -y python3-pip
 RUN apt install -y libcurl4-openssl-dev libssl-dev
 RUN pip install --upgrade pip
 
-
 ARG DJANGO_SECRETS
 ENV DJANGO_SECRETS=$DJANGO_SECRETS
 
