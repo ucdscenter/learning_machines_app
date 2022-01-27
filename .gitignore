@@ -10,6 +10,7 @@ __pycache__/
 /learningmachines/db.sqlite3
 /learningmachines/learningmachines/credentials.py
 /learningmachines/searcher/tempmodeldata/*
+!/learningmachines/searcher/tempmodeldata/gitkeep 
 /learningmachines/static/*
 /learningmachines/etc/uwsgi/run.log
 /learningmachines/eval_data/lda_hyperparams/*
