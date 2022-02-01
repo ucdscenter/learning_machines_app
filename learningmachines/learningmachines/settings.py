@@ -226,6 +226,6 @@ if USE_S3:
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     print(STATIC_URL)
 else:
-    STATIC_URL = '/static/'
-    STATIC_ROOT = 'static'
+    STATIC_URL = 'static/'
+    STATIC_ROOT = 'static/'
     
