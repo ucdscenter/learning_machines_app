@@ -4,10 +4,8 @@
 
 function renderNetwork(formattedData){
 	console.log(formattedData)
-	console.log(params.nodesize)
 	var label_show_cutoff = 0
 	var label_font_size = 8
-	console.log(params.nodelabels)
 	var label_show_cutoff = 2
 	var label_font_size = 8
 	var showlabels = params.nodelabels;
@@ -38,7 +36,6 @@ function renderNetwork(formattedData){
 	})
 
 	let topicDocScale = d3.scaleLinear().domain(topicDocExtent).range([3, 30])
-	console.log(topicDocExtent)
 	formattedData.nodes.forEach(function(d){
 		d.data.label = "cluster " + d.data.cluster + "\n" + d.data.label
 		let score = 0
@@ -52,7 +49,6 @@ function renderNetwork(formattedData){
 	
 
 
-	console.log(kl_max)
 	let multiplier = 100
 	let KL_LIMIT = 1
 	if (kl_max > 1){
@@ -199,6 +195,19 @@ function renderNetwork(formattedData){
 		 	j.style("border-color", "black")
 		 	j.style("border-width", .5)
 	 	}
+	 })
+
+
+	 networkGraph.on("boxselect", "node", function(evt){
+	 	let j = networkGraph.elements(evt.target)
+	 	j.style("font-size", label_font_size)
+	 	/*j.style("text-background-shape", 'rectangle')
+	 	j.style("text-background-padding", 0)*/
+	 	j.style("z-index", 1)
+	 	//if (j.style("border-color") == 'blue'){
+		 	j.style("border-color", "red")
+		 	j.style("border-width", 5)
+	 	//}
 	 })
 
 

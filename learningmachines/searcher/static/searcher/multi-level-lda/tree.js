@@ -38,6 +38,7 @@ function separation(a, b) {
       .attr("height", centerHeight)
       .attr("viewBox", [-margin.left, -margin.top, width, height])
       .style("font", "10px sans-serif")
+      .attr("id", 'tree-svg')
       .style("user-select", "none");
 
   let gLink = svg.append("g")

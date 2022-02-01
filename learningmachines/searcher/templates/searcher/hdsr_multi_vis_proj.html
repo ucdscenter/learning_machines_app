@@ -179,6 +179,15 @@
   </label>
 
 </div>
+
+<div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label class="btn btn-secondary active">
+    <input type="radio" name="annotate-off" id="annotate-off" autocomplete="off" checked>Annotation Off</label>
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label class="btn btn-secondary">
+    <input type="radio" name="annotate-on" id="annotate-on" autocomplete="off">Annotation On</label>
+</div>
+</div>
 					</div>
 				</div>
 				<div class="row">
@@ -251,11 +260,14 @@
   integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
   crossorigin="anonymous"></script>
   <script src="{% static 'searcher/js/d3.min.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.js"></script>
+  <!--<script src="/static/searcher/d3-ring-note.js"></script>-->
   <script src="{% static 'searcher/multi-level-lda/cytoscape.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'searcher/multi-level-lda/tables.js' %}"></script>
   <script type="text/javascript" src="{% static 'searcher/multi-level-lda/hdsr_network.js' %}"></script>
   <script type="text/javascript" src="{% static 'searcher/multi-level-lda/tree.js' %}"></script>
   <script type="text/javascript" src="{% static 'searcher/multi-level-lda/circle.js' %}"></script>
   <script type="text/javascript" src="{% static 'searcher/multi-level-lda/triple_vis.js' %}"></script>
+    <script type="text/javascript" src="{% static 'searcher/multi-level-lda/multi_vis_annotation.js' %}"></script>
 </body>
 </html>

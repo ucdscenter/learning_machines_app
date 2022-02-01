@@ -605,7 +605,6 @@ async function wrapper(){
 		$('#circle-graph-div').removeClass("hidden")
 		$('#tree-graph-div').addClass("hidden")
 		$('#network-graph-div').addClass("hidden")
-
 	})
 	
 	$('#network-btn').on("change", function(evt){

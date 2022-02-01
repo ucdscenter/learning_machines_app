@@ -101,7 +101,6 @@
 	};
 
 	function renderClustersTable(graphData){
-		console.log(graphData)
 		let ctable = d3.select("#clusters-table").append("table")
 			.attr('id', 'ctable')
 			.attr("class", "table")
