@@ -5,7 +5,7 @@ import requests
 import json
 import time
 
-SENTIMENT_URL = 'http://3.143.238.30:8080/sentiment'
+SENTIMENT_URL = 'http://3.142.150.125:8080/sentiment'
 
 class DummyPandasSeries:
 	def __init__(self, dummy):
