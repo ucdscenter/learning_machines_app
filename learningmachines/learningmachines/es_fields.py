@@ -31,7 +31,8 @@ ES_FIELDS = {
         'Med_Applications': 'family_medicine',
         'Mayerson' : 'mayerson',
         'Mayerson_qna' : 'mayerson_qna',
-        'hathitrust_novels' : 'hathitrust_novels'
+        'hathitrust_novels' : 'hathitrust_novels',
+        'early_modern':'early_modern'
 
     },
     'id': {
@@ -66,7 +67,8 @@ ES_FIELDS = {
         'Med_Applications': 'id',
         'Mayerson' : 'case_num',
         'Mayerson_qna' : 'case_no',
-        'hathitrust_novels' : 'id'
+        'hathitrust_novels' : 'id',
+        'early_modern' : 'id' 
     },
     'abstract': {
         'SEC_Texts': 'title',
@@ -98,7 +100,8 @@ ES_FIELDS = {
         'Med_Applications': 'text',
         'Mayerson' : 'text',
         'Mayerson_qna' : 'text',
-        'hathitrust_novels' : 'page_tokens'
+        'hathitrust_novels' : 'page_tokens',
+        'early_modern' : 'text'
     },
     'full_text': {
         'SEC_Texts': 'text',
@@ -132,7 +135,9 @@ ES_FIELDS = {
         'Med_Applications': 'text',
         'Mayerson' : 'text',
         'Mayerson_qna' : 'text',
-        'hathitrust_novels' : 'page_tokens'
+        'hathitrust_novels' : 'page_tokens',
+        'early_modern' : 'text'
+
     },
     'doc_title' :
         {
@@ -167,7 +172,9 @@ ES_FIELDS = {
         'Med_Applications': 'title',
         'Mayerson' : 'case_num',
         'Mayerson_qna' : 'case_no',
-        'hathitrust_novels' : 'title'
+        'hathitrust_novels' : 'title',
+        'early_modern' : 'title'
+
         },
     'author' :
         {
@@ -186,7 +193,8 @@ ES_FIELDS = {
         'Cannabis_News': 'title', 
         'Mayerson' : 'interviewer',
         'Mayerson_qna' : 'interviewer',
-        'hathitrust_novels' : 'author'
+        'hathitrust_novels' : 'author',
+        'early_modern' : 'author'
         },
     'date': {
         'SEC_Texts': 'date',
@@ -220,7 +228,8 @@ ES_FIELDS = {
         'Med_Applications': 'date',
         'Mayerson' : 'file_date',
         'Mayerson_qna' : 'file_date',
-        'hathitrust_novels' : 'date'
+        'hathitrust_novels' : 'date',
+        'early_modern' : 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -256,7 +265,8 @@ ES_FIELDS = {
         'Med_Applications': ['id', 'date'],
         'Mayerson' : ['case_num', 'file_date'],
         'Mayerson_qna' : ['case_no', 'file_date'],
-         'hathitrust_novels' : ['title', 'date']
+        'hathitrust_novels' : ['title', 'date'],
+        'early_modern' : ['title', 'date']
     }
 }
 MAX_NUM_DOC_VIS = {
@@ -294,5 +304,6 @@ MAX_NUM_DOC_VIS = {
     'Med_Applications': 4000,
     'Mayerson' : 20000,
     'Mayerson_qna' : 20000,
-    'hathitrust_novels' : 2000
+    'hathitrust_novels' : 2000,
+    'early_modern' : 6000
 }

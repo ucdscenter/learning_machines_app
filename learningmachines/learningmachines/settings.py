@@ -31,9 +31,10 @@ SECRET_KEY = DJANGO_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = DEBUG_SETTING
 
-ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '127.0.0.1']
+DEBUG = True#not S3_OBJECT['USE_S3']
+
+ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40']
 
 # Application definition
 
@@ -131,6 +132,7 @@ if DB_ENV == 'PRODUCTION':
             'PORT': RDS_PORT,       # Set to empty string for default. Not used with sqlite3.
         }
     }
+
 if DB_ENV == 'DEV':
     RDS_ENDPOINT="mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com"
     RDS_PORT="5432"
@@ -223,6 +225,6 @@ if USE_S3:
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     print(STATIC_URL)
 else:
-    STATIC_URL = '/static/'
-    STATIC_ROOT = 'static'
+    STATIC_URL = 'static/'
+    STATIC_ROOT = 'static/'
     

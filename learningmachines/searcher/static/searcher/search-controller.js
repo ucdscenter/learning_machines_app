@@ -78,26 +78,7 @@ async function renderDataBaseSelect(dbdata){
       return d + "_svg"
     })
     .style("height", height + 'px')
-    .style("width", "50%")
-
-
-let db_times = dbthings
-                  .append("div")
-                  .style("display", "inline-block")
-                  .append("div")
-                  .attr("class", "btn btn-success col-12 nohover")
-                  .style("background-color", function(d){
-                    return d3.interpolateOrRd(database_runtimes[d].a)
-                  })
-                  .style("border-color", "white")
-
-                  .text(function(d){
-                    if (database_runtimes[d].a == 0){
-                      return " "
-                    }
-                     return ((100 * database_runtimes[d].a)).toPrecision(3) + " s/100 docs"
-                    }
-                  )
+    .style("width", "100%")
 
 
     
@@ -1202,7 +1183,7 @@ let DATABASES =
           },
           'Care_Reviews' : {
             'options' : [],
-            'name' : 'ER & Urgent Care Reviews'
+            'name' : 'ER, Urgent Care Reviews'
           },
           'Covid' : {
             'options' : [],
@@ -1300,6 +1281,10 @@ let DATABASES =
                 'options' : [],
                 'name' : 'Mayerson QNA'
             },
+            'early_modern' : {
+              'options' : [],
+              'name' : 'Early Modern JSTOR'
+            }
           }
 let dbi = 0
 Object.keys(DATABASES).forEach(function(db){

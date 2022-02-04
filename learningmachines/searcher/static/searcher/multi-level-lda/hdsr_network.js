@@ -7,10 +7,22 @@ function renderNetwork(formattedData){
 	console.log(params.nodesize)
 	var label_show_cutoff = 0
 	var label_font_size = 8
-	if(formattedData.nodes.length > label_show_cutoff){
+	console.log(params.nodelabels)
+	var label_show_cutoff = 2
+	var label_font_size = 8
+	var showlabels = params.nodelabels;
+
+	if(showlabels != undefined){
+		if(showlabels == 'yes'){
+			label_font_size = 8
+		}
+		else {
+			label_font_size = 0
+		}
+	}
+	else if(formattedData.nodes.length > label_show_cutoff){
 		label_font_size = 0
 	}
-
 	let kl_max = d3.max(formattedData.edges, function(d){
 		return d.data.weight;
 	})

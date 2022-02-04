@@ -40,6 +40,7 @@ class SentimentModel:
 		self.convert_text(docs)
 
 		self.predictions = []
+
 		# for cleaned_d in self.cleaned_docs:
 		post_data = {'text_field' : json.dumps(self.cleaned_docs)}
 			# post_data_json_object = json.dumps(post_data)
@@ -49,3 +50,4 @@ class SentimentModel:
 		# print(json_response)
 			#self.predictions.append(self.norm_score(self.model.polarity_scores(cleaned_d)))
 		return json_response
+
