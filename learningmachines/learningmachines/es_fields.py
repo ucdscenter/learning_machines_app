@@ -32,8 +32,8 @@ ES_FIELDS = {
         'Mayerson' : 'mayerson',
         'Mayerson_qna' : 'mayerson_qna',
         'hathitrust_novels' : 'hathitrust_novels',
-        'early_modern':'early_modern'
-
+        'early_modern':'early_modern', 
+        'NYNPO_taxforms': 'NYNPO_taxforms'
     },
     'id': {
         'SEC_Texts': 'id',
@@ -68,7 +68,8 @@ ES_FIELDS = {
         'Mayerson' : 'case_num',
         'Mayerson_qna' : 'case_no',
         'hathitrust_novels' : 'id',
-        'early_modern' : 'id' 
+        'early_modern' : 'id', 
+        'NYNPO_taxforms': 'ein' 
     },
     'abstract': {
         'SEC_Texts': 'title',
@@ -101,7 +102,8 @@ ES_FIELDS = {
         'Mayerson' : 'text',
         'Mayerson_qna' : 'text',
         'hathitrust_novels' : 'page_tokens',
-        'early_modern' : 'text'
+        'early_modern' : 'text', 
+        'NYNPO_taxforms': 'text'
     },
     'full_text': {
         'SEC_Texts': 'text',
@@ -136,7 +138,8 @@ ES_FIELDS = {
         'Mayerson' : 'text',
         'Mayerson_qna' : 'text',
         'hathitrust_novels' : 'page_tokens',
-        'early_modern' : 'text'
+        'early_modern' : 'text', 
+        'NYNPO_taxforms': 'text'
 
     },
     'doc_title' :
@@ -173,7 +176,8 @@ ES_FIELDS = {
         'Mayerson' : 'case_num',
         'Mayerson_qna' : 'case_no',
         'hathitrust_novels' : 'title',
-        'early_modern' : 'title'
+        'early_modern' : 'title', 
+        'NYNPO_taxforms': 'title'
 
         },
     'author' :
@@ -194,7 +198,8 @@ ES_FIELDS = {
         'Mayerson' : 'interviewer',
         'Mayerson_qna' : 'interviewer',
         'hathitrust_novels' : 'author',
-        'early_modern' : 'author'
+        'early_modern' : 'author', 
+        'NYNPO_taxforms': 'title'
         },
     'date': {
         'SEC_Texts': 'date',
@@ -229,7 +234,8 @@ ES_FIELDS = {
         'Mayerson' : 'file_date',
         'Mayerson_qna' : 'file_date',
         'hathitrust_novels' : 'date',
-        'early_modern' : 'date'
+        'early_modern' : 'date', 
+        'NYNPO_taxforms': 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -266,7 +272,8 @@ ES_FIELDS = {
         'Mayerson' : ['case_num', 'file_date'],
         'Mayerson_qna' : ['case_no', 'file_date'],
         'hathitrust_novels' : ['title', 'date'],
-        'early_modern' : ['title', 'date']
+        'early_modern' : ['title', 'date'],
+        'NYNPO_taxforms': ['title', 'date']
     }
 }
 MAX_NUM_DOC_VIS = {
@@ -305,5 +312,6 @@ MAX_NUM_DOC_VIS = {
     'Mayerson' : 20000,
     'Mayerson_qna' : 20000,
     'hathitrust_novels' : 2000,
-    'early_modern' : 6000
+    'early_modern' : 6000, 
+    'NYNPO_taxforms': 45000
 }

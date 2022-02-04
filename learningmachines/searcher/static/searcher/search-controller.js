@@ -1303,6 +1303,10 @@ let DATABASES =
             'early_modern' : {
               'options' : [],
               'name' : 'Early Modern JSTOR'
+            },
+            'NYNPO_taxforms' : {
+              'options' : [],
+              'name' : 'NY NPO Descriptions'
             }
           }
 let dbi = 0
