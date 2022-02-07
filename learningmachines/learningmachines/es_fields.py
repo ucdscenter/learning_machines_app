@@ -33,7 +33,7 @@ ES_FIELDS = {
         'Mayerson_qna' : 'mayerson_qna',
         'hathitrust_novels' : 'hathitrust_novels',
         'early_modern':'early_modern', 
-        'NYNPO_taxforms': 'NYNPO_taxforms'
+        'NYNPO_taxforms': 'nynpo_taxforms'
     },
     'id': {
         'SEC_Texts': 'id',
