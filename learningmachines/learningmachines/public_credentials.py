@@ -13,7 +13,7 @@ except:
 	    'SESSION_TOKEN' : None
 	}
 
-	DB_ENV = 'DEV' #'LOCAL', 'PRODUCTION'
+	DB_ENV = 'PRODUCTION' #'LOCAL', 'PRODUCTION'
 
 	DEV_DB_PROFILE = {
 		'user' : 'zhaowezra',#'zhaowezra',
