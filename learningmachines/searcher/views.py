@@ -345,7 +345,7 @@ def load_formatted(request):
 			"docs" : vis_request.docfilter.doc_number,
 			"stopwords" : vis_request.docfilter.stop_words,
 			"ys" :  vis_request.docfilter.orig_start_year if vis_request.docfilter.orig_start_year != '-1' else 'Not set',
-			"ye" : vis_request.docfilter.origend_year if vis_request.docfilter.orig_end_year != '-1' else 'Not set',
+			"ye" : vis_request.docfilter.orig_end_year if vis_request.docfilter.orig_end_year != '-1' else 'Not set',
 			"topics" : vis_request.docfilter.num_topics
 		}
 		modelname = vis_request.model_name.replace('*', '"')
