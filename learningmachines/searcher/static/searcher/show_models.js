@@ -41,7 +41,7 @@ function wrapper(){
 		if(model_list_obj.length > 0){
 			table_to_add.select(".table-holder").remove()
 		}
-		var columns = ['query', 'database', 'time', 'topics', 'vis_type',  'status', 'links', 'action'];
+		var columns = ['query', 'database', 'time', 'time range','topics', 'vis_type',  'status', 'links', 'action'];
 		if(add_info == 'running_div'){
 			table_class = 'running'
 			//columns = ['query', 'database', 'time', 'topics', 'status', 'vis_type', 'links', 'action']
@@ -140,13 +140,13 @@ function wrapper(){
 				}
 			}
 			else {
-				var col_width = "col-lg-2"
-				if(c == 'topics'){
-					col_width = "col-lg-1"
+				var col_width = "col-lg-1"
+				if(c == 'vis_type' || c == 'time' || c == 'time range'){
+					col_width = "col-lg-2"
 				}
 				table_rows.append("div").attr("class", "col-sm-4 col-md-3 "+ col_width +" col-query").append("h6").attr("class", "mt-3").text(function(d){
 					
-					return  d[c] 
+					return  d[c].replace("_", " ")
 				})
 			}
 	})
