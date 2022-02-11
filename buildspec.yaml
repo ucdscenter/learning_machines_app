@@ -1,7 +1,6 @@
 version: 0.2
 env:
   secrets-manager:
-    #RAILS_MASTER_KEY: "uclib/TreatmentDB/dev/railsMasterKey:railsMasterKey"
     POSTGRES_DB_CREDENTIALS: "prod/machineLearningApp/postgres"
     
     
