@@ -414,3 +414,6 @@ def searcher(request):
 			message, EMAIL_HOST_USER, [recepient], fail_silently = False)
 		return render(request, 'searcher/success.html', {'recepient': recepient})
 	return render(request, 'searcher/index2.html', {'form':sub})
+
+def bert_method_vis(request):
+	return render(request, 'searcher/bert_method_vis.html', {'hello':'hello'})
