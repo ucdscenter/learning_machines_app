@@ -415,5 +415,8 @@ def searcher(request):
 		return render(request, 'searcher/success.html', {'recepient': recepient})
 	return render(request, 'searcher/index2.html', {'form':sub})
 
+# Function for BERT Visualization
 def bert_method_vis(request):
-	return render(request, 'searcher/bert_method_vis.html', {'hello':'hello'})
+	with open('searcher/trained_models/sample_json_of_points.json', 'r') as openfile:
+		json_bert_vis = json.load(openfile)
+	return render(request, 'searcher/bert_method_vis.html', json_bert_vis)
