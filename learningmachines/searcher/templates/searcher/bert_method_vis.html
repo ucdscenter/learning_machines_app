@@ -5,11 +5,14 @@
 {% block content %}
 <div>
     <h1>BERT Embeddings</h1>
-    {% for key, values in bert_vis_points_dictionary.items %} 
-        <h2>{{values}}</h2>
-    {% endfor %}
 </div>
 {% endblock content %}
 
 {% block footer_javascript_page %}
+<script src="https://d3js.org/d3.v4.js"></script>
+<script>
+    d3.json('/Users/happyhome/Documents/learning_machines_app/learningmachines/searcher/tempmodeldata/sample_json_of_points.json', function(data) {
+        console.log(data)
+    });
+</script>
 {% endblock footer_javascript_page %}
