@@ -36,11 +36,10 @@ async function wrapper(){
     // 3. Define scales to translate domains of the data to the range of the svg
     var xMin = d3.min(data, (d) => d["x"]);
     var xMax = d3.max(data, (d) => d["x"]);
-    console.log(xMin);
 
-    var parseTime = d3.timeParse("%M:%S");
-    var yMin = d3.min(data, (d) => parseTime(d["Time"]));
-    var yMax = d3.max(data, (d) => parseTime(d["Time"]));
+    // var parseTime = d3.timeParse("%M:%S");
+    var yMin = d3.min(data, (d) => d["y"]);
+    var yMax = d3.max(data, (d) => d["y"]);
 
     var xScale = d3.scaleLinear()
                    .domain([xMin, xMax])
@@ -52,7 +51,7 @@ async function wrapper(){
 
     // 4. Draw and transform/translate horizontal and vertical axes
     var xAxis = d3.axisBottom().scale(xScale).tickFormat(d3.format("d"))
-    var yAxis = d3.axisLeft().scale(yScale).tickFormat(d3.timeFormat("%M:%S"))
+    var yAxis = d3.axisLeft().scale(yScale).tickFormat(d3.format("d"))
 
     svg.append("g")
        .attr("transform", "translate(0, "+ (height - margin.bottom) + ")")
@@ -69,15 +68,16 @@ async function wrapper(){
        .data(data)
        .enter()
        .append("circle")
-       .attr("cx", (d) => xScale(d["Year"]))
-       .attr("cy", (d) => yScale(parseTime(d["Time"])))
+       .attr("cx", (d) => xScale(d["x"]))
+       .attr("cy", (d) => yScale(d["y"]))
        .attr("r", 5)
-       .attr("fill", (d) => (d["Doping"] == "") ? colors[0] : colors[1])
+       .attr("fill", (d) => (
+                            d[""] == "") ? colors[0] : colors[1])
        .attr("class", "dot")
-       .attr("data-xvalue", (d) => d["Year"])
-       .attr("data-yvalue", (d) => parseTime(d["Time"]))
+       .attr("data-xvalue", (d) => d["x"])
+       .attr("data-yvalue", (d) => d["y"])
        .on("mouseover", function(d){
-           info = d["originalTarget"]["__data__"]
+        //    info = d["originalTarget"]["__data__"]
            tooltip.style("visibility", "visible")
                   .style("left", event.pageX+10+"px")
                   .style("top", event.pageY-80+"px")
@@ -96,25 +96,25 @@ async function wrapper(){
         .attr("x", margin.left + (width - margin.left - margin.right) / 2)
         .attr("y", height - margin.bottom / 5)
         .attr("class", "label")
-        .text("Year");
+        .text("x");
 
      svg.append("text")
          .attr("y", margin.left/4)
          .attr("x", -height/2)
          .attr("transform", "rotate(-90)")
          .attr("class", "label")
-         .text("Time to finish");
+         .text("y");
 
      svg.append("text")
         .attr("x", margin.left + (width - margin.left - margin.right) / 2)
         .attr("y", margin.top / 2.6)
         .attr("id", "title")
-        .text("Doping in professional bike racing");
+        .text("Bert Embeddings");
 
      svg.append("text")
         .attr("x", margin.left + (width - margin.left - margin.right) / 2)
         .attr("y", margin.top / 1.4)
-        .text("35 fastest times to finish Alpe d'Huez")
+        .text("For Abstract Text")
         .style("font-size", "16px")
         .style("text-anchor", "middle")
 
