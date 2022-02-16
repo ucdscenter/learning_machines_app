@@ -158,13 +158,13 @@ async function wrapper(){
         .attr("class", "textbox")
 
      const legend = svg.append("rect")
-                       .attr("x", width - margin.right - 200 - 15)
+                       .attr("x", width - margin.right - 220)
                        .attr("y", 150-5-10)
                        .attr("rx", 5)
                        .attr("ry", 5)
-                       .attr("width", 195)
-                       .attr("height", 55)
-                       .attr("id", "legend")
+                       .attr("width", 350)
+                       .attr("height", 140)
+                       .attr("id", "legend").style("opacity", 0.2)
     
     })
 
@@ -252,7 +252,5 @@ async function wrapper(){
 
 }
 
-wrapper()  
-
-// d3.json("file.json").then(function(data){ console.log(data)})
+wrapper() 
 
