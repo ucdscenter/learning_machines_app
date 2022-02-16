@@ -11,8 +11,11 @@
 {% block footer_javascript_page %}
 <script src="https://d3js.org/d3.v4.js"></script>
 <script>
-    d3.json('/Users/happyhome/Documents/learning_machines_app/learningmachines/searcher/tempmodeldata/sample_json_of_points.json', function(data) {
-        console.log(data)
-    });
+    async_func = async function(){
+        d3.json("/Users/happyhome/Documents/learning_machines_app/learningmachines/searcher/tempmodeldata/extra_json_points.json", function (d) {
+            console.log(d);
+        });
+    }
+    async_func();
 </script>
 {% endblock footer_javascript_page %}
