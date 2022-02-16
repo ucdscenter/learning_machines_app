@@ -71,9 +71,26 @@ async function wrapper(){
        .attr("cx", (d) => xScale(d["x"]))
        .attr("cy", (d) => yScale(d["y"]))
        .attr("r", 5)
-       .attr("fill", (d) => (
-                            d[""] == "") ? colors[0] : colors[1])
-       .attr("class", "dot")
+       .attr("fill", (d) => ({
+        if(d["cluster_name"] === "AMBULATORY ANESTHESIA"){
+            colors[0];
+        }
+        else if(d["cluster_name"] === "ANESTHETIC ACTION AND BIOCHEMISTRY"){
+            colors[1];
+        }
+        else if(d["cluster_name"] === "CHRONIC AND CANCER PAIN"){
+            colors[2];
+        }
+        else if(d["cluster_name"] === "CLINICAL CIRCULATION"){
+            colors[3];
+        }
+        else if(d["cluster_name"] === "CLINICAL NEUROSCIENCES"){
+            colors[4];
+        }
+        else{
+            colors[0];
+        }))
+        .attr("class", "dot")
        .attr("data-xvalue", (d) => d["x"])
        .attr("data-yvalue", (d) => d["y"])
        .on("mouseover", function(d){
