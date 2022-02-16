@@ -22,9 +22,9 @@ async function wrapper(){
 
         // 2. Append svg-object for the bar chart to a div in your webpage
     // (here we use a div with id=container)
-    var width = 700;
-    var height = 500;
-    var margin = {left: 90, top: 80, bottom: 50, right: 20};
+    var width = 1200;
+    var height = 1200;
+    var margin = {left: 90, top: 80, bottom: 50, right: 140};
     var axisOffset = 10   // How for the axes are moved away from each other
 
     const svg = d3.select("#my_dataviz")
@@ -62,6 +62,28 @@ async function wrapper(){
        .attr("transform", "translate("+ (margin.left)+", 0)")
        .attr("id", "y-axis")
        .call(yAxis)
+    
+    // Function to return the respective cluster color
+    const getColor = function(d){
+        if(d["cluster_name"] === "AMBULATORY ANESTHESIA"){
+            return colors[0];
+        }
+        else if(d["cluster_name"] === "ANESTHETIC ACTION AND BIOCHEMISTRY"){
+            return colors[1];
+        }
+        else if(d["cluster_name"] === "CHRONIC AND CANCER PAIN"){
+            return colors[2];
+        }
+        else if(d["cluster_name"] === "CLINICAL CIRCULATION"){
+            return colors[3];
+        }
+        else if(d["cluster_name"] === "CLINICAL NEUROSCIENCES"){
+            return colors[4];
+        }
+        else{
+            return colors[0];
+        }
+    }
 
     // 5. Draw individual scatter points and define mouse events for the tooltip
     svg.selectAll("scatterPoints")
@@ -71,25 +93,7 @@ async function wrapper(){
        .attr("cx", (d) => xScale(d["x"]))
        .attr("cy", (d) => yScale(d["y"]))
        .attr("r", 5)
-       .attr("fill", (d) => ({
-        if(d["cluster_name"] === "AMBULATORY ANESTHESIA"){
-            colors[0];
-        }
-        else if(d["cluster_name"] === "ANESTHETIC ACTION AND BIOCHEMISTRY"){
-            colors[1];
-        }
-        else if(d["cluster_name"] === "CHRONIC AND CANCER PAIN"){
-            colors[2];
-        }
-        else if(d["cluster_name"] === "CLINICAL CIRCULATION"){
-            colors[3];
-        }
-        else if(d["cluster_name"] === "CLINICAL NEUROSCIENCES"){
-            colors[4];
-        }
-        else{
-            colors[0];
-        }))
+       .attr("fill", (d) => (getColor(d)))
         .attr("class", "dot")
        .attr("data-xvalue", (d) => d["x"])
        .attr("data-yvalue", (d) => d["y"])
