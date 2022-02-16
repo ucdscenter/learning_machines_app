@@ -10,15 +10,5 @@
 
 {% block footer_javascript_page %}
 <script src="https://d3js.org/d3.v4.js"></script>
-<script>
-
-    async wrapper(){
-        let data = await d3.json("/Users/happyhome/Documents/learning_machines_app/learningmachines/searcher/tempmodeldata/extra_json_points.json")
-
-        console.log(data)
-    }
-    
-    wrapper()
-
-</script>
+<script src="{% static 'searcher/bert_method.js' %}"></script>
 {% endblock footer_javascript_page %}
