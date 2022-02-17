@@ -15,10 +15,19 @@ async function wrapper(){
         var legendKeys = ["AMBULATORY ANESTHESIA", "ANESTHETIC ACTION AND BIOCHEMISTRY", "CHRONIC AND CANCER PAIN", "CLINICAL CIRCULATION", "CLINICAL NEUROSCIENCES"]
 
         // Create an invisible div for the tooltip
-        const tooltip = d3.select("body")
-                        .append("div")
-                        .attr("id", "tooltip")
-                        .style("visibility", "hidden")
+        var tooltip = d3.select("#my_dataviz")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "1px")
+        .style("border-radius", "5px")
+        .style("padding", "10px")
+        // const tooltip = d3.select("body")
+        //                 .append("div")
+        //                 .attr("id", "tooltip")
+        //                 .style("visibility", "hidden")
 
         // 2. Append svg-object for the bar chart to a div in your webpage
     // (here we use a div with id=container)
@@ -99,17 +108,20 @@ async function wrapper(){
        .attr("data-yvalue", (d) => d["y"])
        .on("mouseover", function(d){
         //    info = d["originalTarget"]["__data__"]
-           tooltip.style("visibility", "visible")
-                  .style("left", event.pageX+10+"px")
-                  .style("top", event.pageY-80+"px")
-                  .attr("data-year", info["Year"])
-                  .html(info["Name"]+" ("+info["Year"]+") <br> Time: "+info["Time"]+"<br><br>"+info["Doping"])
+           tooltip.style("opacity", 1)
+                  .style("left", (d3.mouse(this)[0]+90)+"px")
+                  .style("top", (d3.mouse(this)[1])+"px").html("hello world")
+                //   .attr("data-year", info["Year"])
+                //   .html(info["Name"]+" ("+info["Year"]+") <br> Time: "+info["Time"]+"<br><br>"+info["Doping"])
+                
+
+            console.log("hello world")
        })
        .on("mousemove", function(){
-           tooltip.style("left", event.pageX+10+"px")
+           tooltip.style("left", (d3.mouse(this)[0]+90)+"px")
        })
        .on("mouseout", function(){
-           tooltip.style("visibility", "hidden")
+           tooltip.style("opacity", 0)
        })
 
      // 6. Finalize chart by adding title, axes labels and legend
@@ -168,87 +180,11 @@ async function wrapper(){
     
     })
 
-    // var margin = {top: 10, right: 30, bottom: 30, left: 60},
-    // width = 460 - margin.left - margin.right,
-    // height = 400 - margin.top - margin.bottom;
+    // Add a tooltip div. Here I define the general feature of the tooltip: 
+    // stuff that do not depend on the data point.
+    // Its opacity is set to 0: we don't see it by default.
+    var tooltip = d3.select("#my_dataviz")
 
-    // var svg = d3.select('#my_dataviz')
-    //     .append('svg')
-    //         .attr("width", width + margin.left + margin.right)
-    //         .attr("height", height + margin.top + margin.bottom)
-    //     .append('g')
-    //         .attr("transform", "translate(" + margin.left +"," + margin.top + ")");
-
-    // // Add X axis
-    // var x = d3.scaleLinear()
-    //     .domain([-50, 50])
-    //     .range([ 0, width ]);
-    
-    // svg.append("g")
-    //     .attr("transform", "translate(0," + height + ")")
-    //     .call(d3.axisBottom(x));
-
-    // // Add Y axis
-    // var y = d3.scaleLinear()
-    //     .domain([-50, 50])
-    //     .range([ height, 0]);
-    
-    // svg.append("g")
-    //     .call(d3.axisLeft(y));
-
-    // // Color scale: give me a specie name, I return a color
-    // var color = d3.scaleOrdinal()
-    //     .domain(["AMBULATORY ANESTHESIA", "ANESTHETIC ACTION AND BIOCHEMISTRY", "CHRONIC AND CANCER PAIN", "CLINICAL CIRCULATION", "CLINICAL NEUROSCIENCES"])
-    //     // .domain(["setosa", "versicolor", "virginica" ])
-    //     // .range([ "#440154ff", "#21908dff", "#fde725ff"])
-    //     .range([ "#440154ff", "#21908dff", "#fde725ff", "#808080FF", "#FDE725FF"])
-
-
-    // // Highlight the specie that is hovered
-    // var highlight = function(d){
-
-    //     // selected_specie = d.Species
-    //     selected_specie = d["cluster_name"]
-
-    //     d3.selectAll(".dot")
-    //         .transition()
-    //         .duration(200)
-    //         .style("fill", "lightgrey")
-    //         .attr("r", 3)
-
-    //     d3.selectAll("." + selected_specie)
-    //         .transition()
-    //         .duration(200)
-    //         .style("fill", color(selected_specie))
-    //         .attr("r", 7)
-    // }
-
-    // // Highlight the specie that is hovered
-    // var doNotHighlight = function(){
-    //     d3.selectAll(".dot")
-    //         .transition()
-    //         .duration(200)
-    //         .style("fill", "lightgrey")
-    //         .attr("r", 5 )
-    // }
-
-    // // Add dots
-    // svg.append('g')
-    //     .selectAll("dot")
-    //     .data(data)
-    //     .enter()
-    //     .append("circle")
-    //     // .attr("class", function (d) { return "dot " + d.Species } )
-    //     .attr("class", function (d) { return "dot " + d["cluster_name"] } )
-    //     // .attr("cx", function (d) { return x(d.Sepal_Length); } )
-    //     .attr("cx", function (d) { return x(d["x"]); } )
-    //     // .attr("cy", function (d) { return y(d.Petal_Length); } )
-    //     .attr("cy", function (d) { return y(d["y"]); } )
-    //     .attr("r", 5)
-    //     // .style("fill", function (d) { return color(d.Species) } )
-    //     .style("fill", function (d) { return color(d.cluster_name) } )
-    //     .on("mouseover", highlight)
-    //     .on("mouseleave", doNotHighlight )
 
 }
 
