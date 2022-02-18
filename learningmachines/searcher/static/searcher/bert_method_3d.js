@@ -17,6 +17,23 @@ async function wrapper(){
     let camera = new THREE.PerspectiveCamera(
         fov, aspect, near, far
     )
+    
+    window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        viz_width = width;
+        height = window.innerHeight;
+      
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        // must be called after any change of parameters of camera
+        camera.updateProjectionMatrix();
+    })
+                    
+                
+    
+    
+
+    console.log(camera)
 }
 
 wrapper()
