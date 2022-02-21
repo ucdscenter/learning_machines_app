@@ -6,7 +6,7 @@ async function wrapper(){
     // console.log(data)
 
     d3.json(static_url + 'extra_json_points_2.json').then(function(data){ 
-        console.log(data) 
+        // console.log(data) 
 
         // Colors to differentiate riders with and without doping allegations
         var colors = ["#440154ff", "#21908dff", "#fde725ff", "#808080FF", "#FDE725FF"]
