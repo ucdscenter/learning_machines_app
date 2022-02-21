@@ -192,8 +192,10 @@ async function wrapper(){
         let index = intersect.index;
         let datum = generated_points[index];
         highlightPoint(datum);
+
         console.log("Hlc bjvsvjknskjvnjkslo work");
         showTooltip(mouse_position, datum);
+        
     } else {
         removeHighlights();
         hideTooltip();
@@ -210,14 +212,17 @@ async function wrapper(){
     function highlightPoint(datum) {
         removeHighlights();
     
-        let geometry = new THREE.Geometry();
-        geometry.vertices.push(
-            new THREE.Vector3(
-            datum.position[0],
-            datum.position[1],
-            0
-            )
-        );
+        // let geometry = new THREE.Geometry();
+        let geometry = new THREE.BufferGeometry();
+        const vertex = new Float32Array(3);
+        geometry.setAttribute( 'position', new THREE.BufferAttribute( vertex, 3 ) );
+        // geometry.vertices.push(
+        //     new THREE.Vector3(
+        //     datum.position[0],
+        //     datum.position[1],
+        //     0
+        //     )
+        // );
         geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
 
         let material = new THREE.PointsMaterial({
