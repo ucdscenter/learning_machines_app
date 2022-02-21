@@ -4,7 +4,7 @@ async function wrapper(){
     // var _ = require('lodash');
 
     d3.json(static_url + 'extra_json_points_2.json').then(function(data){ 
-        console.log(data);
+        console.log(data[0]);
 
         let num_points = 10;
         console.log(num_points)
@@ -84,13 +84,25 @@ async function wrapper(){
         return [pt_x, pt_y];
         }
 
+        function getCoordinatesOfPoint(index){
+            x_coor = data[index].x;
+            y_coor = data[index].y;
+            cluster_name = data[index].cluster_name;
+            cluster_id = data[index].cluster_id;
+            return {[x_coor, y_coor], cluster_name, cluster_id};
+        }
+
+            // let data_points = [];
+            // for (let i = 0; i < num_points; i++) {
+            //     let position = getCoordinatesOfPoint();
+            //     let name = 'Point ' + i;
+            //     let group = Math.floor(Math.random() * 6);
+            //     let point = { position, name, group };
+            //     data_points.push(point);
+            // }
         let data_points = [];
-            for (let i = 0; i < num_points; i++) {
-            let position = randomPosition(radius);
-            let name = 'Point ' + i;
-            let group = Math.floor(Math.random() * 6);
-            let point = { position, name, group };
-            data_points.push(point);
+        for (let i = 0; i < data.length; i++) {
+            let position = getCoordinatesOfPoint(i);
         }
 
         let generated_points = data_points;
