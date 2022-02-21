@@ -45,6 +45,7 @@ async function wrapper(){
     let renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
     document.body.appendChild(renderer.domElement);
+    // console.log(renderer);
                     
     let zoom = d3.zoom()
         .scaleExtent([getScaleFromZ(far), getScaleFromZ(near)])
@@ -79,7 +80,7 @@ async function wrapper(){
     }
 
     let data_points = [];
-        for (let i = 0; i < point_num; i++) {
+        for (let i = 0; i < num_points; i++) {
         let position = randomPosition(radius);
         let name = 'Point ' + i;
         let group = Math.floor(Math.random() * 6);
@@ -89,24 +90,33 @@ async function wrapper(){
 
     let generated_points = data_points;
 
-    let pointsGeometry = new THREE.Geometry();
+    let pointsGeometry = new THREE.BufferGeometry();
 
     let colors = [];
+    let vertices = new Float32Array(num_points * 3);
+    i = 0
     for (let datum of generated_points) {
     // Set vector coordinates from data
-    let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
-    pointsGeometry.vertices.push(vertex);
-    let color = new THREE.Color(color_array[datum.group]);
-    colors.push(color);
+        vertices[i] = datum.position[0];
+        vertices[i + 1] = datum.position[1];
+        vertices[i + 2] = 0;
+        // let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
+        // pointsGeometry.vertices.push(vertex);
+        let color = new THREE.Color(color_array[datum.group]);
+        colors.push(color);
+
+        i += 1;
     }
+    pointsGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
     pointsGeometry.colors = colors;
+    console.log(pointsGeometry.colors);
 
     let pointsMaterial = new THREE.PointsMaterial({
-    size: 8,
-    sizeAttenuation: false,
-    vertexColors: THREE.VertexColors,
-    map: circle_sprite,
-    transparent: true
+        size: 8,
+        sizeAttenuation: false,
+        vertexColors: THREE.VertexColors,
+        map: circle_sprite,
+        transparent: true
     });
 
     let points = new THREE.Points(pointsGeometry, pointsMaterial);
@@ -117,8 +127,8 @@ async function wrapper(){
 
     // Three.js render loop
     function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
     }
     animate();
 
@@ -131,24 +141,24 @@ async function wrapper(){
     }
 
     function getScaleFromZ (camera_z_position) {
-    let half_fov = fov/2;
-    let half_fov_radians = toRadians(half_fov);
-    let half_fov_height = Math.tan(half_fov_radians) * camera_z_position;
-    let fov_height = half_fov_height * 2;
-    let scale = height / fov_height; // Divide visualization height by height derived from field of view
-    return scale;
+        let half_fov = fov/2;
+        let half_fov_radians = toRadians(half_fov);
+        let half_fov_height = Math.tan(half_fov_radians) * camera_z_position;
+        let fov_height = half_fov_height * 2;
+        let scale = height / fov_height; // Divide visualization height by height derived from field of view
+        return scale;
     }
 
     function getZFromScale(scale) {
-    let half_fov = fov/2;
-    let half_fov_radians = toRadians(half_fov);
-    let scale_height = height / scale;
-    let camera_z_position = scale_height / (2 * Math.tan(half_fov_radians));
-    return camera_z_position;
+        let half_fov = fov/2;
+        let half_fov_radians = toRadians(half_fov);
+        let scale_height = height / scale;
+        let camera_z_position = scale_height / (2 * Math.tan(half_fov_radians));
+        return camera_z_position;
     }
 
     function toRadians (angle) {
-    return angle * (Math.PI / 180);
+        return angle * (Math.PI / 180);
     }
 
     // Hover and tooltip interaction
@@ -157,17 +167,17 @@ async function wrapper(){
     raycaster.params.Points.threshold = 10;
 
     view.on("mousemove", () => {
-    let [mouseX, mouseY] = d3.mouse(view.node());
-    let mouse_position = [mouseX, mouseY];
-    checkIntersects(mouse_position);
+        let [mouseX, mouseY] = d3.mouse(view.node());
+        let mouse_position = [mouseX, mouseY];
+        checkIntersects(mouse_position);
     });
 
     function mouseToThree(mouseX, mouseY) {
-    return new THREE.Vector3(
-        mouseX / viz_width * 2 - 1,
-        -(mouseY / height) * 2 + 1,
-        1
-    );
+        return new THREE.Vector3(
+            mouseX / viz_width * 2 - 1,
+            -(mouseY / height) * 2 + 1,
+            1
+        );
     }
 
     function checkIntersects(mouse_position) {
@@ -188,43 +198,43 @@ async function wrapper(){
     }
 
     function sortIntersectsByDistanceToRay(intersects) {
-    return _.sortBy(intersects, "distanceToRay");
+        return _.sortBy(intersects, "distanceToRay");
     }
 
     hoverContainer = new THREE.Object3D()
     scene.add(hoverContainer);
 
     function highlightPoint(datum) {
-    removeHighlights();
+        removeHighlights();
     
-    let geometry = new THREE.Geometry();
-    geometry.vertices.push(
-        new THREE.Vector3(
-        datum.position[0],
-        datum.position[1],
-        0
-        )
-    );
-    geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
+        let geometry = new THREE.Geometry();
+        geometry.vertices.push(
+            new THREE.Vector3(
+            datum.position[0],
+            datum.position[1],
+            0
+            )
+        );
+        geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
 
-    let material = new THREE.PointsMaterial({
-        size: 26,
-        sizeAttenuation: false,
-        vertexColors: THREE.VertexColors,
-        map: circle_sprite,
-        transparent: true
-    });
-    
-    let point = new THREE.Points(geometry, material);
-    hoverContainer.add(point);
+        let material = new THREE.PointsMaterial({
+            size: 26,
+            sizeAttenuation: false,
+            vertexColors: THREE.VertexColors,
+            map: circle_sprite,
+            transparent: true
+        });
+        
+        let point = new THREE.Points(geometry, material);
+        hoverContainer.add(point);
     }
 
     function removeHighlights() {
-    hoverContainer.remove(...hoverContainer.children);
+        hoverContainer.remove(...hoverContainer.children);
     }
 
     view.on("mouseleave", () => {
-    removeHighlights()
+        removeHighlights()
     });
 
     // Initial tooltip state
@@ -241,29 +251,29 @@ async function wrapper(){
     let $group_tip = document.querySelector('#group_tip');
 
     function updateTooltip() {
-    $tooltip.style.display = tooltip_state.display;
-    $tooltip.style.left = tooltip_state.left + 'px';
-    $tooltip.style.top = tooltip_state.top + 'px';
-    $point_tip.innerText = tooltip_state.name;
-    $point_tip.style.background = color_array[tooltip_state.group];
-    $group_tip.innerText = `Group ${tooltip_state.group}`;
+        $tooltip.style.display = tooltip_state.display;
+        $tooltip.style.left = tooltip_state.left + 'px';
+        $tooltip.style.top = tooltip_state.top + 'px';
+        $point_tip.innerText = tooltip_state.name;
+        $point_tip.style.background = color_array[tooltip_state.group];
+        $group_tip.innerText = `Group ${tooltip_state.group}`;
     }
 
     function showTooltip(mouse_position, datum) {
-    let tooltip_width = 120;
-    let x_offset = -tooltip_width/2;
-    let y_offset = 30;
-    tooltip_state.display = "block";
-    tooltip_state.left = mouse_position[0] + x_offset;
-    tooltip_state.top = mouse_position[1] + y_offset;
-    tooltip_state.name = datum.name;
-    tooltip_state.group = datum.group;
-    updateTooltip();
+        let tooltip_width = 120;
+        let x_offset = -tooltip_width/2;
+        let y_offset = 30;
+        tooltip_state.display = "block";
+        tooltip_state.left = mouse_position[0] + x_offset;
+        tooltip_state.top = mouse_position[1] + y_offset;
+        tooltip_state.name = datum.name;
+        tooltip_state.group = datum.group;
+        updateTooltip();
     }
 
     function hideTooltip() {
-    tooltip_state.display = "none";
-    updateTooltip();
+        tooltip_state.display = "none";
+        updateTooltip();
     }
 
 
