@@ -1,6 +1,8 @@
 'use-strict';
 
 async function wrapper(){
+    // var _ = require('lodash');
+
     let num_points = 200
     console.log(num_points)
 
@@ -190,6 +192,7 @@ async function wrapper(){
         let index = intersect.index;
         let datum = generated_points[index];
         highlightPoint(datum);
+        console.log("Hlc bjvsvjknskjvnjkslo work");
         showTooltip(mouse_position, datum);
     } else {
         removeHighlights();
