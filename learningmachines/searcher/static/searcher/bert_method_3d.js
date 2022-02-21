@@ -39,12 +39,7 @@ async function wrapper(){
             "#b2df8a",
             "#33a02c",
             "#fb9a99",
-            "#e31a1c",
-            "#fdbf6f",
-            "#ff7f00",
-            "#6a3d9a",
-            "#cab2d6",
-            "#ffff99"
+            "#e31a1c"
         ]
 
         let renderer = new THREE.WebGLRenderer();
@@ -70,7 +65,7 @@ async function wrapper(){
         setUpZoom();
 
         circle_sprite= new THREE.TextureLoader().load(
-        "https://fastforwardlabs.github.io/visualization_assets/circle-sprite.png"
+        "https://upload.wikimedia.org/wikipedia/commons/c/cd/Land_ocean_ice_2048.jpg"
         )
 
         let radius = 2000;
@@ -83,6 +78,29 @@ async function wrapper(){
         var pt_y = Math.sqrt(pt_radius_sq) * Math.sin(pt_angle);
         return [pt_x, pt_y];
         }
+
+        // Function to return the respective cluster color
+        const getColor = function(d){
+            if(d["cluster_name"] === "AMBULATORY ANESTHESIA"){
+                return color_array[0];
+            }
+            else if(d["cluster_name"] === "ANESTHETIC ACTION AND BIOCHEMISTRY"){
+                return color_array[1];
+            }
+            else if(d["cluster_name"] === "CHRONIC AND CANCER PAIN"){
+                return color_array[2];
+            }
+            else if(d["cluster_name"] === "CLINICAL CIRCULATION"){
+                return color_array[3];
+            }
+            else if(d["cluster_name"] === "CLINICAL NEUROSCIENCES"){
+                return color_array[4];
+            }
+            else{
+                return color_array[0];
+            }
+        }
+
 
         // function getCoordinatesOfPoint(index){
         //     x_coor = data[index].x;
@@ -127,7 +145,8 @@ async function wrapper(){
             vertices[i + 2] = 0;
             // let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
             // pointsGeometry.vertices.push(vertex);
-            let color = new THREE.Color(color_array[datum.group]);
+            let color = new THREE.Color(getColor(datum));
+            // console.log(color);
             colors.push(color);
 
             i += 3;
@@ -136,14 +155,14 @@ async function wrapper(){
 
         pointsGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
         pointsGeometry.colors = colors;
-        // console.log(pointsGeometry.colors);
+        console.log(pointsGeometry.colors);
 
         let pointsMaterial = new THREE.PointsMaterial({
             size: 8,
             sizeAttenuation: false,
             vertexColors: THREE.VertexColors,
             map: circle_sprite,
-            transparent: true
+            transparent: true,
         });
 
         let points = new THREE.Points(pointsGeometry, pointsMaterial);
