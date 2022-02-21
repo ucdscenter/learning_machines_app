@@ -3,7 +3,7 @@
 async function wrapper(){
     // var _ = require('lodash');
 
-    let num_points = 200
+    let num_points = 10;
     console.log(num_points)
 
     let width = window.innerWidth
@@ -11,7 +11,7 @@ async function wrapper(){
     let viz_width = window.innerWidth
     let aspect = width / height
 
-    let fov = 40
+    let fov = 500
     let near = 10
     let far = 7000
 
@@ -91,11 +91,13 @@ async function wrapper(){
     }
 
     let generated_points = data_points;
+    console.log(generated_points);
 
     let pointsGeometry = new THREE.BufferGeometry();
 
     let colors = [];
     let vertices = new Float32Array(num_points * 3);
+    // console.log(vertices);
     i = 0
     for (let datum of generated_points) {
     // Set vector coordinates from data
@@ -107,8 +109,10 @@ async function wrapper(){
         let color = new THREE.Color(color_array[datum.group]);
         colors.push(color);
 
-        i += 1;
+        i += 3;
     }
+    console.log(vertices);
+
     pointsGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
     pointsGeometry.colors = colors;
     console.log(pointsGeometry.colors);
@@ -195,7 +199,7 @@ async function wrapper(){
 
         console.log("Hlc bjvsvjknskjvnjkslo work");
         showTooltip(mouse_position, datum);
-        
+
     } else {
         removeHighlights();
         hideTooltip();
@@ -283,8 +287,6 @@ async function wrapper(){
         tooltip_state.display = "none";
         updateTooltip();
     }
-
-
 }
 
 wrapper()
