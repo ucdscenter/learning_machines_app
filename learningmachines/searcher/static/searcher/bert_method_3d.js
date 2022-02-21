@@ -84,13 +84,13 @@ async function wrapper(){
         return [pt_x, pt_y];
         }
 
-        function getCoordinatesOfPoint(index){
-            x_coor = data[index].x;
-            y_coor = data[index].y;
-            cluster_name = data[index].cluster_name;
-            cluster_id = data[index].cluster_id;
-            return {[x_coor, y_coor], cluster_name, cluster_id};
-        }
+        // function getCoordinatesOfPoint(index){
+        //     x_coor = data[index].x;
+        //     y_coor = data[index].y;
+        //     cluster_name = data[index].cluster_name;
+        //     cluster_id = data[index].cluster_id;
+        //     return {[x_coor, y_coor], cluster_name, cluster_id};
+        // }
 
             // let data_points = [];
             // for (let i = 0; i < num_points; i++) {
@@ -102,7 +102,13 @@ async function wrapper(){
             // }
         let data_points = [];
         for (let i = 0; i < data.length; i++) {
-            let position = getCoordinatesOfPoint(i);
+            x_coor = data[i].x;
+            y_coor = data[i].y;
+            position = [x_coor, y_coor];
+            cluster_name = data[i].cluster_name;
+            cluster_id = data[i].cluster_id;
+            let point = {position, cluster_name, cluster_id};
+            data_points.push(point);
         }
 
         let generated_points = data_points;
