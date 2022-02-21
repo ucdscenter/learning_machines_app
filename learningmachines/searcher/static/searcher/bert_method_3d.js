@@ -4,9 +4,9 @@ async function wrapper(){
     // var _ = require('lodash');
 
     d3.json(static_url + 'extra_json_points_2.json').then(function(data){ 
-        console.log(data[0]);
+        console.log(data);
 
-        let num_points = 10;
+        let num_points = data.length;
         console.log(num_points)
 
         let width = window.innerWidth
