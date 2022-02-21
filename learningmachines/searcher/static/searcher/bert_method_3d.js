@@ -14,9 +14,9 @@ async function wrapper(){
         let viz_width = window.innerWidth
         let aspect = width / height
 
-        let fov = 40
-        let near = 10
-        let far = 7000
+        let fov = 45
+        let near = 0.1
+        let far = 70
 
         // Setup camera and scene
         let camera = new THREE.PerspectiveCamera(
@@ -100,8 +100,7 @@ async function wrapper(){
                 return color_array[0];
             }
         }
-
-
+        
         // function getCoordinatesOfPoint(index){
         //     x_coor = data[index].x;
         //     y_coor = data[index].y;
@@ -177,7 +176,7 @@ async function wrapper(){
             renderer.render(scene, camera);
         }
         animate();
-
+    
         function zoomHandler(d3_transform) {
         let scale = d3_transform.k;
         let x = -(d3_transform.x - viz_width/2) / scale;
@@ -207,130 +206,144 @@ async function wrapper(){
             return angle * (Math.PI / 180);
         }
 
+        // Hover and tooltip interaction
+        raycaster = new THREE.Raycaster();
+        raycaster.params.Points.threshold = 10;
+
+        hoverContainer = new THREE.Object3D()
+        scene.add(hoverContainer);
+        
+
+        // Initial tooltip state
+        let tooltip_state = { display: "none" }
+
+        let tooltip_template = document.createRange().createContextualFragment(`<div id="tooltip" style="display: none; position: absolute; pointer-events: none; font-size: 13px; width: 120px; text-align: center; line-height: 1; padding: 6px; background: white; font-family: sans-serif;">
+        <div id="point_tip" style="padding: 4px; margin-bottom: 4px;"></div>
+        <div id="group_tip" style="padding: 4px;"></div>
+        </div>`);
+        document.body.append(tooltip_template);
+
+        let $tooltip = document.querySelector('#tooltip');
+        let $point_tip = document.querySelector('#point_tip');
+        let $group_tip = document.querySelector('#group_tip');
+
+        function mouseToThree(mouseX, mouseY) {
+            return new THREE.Vector3(
+                mouseX / viz_width * 2 - 1,
+                -(mouseY / height) * 2 + 1,
+                1
+            );
+        }
+
+        function sortIntersectsByDistanceToRay(intersects) {
+            return _.sortBy(intersects, "distanceToRay");
+        }
+
+        function removeHighlights() {
+            hoverContainer.remove(...hoverContainer.children);
+        }
+
+        function highlightPoint(datum) {
+            removeHighlights();
+        
+            // let geometry = new THREE.Geometry();
+            let geometry = new THREE.BufferGeometry();
+            const vertex = new Float32Array(3);
+            geometry.setAttribute( 'position', new THREE.BufferAttribute( vertex, 3 ) );
+            // geometry.vertices.push(
+            //     new THREE.Vector3(
+            //     datum.position[0],
+            //     datum.position[1],
+            //     0
+            //     )
+            // );
+            // geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
+            geometry.colors = [ new THREE.Color(getColor(datum.cluster_name)) ];
+
+            let material = new THREE.PointsMaterial({
+                size: 26,
+                sizeAttenuation: false,
+                vertexColors: THREE.VertexColors,
+                map: circle_sprite,
+                transparent: true
+            });
+            
+            let point = new THREE.Points(geometry, material);
+            hoverContainer.add(point);
+        }
+
+        function updateTooltip() {
+            $tooltip.style.display = tooltip_state.display;
+            $tooltip.style.left = tooltip_state.left + 'px';
+            $tooltip.style.top = tooltip_state.top + 'px';
+            $point_tip.innerText = tooltip_state.name;
+            $point_tip.style.background = color_array[tooltip_state.group];
+            $group_tip.innerText = `Group ${tooltip_state.group}`;
+        }
+
+        function showTooltip(mouse_position, datum) {
+            let tooltip_width = 120;
+            let x_offset = -tooltip_width/2;
+            let y_offset = 30;
+            tooltip_state.display = "block";
+            tooltip_state.left = mouse_position[0] + x_offset;
+            tooltip_state.top = mouse_position[1] + y_offset;
+            tooltip_state.name = datum.cluster_name;
+            tooltip_state.group = datum.cluster_id;
+            updateTooltip();
+        }
+
+        function hideTooltip() {
+            tooltip_state.display = "none";
+            updateTooltip();
+        }
+
+        function checkIntersects(mouse_position) {
+            // console.log("Intersects Yes!")
+            let mouse_vector = mouseToThree(...mouse_position);
+            raycaster.setFromCamera(mouse_vector, camera);
+            let intersects = raycaster.intersectObject(points);
+            // console.log(intersects);
+            if (intersects[0]) {
+                let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
+                let intersect = sorted_intersects[0];
+                let index = intersect.index;
+                let datum = generated_points[index];
+                highlightPoint(datum);
+
+                // console.log("Hlc bjvsvjknskjvnjkslo work");
+                showTooltip(mouse_position, datum);
+            } else {
+                removeHighlights();
+                hideTooltip();
+            }
+        }
+
+        view.on("mousemove", () => {
+            let [mouseX, mouseY] = d3.mouse(view.node());
+            let mouse_position = [mouseX, mouseY];
+            // console.log(mouse_position);
+            checkIntersects(mouse_position);
+        });
+
+        view.on("mouseleave", () => {
+            removeHighlights()
+        });
+
     });
+
 
     }
 
 wrapper()
 
-// Hover and tooltip interaction
 
-    // raycaster = new THREE.Raycaster();
-    // raycaster.params.Points.threshold = 10;
 
-    // view.on("mousemove", () => {
-    //     let [mouseX, mouseY] = d3.mouse(view.node());
-    //     let mouse_position = [mouseX, mouseY];
-    //     checkIntersects(mouse_position);
-    // });
 
-    // function mouseToThree(mouseX, mouseY) {
-    //     return new THREE.Vector3(
-    //         mouseX / viz_width * 2 - 1,
-    //         -(mouseY / height) * 2 + 1,
-    //         1
-    //     );
-    // }
-
-    // function checkIntersects(mouse_position) {
-    //     console.log("Intersects Yes!")
-    // let mouse_vector = mouseToThree(...mouse_position);
-    // raycaster.setFromCamera(mouse_vector, camera);
-    // let intersects = raycaster.intersectObject(points);
-    // if (intersects[0]) {
-    //     let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
-    //     let intersect = sorted_intersects[0];
-    //     let index = intersect.index;
-    //     let datum = generated_points[index];
-    //     highlightPoint(datum);
-
-    //     // console.log("Hlc bjvsvjknskjvnjkslo work");
-    //     showTooltip(mouse_position, datum);
-
-    // } else {
-    //     removeHighlights();
-    //     hideTooltip();
-    // }
-    // }
-
-    // function sortIntersectsByDistanceToRay(intersects) {
-    //     return _.sortBy(intersects, "distanceToRay");
-    // }
-
-    // hoverContainer = new THREE.Object3D()
-    // scene.add(hoverContainer);
-
-    // function highlightPoint(datum) {
-    //     removeHighlights();
     
-    //     // let geometry = new THREE.Geometry();
-    //     let geometry = new THREE.BufferGeometry();
-    //     const vertex = new Float32Array(3);
-    //     geometry.setAttribute( 'position', new THREE.BufferAttribute( vertex, 3 ) );
-    //     // geometry.vertices.push(
-    //     //     new THREE.Vector3(
-    //     //     datum.position[0],
-    //     //     datum.position[1],
-    //     //     0
-    //     //     )
-    //     // );
-    //     geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
 
-    //     let material = new THREE.PointsMaterial({
-    //         size: 26,
-    //         sizeAttenuation: false,
-    //         vertexColors: THREE.VertexColors,
-    //         map: circle_sprite,
-    //         transparent: true
-    //     });
-        
-    //     let point = new THREE.Points(geometry, material);
-    //     hoverContainer.add(point);
-    // }
+    
 
-    // function removeHighlights() {
-    //     hoverContainer.remove(...hoverContainer.children);
-    // }
+    
 
-    // view.on("mouseleave", () => {
-    //     removeHighlights()
-    // });
-
-    // // Initial tooltip state
-    // let tooltip_state = { display: "none" }
-
-    // let tooltip_template = document.createRange().createContextualFragment(`<div id="tooltip" style="display: none; position: absolute; pointer-events: none; font-size: 13px; width: 120px; text-align: center; line-height: 1; padding: 6px; background: white; font-family: sans-serif;">
-    // <div id="point_tip" style="padding: 4px; margin-bottom: 4px;"></div>
-    // <div id="group_tip" style="padding: 4px;"></div>
-    // </div>`);
-    // document.body.append(tooltip_template);
-
-    // let $tooltip = document.querySelector('#tooltip');
-    // let $point_tip = document.querySelector('#point_tip');
-    // let $group_tip = document.querySelector('#group_tip');
-
-    // function updateTooltip() {
-    //     $tooltip.style.display = tooltip_state.display;
-    //     $tooltip.style.left = tooltip_state.left + 'px';
-    //     $tooltip.style.top = tooltip_state.top + 'px';
-    //     $point_tip.innerText = tooltip_state.name;
-    //     $point_tip.style.background = color_array[tooltip_state.group];
-    //     $group_tip.innerText = `Group ${tooltip_state.group}`;
-    // }
-
-    // function showTooltip(mouse_position, datum) {
-    //     let tooltip_width = 120;
-    //     let x_offset = -tooltip_width/2;
-    //     let y_offset = 30;
-    //     tooltip_state.display = "block";
-    //     tooltip_state.left = mouse_position[0] + x_offset;
-    //     tooltip_state.top = mouse_position[1] + y_offset;
-    //     tooltip_state.name = datum.name;
-    //     tooltip_state.group = datum.group;
-    //     updateTooltip();
-    // }
-
-    // function hideTooltip() {
-    //     tooltip_state.display = "none";
-    //     updateTooltip();
-    // }
+    
