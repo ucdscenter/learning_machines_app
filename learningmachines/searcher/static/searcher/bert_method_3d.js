@@ -65,7 +65,7 @@ async function wrapper(){
         setUpZoom();
 
         circle_sprite= new THREE.TextureLoader().load(
-        "https://upload.wikimedia.org/wikipedia/commons/c/cd/Land_ocean_ice_2048.jpg"
+        "/static/searcher/disc.png"
         )
 
         let radius = 2000;
@@ -164,12 +164,12 @@ async function wrapper(){
         
 
         let pointsMaterial = new THREE.PointsMaterial({
-            size: 8,
+            size: 15,
             sizeAttenuation: false,
-            vertexColors: true,
-            // map: circle_sprite,
+            vertexColors: THREE.VertexColors,
+            map: circle_sprite,
             transparent: true,
-            // color: new THREE.Color( 0x7B241C )
+            color: new THREE.Color( 0xffffff )
         });
         
         console.log(pointsMaterial);
