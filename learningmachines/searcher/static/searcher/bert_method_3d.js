@@ -155,14 +155,19 @@ async function wrapper(){
         pointsGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
         pointsGeometry.colors = colors;
         console.log(pointsGeometry.colors);
+        
 
         let pointsMaterial = new THREE.PointsMaterial({
             size: 8,
             sizeAttenuation: false,
-            vertexColors: THREE.VertexColors,
-            map: circle_sprite,
+            // vertexColors: THREE.VertexColors,
+            // map: circle_sprite,
             transparent: true,
+            color: new THREE.Color( 0x7B241C )
         });
+        
+        console.log(pointsMaterial);
+        
 
         let points = new THREE.Points(pointsGeometry, pointsMaterial);
 
