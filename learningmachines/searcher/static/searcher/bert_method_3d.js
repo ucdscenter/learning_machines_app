@@ -133,10 +133,11 @@ async function wrapper(){
 
         let pointsGeometry = new THREE.BufferGeometry();
 
-        let colors = [];
+        let colors = new Float32Array(num_points * 3);
         let vertices = new Float32Array(num_points * 3);
         // console.log(vertices);
         i = 0
+        j = 0
         for (let datum of generated_points) {
         // Set vector coordinates from data
             vertices[i] = datum.position[0];
@@ -146,24 +147,29 @@ async function wrapper(){
             // pointsGeometry.vertices.push(vertex);
             let color = new THREE.Color(getColor(datum));
             // console.log(color);
-            colors.push(color);
+            // colors.push(color);
+            colors[i] = color.r;
+            colors[i+1] = color.g;
+            colors[i+2] = color.b;
 
             i += 3;
         }
         // console.log(vertices);
 
         pointsGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-        pointsGeometry.colors = colors;
-        console.log(pointsGeometry.colors);
+        pointsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        console.log(pointsGeometry);
+        // pointsGeometry.colors = colors;
+        // console.log(pointsGeometry.colors);
         
 
         let pointsMaterial = new THREE.PointsMaterial({
             size: 8,
             sizeAttenuation: false,
-            // vertexColors: THREE.VertexColors,
+            vertexColors: true,
             // map: circle_sprite,
             transparent: true,
-            color: new THREE.Color( 0x7B241C )
+            // color: new THREE.Color( 0x7B241C )
         });
         
         console.log(pointsMaterial);
