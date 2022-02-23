@@ -166,6 +166,7 @@ async function wrapper(){
         let pointsMaterial = new THREE.PointsMaterial({
             size: 15,
             sizeAttenuation: false,
+            // its like telling to read colors provided in geometry
             vertexColors: THREE.VertexColors,
             map: circle_sprite,
             transparent: true,
