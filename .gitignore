@@ -10,8 +10,9 @@ __pycache__/
 /learningmachines/db.sqlite3
 /learningmachines/learningmachines/credentials.py
 /learningmachines/searcher/tempmodeldata/*
-/learningmachines/etc/uwsgi/run.log
+!/learningmachines/searcher/tempmodeldata/gitkeep 
 /learningmachines/static/*
+/learningmachines/etc/uwsgi/run.log
 /learningmachines/eval_data/lda_hyperparams/*
 /learningmachines/searcher/static/searcher/vent_notes/
 /learningmachines/searcher/static/searcher/climate_maps/
@@ -20,5 +21,6 @@ __pycache__/
 /learningmachines/searcher/static/searcher/library/
 /learningmachines/searcher/static/searcher/blm/
 /learningmachines/bash_docker_start_worker_local.sh
+/learningmachines/bash_docker_start_app_local.sh
 /learningmachines/bash_aws_start_worker_local.sh
-
+/learningmachines/bash_aws_worker_start.sh

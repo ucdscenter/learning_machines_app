@@ -8,7 +8,7 @@ credentials = Session().get_credentials()
 print(SQS_QUEUE_NAME)
 CELERY_SETTINGS = {
    'BROKER_URL': REDIS_URL + '/0',
-   'CELERY_RESULT_BACKEND': REDIS_URL,
+   'CELERY_RESULT_BACKEND': REDIS_URL + '/0',
 
 }
 

@@ -8,6 +8,8 @@ from searcher.nlp_model_manager import NLPModelManager
 from searcher.formatted_data_manager import FormattedDataManager
 import json
 
+import pandas as pd
+
 """
 Purpose:
 Custom functions test the model pipeline classes in searcher app.
@@ -123,14 +125,39 @@ def test_run_model(qry_str):
 
 
 
+
+def match_anesthesiology_abstracts():
+	#f = open('clean_abstract.csv', 'r',encoding="ISO-8859-1").read()
+	
+	#f = f.split('\n')
+	#f = pd.read_csv('clean_abstract.csv')
+	f = pd.read_csv('clean_abstract.csv')
+	e = SearchResults_ES(database='AA')
+	rslts = []
+	for x in range(0, f.shape[0]):
+		print(f.iloc[x].title)
+		qry = f.iloc[x].title.split(" ")
+		qry = qry[0:10] if len(qry) >= 10 else qry[0:len(qry) - 1]
+		qry = ' '.join(qry)
+		rslt = e.get_doc('"' + qry + '"')
+		if rslt != None:
+			rslts.append(rslt.text)
+		else:
+			rslts.append("")
+
+	f['abstract'] = rslts
+	f.to_csv("clean_abstract_with_text.csv")
+	#print(rslt.text)
+	return 
 if __name__ == '__main__':
-	test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': '', 'maximum_hits': '10000', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'Care_Reviews', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'ngrams' : False, 'model_name' : 'test'}
+	test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': 'rich', 'maximum_hits': '5000', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'TCP', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'ngrams' : False, 'model_name' : 'test'}
 
-
+	match_anesthesiology_abstracts()
 	#test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': 'restaurant', 'ngrams': True, 'tfidf': False, 'maximum_hits': '100', 'method': 'DFR browser', 'stop_words': 'restaurant, restaurants', 'replacement': '', 'phrases': 'multivariate analyses, catered event', 'level_select': 'article', 'num_topics': '20', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '100'}
 	"""test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': 'restaurant', 'ngrams': True, 'tfidf': False, 'maximum_hits': '100', 'method': 'DFR browser', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': '20', 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '100'}
 	"""
-	test_es_search(test_qry_obj, write_rslt="Care_Reviews_10k.json")
+	#test_es_search(test_qry_obj, write_rslt="EEBO_rich_10k.json")
+
 
 	#test_run_model(test_qry_obj)
 

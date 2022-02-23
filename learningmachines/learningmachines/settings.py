@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from .public_credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO, DB_ENV, REDIS_URL, RDS_ENDPOINT
+from .public_credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO, DB_ENV, REDIS_URL, RDS_ENDPOINT,DEBUG_SETTING
 import os
 import sys
 import boto3
@@ -31,11 +31,12 @@ SECRET_KEY = DJANGO_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = not S3_OBJECT['USE_S3']
+DEBUG = True
 
-ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40']
+ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40', 'test.modelofmodels.io']
 
 
+#ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',
     'searcher',
+    'health_check', 
 
 ]
 
@@ -65,7 +67,6 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'learningmachines.urls'
 #['/Users/ezraedgerton/Desktop/projects/learningmachines_folder/venv3_8/lib/python3.8/site-packages/django']
 
-print(os.path.join(BASE_DIR, 'templates'))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -133,7 +134,7 @@ if DB_ENV == 'PRODUCTION':
             'PORT': RDS_PORT,       # Set to empty string for default. Not used with sqlite3.
         }
     }
-    
+
 if DB_ENV == 'DEV':
     RDS_ENDPOINT="mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com"
     RDS_PORT="5432"

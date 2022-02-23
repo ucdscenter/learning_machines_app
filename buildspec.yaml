@@ -1,0 +1,53 @@
+version: 0.2
+
+env:
+  secrets-manager:
+    DJANGO_SECRETS: "dsc/learningmachineapp/dangoSecrets"
+    
+phases:
+
+  install:
+    runtime-versions:
+      docker: 18  
+
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 049879149392.dkr.ecr.us-east-2.amazonaws.com
+      - REPOSITORY_URI_WORKER=049879149392.dkr.ecr.us-east-2.amazonaws.com/worker
+      - REPOSITORY_URI_UWSGI=049879149392.dkr.ecr.us-east-2.amazonaws.com/uwsgi
+      - REPOSITORY_URI_REDIS=049879149392.dkr.ecr.us-east-2.amazonaws.com/redis
+      - REPOSITORY_URI_NGINX=049879149392.dkr.ecr.us-east-2.amazonaws.com/nginx
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=latest
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build  -t nginx  --build-arg DJANGO_SECRETS  -f  ./nginx/Dockerfile .
+      - docker build  -t uwsgi  --build-arg DJANGO_SECRETS  -f  ./learningmachines/searcher/Dockerfile .
+      - docker build  -t redis  --build-arg DJANGO_SECRETS  -f  ./redis/Dockerfile .
+      - docker build  -t worker --build-arg DJANGO_SECRETS  -f ./learningmachines/learningmachines/Dockerfile .
+      
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker tag worker:latest  $REPOSITORY_URI_WORKER:$IMAGE_TAG
+      - docker push $REPOSITORY_URI_WORKER:$IMAGE_TAG
+      - docker tag nginx:latest $REPOSITORY_URI_NGINX:$IMAGE_TAG
+      - docker push $REPOSITORY_URI_NGINX:$IMAGE_TAG
+      - docker tag redis:latest $REPOSITORY_URI_REDIS:$IMAGE_TAG
+      - docker push $REPOSITORY_URI_REDIS:$IMAGE_TAG
+      - docker tag uwsgi:latest $REPOSITORY_URI_UWSGI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI_UWSGI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"worker","imageUri":"%s"}]' $REPOSITORY_URI_WORKER:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"nginx","imageUri":"%s"}]' $REPOSITORY_URI_NGINX:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"uwsgi","imageUri":"%s"}]' $REPOSITORY_URI_UWSGI:$IMAGE_TAG > imagedefinitions.json 
+      - printf '[{"name":"redis","imageUri":"%s"}]' $REPOSITORY_URI_REDIS:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
+artifacts:
+  files:
+    - imagedefinitions.json

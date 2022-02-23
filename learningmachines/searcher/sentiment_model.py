@@ -1,7 +1,11 @@
 import pickle
 import pandas as pd
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+#from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import requests
+import json
+import time
 
+SENTIMENT_URL = 'http://3.142.150.125:8080/sentiment'
 
 class DummyPandasSeries:
 	def __init__(self, dummy):
@@ -21,11 +25,11 @@ class SentimentModel:
 
 	def convert_text(self, docs):
 		for d in docs:
+			temp_list_of_document = []
 			for s in d.text.split(". "):
-				self.cleaned_docs.append(s)
+				temp_list_of_document.append(s)
+			self.cleaned_docs.append(temp_list_of_document)
 
-	def load_model(self):
-		self.model = SentimentIntensityAnalyzer()
 	def norm_score(self, doc_score):
 		lower, upper = -1, 1
 		l_norm =(doc_score['compound'] - lower)/(upper - lower)
@@ -34,8 +38,16 @@ class SentimentModel:
 
 	def predict(self, docs):
 		self.convert_text(docs)
-		self.load_model()
+
 		self.predictions = []
-		for cleaned_d in self.cleaned_docs:
-			self.predictions.append(self.norm_score(self.model.polarity_scores(cleaned_d)))
-		return self.predictions
+
+		# for cleaned_d in self.cleaned_docs:
+		post_data = {'text_field' : json.dumps(self.cleaned_docs)}
+			# post_data_json_object = json.dumps(post_data)
+		request_object = requests.post(SENTIMENT_URL, data=post_data)
+
+		json_response = request_object.json()
+		# print(json_response)
+			#self.predictions.append(self.norm_score(self.model.polarity_scores(cleaned_d)))
+		return json_response
+

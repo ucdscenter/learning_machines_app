@@ -60,6 +60,7 @@ def redirect_proj_view(request):
 
 
 urlpatterns = [
+    url(r'^health_check/', include('health_check.urls')),
     path('admin/', admin.site.urls),
     #account endpoints
     path('accounts/create_user/', users.create_user, name='create_user'),

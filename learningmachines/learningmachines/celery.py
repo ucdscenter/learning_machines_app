@@ -13,16 +13,10 @@ project_name="searcher_queue"
 
 app.conf.update(
     CELERY_RESULT_BACKEND=CELERY_SETTINGS['CELERY_RESULT_BACKEND'],
-    #CELERY_RESULT_BACKEND='db+postgresql_psycopg2://dev_user:dev_password@localhost/dev_db',
-    #s3_access_key_id = AWS_PROFILE["ACCESS_KEY"],
-    #s3_secret_access_key=AWS_PROFILE['SECRET_KEY'],
-    #s3_bucket='learningmachines-results-backend',
-    #s3_base_path='/results',
-    #s3_region='us-east-2',
+    #uncomment and comment out below two lines to change from aws sqs queue to local redis queue
+    #BROKER_URL=CELERY_SETTINGS['BROKER_URL'],
     BROKER_URL=BROKER_URL,
     BROKER_TRANSPORT_OPTIONS=BROKER_TRANSPORT_OPTIONS,
-    #CELERY_SETTINGS['BROKER_URL'],
-    #CELERY_RESULT_BACKEND="rpc://",
     CELERY_IMPORTS=["searcher.tasks"],
 )
 

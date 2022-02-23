@@ -1,5 +1,11 @@
 'use strict'
 
+
+String.prototype.replaceAll = function(str1, str2, ignore) 
+{
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+} 
+
 function getJsonFromUrl(hashBased) {
 	  var query;
 	  if(hashBased) {
@@ -576,6 +582,26 @@ async function wrapper(){
 	$('#loading_show').addClass("hidden")
 	$('#loading_hide').removeClass("hidden")
 	console.log(metaData)
+	var metadata_i = 0 
+	metaData.forEach(function(r){
+		if(r.length > 9){
+			var i = 0;
+			var auth_loc = 0;
+			r.forEach(function(c){
+				if(c[0] == '['){
+					auth_loc = i;
+				}
+				i++;
+			})
+			var title_ = r.slice(1, auth_loc)
+			var fulltitle = title_.join('')
+			var fulltitle = fulltitle.replaceAll('"', "")
+			console.log(fulltitle)
+			metaData[metadata_i] = ["", fulltitle].concat(r.slice(auth_loc))
+			console.log(metaData[metadata_i])
+		}
+		metadata_i++;
+	})
 
 	/*modelsData = await d3.json("/static/multi-level-lda/multi_model_data/"+ params.model + "/formatted_proj.json")
 	metaData = await d3.text("/static/multi-level-lda/multi_model_data/" + params.model + "/meta.csv")

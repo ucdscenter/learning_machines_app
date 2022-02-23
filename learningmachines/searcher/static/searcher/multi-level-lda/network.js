@@ -4,9 +4,22 @@
 
 function renderNetwork(formattedData){
 	console.log(formattedData.nodes.length)
+	console.log(params.nodelabels)
 	var label_show_cutoff = 2
 	var label_font_size = 8
-	if(formattedData.nodes.length > label_show_cutoff){
+	var showlabels = params.nodelabels;
+
+	if(showlabels != undefined){
+		console.log("showlabels")
+		if(showlabels == 'yes'){
+			label_font_size = 8
+		}
+		else {
+			label_font_size = 0
+		}
+	}
+	else if(formattedData.nodes.length > label_show_cutoff){
+		console.log("here")
 		label_font_size = 0
 	}
 	let KL_LIMIT = .8
