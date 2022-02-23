@@ -135,6 +135,7 @@ async function wrapper(){
 
         let colors = new Float32Array(num_points * 3);
         let vertices = new Float32Array(num_points * 3);
+        let sizes = new Float32Array(num_points);
         // console.log(vertices);
         i = 0
         j = 0
@@ -151,22 +152,25 @@ async function wrapper(){
             colors[i] = color.r;
             colors[i+1] = color.g;
             colors[i+2] = color.b;
-
+            
+            sizes[j] = 10;
             i += 3;
+            j += 1;
         }
         // console.log(vertices);
 
         pointsGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
         pointsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        pointsGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
         console.log(pointsGeometry);
         // pointsGeometry.colors = colors;
         // console.log(pointsGeometry.colors);
         
 
         let pointsMaterial = new THREE.PointsMaterial({
-            size: 15,
+            size: 10,
             sizeAttenuation: false,
-            // its like telling to read colors provided in geometry
+            // its like telling to read colors provided in geometry (true)
             vertexColors: THREE.VertexColors,
             map: circle_sprite,
             transparent: true,
@@ -220,7 +224,7 @@ async function wrapper(){
 
         // Hover and tooltip interaction
         raycaster = new THREE.Raycaster();
-        raycaster.params.Points.threshold = 10;
+        raycaster.params.Points.threshold = 1;
 
         hoverContainer = new THREE.Object3D()
         scene.add(hoverContainer);
@@ -270,7 +274,9 @@ async function wrapper(){
             //     )
             // );
             // geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
-            geometry.colors = [ new THREE.Color(getColor(datum.cluster_name)) ];
+            // geometry.colors = [ new THREE.Color(getColor(datum.cluster_name)) ];
+            let colors = new Float32Array(3);
+            geometry.setAttribute( 'color', new THREE.Color(getColor(datum.cluster_name)));
 
             let material = new THREE.PointsMaterial({
                 size: 26,
