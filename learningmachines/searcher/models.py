@@ -50,6 +50,7 @@ class Request(models.Model):
 class QueryRequest(Request):
     database = models.CharField(max_length=20, default='')
     query_str = models.CharField(max_length=1000, default='')
+    favorites = models.IntegerField(default=0)
 
 
 class DocFilter(models.Model):
