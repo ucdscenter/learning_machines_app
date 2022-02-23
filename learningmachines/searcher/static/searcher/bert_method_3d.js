@@ -276,7 +276,11 @@ async function wrapper(){
             // geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
             // geometry.colors = [ new THREE.Color(getColor(datum.cluster_name)) ];
             let colors = new Float32Array(3);
-            geometry.setAttribute( 'color', new THREE.Color(getColor(datum.cluster_name)));
+            color = new THREE.Color(getColor(datum));
+            colors[0] = color.r;
+            colors[1] = color.g;
+            colors[2] = color.b;
+            geometry.setAttribute( 'color', new THREE.BufferAttribute( colors, 3 ) );
 
             let material = new THREE.PointsMaterial({
                 size: 26,
