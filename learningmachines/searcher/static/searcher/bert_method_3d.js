@@ -265,7 +265,11 @@ async function wrapper(){
             // let geometry = new THREE.Geometry();
             let geometry = new THREE.BufferGeometry();
             const vertex = new Float32Array(3);
+            vertex[0] = datum.position[0];
+            vertex[1] = datum.position[1];
+            vertex[2] = 0;
             geometry.setAttribute( 'position', new THREE.BufferAttribute( vertex, 3 ) );
+            console.log(geometry);
             // geometry.vertices.push(
             //     new THREE.Vector3(
             //     datum.position[0],
