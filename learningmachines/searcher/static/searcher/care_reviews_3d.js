@@ -281,7 +281,7 @@ async function wrapper(){
         function showTooltip(mouse_position, datum) {
             let tooltip_width = 120;
             let x_offset = -tooltip_width/2;
-            let y_offset = 30;
+            let y_offset = 530;
             tooltip_state.display = "block";
             tooltip_state.left = mouse_position[0] + x_offset;
             tooltip_state.top = mouse_position[1] + y_offset;
