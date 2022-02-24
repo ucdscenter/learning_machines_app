@@ -274,7 +274,7 @@ async function wrapper(){
             $tooltip.style.left = tooltip_state.left + 'px';
             $tooltip.style.top = tooltip_state.top + 'px';
             $point_tip.innerText = tooltip_state.name;
-            $point_tip.style.background = color_array[tooltip_state.group];
+            $point_tip.style.background = color_array[Number(tooltip_state.group)];
             $group_tip.innerText = `Group ${tooltip_state.group}`;
         }
 
@@ -285,8 +285,8 @@ async function wrapper(){
             tooltip_state.display = "block";
             tooltip_state.left = mouse_position[0] + x_offset;
             tooltip_state.top = mouse_position[1] + y_offset;
-            tooltip_state.name = datum.rating;
-            tooltip_state.group = datum.data_id;
+            tooltip_state.name = datum.data_id;
+            tooltip_state.group = datum.rating;
             updateTooltip();
         }
 
