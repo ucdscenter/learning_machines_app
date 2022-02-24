@@ -42,8 +42,8 @@ async function wrapper(){
 
         let renderer = new THREE.WebGLRenderer();
         renderer.setSize(width, height);
-        // document.getElementById('my_dataviz').appendChild(renderer.domElement);
-        document.body.appendChild(renderer.domElement);
+        document.getElementById('my_dataviz').appendChild(renderer.domElement);
+        // document.body.appendChild(renderer.domElement);
         // console.log(renderer);
                         
         let zoom = d3.zoom()
