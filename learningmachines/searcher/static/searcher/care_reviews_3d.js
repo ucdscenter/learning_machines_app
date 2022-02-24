@@ -63,35 +63,26 @@ async function wrapper(){
         setUpZoom();
 
         circle_sprite= new THREE.TextureLoader().load(
-        "/static/searcher/disc.png"
+        "/static/searcher/images/disc.png"
         )
 
         let radius = 2000;
 
-        // Random point in circle code from https://stackoverflow.com/questions/32642399/simplest-way-to-plot-points-randomly-inside-a-circle
-        function randomPosition(radius) {
-        var pt_angle = Math.random() * 2 * Math.PI;
-        var pt_radius_sq = Math.random() * radius * radius;
-        var pt_x = Math.sqrt(pt_radius_sq) * Math.cos(pt_angle);
-        var pt_y = Math.sqrt(pt_radius_sq) * Math.sin(pt_angle);
-        return [pt_x, pt_y];
-        }
-
         // Function to return the respective cluster color
         const getColor = function(d){
-            if(d["cluster_name"] === "AMBULATORY ANESTHESIA"){
+            if(d["rating"] === "1"){
                 return color_array[0];
             }
-            else if(d["cluster_name"] === "ANESTHETIC ACTION AND BIOCHEMISTRY"){
+            else if(d["rating"] === "2"){
                 return color_array[1];
             }
-            else if(d["cluster_name"] === "CHRONIC AND CANCER PAIN"){
+            else if(d["rating"] === "3"){
                 return color_array[2];
             }
-            else if(d["cluster_name"] === "CLINICAL CIRCULATION"){
+            else if(d["rating"] === "4"){
                 return color_array[3];
             }
-            else if(d["cluster_name"] === "CLINICAL NEUROSCIENCES"){
+            else if(d["rating"] === "5"){
                 return color_array[4];
             }
             else{
@@ -99,30 +90,14 @@ async function wrapper(){
             }
         }
         
-        // function getCoordinatesOfPoint(index){
-        //     x_coor = data[index].x;
-        //     y_coor = data[index].y;
-        //     cluster_name = data[index].cluster_name;
-        //     cluster_id = data[index].cluster_id;
-        //     return {[x_coor, y_coor], cluster_name, cluster_id};
-        // }
-
-            // let data_points = [];
-            // for (let i = 0; i < num_points; i++) {
-            //     let position = getCoordinatesOfPoint();
-            //     let name = 'Point ' + i;
-            //     let group = Math.floor(Math.random() * 6);
-            //     let point = { position, name, group };
-            //     data_points.push(point);
-            // }
         let data_points = [];
         for (let i = 0; i < data.length; i++) {
             x_coor = data[i].x;
             y_coor = data[i].y;
             position = [x_coor, y_coor];
-            cluster_name = data[i].cluster_name;
-            cluster_id = data[i].cluster_id;
-            let point = {position, cluster_name, cluster_id};
+            rating = data[i].rating;
+            data_id = data[i].data_id;
+            let point = {position, rating, data_id};
             data_points.push(point);
         }
 
@@ -135,8 +110,8 @@ async function wrapper(){
         let vertices = new Float32Array(num_points * 3);
         let sizes = new Float32Array(num_points);
         // console.log(vertices);
+
         i = 0
-        j = 0
         for (let datum of generated_points) {
         // Set vector coordinates from data
             vertices[i] = datum.position[0];
@@ -151,15 +126,13 @@ async function wrapper(){
             colors[i+1] = color.g;
             colors[i+2] = color.b;
             
-            sizes[j] = 10;
             i += 3;
-            j += 1;
         }
         // console.log(vertices);
 
         pointsGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
         pointsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        pointsGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+        // pointsGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
         console.log(pointsGeometry);
         // pointsGeometry.colors = colors;
         // console.log(pointsGeometry.colors);
@@ -312,8 +285,8 @@ async function wrapper(){
             tooltip_state.display = "block";
             tooltip_state.left = mouse_position[0] + x_offset;
             tooltip_state.top = mouse_position[1] + y_offset;
-            tooltip_state.name = datum.cluster_name;
-            tooltip_state.group = datum.cluster_id;
+            tooltip_state.name = datum.rating;
+            tooltip_state.group = datum.data_id;
             updateTooltip();
         }
 
