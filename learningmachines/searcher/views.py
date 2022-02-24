@@ -417,7 +417,10 @@ def searcher(request):
 
 # Function for BERT Visualization
 def bert_method_vis(request):
-	with open('searcher/static/searcher/bert_method_data/extra_json_points.json', 'r') as openfile:
-		json_bert_vis = json.load(openfile)
-		bert_vis_points = {'bert_vis_points_data' : json_bert_vis}
-	return render(request, 'searcher/bert_method_vis.html', bert_vis_points)
+	# with open('searcher/static/searcher/bert_method_data/extra_json_points.json', 'r') as openfile:
+		# json_bert_vis = json.load(openfile)
+		# bert_vis_points = {'bert_vis_points_data' : json_bert_vis}
+	dataset = request.GET.get('dataset')
+	if dataset is not None and dataset == 'Care_Reviews':
+		print(dataset)
+	return render(request, 'searcher/bert_method_vis.html')
