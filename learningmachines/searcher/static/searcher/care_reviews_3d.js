@@ -3,6 +3,10 @@
 async function wrapper(){
     dataset_name = document.getElementById("data").textContent;
     console.log(dataset_name);
+    if (dataset_name.length == 0){
+        console.log("No dataset selected");
+        return;
+    }
     // console.log(window.location);
     // if (window.location.search === '') {
     //     window.location = window.location.origin + window.location.pathname + `?dataset=${dataset_name}`;
