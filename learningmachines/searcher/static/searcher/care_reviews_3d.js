@@ -1,12 +1,15 @@
 'use-strict';
 
-async function wrapper(dataset_name){
-    // dataset_name = document.getElementById('dataset_name').textContent;
-    console.log(window.location);
-    if (window.location.search === '') {
-        window.location = window.location.origin + window.location.pathname + `?dataset=${dataset_name}`;
-        console.log(window.location)
-    }
+async function wrapper(){
+    dataset_name = document.getElementById("data").textContent;
+    console.log(dataset_name);
+    // console.log(window.location);
+    // if (window.location.search === '') {
+    //     window.location = window.location.origin + window.location.pathname + `?dataset=${dataset_name}`;
+    //     console.log(window.location)
+    // }
+
+
     // console.log(data);
     d3.json(static_url + dataset_name + '.json').then(function(data){ 
         console.log(data);
@@ -340,4 +343,4 @@ async function wrapper(dataset_name){
 
 }
 
-// wrapper();
+wrapper();
