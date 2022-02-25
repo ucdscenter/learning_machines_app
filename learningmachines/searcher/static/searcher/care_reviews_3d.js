@@ -1,14 +1,16 @@
 'use-strict';
 
-async function wrapper(){
-    dataset_name = document.getElementById('dataset_name').textContent;
+async function wrapper(dataset_name){
+    // dataset_name = document.getElementById('dataset_name').textContent;
+    console.log(window.location);
+    if (window.location.search === '') {
+        window.location = window.location.origin + window.location.pathname + `?dataset=${dataset_name}`;
+        console.log(window.location)
+    }
     // console.log(data);
     d3.json(static_url + dataset_name + '.json').then(function(data){ 
-        if (window.location.search === '') {
-            window.location = window.location.origin + window.location.pathname + '?dataset=Care_Reviews';
-        }
         console.log(data);
-        console.log(window.location);
+        // console.log(window.location);
         let num_points = data.length;
         console.log(num_points)
 

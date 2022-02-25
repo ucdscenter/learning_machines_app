@@ -421,13 +421,11 @@ def bert_method_vis(request):
 		# json_bert_vis = json.load(openfile)
 		# bert_vis_points = {'bert_vis_points_data' : json_bert_vis}
 	dataset = request.GET.get('dataset')
-	if dataset is not None and dataset == 'Care_Reviews':
+	if dataset is not None and dataset == 'care_reviews':
 		# data = helper_json_function('care_reviews')
-		dataset_name = 'care_reviews'
-	else: 
-		dataset_name = 'hi_hello'
+		render(request, 'searcher/bert_method_vis.html')
 		# print(data)
-	return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : dataset_name})
+	return render(request, 'searcher/bert_method_vis.html')
 
 def helper_json_function(filename):
 	with open(f"searcher/static/searcher/bert_method_data/{filename}.json", 'r') as openfile:
