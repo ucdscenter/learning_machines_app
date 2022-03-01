@@ -419,19 +419,24 @@ def searcher(request):
 @csrf_exempt
 def bert_method_vis(request):
 	if request.method == 'POST':
-		data_id = json.loads(request.body.decode('utf-8'))['data_id']
-		print(data_id)
-	dataset = request.GET.get('dataset')
-
-	print(dataset)
-	# print(dict(request.GET))
-	if dataset is not None and dataset == "Care_Reviews":
-		# data = helper_json_function('care_reviews')
 		qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-		print('qry_str: ', qry_str)
+		if permiss(qry_str['dataset'], request) == False:
+			return HttpResponse(json.dumps("No permissions"), status=403)
+		data_id = json.loads(request.body.decode('utf-8'))['data_id']
+		es = SearchResults_ES(database=qry_str['dataset'])
+		rslt = es.get_doc(data_id)
+		print(rslt)
+		# if rslt is None:
+			# return HttpResponse("Could not find doc", status=404)
+		print(data_id)
+	if request.method == 'GET':
+		dataset = request.GET.get('dataset')
+		if dataset is not None and dataset == "Care_Reviews":
+			qry_str = {k: v[0] for k, v in dict(request.GET).items()}
+			print('qry_str: ', qry_str)
 
-		return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'care_reviews'})
-		# print(data)
+			return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'care_reviews'})
+
 	return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : ''})
 
 def helper_json_function(filename):
