@@ -419,10 +419,10 @@ def searcher(request):
 @csrf_exempt
 def bert_method_vis(request):
 	if request.method == 'POST':
-		print(dict(request.POST).items())
+		data_id = json.loads(request.body.decode('utf-8'))['data_id']
+		print(data_id)
 	dataset = request.GET.get('dataset')
-	# id = request.GET.get('id')
-	# print(id)
+
 	print(dataset)
 	# print(dict(request.GET))
 	if dataset is not None and dataset == "Care_Reviews":

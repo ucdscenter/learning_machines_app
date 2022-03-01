@@ -342,7 +342,7 @@ async function wrapper(){
                 console.log(datum.data_id);
                 console.log(window.location);
                 // window.location = window.location.origin + window.location.pathname + window.location.search + `?id=${datum.data_id}`;
-                fetch("/searcher/bert_method_vis/", {
+                fetch("/searcher/bert_method_vis/?dataset=Care_Reviews", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datum)
