@@ -7,12 +7,6 @@ async function wrapper(){
         console.log("No dataset selected");
         return;
     }
-    // console.log(window.location);
-    // if (window.location.search === '') {
-    //     window.location = window.location.origin + window.location.pathname + `?dataset=${dataset_name}`;
-    //     console.log(window.location)
-    // }
-
 
     // console.log(data);
     d3.json(static_url + dataset_name + '.json').then(function(data){ 
@@ -148,7 +142,7 @@ async function wrapper(){
         pointsGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
         pointsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         // pointsGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
-        console.log(pointsGeometry);
+        // console.log(pointsGeometry);
         // pointsGeometry.colors = colors;
         // console.log(pointsGeometry.colors);
         
@@ -163,7 +157,7 @@ async function wrapper(){
             color: new THREE.Color( 0xffffff )
         });
         
-        console.log(pointsMaterial);
+        // console.log(pointsMaterial);
         
 
         let points = new THREE.Points(pointsGeometry, pointsMaterial);
@@ -255,7 +249,7 @@ async function wrapper(){
             vertex[1] = datum.position[1];
             vertex[2] = 0;
             geometry.setAttribute( 'position', new THREE.BufferAttribute( vertex, 3 ) );
-            console.log(geometry);
+            // console.log(geometry);
             // geometry.vertices.push(
             //     new THREE.Vector3(
             //     datum.position[0],
@@ -331,6 +325,27 @@ async function wrapper(){
             }
         }
 
+        function checkClickPosition(mouse_position) {
+            // console.log("Intersects Yes!")
+            let mouse_vector = mouseToThree(...mouse_position);
+            raycaster.setFromCamera(mouse_vector, camera);
+            let intersects = raycaster.intersectObject(points);
+            // console.log(intersects);
+            if (intersects[0]) {
+                let sorted_intersects = sortIntersectsByDistanceToRay(intersects);
+                let intersect = sorted_intersects[0];
+                let index = intersect.index;
+                let datum = generated_points[index];
+                // highlightPoint(datum);
+
+                // showTooltip(mouse_position, datum);
+                console.log(datum.data_id);
+            } else {
+                // removeHighlights();
+                // hideTooltip();
+            }
+        }
+
         view.on("mousemove", () => {
             let [mouseX, mouseY] = d3.mouse(view.node());
             let mouse_position = [mouseX, mouseY];
@@ -342,6 +357,12 @@ async function wrapper(){
             removeHighlights()
         });
 
+        view.on("click", () => {
+            console.log('Clicked!');
+            let [mouseX, mouseY] = d3.mouse(view.node());
+            let mouse_position = [mouseX, mouseY];
+            checkClickPosition(mouse_position);
+        });
     });
 
 
