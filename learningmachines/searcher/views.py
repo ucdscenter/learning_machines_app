@@ -421,15 +421,18 @@ def bert_method_vis(request):
 		# json_bert_vis = json.load(openfile)
 		# bert_vis_points = {'bert_vis_points_data' : json_bert_vis}
 	dataset = request.GET.get('dataset')
+	# id = request.GET.get('id')
+	# print(id)
 	print(dataset)
+	print(dict(request.GET))
 	if dataset is not None and dataset == "Care_Reviews":
 		# data = helper_json_function('care_reviews')
 		qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-		print('qry_str: ',qry_str)
-		if permiss(qry_str['dataset'], request) == False:
-			return HttpResponse(json.dumps("No permissions"), status=403)
+		print('qry_str: ', qry_str)
+		# if permiss(qry_str['dataset'], request) == False:
+		# 	return HttpResponse(json.dumps("No permissions"), status=403)
 
-		es = SearchResults_ES(database=qry_str['dataset'])
+		# es = SearchResults_ES(database=qry_str['dataset'])
 		# rslt = es.get_doc(qry_str['doc_id'])
 		# print(rslt)
 		# if rslt is None:

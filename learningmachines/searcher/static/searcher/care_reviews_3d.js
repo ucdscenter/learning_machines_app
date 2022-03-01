@@ -340,6 +340,10 @@ async function wrapper(){
 
                 // showTooltip(mouse_position, datum);
                 console.log(datum.data_id);
+                console.log(window.location);
+                window.location = window.location.origin + window.location.pathname + window.location.search + `?id=${datum.data_id}`;
+                // window.location = window.location.origin + window.location.pathname + `#${datum.data_id}`;
+                
             } else {
                 // removeHighlights();
                 // hideTooltip();
