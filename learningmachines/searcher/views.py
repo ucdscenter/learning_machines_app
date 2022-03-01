@@ -22,7 +22,7 @@ from learningmachines.cfg import TEMP_MODEL_FOLDER
 import os
 
 from django.views.decorators.clickjacking import xframe_options_exempt
-
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 SEND_WORKER = True
 
@@ -416,37 +416,20 @@ def searcher(request):
 	return render(request, 'searcher/index2.html', {'form':sub})
 
 # Function for BERT Visualization
+@csrf_exempt
 def bert_method_vis(request):
-	# with open('searcher/static/searcher/bert_method_data/extra_json_points.json', 'r') as openfile:
-		# json_bert_vis = json.load(openfile)
-		# bert_vis_points = {'bert_vis_points_data' : json_bert_vis}
+	if request.method == 'POST':
+		print(dict(request.POST).items())
 	dataset = request.GET.get('dataset')
 	# id = request.GET.get('id')
 	# print(id)
 	print(dataset)
-	print(dict(request.GET))
+	# print(dict(request.GET))
 	if dataset is not None and dataset == "Care_Reviews":
 		# data = helper_json_function('care_reviews')
 		qry_str = {k: v[0] for k, v in dict(request.GET).items()}
 		print('qry_str: ', qry_str)
-		# if permiss(qry_str['dataset'], request) == False:
-		# 	return HttpResponse(json.dumps("No permissions"), status=403)
 
-		# es = SearchResults_ES(database=qry_str['dataset'])
-		# rslt = es.get_doc(qry_str['doc_id'])
-		# print(rslt)
-		# if rslt is None:
-			# return HttpResponse("Could not find doc", status=404)
-		# rslt_obj = {
-		# 	'data': rslt.text if rslt.text is not None else "",
-		# 	'summary' : {
-		# 		'journal_title'  : rslt.journal_title,
-		# 		'article_title'  : rslt.article_title,
-		# 		'year': rslt.date,
-		# 		'author' : ', '.join(rslt.authors),
-		# 		'n_sentences' : len(rslt.text.split('. ')),
-		# 	}
-		# }
 		return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'care_reviews'})
 		# print(data)
 	return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : ''})

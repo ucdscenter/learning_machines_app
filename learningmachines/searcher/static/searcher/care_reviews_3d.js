@@ -341,7 +341,15 @@ async function wrapper(){
                 // showTooltip(mouse_position, datum);
                 console.log(datum.data_id);
                 console.log(window.location);
-                window.location = window.location.origin + window.location.pathname + window.location.search + `?id=${datum.data_id}`;
+                // window.location = window.location.origin + window.location.pathname + window.location.search + `?id=${datum.data_id}`;
+                fetch("/searcher/bert_method_vis/", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datum)
+                }).then(res => {
+                    console.log(res);
+                    // window.location = res.url;
+                })
                 // window.location = window.location.origin + window.location.pathname + `#${datum.data_id}`;
                 
             } else {
