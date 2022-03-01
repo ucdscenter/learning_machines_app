@@ -5,6 +5,8 @@ from django.core.mail import send_mail
 import json
 import logging
 
+from django.http import JsonResponse
+
 from django.conf import settings
 from django.http import HttpResponse, HttpRequest
 from django.views import View
@@ -420,15 +422,17 @@ def searcher(request):
 def bert_method_vis(request):
 	if request.method == 'POST':
 		qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-		if permiss(qry_str['dataset'], request) == False:
-			return HttpResponse(json.dumps("No permissions"), status=403)
+		# if permiss(qry_str['dataset'], request) == False:
+		# 	return HttpResponse(json.dumps("No permissions"), status=403)
 		data_id = json.loads(request.body.decode('utf-8'))['data_id']
 		es = SearchResults_ES(database=qry_str['dataset'])
 		rslt = es.get_doc(data_id)
-		print(rslt)
+		print(rslt.text)
+		return JsonResponse({'data': rslt.text})
+		# return render(request, 'searcher/bert_method_vis.html', {'data': rslt.text})
 		# if rslt is None:
 			# return HttpResponse("Could not find doc", status=404)
-		print(data_id)
+		# print(data_id)
 	if request.method == 'GET':
 		dataset = request.GET.get('dataset')
 		if dataset is not None and dataset == "Care_Reviews":

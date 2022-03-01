@@ -350,6 +350,8 @@ async function wrapper(){
                     console.log(res);
                     // window.location = res.url;
                 })
+                d = document.getElementById("h").textContent;
+                console.log(d);
                 // window.location = window.location.origin + window.location.pathname + `#${datum.data_id}`;
                 
             } else {
