@@ -349,7 +349,8 @@ async function wrapper(){
                 }).then(res => {
                     return res.json();
                 }).then(data => {
-                    document.getElementById("h").textContent = data.doc_title;
+                    document.getElementById("doc_title").textContent = data.doc_title;
+                    document.getElementById("doc_text").textContent = data.doc_text;
                     console.log(typeof data.doc_title);
                 });
 
