@@ -347,11 +347,12 @@ async function wrapper(){
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datum)
                 }).then(res => {
-                    console.log(res);
+                    // window.location = window.location.origin + window.location.pathname + '?dataset=Care_Reviews'+`#id=${datum.data_id}`;
+                    return res.json();
                     // window.location = res.url;
+                }).then(data => {
+                    console.log(data);
                 })
-                d = document.getElementById("h").textContent;
-                console.log(d);
                 // window.location = window.location.origin + window.location.pathname + `#${datum.data_id}`;
                 
             } else {
