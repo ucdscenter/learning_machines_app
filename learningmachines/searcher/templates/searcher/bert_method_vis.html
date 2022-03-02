@@ -5,10 +5,14 @@
 {% block content %}
 <div>
     <h1>BERT Embeddings</h1>
-    <div id="my_dataviz">
     <button onclick="window.location = window.location.origin + window.location.pathname + '?dataset=Care_Reviews'">Care Reviews</button>
-    <h2 id="h"></h2>
     <h2 id="data">{{ dataset_name }}</h2>
+    <div id="vis_details" style="display: flex; flex-direction: row;">
+      <div id="my_dataviz"></div>
+      <h2 id="h" style="font-size: 2rem;
+                        position: absolute;
+                        background-color: white;"></h2>
+    </div>
     </div>
 </div>
 {% endblock content %}

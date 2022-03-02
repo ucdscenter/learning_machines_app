@@ -341,19 +341,16 @@ async function wrapper(){
                 // showTooltip(mouse_position, datum);
                 console.log(datum.data_id);
                 console.log(window.location);
-                // window.location = window.location.origin + window.location.pathname + window.location.search + `?id=${datum.data_id}`;
+                
                 fetch("/searcher/bert_method_vis/?dataset=Care_Reviews", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datum)
                 }).then(res => {
-                    // window.location = window.location.origin + window.location.pathname + '?dataset=Care_Reviews'+`#id=${datum.data_id}`;
                     return res.json();
-                    // window.location = res.url;
                 }).then(data => {
-                    // let data_text = data
-                    document.getElementById("h").textContent = data.data;
-                    console.log(data.data);
+                    document.getElementById("h").textContent = data.doc_title;
+                    console.log(typeof data.doc_title);
                 });
 
             } else {
