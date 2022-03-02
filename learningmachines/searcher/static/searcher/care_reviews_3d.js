@@ -316,7 +316,7 @@ async function wrapper(){
                 let index = intersect.index;
                 let datum = generated_points[index];
                 highlightPoint(datum);
-
+                
                 // console.log("Hlc bjvsvjknskjvnjkslo work");
                 showTooltip(mouse_position, datum);
             } else {
@@ -351,10 +351,11 @@ async function wrapper(){
                     return res.json();
                     // window.location = res.url;
                 }).then(data => {
-                    console.log(data);
-                })
-                // window.location = window.location.origin + window.location.pathname + `#${datum.data_id}`;
-                
+                    // let data_text = data
+                    document.getElementById("h").textContent = data.data;
+                    console.log(data.data);
+                });
+
             } else {
                 // removeHighlights();
                 // hideTooltip();
