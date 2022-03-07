@@ -284,7 +284,7 @@ MAX_NUM_DOC_VIS = {
     'Care_Reviews': 30000,
     'caselaw_env':121000,
     'Covid': 144000,
-    'Pubmed': 20000,
+    'Pubmed': 2000000,
     'PMC': 20000,
     'JSTOR': 4000,
     'foster': 10000,

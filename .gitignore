@@ -22,4 +22,4 @@ __pycache__/
 /learningmachines/bash_docker_start_worker_local.sh
 /learningmachines/bash_docker_start_app_local.sh
 /learningmachines/bash_aws_start_worker_local.sh
-
+/learningmachines/searcher/static/searcher/bert_method_data/Pubmed.json

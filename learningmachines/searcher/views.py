@@ -435,7 +435,11 @@ def bert_method_vis(request):
 		if dataset is not None and dataset == "Care_Reviews":
 			qry_str = {k: v[0] for k, v in dict(request.GET).items()}
 			print('qry_str: ', qry_str)
-			return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'care_reviews'})
+			return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'Care_Reviews'})
+		elif dataset is not None and dataset == "Pubmed":
+			qry_str = {k: v[0] for k, v in dict(request.GET).items()}
+			print('qry_str: ', qry_str)
+			return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'Pubmed'})
 
 	return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : ''})
 
