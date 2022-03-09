@@ -45,7 +45,23 @@ async function wrapper(){
             "#b2df8a",
             "#33a02c",
             "#fb9a99",
-            "#e31a1c"
+            "#e31a1c",
+            "#90fc03",
+            "#fdbf6f",
+            "#ff7f00",
+            "#cab2d6",
+            "#6a3d9a",
+            "#ffff99",
+            "#b15928",
+            "#a6cee3",
+            "#b2df8a",
+            "#33a02c",
+            "#fb9a99",
+            "#e31a1c",
+            "#90fc03",
+            "#fdbf6f",
+            "#ff7f00",
+            "#cab2d6",
         ]
 
         let renderer = new THREE.WebGLRenderer();
@@ -95,8 +111,15 @@ async function wrapper(){
                 return color_array[4];
             }
             else{
-                return color_array[0];
+                return color_array[5];
             }
+        }
+
+        const getColorForPubmed = function(d){
+            console.log(typeof d["rating"]);
+            return color_array[d["rating"]];
+            // Add topic number
+                
         }
         
         let data_points = [];
@@ -104,7 +127,8 @@ async function wrapper(){
             x_coor = data[i].x;
             y_coor = data[i].y;
             position = [x_coor, y_coor];
-            rating = data[i].rating;
+            // rating = data[i].rating;
+            rating = data[i].topic_number;
             data_id = data[i].data_id;
             let point = {position, rating, data_id};
             data_points.push(point);
@@ -128,7 +152,7 @@ async function wrapper(){
             vertices[i + 2] = 0;
             // let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
             // pointsGeometry.vertices.push(vertex);
-            let color = new THREE.Color(getColor(datum));
+            let color = new THREE.Color(getColorForPubmed(datum));
             // console.log(color);
             // colors.push(color);
             colors[i] = color.r;
@@ -260,7 +284,7 @@ async function wrapper(){
             // geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
             // geometry.colors = [ new THREE.Color(getColor(datum.cluster_name)) ];
             let colors = new Float32Array(3);
-            color = new THREE.Color(getColor(datum));
+            color = new THREE.Color(getColorForPubmed(datum));
             colors[0] = color.r;
             colors[1] = color.g;
             colors[2] = color.b;
