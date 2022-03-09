@@ -116,21 +116,21 @@ async function wrapper(){
         }
 
         const getColorForPubmed = function(d){
-            console.log(typeof d["rating"]);
-            return color_array[d["rating"]];
+            console.log(typeof d["category_number"]);
+            return color_array[d["category_number"]];
             // Add topic number
                 
         }
         
         let data_points = [];
         for (let i = 0; i < data.length; i++) {
-            x_coor = data[i].x;
-            y_coor = data[i].y;
+            x_coor = data[i].data_x;
+            y_coor = data[i].data_y;
             position = [x_coor, y_coor];
             // rating = data[i].rating;
-            rating = data[i].topic_number;
+            category_number = data[i].data_category_number;
             data_id = data[i].data_id;
-            let point = {position, rating, data_id};
+            let point = {position, category_number, data_id};
             data_points.push(point);
         }
 
@@ -319,7 +319,7 @@ async function wrapper(){
             tooltip_state.left = mouse_position[0] + x_offset;
             tooltip_state.top = mouse_position[1] + y_offset;
             tooltip_state.name = datum.data_id;
-            tooltip_state.group = datum.rating;
+            tooltip_state.group = datum.category_number;
             updateTooltip();
         }
 
