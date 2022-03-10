@@ -1,7 +1,6 @@
 'use strict'
 
 
-
 function renderNetwork(formattedData){
 	console.log(formattedData)
 	var label_show_cutoff = 0
@@ -45,8 +44,6 @@ function renderNetwork(formattedData){
 		d.data.size = topicDocScale(score)
 		d.data.type = 'ellipse'
 	})
-
-	
 
 
 	let multiplier = 100
@@ -127,7 +124,6 @@ function renderNetwork(formattedData){
 
 
 
-
 	 networkGraph = cytoscape({
   		container: document.getElementById('network-graph'),
   		elements: formattedData,
@@ -169,44 +165,93 @@ function renderNetwork(formattedData){
 
 		});
 
+
+   function createBStyle(the_color){
+	  	return {
+	  		'fill' : the_color
+	  	};
+    }
+      
+
 	 //networkGraph.autolock(true)
 
+	 
+	 networkGraph.ready(() => {
+	 	var bb;
+	  var edges;
+	  var nodes;
+  	 bb = networkGraph.bubbleSets();
+  	 edges = null//networkGraph.edges().slice(0, 15);
+  	 nodes = networkGraph.nodes('[cluster = 1]')//.slice(0, )
+  	 console.log(edges)
+  	 console.log(nodes)
 
-	 networkGraph.on("mouseover", "node", function(evt){
+ 		 bb.addPath(nodes, edges, null, { 
+ 		 		//drawPotentialArea: true,
+ 		 		virtualEdges: true,
+ 		 		style : createBStyle('rgba(0,200,200, .5') 
+ 		 		}
+ 		 	)
+
+ 		 networkGraph.add({group : 'nodes', data : {
+ 		 	type: 'rectangle',
+ 		 	id : 'textlabel',
+ 		 	label : "this is a label\n for an annotated group", 
+ 		 	color : 'black',
+ 		 	size : 40}, 
+ 		 	position : { x : 0, y : -132}
+ 		 });
+
+ 		 let j = networkGraph.$('#textlabel')
+ 		 console.log(j)
+
+ 		 j.style({ 'shape' :  'rectangle', 
+ 		 				'text-halign' : 'center',
+ 		 				'background-opacity' : 0,
+ 		 				'border-width' : 0,
+ 		 				'font-size' : 30, 
+ 		 				'text-background-color' : 'rgba(0,200,200)',
+ 		 			 'text-background-opacity' : .5,
+	        'text-background-shape' : "rectangle",
+	        'text-wrap' : 'wrap',})
+
+
+ 		})
+	
+	 /*networkGraph.on("mouseover", "node", function(evt){
 	 	let j = networkGraph.elements(evt.target)
-	 	j.style("font-size", 8)
-	 	/*j.style("text-background-shape", 'roundrectangle')
-	 	j.style("text-background-padding", 3)*/
+	 	j.style("font-size", 40)
+	 	//j.style("text-background-shape", 'roundrectangle')
+	 	//j.style("text-background-padding", 3)
 	 	j.style("z-index", 1000000)
 	 	if (j.style("border-color") == 'black'){
 	 		j.style("border-color", "blue")
 	 		j.style("border-width", 2)
 	 	}
-	 	
 	 })
 
 	 networkGraph.on("mouseout", "node", function(evt){
 	 	let j = networkGraph.elements(evt.target)
 	 	j.style("font-size", label_font_size)
-	 	/*j.style("text-background-shape", 'rectangle')
-	 	j.style("text-background-padding", 0)*/
+	 	//j.style("text-background-shape", 'rectangle')
+	 	//j.style("text-background-padding", 0)
 	 	j.style("z-index", 1)
 	 	if (j.style("border-color") == 'blue'){
 		 	j.style("border-color", "black")
 		 	j.style("border-width", .5)
 	 	}
 	 })
-
+*/
 
 	 networkGraph.on("boxselect", "node", function(evt){
 	 	let j = networkGraph.elements(evt.target)
 	 	j.style("font-size", label_font_size)
 	 	/*j.style("text-background-shape", 'rectangle')
 	 	j.style("text-background-padding", 0)*/
-	 	j.style("z-index", 1)
+	 	//j.style("z-index", 1)
 	 	//if (j.style("border-color") == 'blue'){
-		 	j.style("border-color", "red")
-		 	j.style("border-width", 5)
+		 	//j.style("border-color", "red")
+		 	//j.style("border-width", 5)
 	 	//}
 	 })
 
@@ -214,14 +259,6 @@ function renderNetwork(formattedData){
 
 	 networkGraph.on("tap", "node", function(evt){
 	 	let j = networkGraph.elements("node[cluster = " + evt.target._private.data.cluster + "]")
-	 	/*networkGraph.animate({
-				  fit: {
-				    eles: j,
-				    padding: 40
-				  }
-				}, {
-				  duration: 500
-				});*/
 	 	let splitT = evt.target._private.data.id.split(":")
 	 	let topicIndexes = [splitT[0].substr(1), splitT[1]]
 	 	hierarchyTopicSelect(topicIndexes)
@@ -229,9 +266,9 @@ function renderNetwork(formattedData){
 	 })
 	addLinks()
 	removeLinks()
-	networkGraph.fit()
+	//networkGraph.fit()
 	networkGraph.resize()
-}//renderNetwork
+}///renderNetwork
 
 
 

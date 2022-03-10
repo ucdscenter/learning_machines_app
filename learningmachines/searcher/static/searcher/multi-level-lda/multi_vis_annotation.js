@@ -7,6 +7,7 @@ $('#annotation-button').on("click", function(e){
 	annotate_mode = true
 	if(annotate_mode == true){
 		$('#e-a-b').removeClass("hidden");
+		$('#n-a-b').removeClass("hidden");
 		$('#main-nav').css("background-color", 'grey')
 	}
 })
@@ -14,8 +15,12 @@ $('#annotation-button').on("click", function(e){
 $('#e-a-b').on("click", function(e){
 	annotate_mode = true
 	$('#e-a-b').addClass("hidden");
+	$('#n-a-b').addClass("hidden");
 	$('#main-nav').css("background-color", 'white')
 })
+
+
+
 
 
 /*function createAnnotation(){
@@ -24,4 +29,4 @@ $('#e-a-b').on("click", function(e){
   .call(makeAnnotations)
 }*/
 
-handleOnOff()
+//handleOnOff()

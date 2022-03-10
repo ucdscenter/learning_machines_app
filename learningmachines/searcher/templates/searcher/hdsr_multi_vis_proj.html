@@ -92,6 +92,7 @@
 
     <ul class="nav navbar-nav" align="left">
         <li class="nav-item"><a class="nav-link" id="annotation-button">Annotate Mode </a></li>
+        <li class="nav-item hidden" id='n-a-b'><a class="nav-link" id="new-annotation-button">New Annotation</a></li>
         <li class="nav-item hidden" id='e-a-b'><a class="nav-link" id="end-annotation-button">End Annotation Mode</a></li>
     </ul>
 
@@ -254,7 +255,14 @@
   <script src="{% static 'searcher/js/d3.min.js' %}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.js"></script>
   <!--<script src="/static/searcher/d3-ring-note.js"></script>-->
-  <script src="{% static 'searcher/multi-level-lda/cytoscape.min.js' %}"></script>
+  <!--<script type="text/javascript" src="{% static 'searcher/js/cytoscape.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'searcher/js/index.umd.min.js' %}"></script>-->
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape"></script>
+   <script src="https://cdn.jsdelivr.net/npm/lodash"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-layers"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-bubblesets"></script>
+
   <script type="text/javascript" src="{% static 'searcher/multi-level-lda/tables.js' %}"></script>
   <script type="text/javascript" src="{% static 'searcher/multi-level-lda/hdsr_network.js' %}"></script>
   <script type="text/javascript" src="{% static 'searcher/multi-level-lda/tree.js' %}"></script>
