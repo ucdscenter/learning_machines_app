@@ -280,7 +280,7 @@ MAX_NUM_DOC_VIS = {
 
     'SEC_Texts': 22000,
     'china_newstranscripts' : 189000,
-    'China_news' : 189000,
+    'China_news' : 50000,
     'Care_Reviews': 30000,
     'caselaw_env':121000,
     'Covid': 144000,
