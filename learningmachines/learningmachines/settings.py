@@ -33,10 +33,10 @@ SECRET_KEY = DJANGO_SECRET
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40', 'test.modelofmodels.io']
+#ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40', 'test.modelofmodels.io']
 
 
-#ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -248,4 +248,5 @@ LOGGING = {
         },
     },
 }
+
     
