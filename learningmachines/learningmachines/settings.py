@@ -31,12 +31,12 @@ SECRET_KEY = DJANGO_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40', 'test.modelofmodels.io']
+#ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40', 'test.modelofmodels.io']
 
 
-#ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -229,4 +229,25 @@ if USE_S3:
 else:
     STATIC_URL = 'static/'
     STATIC_ROOT = 'static/'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': None,
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
+
+
     

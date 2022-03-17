@@ -14,9 +14,9 @@ project_name="searcher_queue"
 app.conf.update(
     CELERY_RESULT_BACKEND=CELERY_SETTINGS['CELERY_RESULT_BACKEND'],
     #uncomment and comment out below two lines to change from aws sqs queue to local redis queue
-    #BROKER_URL=CELERY_SETTINGS['BROKER_URL'],
-    BROKER_URL=BROKER_URL,
-    BROKER_TRANSPORT_OPTIONS=BROKER_TRANSPORT_OPTIONS,
+    BROKER_URL=CELERY_SETTINGS['BROKER_URL'],
+    #BROKER_URL=BROKER_URL,
+    #BROKER_TRANSPORT_OPTIONS=BROKER_TRANSPORT_OPTIONS,
     CELERY_IMPORTS=["searcher.tasks"],
 )
 

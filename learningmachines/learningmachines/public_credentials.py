@@ -20,7 +20,6 @@ except:
 		#print(response)
 		#database_secrets = json.loads(response['SecretString'])
 		database_secrets = json.loads(os.environ['DJANGO_SECRETS'])
-		print(database_secrets)
 		#set variables
 		rds_password = database_secrets['RDS_PASSWORD']
 		django_secret = database_secrets['DJANGO_SECRET']

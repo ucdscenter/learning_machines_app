@@ -268,9 +268,9 @@ def start_model_run(request):
 		query_str=qry_str['qry'],
 		database=qry_str['database'],
 		created_time = get_now(ret_string=False))
-
 	if not request.user.is_anonymous:
 		query_request.user = request.user
+
 	print(qry_str)
 	doc_filter = DocFilter(
 		method = qry_str['method'],
@@ -299,11 +299,11 @@ def start_model_run(request):
 		jurisdiction = qry_str['jurisdiction_select']
 		)
 
+
 	model_name = '{query}_{time}_{random_str}'.format(
 					query=qry_str['qry'],
 					time=get_now(),
 					random_str=random_string())
-
 	vis = VisRequest(
 		model_name=model_name,
 		method=qry_str['method'],
@@ -311,7 +311,6 @@ def start_model_run(request):
 		docfilter=doc_filter,
 		#task_id=task.id,
 		)
-
 
 	query_request.save()
 	doc_filter.save()
@@ -323,8 +322,10 @@ def start_model_run(request):
 		rsp_obj = { 
 					"task_id" : task.id
 		}
+
 	else:
 		run_model(qry_str,q_pk=query_request.pk)
+
 
 	rsp_obj = { "hi" : "there"}
 	return HttpResponse(json.dumps(rsp_obj))
