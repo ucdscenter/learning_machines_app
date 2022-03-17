@@ -263,17 +263,14 @@ def start_model_run(request):
 		qry_str['tfidf'] = True
 	else:
 		qry_str['tfidf'] = False
-	print("MAKING 1")
 
 	query_request = QueryRequest(
 		query_str=qry_str['qry'],
 		database=qry_str['database'],
 		created_time = get_now(ret_string=False))
-	print("MAKING 2")
 	if not request.user.is_anonymous:
 		query_request.user = request.user
-		print("MAKING 3")
-	print("MAKING 4")
+
 	print(qry_str)
 	doc_filter = DocFilter(
 		method = qry_str['method'],
@@ -302,13 +299,11 @@ def start_model_run(request):
 		jurisdiction = qry_str['jurisdiction_select']
 		)
 
-	print("MAKING 5")
 
 	model_name = '{query}_{time}_{random_str}'.format(
 					query=qry_str['qry'],
 					time=get_now(),
 					random_str=random_string())
-	print("MAKING 6")
 	vis = VisRequest(
 		model_name=model_name,
 		method=qry_str['method'],
@@ -316,26 +311,23 @@ def start_model_run(request):
 		docfilter=doc_filter,
 		#task_id=task.id,
 		)
-	print("MAKING 7")
 
 	query_request.save()
 	doc_filter.save()
 	vis.save()
 	qry_str["model_name"] = model_name
 	print(query_request.pk)
-	print("MAKING 8")
 	if SEND_WORKER:
 		task = run_model.apply_async(args=[qry_str], kwargs={'q_pk' : query_request.pk})
 		rsp_obj = { 
 					"task_id" : task.id
 		}
-		print("MAKING 9")
+
 	else:
 		run_model(qry_str,q_pk=query_request.pk)
-		print("MAKING 10")
+
 
 	rsp_obj = { "hi" : "there"}
-	print("MAKING 11")
 	return HttpResponse(json.dumps(rsp_obj))
 
 
