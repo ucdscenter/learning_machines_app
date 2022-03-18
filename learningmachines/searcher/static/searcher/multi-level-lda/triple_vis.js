@@ -430,7 +430,7 @@ function clusterSelect(clusterData){
 
 }
 var prev;
-function hierarchyTopicSelect(topic){
+function hierarchyTopicSelect(topic, animate = true){
 	deselectAll();
 	if(prev != undefined){
 		prev.style('border-color', prev._private.data.color)
@@ -440,7 +440,7 @@ function hierarchyTopicSelect(topic){
 	j.style('border-color', 'red')
 	prev = j
 	d3.selectAll(".m" + topic[0] + "-" + topic[1]).classed("selected", true)
-	topicSelect(j._private.data)
+	topicSelect(j._private.data, animate)
 
 }
 
@@ -454,11 +454,12 @@ function deselectAll(){
 }
 
 
-function topicSelect(topicData){
+function topicSelect(topicData, animate = true){
 	handleClusterDocsTable(topicData)
 	let jj = networkGraph.elements("node[cluster = " + topicData.cluster + "]")
 	//todo : add network refitting on first click
- 	networkGraph.animate({
+	if(animate) {
+		networkGraph.animate({
 			fit: {
 			    eles: jj,
 			    padding: 40
@@ -467,6 +468,7 @@ function topicSelect(topicData){
 			  duration: 500
 			});
 
+	}
 }
 /*UNIVERSAL DATA*/
 var labelCount = 5;
