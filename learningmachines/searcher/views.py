@@ -444,6 +444,10 @@ def bert_method_vis(request):
 			qry_str = {k: v[0] for k, v in dict(request.GET).items()}
 			print('qry_str: ', qry_str)
 			return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'China_news'})
+		elif dataset is not None and dataset == "TCP":
+			qry_str = {k: v[0] for k, v in dict(request.GET).items()}
+			print('qry_str: ', qry_str)
+			return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'TCP'})
 
 	return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : ''})
 
