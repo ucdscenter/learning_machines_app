@@ -25,3 +25,4 @@ __pycache__/
 /learningmachines/searcher/static/searcher/bert_method_data/Pubmed.json
 /learning_machines_app/learningmachines/searcher/static/searcher/bert_method_data/Care_Reviews.json
 /learning_machines_app/learningmachines/searcher/static/searcher/bert_method_data/China_news.json
+/learning_machines_app/learningmachines/searcher/static/searcher/bert_method_data/TCP.json
