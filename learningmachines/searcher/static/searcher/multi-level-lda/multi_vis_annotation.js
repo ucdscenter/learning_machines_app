@@ -1,44 +1,40 @@
-'use strict'
+'use strict';
 let annotate_mode = false;
 
 $('#annotation-button').on("click", function (e) {
-	console.log("clicked")
+	console.log("clicked");
 	if (annotate_mode == false) {
-		showAnnotationOptions();
+		showNoteOptions();
 		showSavedNotes();
 		$('#main-nav').css("background-color", 'grey');
 	}
 	annotate_mode = true;
-})
+});
 
 $('#e-a-b').on("click", function (e) {
-	annotate_mode = false
-	hideAnnotationOptions();
-	$('#main-nav').css("background-color", 'white')
-})
+	annotate_mode = false;
+	hideNoteOptions();
+	removeAllNotes();
+	$('#main-nav').css("background-color", 'white');
+});
 
 $('#s-a-b').on("click", function (e) {
 	if (newPath) {
-		saveAnnotation();
-		newPath = undefined;
-		currentLabelId = undefined;
-		$('#note-label-input').val('');
-		$('#note-color-input').val('#000000');
-		newPathEdgeSet.clear();
-		newPathNodeSet.clear();
+		saveNote();
+		resetNotesMenu();
 		alert('Note Saved!');
 		annotate_mode = false;
-		hideAnnotationOptions();
+		hideNoteOptions();
 	} else {
 		alert('Please create a note before saving!');
 	}
-})
+});
 
 $('#remove-annotation-button').on("click", function (e) {
-	if(highlightedLabelNode) {
+	if (highlightedLabelNode) {
 		networkGraph.remove(`[id = "${highlightedLabelNode}"]`);
 		const path = bubblePathMap[highlightedLabelNode];
-		if(path) {
+		if (path) {
 			bubblePaths.removePath(path);
 		}
 	}
@@ -56,17 +52,26 @@ $('#note-label-input').on("change", function (e) {
 $('#note-color-input').on("change", function (e) {
 	const labelNode = networkGraph.$(`#${currentLabelId}`);
 	if (currentLabelId && labelNode && labelNode[0] && newPath) {
-		console.log(newPath.node.style)
-		newPath.node.style.fill = e.target.value
+		console.log(newPath.node.style);
+		newPath.node.style.fill = e.target.value;
 		labelNode.css({
 			'fill': e.target.value,
 			'text-background-color': e.target.value,
 		});
 	}
-})
+});
 
 
-function hideAnnotationOptions() {
+function resetNotesMenu() {
+	newPath = undefined;
+	currentLabelId = undefined;
+	$('#note-label-input').val('');
+	$('#note-color-input').val('#000000');
+	newPathEdgeSet.clear();
+	newPathNodeSet.clear();
+}
+
+function hideNoteOptions() {
 	$('#e-a-b').addClass("hidden");
 	$('#n-a-b').addClass("hidden");
 	$('#l-a-b').addClass("hidden");
@@ -75,7 +80,7 @@ function hideAnnotationOptions() {
 	$('#r-a-b').addClass("hidden");
 }
 
-function showAnnotationOptions() {
+function showNoteOptions() {
 	$('#e-a-b').removeClass("hidden");
 	$('#n-a-b').removeClass("hidden");
 	$('#l-a-b').removeClass("hidden");
@@ -84,7 +89,7 @@ function showAnnotationOptions() {
 	$('#r-a-b').removeClass("hidden");
 }
 
-function saveAnnotation() {
+function saveNote() {
 	const edges = [...newPathEdgeSet].map(edge => edge._private.data.id);
 	const nodes = [...newPathNodeSet].map(edge => edge._private.data.id);
 	const labelNode = networkGraph.$(`#${currentLabelId}`)[0];
@@ -92,21 +97,21 @@ function saveAnnotation() {
 	const labelColor = labelNode._private.style['text-background-color'].strValue;
 	const labelText = labelNode._private.style.label.strValue;
 	networkGraphNotes.notes.push({ edges, nodes, labelPosition, labelText, labelColor });
-	console.log(networkGraphNotes);	
+	console.log(networkGraphNotes);
 
 }
 
 function showSavedNotes() {
 	networkGraphNotes.notes.forEach((note, index) => {
-		const nodes = note.nodes.length ? networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id)): null;
-		const edges = note.edges.length ? networkGraph.nodes().filter(node => note.edges.includes(node._private.data.id)): null;
-		const labelId = `notelabel-${index}`
+		const nodes = note.nodes.length ? networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id)) : null;
+		const edges = note.edges.length ? networkGraph.nodes().filter(node => note.edges.includes(node._private.data.id)) : null;
+		const labelId = `notelabel-${index}`;
 		const path = bubblePaths.addPath(nodes, edges, null, {
 			//drawPotentialArea: true,
 			virtualEdges: true,
-			style: {'fill': note.labelColor}
+			style: { 'fill': note.labelColor }
 		});
-		bubblePathMap[labelId] = path;
+		bubblePathMap.set(labelId, path);
 		// TODO: Extract to function and reuse
 		const label = {
 			group: 'nodes', data: {
@@ -133,9 +138,28 @@ function showSavedNotes() {
 		});
 	});
 	networkGraph.elements("node").style({
-		"border-color" : "black",
-		"border-width" : .5
-	})
+		"border-color": "black",
+		"border-width": .5
+	});
+}
+
+function removeAllNotes() {
+	// remove saved notes
+	bubblePathMap.forEach((path, labelId) => {
+		bubblePaths.removePath(path);
+		networkGraph.remove(`[id = "${labelId}"]`);
+	});
+
+	bubblePathMap.clear();
+
+	// remove unsaved notes
+	if (newPath) {
+		bubblePaths.removePath(newPath);
+	}
+	if (currentLabelId) {
+		networkGraph.remove(`[id = "${currentLabelId}"]`);
+	}
+	resetNotesMenu();
 }
 /*function createAnnotation(){
 	.append("g")

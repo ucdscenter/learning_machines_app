@@ -15,8 +15,22 @@ var highlightedLabelNode;
 var networkGraphNotes = {
 	"notes":
 		[
-			{ "edges": [], "nodes": ["m1:18", "m5:9"], "labelPosition": { "x": -401.1178519819435, "y": -371.6669069855521 }, "labelText": "Note 1", "labelColor": "rgb(222,33,33)", "noteId": "" },
-			{ "edges": [], "nodes": ["m1:5", "m2:5"], "labelPosition": { "x": -305.4103763949285, "y": -143.90473198930482 }, "labelText": "Note 2", "labelColor": "rgb(40,39,145)", "noteId": "" }
+			{
+				"edges": [],
+				"nodes": ["m1:18", "m5:9"],
+				"labelPosition": { "x": -401.1178519819435, "y": -371.6669069855521 },
+				"labelText": "Note 1",
+				"labelColor": "rgb(222,33,33)",
+				"noteId": ""
+			},
+			{
+				"edges": [],
+				"nodes": ["m1:5", "m2:5"],
+				"labelPosition": { "x": -305.4103763949285, "y": -143.90473198930482 },
+				"labelText": "Note 2",
+				"labelColor": "rgb(40,39,145)",
+				"noteId": ""
+			}
 		],
 	"activeTopic": ""
 };
@@ -190,7 +204,7 @@ function renderNetwork(formattedData) {
 
 	networkGraph.ready(() => {
 		bubblePaths = networkGraph.bubbleSets();
-	
+
 		// edges = null//networkGraph.edges().slice(0, 15);
 		// nodes = networkGraph.nodes('[cluster = 1]')//.slice(0, )
 		// console.log(edges)
@@ -274,7 +288,7 @@ function renderNetwork(formattedData) {
 	networkGraph.resize();
 
 	function buildBubblePath(newPathNodeSet, newPathEdgeSet, oldPath) {
-		const labelColor = $('#note-color-input').val(); 
+		const labelColor = $('#note-color-input').val();
 		const inputLabel = $('#note-label-input').val();
 		const labelText = !inputLabel || inputLabel == '' ? 'This is a default annotation label.' : inputLabel;
 
@@ -306,7 +320,7 @@ function renderNetwork(formattedData) {
 				position: labelPosition,
 			};
 			networkGraph.add(label);
-			bubblePathMap[labelId] = path;
+			bubblePathMap.set(labelId, path);
 			networkGraph.$(`#${labelId}`).style({
 				'shape': 'Rectangle',
 				'text-halign': 'center',
