@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 // Current state variables for network graph. 
 // TODO: Can refactor to use getters and setters instead of global variables so that it wont interfere with annotations in other visualizations.
@@ -9,61 +9,70 @@ var newPathId;
 var currentLabelId;
 var newPathNodeSet = new Set();
 var newPathEdgeSet = new Set();
+var bubblePathMap = new Map();
+var highlightedLabelNode;
 // TODO: Get from DB
-var networkGraphNotes = [];
+var networkGraphNotes = {
+	"notes":
+		[
+			{ "edges": [], "nodes": ["m1:18", "m5:9"], "labelPosition": { "x": -401.1178519819435, "y": -371.6669069855521 }, "labelText": "Note 1", "labelColor": "rgb(222,33,33)", "noteId": "" },
+			{ "edges": [], "nodes": ["m1:5", "m2:5"], "labelPosition": { "x": -305.4103763949285, "y": -143.90473198930482 }, "labelText": "Note 2", "labelColor": "rgb(40,39,145)", "noteId": "" }
+		],
+	"activeTopic": ""
+};
 
 function renderNetwork(formattedData) {
-	console.log(formattedData)
-	var label_show_cutoff = 0
-	var label_font_size = 8
-	var label_show_cutoff = 2
-	var label_font_size = 8
+	console.log(formattedData);
+	var label_show_cutoff = 0;
+	var label_font_size = 8;
+	var label_show_cutoff = 2;
+	var label_font_size = 8;
 	// var edges;
 	// var nodes;
 	var showlabels = params.nodelabels;
 
 	if (showlabels != undefined) {
 		if (showlabels == 'yes') {
-			label_font_size = 8
+			label_font_size = 8;
 		}
 		else {
-			label_font_size = 0
+			label_font_size = 0;
 		}
 	}
 	else if (formattedData.nodes.length > label_show_cutoff) {
-		label_font_size = 0
+		label_font_size = 0;
 	}
 	let kl_max = d3.max(formattedData.edges, function (d) {
 		return d.data.weight;
-	})
+	});
 
 
 	topicDocExtent = d3.extent(formattedData.nodes, function (d) {
 
-		let score = 0
+		let score = 0;
 		d.data.topic.forEach(function (doc) {
-			score += doc[1]
-		})
-		return score
-	})
+			score += doc[1];
+		});
+		return score;
+	});
 
-	let topicDocScale = d3.scaleLinear().domain(topicDocExtent).range([3, 30])
+	let topicDocScale = d3.scaleLinear().domain(topicDocExtent).range([3, 30]);
 	formattedData.nodes.forEach(function (d) {
-		d.data.label = "cluster " + d.data.cluster + "\n" + d.data.label
-		let score = 0
+		d.data.label = "cluster " + d.data.cluster + "\n" + d.data.label;
+		let score = 0;
 		d.data.topic.forEach(function (doc) {
-			score += doc[1]
-		})
-		d.data.size = topicDocScale(score)
-		d.data.type = 'ellipse'
-	})
+			score += doc[1];
+		});
+		d.data.size = topicDocScale(score);
+		d.data.type = 'ellipse';
+	});
 
 
-	let multiplier = 100
-	let KL_LIMIT = 1
+	let multiplier = 100;
+	let KL_LIMIT = 1;
 	if (kl_max > 1) {
 		KL_LIMIT = kl_max;
-		multiplier = 1
+		multiplier = 1;
 		d3.select("#slider")
 			.append("input")
 			.attr("type", "range")
@@ -73,7 +82,7 @@ function renderNetwork(formattedData) {
 			.attr("class", "slider mt-2")
 			.attr("id", "kl_range")
 			.style("display", "inline")
-			.style("width", "100%")
+			.style("width", "100%");
 
 
 	}
@@ -87,7 +96,7 @@ function renderNetwork(formattedData) {
 			.attr("class", "slider mt-2")
 			.attr("id", "kl_range")
 			.style("display", "inline")
-			.style("width", "100%")
+			.style("width", "100%");
 
 	}
 
@@ -96,42 +105,42 @@ function renderNetwork(formattedData) {
 	var output = document.getElementById("kl_label");
 	output.innerHTML = slider.value / multiplier; // Display the default slider value
 
-	let preLim = KL_LIMIT
-	output.innerHTML = KL_LIMIT
+	let preLim = KL_LIMIT;
+	output.innerHTML = KL_LIMIT;
 	slide.onchange = function () {
 
 		output.innerHTML = this.value / multiplier;
 		KL_LIMIT = this.value / multiplier;
 		if (KL_LIMIT > preLim) {
-			console.log("ADDING")
-			removeLinks()
+			console.log("ADDING");
+			removeLinks();
 		}
 		if (KL_LIMIT < preLim) {
-			console.log("REMOVING")
+			console.log("REMOVING");
 
-			addLinks()
+			addLinks();
 		}
-		preLim = KL_LIMIT
+		preLim = KL_LIMIT;
 	};
 
 	function addLinks() {
-		let count_added = 0
+		let count_added = 0;
 		formattedData.edges.forEach(function (d) {
 			if (d.data.weight > KL_LIMIT) {
 				count_added++;
 				//console.log(networkGraph.getElementById(d.data.id).length)
 				//if (networkGraph.getElementById(d.data.id).length == 0){
-				networkGraph.add({ group: 'edges', data: d.data })
+				networkGraph.add({ group: 'edges', data: d.data });
 				//}
 			}
 
-		})
-		console.log("added")
-		console.log(count_added)
+		});
+		console.log("added");
+		console.log(count_added);
 	}
 
 	function removeLinks() {
-		networkGraph.elements('edge[weight < ' + KL_LIMIT + ']').remove()
+		networkGraph.elements('edge[weight < ' + KL_LIMIT + ']').remove();
 	}
 
 	networkGraph = cytoscape({
@@ -181,9 +190,7 @@ function renderNetwork(formattedData) {
 
 	networkGraph.ready(() => {
 		bubblePaths = networkGraph.bubbleSets();
-		networkGraphNotes.forEach((note) => {
-			bubblePaths.addPath(note);
-		})
+	
 		// edges = null//networkGraph.edges().slice(0, 15);
 		// nodes = networkGraph.nodes('[cluster = 1]')//.slice(0, )
 		// console.log(edges)
@@ -216,8 +223,8 @@ function renderNetwork(formattedData) {
 */
 
 	networkGraph.on("boxselect", "node", function (evt) {
-		let j = networkGraph.elements(evt.target)
-		j.style("font-size", label_font_size)
+		let j = networkGraph.elements(evt.target);
+		j.style("font-size", label_font_size);
 		/*j.style("text-background-shape", 'rectangle')
 		j.style("text-background-padding", 0)*/
 		//j.style("z-index", 1)
@@ -225,7 +232,7 @@ function renderNetwork(formattedData) {
 		//j.style("border-color", "red")
 		//j.style("border-width", 5)
 		//}
-	})
+	});
 
 
 	networkGraph.on("tap", "edge", function (evt) {
@@ -234,7 +241,7 @@ function renderNetwork(formattedData) {
 		if (annotate_mode) {
 			const edge = evt.target;
 			newPathEdgeSet.has(edge) ? newPathEdgeSet.delete(edge) : newPathEdgeSet.add(edge);
-			 newPath = buildBubblePath(newPathNodeSet, newPathEdgeSet, newPath);
+			newPath = buildBubblePath(newPathNodeSet, newPathEdgeSet, newPath);
 		}
 	});
 
@@ -242,37 +249,37 @@ function renderNetwork(formattedData) {
 		const node = evt.target;
 		const nodeId = node._private.data.id;
 
-		if (nodeId.includes('textlabel')) {
+		if (nodeId.includes('notelabel')) {
+			highlightedLabelNode = nodeId;
 			return;
 		}
-
+		highlightedLabelNode = undefined;
 		// let j = networkGraph.elements("node[cluster = " + node._private.data.cluster + "]")
-		let splitT = nodeId.split(":")
-		let topicIndexes = [splitT[0].substr(1), splitT[1]]
+		let splitT = nodeId.split(":");
+		let topicIndexes = [splitT[0].substr(1), splitT[1]];
 
 		if (annotate_mode) {
 			newPathNodeSet.has(node) ? newPathNodeSet.delete(node) : newPathNodeSet.add(node);
 			newPath = buildBubblePath(newPathNodeSet, newPathEdgeSet, newPath);
-			hierarchyTopicSelect(topicIndexes, false)
+			hierarchyTopicSelect(topicIndexes, false);
 		}
 		else {
-			hierarchyTopicSelect(topicIndexes)
+			hierarchyTopicSelect(topicIndexes);
 		}
 		//topicSelect(evt.target._private.data)
-	})
-	addLinks()
-	removeLinks()
+	});
+	addLinks();
+	removeLinks();
 	//networkGraph.fit()
-	networkGraph.resize()
+	networkGraph.resize();
 
 	function buildBubblePath(newPathNodeSet, newPathEdgeSet, oldPath) {
-		// const inputColor = ;
-		const labelColor = $('#note-color-input').val() //inputColor// ? `rgba(${inputColor, 0.5})` : `rgba(0,200,200)`;
-		const inputLabel = $('#note-label-input').val()
+		const labelColor = $('#note-color-input').val(); 
+		const inputLabel = $('#note-label-input').val();
 		const labelText = !inputLabel || inputLabel == '' ? 'This is a default annotation label.' : inputLabel;
 
 		const existingPaths = bubblePaths.getPaths();
-		const labelId = `notelabel-${networkGraphNotes.length}`;
+		const labelId = `notelabel-${networkGraphNotes.notes.length}`;
 		currentLabelId = labelId;
 		let oldLabelPosition = undefined;
 		if (existingPaths.some(path => path == oldPath)) {
@@ -282,11 +289,11 @@ function renderNetwork(formattedData) {
 		}
 		let path = undefined;
 		if (newPathNodeSet.size || newPathEdgeSet.size) {
-				path = bubblePaths.addPath(networkGraph.nodes().filter(n => newPathNodeSet.has(n)), networkGraph.edges().filter(n => newPathEdgeSet.has(n)), null, {
+			path = bubblePaths.addPath(networkGraph.nodes().filter(n => newPathNodeSet.has(n)), networkGraph.edges().filter(n => newPathEdgeSet.has(n)), null, {
 				//drawPotentialArea: true,
 				virtualEdges: true,
 				style: createBStyle(labelColor)
-			})
+			});
 			const labelPosition = oldLabelPosition ? oldLabelPosition : getInitialLabelPosition(path);
 			const label = {
 				group: 'nodes', data: {
@@ -299,7 +306,7 @@ function renderNetwork(formattedData) {
 				position: labelPosition,
 			};
 			networkGraph.add(label);
-
+			bubblePathMap[labelId] = path;
 			networkGraph.$(`#${labelId}`).style({
 				'shape': 'Rectangle',
 				'text-halign': 'center',
@@ -310,8 +317,8 @@ function renderNetwork(formattedData) {
 				'text-background-opacity': .5,
 				'text-background-shape': "rectangle",
 				'text-wrap': 'wrap',
-			})
-		} 
+			});
+		}
 		return path;
 	}
 
