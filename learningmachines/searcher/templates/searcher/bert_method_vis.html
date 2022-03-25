@@ -21,54 +21,37 @@
     <!-- <h1>BERT Embeddings</h1> -->
     
     <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="carereviews" role="tabpanel" aria-labelledby="carereviews-tab">Care Reviews</div>
-      <div class="tab-pane fade" id="pubmed" role="tabpanel" aria-labelledby="pubmed-tab">Pubmed</div>
-      <div class="tab-pane fade" id="tcp" role="tabpanel" aria-labelledby="tcp-tab">TCP</div>
-      <div class="tab-pane fade" id="chinanews" role="tabpanel" aria-labelledby="chinanews-tab">China News</div>
+      <div class="tab-pane fade show active text-center" id="carereviews" role="tabpanel" aria-labelledby="carereviews-tab"></div>
+      <div class="tab-pane fade text-center" id="pubmed" role="tabpanel" aria-labelledby="pubmed-tab"></div>
+      <div class="tab-pane fade text-center" id="tcp" role="tabpanel" aria-labelledby="tcp-tab"></div>
+      <div class="tab-pane fade text-center" id="chinanews" role="tabpanel" aria-labelledby="chinanews-tab"></div>
     </div>
 </div>
 
-<div>
   
     <div id="vis_details" style="display: flex; flex-direction: column; align-items: center;">
-      <h2 id="data">{{ dataset_name }}</h2>
-          <div id="my_dataviz" style="position: relative;"> 
+      <!-- <h2 id="data">{{ dataset_name }}</h2> -->
+                <div id="my_dataviz" style="position: relative;"> 
 
-            <div class="card" style="display: none;
-                                    width: 25rem; position: absolute;
-                                    max-height: 25rem;
-                                    border-radius: 1rem;
-                                    background-color: white;
-                                    z-index: 3;
-                                    left: 60%;
-                                    top:10%;
-                                    overflow-y: auto;">
-            <div class="card-body">
-              <h5 class="card-title" id="doc_title"></h5>
-              <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-              <p class="card-text" id="doc_text" style="margin: auto;"></p>
-              <!-- <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a> -->
-            </div>
+                              <div class="card" style="display: none;
+                                                      width: 25rem; position: absolute;
+                                                      max-height: 25rem;
+                                                      border-radius: 1rem;
+                                                      background-color: white;
+                                                      z-index: 3;
+                                                      left: 60%;
+                                                      top:10%;
+                                                      overflow-y: auto;">
+                                        <div class="card-body">
+                                          <h5 class="card-title" id="doc_title"></h5>
+                                          <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+                                          <p class="card-text" id="doc_text" style="margin: auto;"></p>
+                                          <!-- <a href="#" class="card-link">Card link</a>
+                                          <a href="#" class="card-link">Another link</a> -->
+                                        </div>
+                            </div>
+                </div>
           </div>
-          </div>
-
-          
-
-                <!-- <div style="position: absolute;
-                            background-color: white;
-                            z-index: 1000000;
-                            left: 70rem;
-                            top:10;
-                            width: 100;
-                            max-width: 400px;
-                            overflow-y: auto;">
-                  <h2 id="doc_title" style="font-size: 15px"></h2>
-                  <p id="doc_text" style="display: block"></p>
-                </div> -->
-      
-          </div>
-</div>
 {% endblock content %}
 
 {% block footer_javascript_page %}
