@@ -6,16 +6,16 @@
 <div id="nav-wrapper">
   <ul class="nav nav-tabs" id="myTab" role="tablist" style="border-bottom: 3px solid #ccc; padding-top: 5%; margin-bottom: 30px;">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="carereviews-tab" data-bs-toggle="tab" data-bs-target="#carereviews" type="button" role="tab" aria-controls="carereviews" aria-selected="true" onclick="window.location.href= '?dataset=Care_Reviews'">Care Reviews</button>
+      <button class="nav-link" id="Care_Reviews" data-bs-toggle="tab" data-bs-target="#Care_Reviews" type="button" role="tab" aria-controls="carereviews" aria-selected="true" onclick="window.location.href= '?dataset=Care_Reviews'">Care Reviews</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pubmed-tab" data-bs-toggle="tab" data-bs-target="#pubmed" type="button" role="tab" aria-controls="pubmed" aria-selected="false" onclick="window.location.href='?dataset=Pubmed'">Pubmed</button>
+      <button class="nav-link" id="Pubmed" data-bs-toggle="tab" data-bs-target="#Pubmed" type="button" role="tab" aria-controls="pubmed" aria-selected="false" onclick="window.location.href='?dataset=Pubmed'">Pubmed</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tcp-tab" data-bs-toggle="tab" data-bs-target="#tcp" type="button" role="tab" aria-controls="tcp" aria-selected="false" onclick="window.location.href='?dataset=TCP'">TCP</button>
+      <button class="nav-link" id="TCP" data-bs-toggle="tab" data-bs-target="#TCP" type="button" role="tab" aria-controls="tcp" aria-selected="false" onclick="window.location.href='?dataset=TCP'">TCP</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="chinanews-tab" data-bs-toggle="tab" data-bs-target="#chinanews" type="button" role="tab" aria-controls="chinanews" aria-selected="false" onclick="window.location.href='?dataset=China_news'">China News</button>
+      <button class="nav-link" id="China_news" data-bs-toggle="tab" data-bs-target="#China_News" type="button" role="tab" aria-controls="chinanews" aria-selected="false" onclick="window.location.href='?dataset=China_news'">China News</button>
     </li>
   </ul>
     <!-- <h1>BERT Embeddings</h1> -->
@@ -72,6 +72,19 @@
 <!-- <script src="{% static 'searcher/bert_method.js' %}"></script> -->
 <!-- <script src="{% static 'searcher/bert_method_3d.js' %}"></script> -->
 <script src="{% static 'searcher/care_reviews_3d.js' %}"></script>
+<script>
+  var navButtons = document.querySelectorAll('[data-bs-toggle = "tab"]');
+  for(let i = 0; i < navButtons.length; i++){
+    if(window.location.search == ""){
+      navButtons[i].classList.remove('active');
+    }
+    else{
+      var getParameter = window.location.search.substring(9);
+      var toBeActive = document.getElementById(getParameter);
+      toBeActive.classList.add('active');
+    }
+  }
+</script>
 {% endblock footer_javascript_page %}
 
 
