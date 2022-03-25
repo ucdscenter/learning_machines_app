@@ -5,23 +5,27 @@
 {% block content %}
 
 <div>
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <ul class="nav nav-tabs" id="myTab" role="tablist" style="border-bottom: 3px solid #ccc; padding-top: 15%; margin-bottom: 30px;">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+      <button class="nav-link active" id="carereviews-tab" data-bs-toggle="tab" data-bs-target="#carereviews" type="button" role="tab" aria-controls="carereviews" aria-selected="true" style="background-image: linear-gradient(#f4f5f6,#fff);">Care Reviews</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+      <button class="nav-link" id="pubmed-tab" data-bs-toggle="tab" data-bs-target="#pubmed" type="button" role="tab" aria-controls="pubmed" aria-selected="false">Pubmed</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+      <button class="nav-link" id="tcp-tab" data-bs-toggle="tab" data-bs-target="#tcp" type="button" role="tab" aria-controls="tcp" aria-selected="false">TCP</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="chinanews-tab" data-bs-toggle="tab" data-bs-target="#chinanews" type="button" role="tab" aria-controls="chinanews" aria-selected="false">China News</button>
     </li>
   </ul>
     <!-- <h1>BERT Embeddings</h1> -->
     
     <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">Hello</div>
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">World</div>
-      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Dude</div>
+      <div class="tab-pane fade show active" id="carereviews" role="tabpanel" aria-labelledby="carereviews-tab">Care Reviews</div>
+      <div class="tab-pane fade" id="pubmed" role="tabpanel" aria-labelledby="pubmed-tab">Pubmed</div>
+      <div class="tab-pane fade" id="tcp" role="tabpanel" aria-labelledby="tcp-tab">TCP</div>
+      <div class="tab-pane fade" id="chinanews" role="tabpanel" aria-labelledby="chinanews-tab">China News</div>
     </div>
 
     <!-- <button onclick="window.location = window.location.origin + window.location.pathname + '?dataset=Care_Reviews'">Care Reviews</button>
