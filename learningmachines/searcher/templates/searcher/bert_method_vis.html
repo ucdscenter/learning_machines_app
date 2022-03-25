@@ -3,20 +3,19 @@
 {% block title %}BERT Embeddings Visualization{% endblock title %}
 
 {% block content %}
-
 <div>
   <ul class="nav nav-tabs" id="myTab" role="tablist" style="border-bottom: 3px solid #ccc; padding-top: 15%; margin-bottom: 30px;">
     <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="carereviews-tab" data-bs-toggle="tab" data-bs-target="#carereviews" type="button" role="tab" aria-controls="carereviews" aria-selected="true" style="background-image: linear-gradient(#f4f5f6,#fff);">Care Reviews</button>
+      <button class="nav-link active" id="carereviews-tab" data-bs-toggle="tab" data-bs-target="#carereviews" type="button" role="tab" aria-controls="carereviews" aria-selected="true" onclick="window.location.href= '?dataset=Care_Reviews'">Care Reviews</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="pubmed-tab" data-bs-toggle="tab" data-bs-target="#pubmed" type="button" role="tab" aria-controls="pubmed" aria-selected="false">Pubmed</button>
+      <button class="nav-link" id="pubmed-tab" data-bs-toggle="tab" data-bs-target="#pubmed" type="button" role="tab" aria-controls="pubmed" aria-selected="false" onclick="window.location.href='?dataset=Pubmed'">Pubmed</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tcp-tab" data-bs-toggle="tab" data-bs-target="#tcp" type="button" role="tab" aria-controls="tcp" aria-selected="false">TCP</button>
+      <button class="nav-link" id="tcp-tab" data-bs-toggle="tab" data-bs-target="#tcp" type="button" role="tab" aria-controls="tcp" aria-selected="false" onclick="window.location.href='?dataset=TCP'">TCP</button>
     </li>
     <li class="nav-item" role="presentation">
-      <button class="nav-link" id="chinanews-tab" data-bs-toggle="tab" data-bs-target="#chinanews" type="button" role="tab" aria-controls="chinanews" aria-selected="false">China News</button>
+      <button class="nav-link" id="chinanews-tab" data-bs-toggle="tab" data-bs-target="#chinanews" type="button" role="tab" aria-controls="chinanews" aria-selected="false" onclick="window.location.href='?dataset=China_news'">China News</button>
     </li>
   </ul>
     <!-- <h1>BERT Embeddings</h1> -->
@@ -31,24 +30,23 @@
     <!-- <button onclick="window.location = window.location.origin + window.location.pathname + '?dataset=Care_Reviews'">Care Reviews</button>
     <button onclick="window.location = window.location.origin + window.location.pathname + '?dataset=Pubmed'">Pubmed</button>
     <button onclick="window.location = window.location.origin + window.location.pathname + '?dataset=China_news'">China News</button>
-    <button onclick="window.location = window.location.origin + window.location.pathname + '?dataset=TCP'">TCP</button>
+    <button onclick="window.location = window.location.origin + window.location.pathname + '?dataset=TCP'">TCP</button>-->
     <h2 id="data">{{ dataset_name }}</h2>
     <div id="vis_details" style="display: flex; flex-direction: row;">
-      <div id="my_dataviz"></div>
-      <div style="position: absolute;
-                  background-color: white;
-                  z-index: 1000000;
-                  left: 70rem;
-                  top:10;
-                  width: 100;
-                  max-width: 400px;
-                  overflow-y: auto;">
-        <h2 id="doc_title" style="font-size: 15px"></h2>
-        <p id="doc_text" style="display: block"></p>
-      </div>
+          <div id="my_dataviz"></div>
+                <div style="position: absolute;
+                            background-color: white;
+                            z-index: 1000000;
+                            left: 70rem;
+                            top:10;
+                            width: 100;
+                            max-width: 400px;
+                            overflow-y: auto;">
+                  <h2 id="doc_title" style="font-size: 15px"></h2>
+                  <p id="doc_text" style="display: block"></p>
+                </div>
       
-    </div>
-    </div> -->
+          </div>
 </div>
 {% endblock content %}
 
@@ -70,4 +68,8 @@
 <!-- <script src="{% static 'searcher/bert_method.js' %}"></script> -->
 <!-- <script src="{% static 'searcher/bert_method_3d.js' %}"></script> -->
 <script src="{% static 'searcher/care_reviews_3d.js' %}"></script>
+<script>
+  const elementInFocus = document.activeElement;
+  // console.log(elementInFocus);
+</script>
 {% endblock footer_javascript_page %}
