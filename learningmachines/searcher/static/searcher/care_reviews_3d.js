@@ -1,7 +1,7 @@
 'use-strict';
 
 async function wrapper(){
-    dataset_name = document.getElementById("data").textContent;
+    dataset_name = window.location.search.substring(9);
     console.log(dataset_name);
     if (dataset_name.length == 0){
         console.log("No dataset selected");
