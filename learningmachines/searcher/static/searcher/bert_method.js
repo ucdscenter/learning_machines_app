@@ -13,7 +13,7 @@ async function wrapper(){
         console.log(data);
         // console.log(window.location);
         let num_points = data.length;
-        console.log(num_points)
+        // console.log(num_points)
 
         let width = window.innerWidth
         let height = window.innerHeight
@@ -116,7 +116,7 @@ async function wrapper(){
         }
 
         const getColorForPubmed = function(d){
-            console.log(typeof d["category_number"]);
+            // console.log(typeof d["category_number"]);
             return color_array[d["category_number"]];
             // Add topic number
                 
@@ -130,7 +130,8 @@ async function wrapper(){
             // rating = data[i].rating;
             category_number = data[i].data_category_number;
             data_id = data[i].data_id;
-            let point = {position, category_number, data_id};
+            data_title = data[i].data_title;
+            let point = {position, category_number, data_id, data_title};
             data_points.push(point);
         }
 
@@ -318,7 +319,7 @@ async function wrapper(){
             tooltip_state.display = "block";
             tooltip_state.left = mouse_position[0] + x_offset;
             tooltip_state.top = mouse_position[1] + y_offset;
-            tooltip_state.name = datum.data_id;
+            tooltip_state.name = datum.data_title;
             tooltip_state.group = datum.category_number;
             updateTooltip();
         }
@@ -363,8 +364,8 @@ async function wrapper(){
                 // highlightPoint(datum);
 
                 // showTooltip(mouse_position, datum);
-                console.log(datum.data_id);
-                console.log(window.location);
+                // console.log(datum.data_id);
+                // console.log(window.location);
                 
                 fetch("/searcher/bert_method_vis/?" + `dataset=${dataset_name}`, {
                     method: 'POST',
@@ -375,7 +376,7 @@ async function wrapper(){
                 }).then(data => {
                     document.getElementById("doc_title").textContent = "Title: " + data.doc_title;
                     document.getElementById("doc_text").textContent = "Text: " + data.doc_text;
-                    console.log(typeof data.doc_title);
+                    // console.log(typeof data.doc_title);
                 });
 
             } else {
@@ -396,7 +397,7 @@ async function wrapper(){
         });
 
         view.on("click", () => {
-            console.log('Clicked!');
+            // console.log('Clicked!');
             let [mouseX, mouseY] = d3.mouse(view.node());
             let mouse_position = [mouseX, mouseY];
             checkClickPosition(mouse_position);
