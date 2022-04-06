@@ -13,9 +13,7 @@ var bubblePathMap = new Map();
 var highlightedLabelNode;
 var vis_request_id;
 var networkGraphNotes = {
-	"notes":
-		[
-		],
+	"notes":[],
 	"activeTopic": ""
 };
 
@@ -276,12 +274,12 @@ function renderNetwork(formattedData, meta) {
 			return;
 		}
 
-		if(highlightedLabelNode) {
-			const note =  networkGraphNotes.notes.find(note => note.labelId == highlightedLabelNode);
+		if (highlightedLabelNode) {
+			const note = networkGraphNotes.notes.find(note => note.labelId == highlightedLabelNode);
 			const nodes = networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id));
-			const edges = networkGraph.nodes().filter(node => note.edges.includes(node._private.data.id))
-			edges.forEach(edge => newPathEdgeSet.add(edge))
-			nodes.forEach(node => newPathNodeSet.add(node))
+			const edges = networkGraph.nodes().filter(node => note.edges.includes(node._private.data.id));
+			edges.forEach(edge => newPathEdgeSet.add(edge));
+			nodes.forEach(node => newPathNodeSet.add(node));
 			newPath = bubblePathMap.get(highlightedLabelNode);
 		}
 
@@ -370,7 +368,7 @@ function renderNetwork(formattedData, meta) {
 				'text-wrap': 'wrap',
 				"text-max-width": 80
 			});
-			if(isEdit) {
+			if (isEdit) {
 				networkGraph.$(`#${labelId}`).style('color', 'yellow');
 			}
 		}
