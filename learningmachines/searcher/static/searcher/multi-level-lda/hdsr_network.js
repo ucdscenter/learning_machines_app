@@ -11,36 +11,20 @@ var newPathNodeSet = new Set();
 var newPathEdgeSet = new Set();
 var bubblePathMap = new Map();
 var highlightedLabelNode;
-// TODO: Get from DB
+var vis_request_id;
 var networkGraphNotes = {
 	"notes":
 		[
-			{
-				"edges": [],
-				"nodes": ["m1:18", "m5:9"],
-				"labelPosition": { "x": -401.1178519819435, "y": -371.6669069855521 },
-				"labelText": "Note 1",
-				"labelColor": "rgb(222,33,33)",
-				"noteId": ""
-			},
-			{
-				"edges": [],
-				"nodes": ["m1:5", "m2:5"],
-				"labelPosition": { "x": -305.4103763949285, "y": -143.90473198930482 },
-				"labelText": "Note 2",
-				"labelColor": "rgb(40,39,145)",
-				"noteId": ""
-			}
 		],
 	"activeTopic": ""
 };
 
-function renderNetwork(formattedData) {
-	console.log(formattedData);
+function renderNetwork(formattedData, meta) {
 	var label_show_cutoff = 0;
 	var label_font_size = 8;
 	var label_show_cutoff = 2;
 	var label_font_size = 8;
+	vis_request_id = meta.vis_request_id;
 	// var edges;
 	// var nodes;
 	var showlabels = params.nodelabels;
@@ -248,7 +232,6 @@ function renderNetwork(formattedData) {
 		//}
 	});
 
-
 	networkGraph.on("tap", "edge", function (evt) {
 		// TODO: Revisit - Possible bug in bb plugin: When the bb contains a path with few nodes in it and we try to add a edge without adding the nodes corresponding
 		// to that edge to the path first, it doesn't add the edge to the path. Once a corresponding node is added, it adds the edge too, if it was selected before.
@@ -264,17 +247,51 @@ function renderNetwork(formattedData) {
 		const nodeId = node._private.data.id;
 
 		if (nodeId.includes('notelabel')) {
-			highlightedLabelNode = nodeId;
+			if (isGraphDirty(nodeId) && !isCurrentNote(nodeId)) {
+				alert('Please save your current note before creating/editing another one!');
+			} else {
+				if (highlightedLabelNode == nodeId) {
+					// unselectNote()
+					// Empty sets
+					newPathEdgeSet.clear();
+					newPathEdgeSet.clear();
+					newPath = undefined;
+					currentLabelId = undefined;
+					currentLabelId = undefined;
+					highlightedLabelNode = undefined;
+					$('#note-label-input').val('');
+					$('#note-color-input').val('#000000');
+					networkGraph.$(`#${nodeId}`).style('color', 'black');
+				} else {
+					highlightedLabelNode = nodeId;
+					currentLabelId = nodeId;
+					networkGraph.$(`#${nodeId}`).style('color', 'yellow');
+					$('#note-label-input').val(node._private.style.label.strValue);
+					$('#note-color-input').val(rgbToHex(...node._private.style['text-background-color'].value));
+					// editNote(noteId);
+
+				}
+			}
+
 			return;
 		}
-		highlightedLabelNode = undefined;
+
+		if(highlightedLabelNode) {
+			const note =  networkGraphNotes.notes.find(note => note.labelId == highlightedLabelNode);
+			const nodes = networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id));
+			const edges = networkGraph.nodes().filter(node => note.edges.includes(node._private.data.id))
+			edges.forEach(edge => newPathEdgeSet.add(edge))
+			nodes.forEach(node => newPathNodeSet.add(node))
+			newPath = bubblePathMap.get(highlightedLabelNode);
+		}
+
 		// let j = networkGraph.elements("node[cluster = " + node._private.data.cluster + "]")
 		let splitT = nodeId.split(":");
 		let topicIndexes = [splitT[0].substr(1), splitT[1]];
 
 		if (annotate_mode) {
 			newPathNodeSet.has(node) ? newPathNodeSet.delete(node) : newPathNodeSet.add(node);
-			newPath = buildBubblePath(newPathNodeSet, newPathEdgeSet, newPath);
+			newPath = buildBubblePath(newPathNodeSet, newPathEdgeSet, newPath, highlightedLabelNode != undefined);
 			hierarchyTopicSelect(topicIndexes, false);
 		}
 		else {
@@ -287,13 +304,32 @@ function renderNetwork(formattedData) {
 	//networkGraph.fit()
 	networkGraph.resize();
 
-	function buildBubblePath(newPathNodeSet, newPathEdgeSet, oldPath) {
+	function componentToHex(c) {
+		var hex = c.toString(16);
+		return hex.length == 1 ? "0" + hex : hex;
+	}
+
+	function rgbToHex(r, g, b) {
+		return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+	}
+
+	function isGraphDirty(nodeId) {
+		return newPath || (currentLabelId && currentLabelId != nodeId) || newPathEdgeSet.size || newPathNodeSet.size;
+	}
+
+	function isCurrentNote(noteId) {
+		return currentLabelId == noteId;
+	}
+
+	function buildBubblePath(newPathNodeSet, newPathEdgeSet, oldPath, isEdit = false) {
 		const labelColor = $('#note-color-input').val();
 		const inputLabel = $('#note-label-input').val();
 		const labelText = !inputLabel || inputLabel == '' ? 'This is a default annotation label.' : inputLabel;
 
 		const existingPaths = bubblePaths.getPaths();
-		const labelId = `notelabel-${networkGraphNotes.notes.length}`;
+
+		//TODO: Use UUID to avoid collisions
+		const labelId = currentLabelId ? currentLabelId : `notelabel-${networkGraphNotes.notes.length}-${new Date().getTime()}`;
 		currentLabelId = labelId;
 		let oldLabelPosition = undefined;
 		if (existingPaths.some(path => path == oldPath)) {
@@ -322,16 +358,21 @@ function renderNetwork(formattedData) {
 			networkGraph.add(label);
 			bubblePathMap.set(labelId, path);
 			networkGraph.$(`#${labelId}`).style({
-				'shape': 'Rectangle',
 				'text-halign': 'center',
 				'background-opacity': 0,
 				'border-width': 0,
-				'font-size': 30,
+				'font-size': 20,
+				'background-color': labelColor,
 				'text-background-color': labelColor,
 				'text-background-opacity': .5,
 				'text-background-shape': "rectangle",
+				'background-color': "yellow",
 				'text-wrap': 'wrap',
+				"text-max-width": 80
 			});
+			if(isEdit) {
+				networkGraph.$(`#${labelId}`).style('color', 'yellow');
+			}
 		}
 		return path;
 	}

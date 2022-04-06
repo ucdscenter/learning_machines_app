@@ -1,9 +1,12 @@
 # Create your models here.
 
+from email.policy import default
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import User
+from numpy import array
+from django.contrib.postgres.fields import ArrayField
 
 
 class Profile(models.Model):
@@ -107,3 +110,18 @@ class VisRequest(Request):
     status = models.CharField(max_length=100, default="Scheduled")
     is_saved = models.BooleanField(default=False, null=False)
     is_finished = models.BooleanField(default=False, null=False)
+
+class Annotation(models.Model):
+    #Note: We can use ArrayField if we are using postgres
+    nodes_and_edges = models.JSONField(default = dict)
+    label_position_x = models.FloatField(default=0)
+    label_position_y =  models.FloatField(default=0)
+    #TODO: Max notes length, DocumentId
+    label_text = models.CharField(max_length=500, default='Note')
+    label_color = models.CharField(max_length=20, default='')
+    note_id = models.CharField(max_length=50, default='')
+    active_topic = models.CharField(max_length=50, default='', blank=True)
+    vis_request = models.ForeignKey(VisRequest, on_delete=models.CASCADE) 
+    def __str__(self):
+        return 'note_id:{} label_text:{}'.format(self.note_id, self.label_text)
+   
