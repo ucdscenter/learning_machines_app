@@ -19,7 +19,7 @@ async function wrapper(){
         let height = window.innerHeight
         let viz_width = window.innerWidth
         let aspect = width / height
-
+        
         let fov = 45
         let near = 0.1
         let far = 70
