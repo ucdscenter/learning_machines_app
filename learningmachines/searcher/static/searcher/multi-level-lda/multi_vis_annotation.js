@@ -57,6 +57,7 @@ $('#remove-annotation-button').on("click", async function (e) {
 				if (path) {
 					bubblePaths.removePath(path);
 				}
+				resetNotesMenu();
 			},
 			contentType: 'application/json'
 		}).fail((error) => {
