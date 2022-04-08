@@ -117,7 +117,7 @@ async function wrapper(){
 
         const getColorForPubmed = function(d){
             // console.log(typeof d["category_number"]);
-            return color_array[d["category_number"]];
+            return color_array[Number(d["category_number"])+1];
             // Add topic number
                 
         }
@@ -308,7 +308,7 @@ async function wrapper(){
             $tooltip.style.left = tooltip_state.left + 'px';
             $tooltip.style.top = tooltip_state.top + 'px';
             $point_tip.innerText = tooltip_state.name;
-            $point_tip.style.background = color_array[Number(tooltip_state.group)];
+            $point_tip.style.background = color_array[Number(tooltip_state.group)+1];
             $group_tip.innerText = `Group ${tooltip_state.group}`;
         }
 
