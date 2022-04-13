@@ -44,7 +44,7 @@ class ModelEvaluation:
 				self.raw_corpus.append(x)
 			for x in self.doc_iter:
 				self.corpus.append(x)
-		lda_model = gensim.models.LdaMulticore(
+		lda_model = gensim.models.LdaModel(
 			corpus=self.corpus,
 			id2word=self.dictionary.dct,
 			num_topics=ntopics,
@@ -81,14 +81,19 @@ class ModelEvaluation:
 			self.raw_corpus = []
 
 			self.doc_iter = SearchResults_ES(self.query_obj['database'], qry_obj=self.query_obj, rand=self.query_obj["rand"], tokenized=True, cm=self.dictionary)
+
+			self.raw_doc_iter = SearchResults_ES(self.query_obj['database'], qry_obj=self.query_obj, rand=self.query_obj["rand"], cleaned=True, cm=self.dictionary)
+
 			for x in self.raw_doc_iter:
 				self.raw_corpus.append(x)
 			for x in self.doc_iter:
 				self.corpus.append(x)
+
 		print("CORPUS")
 		print(self.corpus)
 		print("RAW_CORPUS")
 		print(self.raw_corpus)
+
 
 		step_size = step_size
 		topics_range = range(min_topics, max_topics, step_size)
@@ -155,7 +160,9 @@ class ModelEvaluation:
 
 
 if __name__ == '__main__':
-	test_qry_obj = {'start': '1809', 'end': '2017', 'f_start': '-1', 'f_end': '-1', 'qry': '', 'maximum_hits': '10', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'CaseLaw_v2', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'ngrams' : False, 'model_name' : 'test', 'rand' : True}
+	"""test_qry_obj = {'start': '1809', 'end': '2017', 'f_start': '-1', 'f_end': '-1', 'qry': '', 'maximum_hits': '10', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'CaseLaw_v2', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '500', 'ngrams' : False, 'model_name' : 'test', 'rand' : True}
+	"""
+	test_qry_obj = {'start': 'year', 'end': 'year', 'f_start': '-1', 'f_end': '-1', 'qry': 'apple OR banana', 'maximum_hits': '100', 'method': 'multilevel_lda', 'stop_words': '', 'replacement': '', 'phrases': '', 'level_select': 'article', 'num_topics': 10, 'passes': '20', 'database': 'Pubmed', 'journal': 'all', 'jurisdiction_select': 'all', 'auth_s': '', 'family_select': 'both', 'min_occurrence': '-1', 'max_occurrence': '-1', 'doc_count': '10', 'ngrams' : True, 'model_name' : 'test', 'rand' : False}
 
 	me = ModelEvaluation(test_qry_obj)
 	me.run_lda_coherence(test=True)
