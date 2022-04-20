@@ -78,7 +78,49 @@
     }
 
     #note-color-input {
-      height: 44px;
+      height: 50px;
+      margin-top: 2%;
+      margin-left: 1%;
+    }
+
+    #edit-notes-modal {
+      overflow-y: hidden;
+      display: none;
+      width: fit-content;
+      height: fit-content;
+      top: 15%;
+      left: 70%;
+    }
+
+    .note-label-color {
+      display: flex;
+      justify-content: space-between;
+      padding: 1%;
+    }
+
+    .note-label-container {
+      flex: 1;
+    }
+
+    #note-label-input {
+      width: 100%;
+      margin-top: 2%;
+      margin-right: 2%;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+    }
+
+    #note-label-input::placeholder {
+        padding: 4%;
+    }
+    .modal-header {
+      cursor: move;
     }
   </style>
   </style>
@@ -99,27 +141,42 @@
 
     </div>
     <div class="navbar-collapse collapse">
-
       <ul class="nav navbar-nav" align="left">
         <li class="nav-item"><a class="nav-link" id="annotation-button">Notes Mode </a></li>
-        <li class="nav-item hidden" id='n-a-b'><a class="nav-link" id="new-annotation-button">New Note</a></li>
         <li class="nav-item hidden" id='e-a-b'><a class="nav-link" id="end-annotation-button">End Notes Mode</a></li>
-        <li class="nav-item hidden" id='l-a-b'><input class="nav-link" placeholder='Label your note'
-            id="note-label-input">
-        </li>
-        <li class="nav-item hidden" id='c-a-b'>
-          <input type=color class="nav-link" value="#000000" id="note-color-input">
-        </li>
-        <li class="nav-item hidden" id='s-a-b'><a class="nav-link" id="end-annotation-button">Save Note</a></li>
-        <li class="nav-item hidden" id='r-a-b'><a class="nav-link" id="remove-annotation-button">Remove Selected
-            Note</a></li>
-        <li class="nav-item hidden" id='d-a-b'><a class="nav-link" id="remove-annotation-button">Discard Unsaved
-            Changes</a></li>
       </ul>
 
     </div>
 
   </nav>
+
+  <div class="modal" tabindex="-1" role="dialog" id="edit-notes-modal" display="none">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Create/Edit Notes</h5>
+        </div>
+        <div class="modal-body" id="edit-notes-modal-body">
+          <select class="form-control" id="notes-list">
+            <option selected>Notes</option>
+          </select>
+          <div class="note-label-color">
+            <span class="note-label-container">
+              <textarea placeholder='Label your note' id="note-label-input"></textarea>
+            </span>
+            <input type=color value="#000000" id="note-color-input">
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="n-a-b" class="btn btn-success">New note</button>
+          <button type="button" id="s-a-b" class="btn btn-primary">Save</button>
+          <button type="button" id="r-a-b" class="btn btn-danger">Remove</button>
+          <button type="button" id="d-a-b" class="btn btn-secondary">Discard</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="container-fluid">
     <div class="row">

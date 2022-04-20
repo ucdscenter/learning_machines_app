@@ -21,6 +21,7 @@ $('#e-a-b').on("click", function (e) {
 	annotate_mode = false;
 	hideNoteOptions();
 	hideAllNotes();
+	emptyNotesDropdown();
 	$('#main-nav').css("background-color", 'white');
 });
 
@@ -28,42 +29,88 @@ $('#s-a-b').on("click", function (e) {
 	if (newPath) {
 		saveNote();
 		resetNotesMenu();
-	} else {
+	} else if($('#notes-list').val() != 'Notes') {
+		const note = networkGraphNotes.notes.find(note => note.labelId == highlightedLabelNode);
+		const nodes = networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id));
+		const edges = networkGraph.edges().filter(node => note.edges.includes(node._private.data.id));
+		edges.forEach(edge => newPathEdgeSet.add(edge));
+		nodes.forEach(node => newPathNodeSet.add(node));
+		newPath = bubblePathMap.get(highlightedLabelNode);
+		saveNote();
+		resetNotesMenu();
+	}
+	else{
 		alert('Please create a note before saving!');
 	}
 });
 
 $('#d-a-b').on("click", function (e) {
 	hideAllNotes();
-	getSavedNotes()
+	emptyNotesDropdown();
+	getSavedNotes();
 });
 
-$('#remove-annotation-button').on("click", async function (e) {
+$('#edit-notes-modal').draggable();
+
+$('#n-a-b').on("click", (e) => {
+	const labelId = `notelabel-${networkGraphNotes.notes.length}-${new Date().getTime()}`;
+	const selectedNote = $('#notes-list').val();
+	const labelInputText = $('#note-label-input').val();
+	let labelText = 'New Note.';;
+	if (selectedNote == 'Notes') {
+		if (labelInputText && labelInputText != '') {
+			labelText = labelInputText;
+		}
+	} else {
+		resetNotesMenu();
+	}
+	const labelColor = $('#note-color-input').val();
+	const labelPosition = { 'x': 0, 'y': 0 };
+	createLabel(labelId, labelText, labelColor, labelPosition);
+	const note = {
+		'nodes': [],
+		'edges': [],
+		'labelPosition': labelPosition,
+		'labelText': labelText,
+		'labelColor': labelColor,
+		'labelId': labelId,
+		'draft': true
+	};
+	networkGraph.$(`#${labelId}`).style('color', 'yellow');
+	currentLabelId = labelId;
+	highlightedLabelNode = labelId;
+	note.canEdit = true;
+	networkGraphNotes.notes.push(note);
+});
+
+$('#r-a-b').on("click", async function (e) {
 	// TODO: Validate if node is saved before triggering http request
 	if (highlightedLabelNode) {
-		networkGraph.remove(`[id = "${highlightedLabelNode}"]`);
-		await $.ajax({
-			type: 'DELETE',
-			url: `${annotation_api.delete}?vis_request_id=${vis_request_id}&note_id=${highlightedLabelNode}`,
-			//TODO: extract
-			beforeSend: function (xhr, settings) {
-				if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-					xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-				}
-			},
-			success: () => {
-				alert('deleted');
-				const path = bubblePathMap.get(highlightedLabelNode);
-				if (path) {
-					bubblePaths.removePath(path);
-				}
-				resetNotesMenu();
-			},
-			contentType: 'application/json'
-		}).fail((error) => {
-			alert('Error while deleting note')
-			console.log('Error while deleting note', error);
-		});
+		const noteSaved = networkGraphNotes.notes.some(note => note.labelId == highlightedLabelNode);
+		if (noteSaved) {
+			await $.ajax({
+				type: 'DELETE',
+				url: `${annotation_api.delete}?vis_request_id=${vis_request_id}&note_id=${highlightedLabelNode}`,
+				//TODO: extract
+				beforeSend: function (xhr, settings) {
+					if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+						xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+					}
+				},
+				success: () => {
+					alert('deleted');
+					networkGraph.remove(`[id = "${highlightedLabelNode}"]`);
+					removeAnnotation();
+				},
+				contentType: 'application/json'
+			}).fail((error) => {
+				alert('Error while deleting note');
+				console.log('Error while deleting note', error);
+			});
+		} else {
+			removeAnnotation();
+			networkGraphNotes.notes = networkGraphNotes.notes.filter(note => note.labelId != highlightedLabelNode);
+		}
 
 	}
 });
@@ -79,9 +126,14 @@ $('#note-label-input').on("change", function (e) {
 
 $('#note-color-input').on("change", function (e) {
 	const labelNode = networkGraph.$(`#${currentLabelId}`);
-	if (currentLabelId && labelNode && labelNode[0] && newPath) {
-		console.log(newPath.node.style);
-		newPath.node.style.fill = e.target.value;
+	let path = undefined;
+	if(!newPath && currentLabelId) {
+		path = bubblePathMap.get(currentLabelId);
+	} else {
+		path = newPath;
+	}
+	if (currentLabelId && labelNode && labelNode[0] && path) {
+		path.node.style.fill = e.target.value;
 		labelNode.css({
 			'fill': e.target.value,
 			'text-background-color': e.target.value,
@@ -90,34 +142,53 @@ $('#note-color-input').on("change", function (e) {
 });
 
 
+function emptyNotesDropdown() {
+	const notesDropdown = $('#notes-list');
+	notesDropdown.empty();
+	const notesList = notesDropdown[0].options;
+	notesList.add(new Option('Notes', 'Notes'));
+	notesDropdown.val('Notes');
+}
+
+function removeAnnotation() {
+	const path = bubblePathMap.get(highlightedLabelNode);
+	if (path) {
+		bubblePaths.removePath(path);
+	}
+	const notesList = document.getElementById('notes-list');
+	notesList.remove(notesList.selectedIndex);
+	$('#notes-list').val('Notes');
+	resetNotesMenu();
+}
+
 function resetNotesMenu() {
 	newPath = undefined;
 	currentLabelId = undefined;
 	highlightedLabelNode = undefined;
 	$('#note-label-input').val('');
-	$('#note-color-input').val('#000000');
+	setRandomNoteColor();
 	newPathEdgeSet.clear();
 	newPathNodeSet.clear();
 }
 
 function hideNoteOptions() {
 	$('#e-a-b').addClass("hidden");
-	$('#n-a-b').addClass("hidden");
 	$('#l-a-b').addClass("hidden");
-	$('#s-a-b').addClass("hidden");
 	$('#c-a-b').addClass("hidden");
-	$('#r-a-b').addClass("hidden");
-	$('#d-a-b').addClass("hidden");
+	$('#edit-notes-modal').hide();
 }
 
 function showNoteOptions() {
 	$('#e-a-b').removeClass("hidden");
-	$('#n-a-b').removeClass("hidden");
 	$('#l-a-b').removeClass("hidden");
-	$('#c-a-b').removeClass("hidden");
-	$('#s-a-b').removeClass("hidden");
-	$('#r-a-b').removeClass("hidden");
-	$('#d-a-b').removeClass("hidden");
+	$('#edit-notes-modal').show();
+	setRandomNoteColor();
+}
+
+// TODO: extract 
+function setRandomNoteColor() {
+	const colorIndex = Math.floor(Math.random() * 12);
+	$('#note-color-input').val(defaultColors[colorIndex]);
 }
 
 // TODO: extract to module
@@ -149,10 +220,10 @@ async function saveNote() {
 	const labelColor = labelNode._private.style['text-background-color'].strValue;
 	const labelText = labelNode._private.style.label.strValue;
 	const labelId = labelNode._private.data.id;
-	const note = { edges, nodes, labelId, labelPosition, labelText, labelColor, vis_request_id};
+	const note = { edges, nodes, labelId, labelPosition, labelText, labelColor, vis_request_id };
 	const editedNote = networkGraphNotes.notes.find(note => note.labelId == currentLabelId);
-	if(editedNote) {
-		note['pk'] = editedNote.pk
+	if (editedNote) {
+		note['pk'] = editedNote.pk;
 	}
 	var csrftoken = getCookie('csrftoken');
 	setCsrfRequestHeader(csrftoken);
@@ -165,11 +236,19 @@ async function saveNote() {
 	// });
 	await $.post(`${annotation_api.post}/`, note, () => {
 		alert('Note Saved!');
+		note.canEdit = true;
+		note.pk = vis_request_id;
+		networkGraphNotes.notes.push(note);
+		const notesList = document.getElementById('notes-list').options;
+		if (!editedNote || (editedNote && editedNote.draft == true)) {
+			const option = new Option(note.labelText, note.labelId);
+			notesList.add(option);
+		}
+		labelNode.style('color', 'black');
 	}).fail((error) => {
 		alert('Error while saving note');
 		console.log('Error while saving note', error);
 	});
-	networkGraphNotes.notes.push(note);
 	console.log(networkGraphNotes);
 
 }
@@ -197,7 +276,11 @@ function getSavedNotes() {
 }
 
 function showSavedNotes() {
-	networkGraphNotes.notes.forEach((note, index) => {
+	const notesList = document.getElementById('notes-list').options;
+	networkGraphNotes.notes.forEach((note) => {
+		if(note.canEdit) {
+			notesList.add(new Option(note.labelText, note.labelId));
+		}
 		const nodes = note.nodes.length ? networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id)) : null;
 		const edges = note.edges.length ? networkGraph.nodes().filter(node => note.edges.includes(node._private.data.id)) : null;
 		const labelId = note.labelId;
@@ -208,33 +291,39 @@ function showSavedNotes() {
 		});
 		bubblePathMap.set(labelId, path);
 		// TODO: Extract to function and reuse
-		const label = {
-			group: 'nodes', data: {
-				type: 'triangle',
-				id: labelId,
-				label: note.labelText,
-				color: 'yellow',
-				size: 30
-			},
-			position: note.labelPosition,
-		};
-		networkGraph.add(label);
-
-		networkGraph.$(`#${labelId}`).style({
-			'text-halign': 'center',
-			'background-opacity': 0,
-			'border-width': 0,
-			'font-size': 30,
-			'text-background-color': note.labelColor,
-			'text-background-opacity': .5,
-			'text-background-shape': "rectangle",
-			'text-wrap': 'wrap',
-			"text-max-width": 80
-		});
+		createLabel(labelId, note.labelText, note.labelColor, note.labelPosition);
 	});
 	networkGraph.elements("node").style({
 		"border-color": "black",
 		"border-width": .5
+	});
+}
+
+function createLabel(labelId, labelText, labelColor, labelPosition) {
+	const label = {
+		group: 'nodes', data: {
+			type: 'triangle',
+			id: labelId,
+			label: labelText,
+			color: 'yellow',
+			size: 30
+		},
+		position: labelPosition,
+	};
+	networkGraph.add(label);
+
+	networkGraph.$(`#${labelId}`).style({
+		'text-halign': 'center',
+		'background-opacity': 0,
+		'border-width': 0,
+		'font-size': 20,
+		'background-color': labelColor,
+		'text-background-color': labelColor,
+		'text-background-opacity': .5,
+		'text-background-shape': "rectangle",
+		'background-color': "yellow",
+		'text-wrap': 'wrap',
+		"text-max-width": 80
 	});
 }
 

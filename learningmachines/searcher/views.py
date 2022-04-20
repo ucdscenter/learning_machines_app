@@ -442,7 +442,8 @@ def get_annotations(request):
 				'labelId': annotation.note_id,
 				'activeTopic': annotation.active_topic,
 				'visRequest': annotation.vis_request.pk,
-				'pk': annotation.pk
+				'pk': annotation.pk,
+				'canEdit': annotation.user == request.user
 			}
 			response['notes'].append(formatted)
 
@@ -453,6 +454,7 @@ def get_annotations(request):
 
 def save_annotations(request):
 	try:
+		user = request.user
 		print(request)
 		#TODO: Validation
 		pk = request.POST.get('pk')
@@ -477,6 +479,7 @@ def save_annotations(request):
 				annotation.label_text = label_text
 			if annotation.label_color != label_color:
 				annotation.label_color = label_color
+			annotation.user = user
 			annotation.save()
 			return HttpResponse(status = 200)
 		else:
@@ -486,7 +489,7 @@ def save_annotations(request):
 				label_position_y = label_position_y,
 				label_text = label_text,
 				label_color = label_color,
-				vis_request = VisRequest.objects.get(pk=request.POST.get('vis_request_id')))
+				vis_request = VisRequest.objects.get(pk=request.POST.get('vis_request_id')),user = user)
 			annotation.save()
 			return HttpResponse(status = 201)
 	except Exception as e:

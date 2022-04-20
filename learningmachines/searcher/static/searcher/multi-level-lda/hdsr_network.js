@@ -13,10 +13,10 @@ var bubblePathMap = new Map();
 var highlightedLabelNode;
 var vis_request_id;
 var networkGraphNotes = {
-	"notes":[],
+	"notes": [],
 	"activeTopic": ""
 };
-
+var defaultColors = d3.schemePaired;
 function renderNetwork(formattedData, meta) {
 	var label_show_cutoff = 0;
 	var label_font_size = 8;
@@ -243,14 +243,24 @@ function renderNetwork(formattedData, meta) {
 	networkGraph.on("tap", "node", function (evt) {
 		const node = evt.target;
 		const nodeId = node._private.data.id;
+		const note = networkGraphNotes.notes.find(note => note.labelId == highlightedLabelNode);
 
-		if (nodeId.includes('notelabel')) {
+		if (nodeId.includes('notelabel')) {			
+			if(!networkGraphNotes.notes.find(note => note.labelId == nodeId).canEdit) {
+				alert('You do not have permission to edit this note!');
+				return;
+			}
 			if (isGraphDirty(nodeId) && !isCurrentNote(nodeId)) {
 				alert('Please save your current note before creating/editing another one!');
+				$('#notes-list').val(highlightedLabelNode);
+
 			} else {
 				if (highlightedLabelNode == nodeId) {
 					// unselectNote()
-					// Empty sets
+					// Empty sets 
+					if (!note) {
+						alert('Discard or save changes before deselecting the note');
+					}
 					newPathEdgeSet.clear();
 					newPathEdgeSet.clear();
 					newPath = undefined;
@@ -258,7 +268,9 @@ function renderNetwork(formattedData, meta) {
 					currentLabelId = undefined;
 					highlightedLabelNode = undefined;
 					$('#note-label-input').val('');
-					$('#note-color-input').val('#000000');
+					$('#notes-list').val('Notes');
+					const colorIndex = Math.floor(Math.random() * 12);
+					$('#note-color-input').val(defaultColors[colorIndex]);
 					networkGraph.$(`#${nodeId}`).style('color', 'black');
 				} else {
 					highlightedLabelNode = nodeId;
@@ -266,8 +278,8 @@ function renderNetwork(formattedData, meta) {
 					networkGraph.$(`#${nodeId}`).style('color', 'yellow');
 					$('#note-label-input').val(node._private.style.label.strValue);
 					$('#note-color-input').val(rgbToHex(...node._private.style['text-background-color'].value));
+					$('#notes-list').val(nodeId);
 					// editNote(noteId);
-
 				}
 			}
 
@@ -275,9 +287,8 @@ function renderNetwork(formattedData, meta) {
 		}
 
 		if (highlightedLabelNode) {
-			const note = networkGraphNotes.notes.find(note => note.labelId == highlightedLabelNode);
 			const nodes = networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id));
-			const edges = networkGraph.nodes().filter(node => note.edges.includes(node._private.data.id));
+			const edges = networkGraph.edges().filter(node => note.edges.includes(node._private.data.id));
 			edges.forEach(edge => newPathEdgeSet.add(edge));
 			nodes.forEach(node => newPathNodeSet.add(node));
 			newPath = bubblePathMap.get(highlightedLabelNode);
@@ -302,6 +313,17 @@ function renderNetwork(formattedData, meta) {
 	//networkGraph.fit()
 	networkGraph.resize();
 
+	$('#notes-list').change(e => {
+		const nodeId = e.target.value;
+		networkGraph.$(`#${nodeId}`).emit('tap');
+		// const note = networkGraphNotes.notes.find(note => note.labelId == nodeId);
+		// highlightedLabelNode = nodeId;
+		// currentLabelId = nodeId;
+		// networkGraph.$(`#${nodeId}`).style('color', 'yellow');
+		// $('#note-label-input').val(node._private.style.label.strValue);
+		// $('#note-color-input').val(rgbToHex(...node._private.style['text-background-color'].value));
+	});
+
 	function componentToHex(c) {
 		var hex = c.toString(16);
 		return hex.length == 1 ? "0" + hex : hex;
@@ -322,18 +344,23 @@ function renderNetwork(formattedData, meta) {
 	function buildBubblePath(newPathNodeSet, newPathEdgeSet, oldPath, isEdit = false) {
 		const labelColor = $('#note-color-input').val();
 		const inputLabel = $('#note-label-input').val();
-		const labelText = !inputLabel || inputLabel == '' ? 'This is a default annotation label.' : inputLabel;
+		const labelText = !inputLabel || inputLabel == '' ? 'New Note' : inputLabel;
 
 		const existingPaths = bubblePaths.getPaths();
 
-		//TODO: Use UUID to avoid collisions
-		const labelId = currentLabelId ? currentLabelId : `notelabel-${networkGraphNotes.notes.length}-${new Date().getTime()}`;
-		currentLabelId = labelId;
+		//TODO: Use UUID to avoid collisions;
+		let labelId;
 		let oldLabelPosition = undefined;
-		if (existingPaths.some(path => path == oldPath)) {
-			bubblePaths.removePath(oldPath);
+		if(currentLabelId) {
+			labelId = currentLabelId;
 			oldLabelPosition = networkGraph.$(`#${labelId}`)[0]._private.position;
 			networkGraph.remove(`[id = "${labelId}"]`);
+		} else {
+			labelId = `notelabel-${networkGraphNotes.notes.length}-${new Date().getTime()}`;
+		}
+		currentLabelId = labelId;
+		if (existingPaths.some(path => path == oldPath)) {
+			bubblePaths.removePath(oldPath);
 		}
 		let path = undefined;
 		if (newPathNodeSet.size || newPathEdgeSet.size) {
@@ -377,7 +404,8 @@ function renderNetwork(formattedData, meta) {
 
 	function createBStyle(the_color) {
 		return {
-			'fill': the_color
+			'fill': the_color,
+			'opacity': 1
 		};
 	}
 
