@@ -121,7 +121,8 @@ class Annotation(models.Model):
     label_color = models.CharField(max_length=20, default='')
     note_id = models.CharField(max_length=50, default='')
     active_topic = models.CharField(max_length=50, default='', blank=True)
-    vis_request = models.ForeignKey(VisRequest, on_delete=models.CASCADE) 
+    vis_request = models.ForeignKey(VisRequest, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
     def __str__(self):
         return 'note_id:{} label_text:{}'.format(self.note_id, self.label_text)
    
