@@ -29,7 +29,7 @@ $('#s-a-b').on("click", function (e) {
 	if (newPath) {
 		saveNote();
 		resetNotesMenu();
-	} else if($('#notes-list').val() != 'Notes') {
+	} else if ($('#notes-list').val() != 'Notes') {
 		const note = networkGraphNotes.notes.find(note => note.labelId == highlightedLabelNode);
 		const nodes = networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id));
 		const edges = networkGraph.edges().filter(node => note.edges.includes(node._private.data.id));
@@ -39,8 +39,9 @@ $('#s-a-b').on("click", function (e) {
 		saveNote();
 		resetNotesMenu();
 	}
-	else{
-		alert('Please create a note before saving!');
+	else {
+		$('#note-error-body').text('Please create a note before saving!');
+		$('#note-error').toast('show');
 	}
 });
 
@@ -98,13 +99,16 @@ $('#r-a-b').on("click", async function (e) {
 					}
 				},
 				success: () => {
-					alert('deleted');
+					$('#note-success-body').text('Note deleted!');
+					$('#note-success').toast('show');
+					// alert('Note deleted!');
 					networkGraph.remove(`[id = "${highlightedLabelNode}"]`);
 					removeAnnotation();
 				},
 				contentType: 'application/json'
 			}).fail((error) => {
-				alert('Error while deleting note');
+				$('#note-error-body').text('Error while deleting note!');
+				$('#note-error').toast('show');
 				console.log('Error while deleting note', error);
 			});
 		} else {
@@ -127,7 +131,7 @@ $('#note-label-input').on("change", function (e) {
 $('#note-color-input').on("change", function (e) {
 	const labelNode = networkGraph.$(`#${currentLabelId}`);
 	let path = undefined;
-	if(!newPath && currentLabelId) {
+	if (!newPath && currentLabelId) {
 		path = bubblePathMap.get(currentLabelId);
 	} else {
 		path = newPath;
@@ -235,7 +239,6 @@ async function saveNote() {
 	// 	}
 	// });
 	await $.post(`${annotation_api.post}/`, note, () => {
-		alert('Note Saved!');
 		note.canEdit = true;
 		note.pk = vis_request_id;
 		networkGraphNotes.notes.push(note);
@@ -245,8 +248,11 @@ async function saveNote() {
 			notesList.add(option);
 		}
 		labelNode.style('color', 'black');
+		$('#note-success-body').text('Note Saved!');
+		$('#note-success').toast('show');
 	}).fail((error) => {
-		alert('Error while saving note');
+		$('#note-error-body').text('Error while saving note!');
+		$('#note-error').toast('show');
 		console.log('Error while saving note', error);
 	});
 	console.log(networkGraphNotes);
@@ -278,7 +284,7 @@ function getSavedNotes() {
 function showSavedNotes() {
 	const notesList = document.getElementById('notes-list').options;
 	networkGraphNotes.notes.forEach((note) => {
-		if(note.canEdit) {
+		if (note.canEdit) {
 			notesList.add(new Option(note.labelText, note.labelId));
 		}
 		const nodes = note.nodes.length ? networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id)) : null;
@@ -287,7 +293,7 @@ function showSavedNotes() {
 		const path = bubblePaths.addPath(nodes, edges, null, {
 			//drawPotentialArea: true,
 			virtualEdges: true,
-			style: { 'fill': note.labelColor }
+			style: { 'fill': note.labelColor, 'opacity': 0.6 }
 		});
 		bubblePathMap.set(labelId, path);
 		// TODO: Extract to function and reuse
@@ -305,7 +311,6 @@ function createLabel(labelId, labelText, labelColor, labelPosition) {
 			type: 'triangle',
 			id: labelId,
 			label: labelText,
-			color: 'yellow',
 			size: 30
 		},
 		position: labelPosition,
@@ -314,6 +319,7 @@ function createLabel(labelId, labelText, labelColor, labelPosition) {
 
 	networkGraph.$(`#${labelId}`).style({
 		'text-halign': 'center',
+		'border-opacity': 0,
 		'background-opacity': 0,
 		'border-width': 0,
 		'font-size': 20,
@@ -321,9 +327,11 @@ function createLabel(labelId, labelText, labelColor, labelPosition) {
 		'text-background-color': labelColor,
 		'text-background-opacity': .5,
 		'text-background-shape': "rectangle",
-		'background-color': "yellow",
 		'text-wrap': 'wrap',
-		"text-max-width": 80
+		"text-max-width": 80,
+		"text-valign": "center",
+		"events":"yes",
+		"text-events": "yes",
 	});
 }
 

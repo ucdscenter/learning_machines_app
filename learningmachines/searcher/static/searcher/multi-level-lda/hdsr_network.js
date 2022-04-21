@@ -247,19 +247,23 @@ function renderNetwork(formattedData, meta) {
 
 		if (nodeId.includes('notelabel')) {			
 			if(!networkGraphNotes.notes.find(note => note.labelId == nodeId).canEdit) {
-				alert('You do not have permission to edit this note!');
+				$('#note-error-body').text('You do not have permission to edit this note!');
+				$('#note-error').toast('show');
 				return;
 			}
 			if (isGraphDirty(nodeId) && !isCurrentNote(nodeId)) {
-				alert('Please save your current note before creating/editing another one!');
+				$('#note-error-body').text('Please save or discard your current note before creating/editing another one!');
+				$('#note-error').toast('show');
 				$('#notes-list').val(highlightedLabelNode);
 
 			} else {
 				if (highlightedLabelNode == nodeId) {
 					// unselectNote()
 					// Empty sets 
-					if (!note) {
-						alert('Discard or save changes before deselecting the note');
+					if ((note && note.draft == true) || !note) {
+						$('#note-error-body').text('Discard or save changes before deselecting the note!');
+						$('#note-error').toast('show');
+						return;
 					}
 					newPathEdgeSet.clear();
 					newPathEdgeSet.clear();
@@ -375,7 +379,6 @@ function renderNetwork(formattedData, meta) {
 					type: 'triangle',
 					id: labelId,
 					label: labelText,
-					color: 'yellow',
 					size: 30
 				},
 				position: labelPosition,
@@ -384,6 +387,7 @@ function renderNetwork(formattedData, meta) {
 			bubblePathMap.set(labelId, path);
 			networkGraph.$(`#${labelId}`).style({
 				'text-halign': 'center',
+				'border-opacity': 0,
 				'background-opacity': 0,
 				'border-width': 0,
 				'font-size': 20,
@@ -391,9 +395,10 @@ function renderNetwork(formattedData, meta) {
 				'text-background-color': labelColor,
 				'text-background-opacity': .5,
 				'text-background-shape': "rectangle",
-				'background-color': "yellow",
 				'text-wrap': 'wrap',
-				"text-max-width": 80
+				'text-max-width': 80,
+				'events': 'yes',
+				'text-events': 'yes'
 			});
 			if (isEdit) {
 				networkGraph.$(`#${labelId}`).style('color', 'yellow');
@@ -405,7 +410,7 @@ function renderNetwork(formattedData, meta) {
 	function createBStyle(the_color) {
 		return {
 			'fill': the_color,
-			'opacity': 1
+			'opacity': 0.6
 		};
 	}
 
