@@ -1,3 +1,4 @@
+import email
 from django.shortcuts import render
 from learningmachines.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
@@ -443,7 +444,7 @@ def get_annotations(request):
 				'activeTopic': annotation.active_topic,
 				'visRequest': annotation.vis_request.pk,
 				'pk': annotation.pk,
-				'canEdit': annotation.user == request.user
+				'canEdit': annotation.user == request.user or (annotation.user is not None and annotation.user.email == request.user.email)
 			}
 			response['notes'].append(formatted)
 
