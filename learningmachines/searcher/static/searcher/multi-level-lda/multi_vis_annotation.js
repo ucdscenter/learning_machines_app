@@ -26,7 +26,8 @@ $('#e-a-b').on("click", function (e) {
 });
 
 $('#s-a-b').on("click", function (e) {
-	if (newPath) {
+	const labelTextInput = $('#note-label-input').val();
+	if (newPath || (labelTextInput && labelTextInput != '')) {
 		saveNote();
 		resetNotesMenu();
 	} else if ($('#notes-list').val() != 'Notes') {
@@ -38,8 +39,7 @@ $('#s-a-b').on("click", function (e) {
 		newPath = bubblePathMap.get(highlightedLabelNode);
 		saveNote();
 		resetNotesMenu();
-	}
-	else {
+	} else {
 		$('#note-error-body').text('Please create a note before saving!');
 		$('#note-error').toast('show');
 	}
@@ -99,7 +99,7 @@ $('#r-a-b').on("click", async function (e) {
 					}
 				},
 				success: () => {
-					$('#note-success-body').text('Note deleted!');
+					$('#note-success-body').text('Note deleted successfully!');
 					$('#note-success').toast('show');
 					// alert('Note deleted!');
 					networkGraph.remove(`[id = "${highlightedLabelNode}"]`);
@@ -248,7 +248,7 @@ async function saveNote() {
 			notesList.add(option);
 		}
 		labelNode.style('color', 'black');
-		$('#note-success-body').text('Note Saved!');
+		$('#note-success-body').text('Note saved successfully!');
 		$('#note-success').toast('show');
 	}).fail((error) => {
 		$('#note-error-body').text('Error while saving note!');
@@ -290,12 +290,14 @@ function showSavedNotes() {
 		const nodes = note.nodes.length ? networkGraph.nodes().filter(node => note.nodes.includes(node._private.data.id)) : null;
 		const edges = note.edges.length ? networkGraph.nodes().filter(node => note.edges.includes(node._private.data.id)) : null;
 		const labelId = note.labelId;
-		const path = bubblePaths.addPath(nodes, edges, null, {
-			//drawPotentialArea: true,
-			virtualEdges: true,
-			style: { 'fill': note.labelColor, 'opacity': 0.6 }
-		});
-		bubblePathMap.set(labelId, path);
+		if (nodes || edges) {
+			const path = bubblePaths.addPath(nodes, edges, null, {
+				//drawPotentialArea: true,
+				virtualEdges: true,
+				style: { 'fill': note.labelColor, 'opacity': 0.6 }
+			});
+			bubblePathMap.set(labelId, path);
+		}
 		// TODO: Extract to function and reuse
 		createLabel(labelId, note.labelText, note.labelColor, note.labelPosition);
 	});
@@ -330,7 +332,7 @@ function createLabel(labelId, labelText, labelColor, labelPosition) {
 		'text-wrap': 'wrap',
 		"text-max-width": 80,
 		"text-valign": "center",
-		"events":"yes",
+		"events": "yes",
 		"text-events": "yes",
 	});
 }
