@@ -104,7 +104,6 @@ function renderNetwork(formattedData, meta) {
 	let preLim = KL_LIMIT;
 	output.innerHTML = KL_LIMIT;
 	slide.onchange = function () {
-
 		output.innerHTML = this.value / multiplier;
 		KL_LIMIT = this.value / multiplier;
 		if (KL_LIMIT > preLim) {
@@ -113,30 +112,17 @@ function renderNetwork(formattedData, meta) {
 		}
 		if (KL_LIMIT < preLim) {
 			console.log("REMOVING");
-
 			addLinks();
 		}
 		preLim = KL_LIMIT;
 	};
 
 	function addLinks() {
-		let count_added = 0;
-		formattedData.edges.forEach(function (d) {
-			if (d.data.weight > KL_LIMIT) {
-				count_added++;
-				//console.log(networkGraph.getElementById(d.data.id).length)
-				//if (networkGraph.getElementById(d.data.id).length == 0){
-				networkGraph.add({ group: 'edges', data: d.data });
-				//}
-			}
-
-		});
-		console.log("added");
-		console.log(count_added);
+		networkGraph.elements('edge[weight > ' + KL_LIMIT + ']').style('display', 'element');
 	}
 
 	function removeLinks() {
-		networkGraph.elements('edge[weight < ' + KL_LIMIT + ']').remove();
+		networkGraph.elements('edge[weight < ' + KL_LIMIT + ']').style('display', 'none')
 	}
 
 	networkGraph = cytoscape({
