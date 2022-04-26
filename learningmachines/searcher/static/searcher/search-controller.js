@@ -1169,6 +1169,10 @@ function getCookie(name) {
 	
 let DATABASES = 
               {
+          'News_Articles' : {
+            'options' : [],
+            'name' : "News Articles"
+          },
           'SEC_Texts' : {
             'options' : [],
             'name' : 'Form 8K Sample'
