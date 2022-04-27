@@ -41,13 +41,14 @@ except:
 	    'SESSION_TOKEN' : None
 	}
 
-	DB_ENV = 'PRODUCTION' #'LOCAL', 'PRODUCTION'
+	DB_ENV = 'PRODUCTION' #'LOCAL', 'DEV'
 
 	DEV_DB_PROFILE = {
 		'user' : 'zhaowezra',#'zhaowezra',
 		'password' : rds_password
 	}
-	DEBUG_SETTING = True #False
+
+	DEBUG_SETTING = False
 
 	DJANGO_SECRET = django_secret
 

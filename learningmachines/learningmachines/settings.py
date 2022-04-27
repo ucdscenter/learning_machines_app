@@ -31,9 +31,7 @@ SECRET_KEY = DJANGO_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False
-
-#ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40', 'test.modelofmodels.io']
+DEBUG = DEBUG_SETTING
 
 
 ALLOWED_HOSTS = ["*"]

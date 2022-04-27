@@ -23,5 +23,7 @@ urlpatterns = [
 	path('load_formatted/', views.load_formatted, name='load_formatted'),
 	path('proxy_static/', views.proxy_static, name='proxy_static'),
 	path('projects/', views.projects, name='projects'),
-	
-]
+	path('vis/get_annotations/',views.get_annotations,name="get_annotations"),
+	path('vis/save_annotations/',views.save_annotations,name="save_annotations"),
+	path('vis/delete_annotation/',views.delete_annotation,name="delete_annotation")
+	]

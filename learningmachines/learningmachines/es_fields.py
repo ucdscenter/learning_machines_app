@@ -1,5 +1,6 @@
 ES_FIELDS = {
     'index': {
+        'News_Articles': 'all-the-news',
         'SEC_Texts': 'sec_texts',
         'China_news' : 'china_newstranscripts',
         'Care_Reviews':'care_reviews',
@@ -36,6 +37,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'nynpo_taxforms'
     },
     'id': {
+        'News_Articles': 'id',
         'SEC_Texts': 'id',
         'China_news' : 'id',
         'Care_Reviews':'UUID',
@@ -72,6 +74,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'ein' 
     },
     'abstract': {
+        'News_Articles': 'title',
         'SEC_Texts': 'title',
         'China_news' : 'description',
         'Care_Reviews':'reviewText',
@@ -106,6 +109,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'text'
     },
     'full_text': {
+        'News_Articles': 'article',
         'SEC_Texts': 'text',
         'China_news' : 'text',
         'Care_Reviews':'reviewText',
@@ -144,6 +148,7 @@ ES_FIELDS = {
     },
     'doc_title' :
         {
+        'News_Articles': 'title',
         'SEC_Texts': 'title',
         'china_newstranscripts' : 'title',
         'China_news' : 'title',
@@ -182,6 +187,7 @@ ES_FIELDS = {
         },
     'author' :
         {
+        'News_Articles': 'author',
         'SEC_Texts': 'title',
         'China_news' : 'program',
         'Care_Reviews':'dataSource',
@@ -202,6 +208,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'title'
         },
     'date': {
+        'News_Articles': 'date',
         'SEC_Texts': 'date',
         'China_news' : 'date',
         'Care_Reviews':'reviewDate',
@@ -242,6 +249,7 @@ ES_FIELDS = {
         'foster_encounter': 'note'
     },
     'info': {
+        'News_Articles': ['title', 'url', 'publication', 'section'],
         'SEC_Texts': ['title', 'date'],
         'china_newstranscripts' : ['title', 'date', 'program'],
         'China_news' : ['title', 'date', 'program'],
@@ -277,7 +285,7 @@ ES_FIELDS = {
     }
 }
 MAX_NUM_DOC_VIS = {
-
+    'News_Articles': 22000,
     'SEC_Texts': 22000,
     'china_newstranscripts' : 189000,
     'China_news' : 189000,
