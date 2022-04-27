@@ -1,4 +1,15 @@
+
+
 let database_years = {
+
+	'News_Articles': {
+		"2016":604511,
+		"2017":640493,
+		"2018":553588,
+		"2019":655456,
+		"2020":234830,
+	},
+	
 	'SEC_Texts' :
 	{
 	"2019": 953,
@@ -275,3 +286,5 @@ let database_years = {
 "NYNPO_taxforms" : {'2019': 37302, '2020': 7007},
 
 }
+
+console.log(database_years)

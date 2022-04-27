@@ -12,13 +12,13 @@ CELERY_SETTINGS = {
 
 }
 
-
+"""
 BROKER_URL = 'sqs://{access_key}:{secret_key}@'.format(
     access_key=safequote(credentials.access_key),
     secret_key=safequote(credentials.secret_key),
     #token=safequote(credentials.token) if credentials.token is not None else ''
 )
-
+"""
 BROKER_URL = 'sqs://'
 BROKER_TRANSPORT_OPTIONS = {
     'region': 'us-east-2',

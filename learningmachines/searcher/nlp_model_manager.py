@@ -91,13 +91,18 @@ class NLPModelManager:
 		for d in docs:
 			corpus_docs.append(d)
 		print(os.listdir("."))
+		print(os.getcwd())
+		print(os.listdir("searcher"))
 		if os.path.exists(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"]):
 			return
 		else:
 			os.mkdir(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"])
 		for seed in range(0, 600, 100):
 			try:
-				self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed, callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
+				alpha, beta = 'symmetric', 'auto'
+				print(alpha)
+				print(beta)
+				self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha=alpha, eta=beta, passes=NUM_PASSES, random_state=seed, callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
 				self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] +  "/model_" + str(seed))
 			except QueryCancelledException:
 				if os.path.exists(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name']) and os.path.isdir(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name']):
