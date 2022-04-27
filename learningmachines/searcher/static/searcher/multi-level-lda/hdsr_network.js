@@ -107,11 +107,9 @@ function renderNetwork(formattedData, meta) {
 		output.innerHTML = this.value / multiplier;
 		KL_LIMIT = this.value / multiplier;
 		if (KL_LIMIT > preLim) {
-			console.log("ADDING");
 			removeLinks();
 		}
 		if (KL_LIMIT < preLim) {
-			console.log("REMOVING");
 			addLinks();
 		}
 		preLim = KL_LIMIT;
