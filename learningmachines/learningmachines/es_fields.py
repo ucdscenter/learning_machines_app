@@ -171,6 +171,7 @@ ES_FIELDS = {
         'CCHMC' : 'NoteID',
         'TED' : 'Name',
         'Pulmonary': 'NoteID',
+        'Ehealth_Threads': 'entry_id', 
         'Cannabis_News': 'link', 
         'Pubmed_COI': 'article',
         'Reddit' : 'ID',
