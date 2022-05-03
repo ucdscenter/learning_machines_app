@@ -81,7 +81,8 @@
 		.text(function(d, i){
 
 			if(i == 0){
-				let page_str = "pg. " + d[2]
+				let page_str = ""
+				//let page_str = "pg. " + d[2]
 				if (d[2] == undefined){
 					page_str = ""
 				}
@@ -112,12 +113,12 @@
 				return a.data.id - b.data.id;
 			})
 		})
-		header.append("th").attr("scope", "col").text("#para, #docs").on("click", function(d){
+		header.append("th").attr("scope", "col").text( "documents").on("click", function(d){
 			ctr.sort(function(a,b){
 				return (b.data.docsCount[0] + b.data.docsCount[1]) - (a.data.docsCount[0] + a.data.docsCount[1])
 			})
 		})
-		header.append("th").attr("scope", "col").attr("id", "topics_th").text("# topics").on("click", function(d){
+		header.append("th").attr("scope", "col").attr("id", "topics_th").text("topics").on("click", function(d){
 			ctr.sort(function(a,b){
 				return b.data.subtopics.length - a.data.subtopics.length;
 			})
@@ -145,7 +146,7 @@
 			})
 
 		var ctd = ctr.selectAll("td").data(function(d, i){
-			return [d.data.id, d.data.docsCount, d.data.subtopics.length, d.data.label]
+			return [d.data.id, d.data.docsCount[1], d.data.subtopics.length, d.data.label]
 		})
 		.enter()
 		.append("td").text(function(d){

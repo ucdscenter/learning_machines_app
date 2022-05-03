@@ -1,5 +1,6 @@
 ES_FIELDS = {
     'index': {
+        'Poetry_Foundation' : 'poetry-foundation',
         'News_Articles': 'all-the-news',
         'SEC_Texts': 'sec_texts',
         'China_news' : 'china_newstranscripts',
@@ -37,6 +38,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'nynpo_taxforms'
     },
     'id': {
+        'Poetry_Foundation' : 'pmid',
         'News_Articles': 'id',
         'SEC_Texts': 'id',
         'China_news' : 'id',
@@ -74,6 +76,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'ein' 
     },
     'abstract': {
+        'Poetry_Foundation' : 'text',
         'News_Articles': 'title',
         'SEC_Texts': 'title',
         'China_news' : 'description',
@@ -109,6 +112,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'text'
     },
     'full_text': {
+        'Poetry_Foundation' : 'text',
         'News_Articles': 'article',
         'SEC_Texts': 'text',
         'China_news' : 'text',
@@ -148,6 +152,7 @@ ES_FIELDS = {
     },
     'doc_title' :
         {
+        'Poetry_Foundation' : 'title',
         'News_Articles': 'title',
         'SEC_Texts': 'title',
         'china_newstranscripts' : 'title',
@@ -188,6 +193,7 @@ ES_FIELDS = {
         },
     'author' :
         {
+        'Poetry_Foundation' : 'author',
         'News_Articles': 'author',
         'SEC_Texts': 'title',
         'China_news' : 'program',
@@ -209,6 +215,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'title'
         },
     'date': {
+        'Poetry_Foundation' : 'date',
         'News_Articles': 'date',
         'SEC_Texts': 'date',
         'China_news' : 'date',
@@ -250,6 +257,7 @@ ES_FIELDS = {
         'foster_encounter': 'note'
     },
     'info': {
+        'Poetry_Foundation' : ['title', 'author'],
         'News_Articles': ['title', 'url', 'publication', 'section'],
         'SEC_Texts': ['title', 'date'],
         'china_newstranscripts' : ['title', 'date', 'program'],
@@ -286,6 +294,7 @@ ES_FIELDS = {
     }
 }
 MAX_NUM_DOC_VIS = {
+    'Poetry_Foundation' : 16000,
     'News_Articles': 22000,
     'SEC_Texts': 22000,
     'china_newstranscripts' : 189000,

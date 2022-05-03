@@ -158,7 +158,7 @@ def process_search(request):
 	return HttpResponse(json.dumps(rslts), content_type="application/json")
 
 
-@access_required('all')
+#@access_required('all')
 def get_doc(request):
 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}
 	if permiss(qry_str['database'], request) == False:

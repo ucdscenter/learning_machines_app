@@ -5,6 +5,7 @@ import json
 
 
 try:
+	#this is if you are using a user defined credentials.py file, it will override these values. 
 	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, RDS_ENDPOINT, S3_OBJECT, EMAIL_INFO, DEBUG_SETTING
 	print("credentials file found")
 
@@ -40,6 +41,7 @@ except:
 	    'AWS_HOST': 'search-mellon-team-02-loxyxjaof7ypdgvufsulhomyuq.us-east-2.es.amazonaws.com',
 	    'SESSION_TOKEN' : None
 	}
+
 
 	DB_ENV = 'PRODUCTION' #'LOCAL', 'DEV'
 
