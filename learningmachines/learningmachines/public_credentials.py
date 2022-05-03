@@ -62,7 +62,7 @@ except:
 	REDIS_URL= 'redis://'+ REDIS_IP +':6379' # redis://'+ 'localhost' +':6379'
 
 	S3_OBJECT = {
-		'USE_S3' : True,
+		'USE_S3' : False,
 		'BUCKET_NAME' : 'learningmachines-static',
 		'CUSTOM_DOMAIN' : f'learningmachines-static.s3.amazonaws.com'
 	}
