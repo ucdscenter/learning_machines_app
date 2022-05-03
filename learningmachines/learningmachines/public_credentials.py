@@ -42,6 +42,7 @@ except:
 	    'SESSION_TOKEN' : None
 	}
 
+
 	DB_ENV = 'PRODUCTION' #'LOCAL', 'DEV'
 
 	DEV_DB_PROFILE = {
@@ -49,7 +50,7 @@ except:
 		'password' : rds_password
 	}
 
-	DEBUG_SETTING = True
+	DEBUG_SETTING = False
 
 	DJANGO_SECRET = django_secret
 
