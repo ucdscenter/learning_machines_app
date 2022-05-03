@@ -5,6 +5,7 @@ import json
 
 
 try:
+	#this is if you are using a user defined credentials.py file, it will override these values. 
 	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, RDS_ENDPOINT, S3_OBJECT, EMAIL_INFO, DEBUG_SETTING
 	print("credentials file found")
 
@@ -48,7 +49,7 @@ except:
 		'password' : rds_password
 	}
 
-	DEBUG_SETTING = False
+	DEBUG_SETTING = True
 
 	DJANGO_SECRET = django_secret
 
@@ -62,7 +63,7 @@ except:
 	REDIS_URL= 'redis://'+ REDIS_IP +':6379' # redis://'+ 'localhost' +':6379'
 
 	S3_OBJECT = {
-		'USE_S3' : False,
+		'USE_S3' : True,
 		'BUCKET_NAME' : 'learningmachines-static',
 		'CUSTOM_DOMAIN' : f'learningmachines-static.s3.amazonaws.com'
 	}
