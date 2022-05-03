@@ -421,14 +421,14 @@ function clusterSelect(clusterData) {
 		"border-color": "#ffa500",
 		"border-width": 3
 	});
-	networkGraph.animate({
+	/*networkGraph.animate({
 		fit: {
 			eles: j,
 			padding: 40
 		}
 	}, {
 		duration: 500
-	});
+	});*/
 
 }
 var prev;
@@ -461,14 +461,14 @@ function topicSelect(topicData, animate = true) {
 	let jj = networkGraph.elements("node[cluster = " + topicData.cluster + "]");
 	//todo : add network refitting on first click
 	if (animate) {
-		networkGraph.animate({
+		/*networkGraph.animate({
 			fit: {
 				eles: jj,
 				padding: 40
 			}
 		}, {
 			duration: 500
-		});
+		});*/
 
 	}
 }

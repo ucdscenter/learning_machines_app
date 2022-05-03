@@ -20,6 +20,13 @@ TCP 1500
 ACJ 20000*/
 
 var database_runtimes = {
+
+  	'Poetry_Foundation' : {
+		"a" : 0,
+		"b" : 0,
+		"count" : 15652,
+		"max" : 15652
+  	},
 	'News_Articles' : {
 		"a" : 0,
    		"b" : 0,

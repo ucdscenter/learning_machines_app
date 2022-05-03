@@ -1190,6 +1190,11 @@ $.ajaxSetup({
 
 let DATABASES =
 {
+
+  'Poetry_Foundation' : {
+    'options': [],
+    'name': "Poetry Foundation"
+  },
   'News_Articles': {
     'options': [],
     'name': "News Articles"

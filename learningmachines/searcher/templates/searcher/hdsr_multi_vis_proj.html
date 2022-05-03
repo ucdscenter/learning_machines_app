@@ -138,8 +138,8 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav" align="left">
-        <li class="nav-item"><a class="nav-link" id="annotation-button">Notes Mode </a></li>
-        <li class="nav-item hidden" id='e-a-b'><a class="nav-link" id="end-annotation-button">End Notes Mode</a></li>
+        <li class="nav-item" style="cursor: pointer;"><a class="nav-link" id="annotation-button">Notes Mode </a></li>
+        <li class="nav-item hidden" id='e-a-b' style="cursor: pointer;"><a class="nav-link" id="end-annotation-button">End Notes Mode</a></li>
       </ul>
 
     </div>
@@ -273,7 +273,7 @@
               <!--<h6>Triangle-sentence</h6>-->
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary active">
-                  <input type="radio" name="options" id="tree-btn" autocomplete="off" checked> Tree <i
+                  <input type="radio" name="options" id="tree-btn" autocomplete="off" > Tree <i
                     data-container="body" data-toggle="popover" data-placement="bottom"
                     data-content="Shows clustered topics from the 6 models in a hierarchical tree form with the root as model->cluster->topic->words. Colored by cluster. Cluster circle sizes are the sum of topics weights in their cluster. Topic circle sizes are the topic weights."
                     class="center_icon_h3 material-icons ">info_outlined</i>
@@ -285,7 +285,7 @@
                     class="material-icons center_icon_h3">info_outlined</i>
                 </label>
                 <label class="btn btn-secondary">
-                  <input type="radio" name="options" id="network-btn" autocomplete="off"> Network <i
+                  <input type="radio" name="options" id="network-btn" autocomplete="off" checked> Network <i
                     data-container="body" data-toggle="popover" data-placement="bottom"
                     data-content="This graph shows two sets of relationships between each of the topics in each of the models. Each node in the graph is a topic. Each edge is the number of documents that appear in within the two topics. The node locations are projected onto a 2d vector space made up of each topic's word distribution, then reduced to 2-dimensions with pca."
                     class="material-icons center_icon_h3">info_outlined</i>
@@ -296,12 +296,12 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-12 fixedheight" id="tree-graph-div" style="overflow: auto;">
+            <div class="col-12 hidden fixedheight" id="tree-graph-div" style="overflow: auto;">
             </div>
             <div class="col-12 hidden fixedheight" id="circle-graph-div" style="overflow: auto">
               <p> Selected word: <span id="word_label"> none</span></p>
             </div>
-            <div class="col-12 hidden fixedheight" id="network-graph-div" style="overflow: auto;">
+            <div class="col-12 fixedheight" id="network-graph-div" style="overflow: auto;">
               <div class="row">
                 <div class="col-2">
                   <p> Doc-link limit:<span id="kl_label"></span></p>
