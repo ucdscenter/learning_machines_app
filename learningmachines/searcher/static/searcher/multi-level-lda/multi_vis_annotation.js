@@ -7,6 +7,12 @@ const annotation_api = {
 	delete: 'delete_annotation',
 };
 
+const image_export_options = {
+	bg: "#ffffff",
+	full: true,
+	quality: 1
+}
+
 $('#annotation-button').on("click", async function (e) {
 	console.log("clicked");
 	if (annotate_mode == false) {
@@ -145,6 +151,12 @@ $('#note-color-input').on("change", function (e) {
 	}
 });
 
+$('#ex-a-b').on('click', function (e) {
+	const exportPlaceholder = document.getElementById('export-placeholder')
+	exportPlaceholder.href = networkGraph.png(image_export_options);
+	exportPlaceholder.download = 'Network';
+	exportPlaceholder.click();
+});
 
 function emptyNotesDropdown() {
 	const notesDropdown = $('#notes-list');
