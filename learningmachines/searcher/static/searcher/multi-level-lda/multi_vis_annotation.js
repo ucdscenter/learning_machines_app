@@ -152,33 +152,12 @@ $('#note-color-input').on("change", function (e) {
 });
 
 $('#ex-a-b').on('click', function (e) {
-	const exportCanvas = document.createElement('canvas');
-	const graphImage = new Image();
-	var tempImageForDimensions = new Image();
-	const bubblePathImage = new Image();
-	const bubblePathSvg = new XMLSerializer().serializeToString(bubblePaths.layer.root);
-	const bubblePathEncoded = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(bubblePathSvg);
-	exportCanvas.getContext('2d').globalCompositeOperation = "destination-atop";
-	const networkGraphExport = networkGraph.png(image_export_options);
-	tempImageForDimensions.onload = function () {
-		exportCanvas.width = tempImageForDimensions.width;
-		exportCanvas.height = tempImageForDimensions.height;
-	};
-	tempImageForDimensions.src = networkGraphExport;
-	bubblePathImage.onload = function () {
-		exportCanvas.getContext('2d').drawImage(bubblePathImage, 0, 0);
+	html2canvas(document.querySelector("#network-graph")).then(exportCanvas => {
 		const exportPlaceholder = document.getElementById('export-placeholder');
-		exportPlaceholder.download = 'Network';
-		exportPlaceholder.href = exportCanvas.toDataURL();
-		exportPlaceholder.click();
-	};
-	graphImage.onload = function () {
-		exportCanvas.getContext('2d').drawImage(graphImage, 0, 0);
-		console.log(exportCanvas.toDataURL());
-
-	};
-	graphImage.src = networkGraph.png(image_export_options);
-	bubblePathImage.src = bubblePathEncoded;
+			exportPlaceholder.download = 'Network';
+			exportPlaceholder.href = exportCanvas.toDataURL();
+			exportPlaceholder.click();
+		});
 });
 
 function emptyNotesDropdown() {
