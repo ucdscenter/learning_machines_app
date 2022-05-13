@@ -154,10 +154,20 @@ $('#note-color-input').on("change", function (e) {
 $('#ex-a-b').on('click', function (e) {
 	html2canvas(document.querySelector("#network-graph")).then(exportCanvas => {
 		const exportPlaceholder = document.getElementById('export-placeholder');
-			exportPlaceholder.download = 'Network';
-			exportPlaceholder.href = exportCanvas.toDataURL();
-			exportPlaceholder.click();
-		});
+		exportPlaceholder.download = 'Network';
+		exportPlaceholder.href = exportCanvas.toDataURL();
+		exportPlaceholder.click();
+	});
+});
+
+$('#c-m-b').on('click', function (e) {
+	$('#edit-notes-modal').hide();
+	$('#s-n-a-b').removeClass('hidden');
+});
+
+$('#s-n-a-b').on('click', function (e) {
+	$('#edit-notes-modal').show();
+	$('#s-n-a-b').addClass('hidden');
 });
 
 function emptyNotesDropdown() {
