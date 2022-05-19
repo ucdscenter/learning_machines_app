@@ -12,7 +12,8 @@ const JS = [
     'popper.js/dist/popper.js',
     'daterangepicker/daterangepicker.js',
     'moment/min/moment.min.js',
-    'three/build/three.min.js'
+    'three/build/three.min.js',
+    'html2canvas/dist/html2canvas.min.js'
 ];
 
 module.exports = {'js':JS, 'css':CSS};

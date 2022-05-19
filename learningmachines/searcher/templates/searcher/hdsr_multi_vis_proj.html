@@ -140,8 +140,8 @@
       <ul class="nav navbar-nav" align="left">
         <li class="nav-item" style="cursor: pointer;"><a class="nav-link" id="annotation-button">Notes Mode </a></li>
         <li class="nav-item hidden" id='e-a-b' style="cursor: pointer;"><a class="nav-link" id="end-annotation-button">End Notes Mode</a></li>
+        <li class="nav-item hidden" id='s-n-a-b' style="cursor: pointer;"><a class="nav-link" id="end-annotation-button">Show Notes Menu</a></li>
       </ul>
-
     </div>
 
   </nav>
@@ -177,6 +177,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Create/Edit Notes</h5>
+          <button type="button" id="c-m-b" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body" id="edit-notes-modal-body">
           <select class="form-control" id="notes-list">
@@ -195,9 +198,11 @@
           <button type="button" id="s-a-b" class="btn btn-primary">Save</button>
           <button type="button" id="r-a-b" class="btn btn-danger">Remove</button>
           <button type="button" id="d-a-b" class="btn btn-secondary">Discard</button>
+          <button type="button" id="ex-a-b" class="btn btn-info">Export</button>
         </div>
       </div>
     </div>
+    <a id="export-placeholder" class="hidden" href=""></a>
   </div>
 
   <div class="container-fluid">
@@ -366,9 +371,10 @@
   <script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
   <script src="{% static 'searcher/js/bootstrap.min.js' %}"></script>
   <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-    integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
   <script src="{% static 'searcher/js/d3.min.js' %}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.js"></script>
+  <script src="{% static 'searcher/js/html2canvas.min.js' %}"></script>
   <!--<script src="/static/searcher/d3-ring-note.js"></script>-->
   <!--<script type="text/javascript" src="{% static 'searcher/js/cytoscape.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'searcher/js/index.umd.min.js' %}"></script>-->
