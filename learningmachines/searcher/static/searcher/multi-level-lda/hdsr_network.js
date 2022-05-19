@@ -120,7 +120,7 @@ function renderNetwork(formattedData, meta) {
 	}
 
 	function removeLinks() {
-		networkGraph.elements('edge[weight < ' + KL_LIMIT + ']').style('display', 'none')
+		networkGraph.elements('edge[weight < ' + KL_LIMIT + ']').style('display', 'none');
 	}
 
 	networkGraph = cytoscape({
@@ -177,30 +177,35 @@ function renderNetwork(formattedData, meta) {
 		// console.log(nodes)
 	});
 
-	/*networkGraph.on("mouseover", "node", function(evt){
-		 let j = networkGraph.elements(evt.target)
-		 j.style("font-size", 40)
-		 //j.style("text-background-shape", 'roundrectangle')
-		 //j.style("text-background-padding", 3)
-		 j.style("z-index", 1000000)
-		 if (j.style("border-color") == 'black'){
-			   j.style("border-color", "blue")
-			   j.style("border-width", 2)
-		 }
-	})
+	networkGraph.on("mouseover", "node", function (evt) {
+		let j = networkGraph.elements(evt.target);
+		const nodeId = evt.target._private.data.id;
+		if (!nodeId.includes('notelabel')) {
+			j.style("font-size", 20);
+			//j.style("text-background-shape", 'roundrectangle')
+			//j.style("text-background-padding", 3)
+			j.style("z-index", 1000000);
+			if (j.style("border-color") == 'black') {
+				j.style("border-color", "blue");
+				j.style("border-width", 2);
+			}
+		}
+	});
 
-	networkGraph.on("mouseout", "node", function(evt){
-		 let j = networkGraph.elements(evt.target)
-		 j.style("font-size", label_font_size)
-		 //j.style("text-background-shape", 'rectangle')
-		 //j.style("text-background-padding", 0)
-		 j.style("z-index", 1)
-		 if (j.style("border-color") == 'blue'){
-			 j.style("border-color", "black")
-			 j.style("border-width", .5)
-		 }
-	})
-*/
+	networkGraph.on("mouseout", "node", function (evt) {
+		let j = networkGraph.elements(evt.target);
+		const nodeId = evt.target._private.data.id;
+		if (!nodeId.includes('notelabel')) {
+			j.style("font-size", label_font_size);
+			//j.style("text-background-shape", 'rectangle')
+			//j.style("text-background-padding", 0)
+			j.style("z-index", 1);
+			if (j.style("border-color") == 'blue') {
+				j.style("border-color", "black");
+				j.style("border-width", .5);
+			}
+		}
+	});
 
 	networkGraph.on("boxselect", "node", function (evt) {
 		let j = networkGraph.elements(evt.target);
@@ -229,8 +234,8 @@ function renderNetwork(formattedData, meta) {
 		const nodeId = node._private.data.id;
 		const note = networkGraphNotes.notes.find(note => note.labelId == highlightedLabelNode);
 
-		if (nodeId.includes('notelabel')) {			
-			if(!networkGraphNotes.notes.find(note => note.labelId == nodeId).canEdit) {
+		if (nodeId.includes('notelabel')) {
+			if (!networkGraphNotes.notes.find(note => note.labelId == nodeId).canEdit) {
 				$('#note-error-body').text('You do not have permission to edit this note!');
 				$('#note-error').toast('show');
 				return;
@@ -339,7 +344,7 @@ function renderNetwork(formattedData, meta) {
 		//TODO: Use UUID to avoid collisions;
 		let labelId;
 		let oldLabelPosition = undefined;
-		if(currentLabelId) {
+		if (currentLabelId) {
 			labelId = currentLabelId;
 			oldLabelPosition = networkGraph.$(`#${labelId}`)[0]._private.position;
 			networkGraph.remove(`[id = "${labelId}"]`);
