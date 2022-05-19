@@ -7,6 +7,12 @@ const annotation_api = {
 	delete: 'delete_annotation',
 };
 
+const image_export_options = {
+	bg: "#ffffff",
+	full: false,
+	quality: 1
+};
+
 $('#annotation-button').on("click", async function (e) {
 	console.log("clicked");
 	if (annotate_mode == false) {
@@ -145,6 +151,24 @@ $('#note-color-input').on("change", function (e) {
 	}
 });
 
+$('#ex-a-b').on('click', function (e) {
+	html2canvas(document.querySelector("#network-graph")).then(exportCanvas => {
+		const exportPlaceholder = document.getElementById('export-placeholder');
+		exportPlaceholder.download = 'Network';
+		exportPlaceholder.href = exportCanvas.toDataURL();
+		exportPlaceholder.click();
+	});
+});
+
+$('#c-m-b').on('click', function (e) {
+	$('#edit-notes-modal').hide();
+	$('#s-n-a-b').removeClass('hidden');
+});
+
+$('#s-n-a-b').on('click', function (e) {
+	$('#edit-notes-modal').show();
+	$('#s-n-a-b').addClass('hidden');
+});
 
 function emptyNotesDropdown() {
 	const notesDropdown = $('#notes-list');
