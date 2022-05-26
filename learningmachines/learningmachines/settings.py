@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from .public_credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO, DB_ENV, REDIS_URL, RDS_ENDPOINT,DEBUG_SETTING
+from .public_credentials import DJANGO_SECRET, DEV_DB_PROFILE, AWS_PROFILE, S3_OBJECT, EMAIL_INFO, DB_ENV, REDIS_URL, RDS_ENDPOINT, DEBUG_SETTING
 import os
 import sys
 import boto3
@@ -32,9 +32,10 @@ SECRET_KEY = DJANGO_SECRET
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-DEBUG = True#not S3_OBJECT['USE_S3']
+DEBUG = True  # not S3_OBJECT['USE_S3']
 
-ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io', 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40']
+ALLOWED_HOSTS = ['3.19.31.134', 'localhost', 'modelofmodels.io',
+                 'themlmom.com', 'rnlp.themlmom.com', '13.59.40.40', '127.0.0.1']
 
 # Application definition
 
@@ -61,14 +62,13 @@ MIDDLEWARE = [
 ]
 
 
-
 ROOT_URLCONF = 'learningmachines.urls'
-#['/Users/ezraedgerton/Desktop/projects/learningmachines_folder/venv3_8/lib/python3.8/site-packages/django']
+# ['/Users/ezraedgerton/Desktop/projects/learningmachines_folder/venv3_8/lib/python3.8/site-packages/django']
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'searcher','templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'searcher', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,60 +100,67 @@ if DB_ENV == 'LOCAL':
 
 
 def regenerate_token(endpoint, region='us-east-2'):
-    RDS_PORT="5432"
-    RDS_USR="zhaowezra"
-    RDS_REGION="us-east-2"
-    RDS_DBNAME="dev_db"
+    RDS_PORT = "5432"
+    RDS_USR = "zhaowezra"
+    RDS_REGION = "us-east-2"
+    RDS_DBNAME = "dev_db"
     session = BotoSession().refreshable_session()
     client = session.client('rds', region_name=region)
-    token = client.generate_db_auth_token(DBHostname=endpoint, Port=RDS_PORT, DBUsername=RDS_USR, Region=region)
+    token = client.generate_db_auth_token(
+        DBHostname=endpoint, Port=RDS_PORT, DBUsername=RDS_USR, Region=region)
     print("Regenerating token")
     return token
 
 
 if DB_ENV == 'PRODUCTION':
-    
-    RDS_PORT="5432"
-    RDS_USR="zhaowezra"
-    RDS_REGION="us-east-2"
-    RDS_DBNAME="dev_db"
+
+    RDS_PORT = "5432"
+    RDS_USR = "zhaowezra"
+    RDS_REGION = "us-east-2"
+    RDS_DBNAME = "dev_db"
     #session = BotoSession().refreshable_session()
     #client = session.client('rds', region_name=RDS_REGION)
 
     #token = client.generate_db_auth_token(DBHostname=RDS_ENDPOINT, Port=RDS_PORT, DBUsername=RDS_USR, Region=RDS_REGION)
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': 'dev_db',                 # Or path to database file if using sqlite3.
+            # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            # Or path to database file if using sqlite3.
+            'NAME': 'dev_db',
             'USER': RDS_USR,       # Not used with sqlite3.
-            'PASSWORD': DEV_DB_PROFILE['password'],#regenerate_token(RDS_ENDPOINT),      # Not used with sqlite3.
-            #'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',          
-            'HOST': RDS_ENDPOINT,                      # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': RDS_PORT,       # Set to empty string for default. Not used with sqlite3.
+            # regenerate_token(RDS_ENDPOINT),      # Not used with sqlite3.
+            'PASSWORD': DEV_DB_PROFILE['password'],
+            # 'HOST': 'mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com',
+            # Set to empty string for localhost. Not used with sqlite3.
+            'HOST': RDS_ENDPOINT,
+            # Set to empty string for default. Not used with sqlite3.
+            'PORT': RDS_PORT,
         }
     }
 
 if DB_ENV == 'DEV':
-    RDS_ENDPOINT="mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com"
-    RDS_PORT="5432"
-    RDS_USR="zhaowezra"
-    RDS_REGION="us-east-2"
-    RDS_DBNAME="dev_db"
-
+    RDS_ENDPOINT = "mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com"
+    RDS_PORT = "5432"
+    RDS_USR = "zhaowezra"
+    RDS_REGION = "us-east-2"
+    RDS_DBNAME = "dev_db"
 
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': RDS_DBNAME,       # Or path to database file if using sqlite3.
+            # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            # Or path to database file if using sqlite3.
+            'NAME': RDS_DBNAME,
             'USER': RDS_USR,                      # Not used with sqlite3.
-            'PASSWORD': DEV_DB_PROFILE['password'],#regenerate_token(RDS_ENDPOINT),           # Not used with sqlite3.
-            'HOST': RDS_ENDPOINT,                 # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': RDS_PORT, 
-            'CONN_MAX_AGE': 0  
+            # regenerate_token(RDS_ENDPOINT),           # Not used with sqlite3.
+            'PASSWORD': DEV_DB_PROFILE['password'],
+            # Set to empty string for localhost. Not used with sqlite3.
+            'HOST': RDS_ENDPOINT,
+            'PORT': RDS_PORT,
+            'CONN_MAX_AGE': 0
         }
     }
-
-
 
 
 # Password validation
@@ -174,18 +181,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#SMTP Configuration
+# SMTP Configuration
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-DEFAULT_FROM_EMAIL  = 'Learning Machines App <noreply@learningmachines.com>'
+DEFAULT_FROM_EMAIL = 'Learning Machines App <noreply@learningmachines.com>'
 EMAIL_HOST_USER = EMAIL_INFO['EMAIL_NAME']
 EMAIL_HOST_PASSWORD = EMAIL_INFO['EMAIL_PW']
-
-
 
 
 # Internationalization
@@ -208,7 +213,7 @@ USE_TZ = True
 USE_S3 = S3_OBJECT['USE_S3']
 
 
-REDIS_URL=REDIS_URL
+REDIS_URL = REDIS_URL
 print(REDIS_URL)
 
 if USE_S3:
@@ -227,4 +232,3 @@ if USE_S3:
 else:
     STATIC_URL = 'static/'
     STATIC_ROOT = 'static/'
-    
