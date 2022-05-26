@@ -1,0 +1,33 @@
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    padding: 20px;
+    grid-gap: 40px;
+}
+
+.card {
+    /* background-color: #1c1b29; */
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+.card__imageContainer { 
+    position: relative;
+}
+
+.card__image { 
+    width: 100%;
+    display: block;
+    border-radius: 20px 20px;
+}
+
+.card__imageContainer:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px 20px 0 0;
+    opacity: 0.7;
+}
