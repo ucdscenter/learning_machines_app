@@ -9,6 +9,9 @@
     /* background-color: #1c1b29; */
     border-radius: 20px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    /* display: block; */
+    overflow: hidden;
 }
 
 .card__imageContainer { 
@@ -30,4 +33,47 @@
     left: 0;
     border-radius: 20px 20px 0 0;
     opacity: 0.7;
+}
+
+.card__overlay { 
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    background-color: #fff;
+    transform: translateX(100%);
+    transition: .4s ease-in-out;
+    border-radius: 20px;
+    /* visibility: hidden; */
+}
+
+.card:hover .card__overlay {
+    transform: translateX(0);
+    visibility: visible;
+    cursor: pointer;
+    /* left: 0; */
+    /* right: 0; */
+}
+
+.card__header { 
+  align-items: center;
+  padding: 1em;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.card__thumb {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;      
+    border-radius: 50%;
+    margin-top: 0;      
+}
+
+.card__title {
+    font-size: 1em;
+    margin: 0.3em 0 .3em;
+    color: #6A515E;
 }
