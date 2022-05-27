@@ -13,6 +13,7 @@
     position: relative;
     /* display: block; */
     overflow: hidden;
+    cursor: pointer;
 }
 
 .card__imageContainer { 
@@ -48,12 +49,12 @@
     transition: .4s ease-in-out;
     border-radius: 20px;
     /* visibility: hidden; */
+    cursor: pointer;
 }
 
 .card:hover .card__overlay {
     transform: translateX(0);
     visibility: visible;
-    cursor: pointer;
     /* left: 0; */
     /* right: 0; */
 }

@@ -27,23 +27,25 @@
       <div class="tab-pane fade text-center" id="chinanews" role="tabpanel" aria-labelledby="chinanews-tab"></div>
     </div> -->
     
-      {% for model in models %}
+      {% for model, description in models.items %}
       <div class="cards">
+        <a href="/searcher/bert_method_vis/{{model}}">
         <div class="card">
           <div class="card__imageContainer">
-            <img class="card__image" alt="Las Vegas image" src="https://images.unsplash.com/photo-1550109161-7262e652bf82?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max">
+            <img class="card__image" alt={{model}} src="https://images.unsplash.com/photo-1550109161-7262e652bf82?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max">
           </div>
   
           <div class="card__overlay">
             <div class="card__header">
               <img class="card__thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="" />
                 <div class="card__header-text">
-                  <h3 class="card__title">Bert Embeddings</h3>            
-                  <span class="card__text">The model was trained using techniques of unsupervised pretraining and finetuning an existing model</span>
+                  <h3 class="card__title">{{model}}</h3>            
+                  <span class="card__text">{{description}}</span>
                 </div>
             </div>
           </div>
         </div>
+      </a>
       </div>
     {% endfor %}
     
@@ -106,8 +108,6 @@
       toBeActive.classList.add('active');
     }
   }
-
-  let models = ['bert', 'tsne', 'pca', 'pcakmeans', 'kmeanspca', 'umap']
 </script>
 {% endblock footer_javascript_page %}
 
