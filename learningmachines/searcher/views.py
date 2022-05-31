@@ -26,6 +26,8 @@ import os
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
+from learningmachines.es_fields import datasetNames
+
 SEND_WORKER = True
 
 
@@ -437,22 +439,13 @@ def searcher(request):
 
 
 @csrf_exempt
-def bert_method_vis(request, model=''):
-    context = {
-        'models': {
-            'bert': 'This is a sample description. Please elaborate later.',
-            'tsne': 'This is a sample description. Please elaborate later.',
-            'pca': 'This is a sample description. Please elaborate later.',
-            'pcakmeans': 'This is a sample description. Please elaborate later.',
-            'kmeanspca': 'This is a sample description. Please elaborate later.',
-            'umap': 'This is a sample description. Please elaborate later.'
-        }
-    }
-    if request.method == 'GET' and model is not '':
-        print(request, model)
-        return render(request, 'searcher/bert_method_vis.html', {'model': model})
-
-    return render(request, 'searcher/bert_method_vis.html', context)
+def bert_method_vis(request, dataset=''):
+    context = {'datasets': datasetNames}
+    if request.method == 'GET' and dataset == '':
+        return render(request, 'searcher/bert_method_vis.html', context)
+    elif request.method == 'GET' and dataset in context['datasets']:
+        return render(request, 'searcher/bert_method_vis.html', {'url_parameter': dataset})
+    # return render(request, 'searcher/bert_method_vis.html', context)
 
     # if request.method == 'POST':
     # 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}

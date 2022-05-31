@@ -3,44 +3,20 @@
 {% block title %}BERT Embeddings Visualization{% endblock title %}
 
 {% block content %}
-<!-- <div id="nav-wrapper">
-  <ul class="nav nav-tabs" id="myTab" role="tablist" style="border-bottom: 3px solid #ccc; padding-top: 5%; margin-bottom: 30px;">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="Care_Reviews" data-bs-toggle="tab" data-bs-target="#Care_Reviews" type="button" role="tab" aria-controls="carereviews" aria-selected="true" onclick="window.location.href= '?dataset=Care_Reviews'">Care Reviews</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="Pubmed" data-bs-toggle="tab" data-bs-target="#Pubmed" type="button" role="tab" aria-controls="pubmed" aria-selected="false" onclick="window.location.href='?dataset=Pubmed'">Pubmed</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="TCP" data-bs-toggle="tab" data-bs-target="#TCP" type="button" role="tab" aria-controls="tcp" aria-selected="false" onclick="window.location.href='?dataset=TCP'">TCP</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="China_news" data-bs-toggle="tab" data-bs-target="#China_News" type="button" role="tab" aria-controls="chinanews" aria-selected="false" onclick="window.location.href='?dataset=China_news'">China News</button>
-    </li>
-  </ul> -->
-    <!-- <h1>BERT Embeddings</h1> -->
-    
-    <!-- <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active text-center" id="carereviews" role="tabpanel" aria-labelledby="carereviews-tab"></div>
-      <div class="tab-pane fade text-center" id="pubmed" role="tabpanel" aria-labelledby="pubmed-tab"></div>
-      <div class="tab-pane fade text-center" id="tcp" role="tabpanel" aria-labelledby="tcp-tab"></div>
-      <div class="tab-pane fade text-center" id="chinanews" role="tabpanel" aria-labelledby="chinanews-tab"></div>
-    </div> -->
-    
-      {% for model, description in models.items %}
+      {% for dataset, dataset_info in datasets.items %}
       <div class="cards">
-        <a href="/searcher/bert_method_vis/{{model}}">
+        <a href="/searcher/bert_method_vis/{{dataset}}">
         <div class="card">
           <div class="card__imageContainer">
-            <img class="card__image" alt={{model}} src="https://images.unsplash.com/photo-1550109161-7262e652bf82?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max">
+            <img class="card__image" alt={{dataset}} src="https://images.unsplash.com/photo-1550109161-7262e652bf82?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max">
           </div>
   
           <div class="card__overlay">
             <div class="card__header">
               <img class="card__thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="" />
                 <div class="card__header-text">
-                  <h3 class="card__title">{{model}}</h3>            
-                  <span class="card__text">{{description}}</span>
+                  <h3 class="card__title">{{dataset}}</h3>            
+                  <span class="card__text">{{dataset_info.description}}</span>
                 </div>
             </div>
           </div>
@@ -54,9 +30,12 @@
 
   
 
-
-    <div id="vis_details" style="display: flex; flex-direction: column; align-items: center;">
-      <!-- <h2 id="data">{{ dataset_name }}</h2> -->
+      {%if url_parameter %}
+      <div style="background-color: black; height: 100vh; width: 100vw;">
+        <h1>Hello world</h1>
+      </div>
+      
+    <!-- <div id="vis_details" style="display: flex; flex-direction: column; align-items: center;">
                 <div id="my_dataviz" style="position: relative;"> 
 
                               <div class="card" style="
@@ -70,14 +49,12 @@
                                                       overflow-y: auto;">
                                         <div class="card-body">
                                           <h5 class="card-title" id="doc_title"></h5>
-                                          <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-                                          <p class="card-text" id="doc_text" style="margin: auto;"></p>
-                                          <!-- <a href="#" class="card-link">Card link</a>
-                                          <a href="#" class="card-link">Another link</a> -->
+                                          <p class="card-text" id="doc_text" style="margin: auto;">{{model}}</p>
                                         </div>
                             </div>
                 </div>
-          </div>
+          </div> -->
+      {% endif %}
 {% endblock content %}
 
 {% block footer_javascript_page %}

@@ -24,6 +24,6 @@ urlpatterns = [
     path('proxy_static/', views.proxy_static, name='proxy_static'),
     path('projects/', views.projects, name='projects'),
     path('bert_method_vis/', views.bert_method_vis, name='bert_method_vis'),
-    path('bert_method_vis/<str:model>',
+    path('bert_method_vis/<str:dataset>',
          views.bert_method_vis, name='bert_method_vis'),
 ]
