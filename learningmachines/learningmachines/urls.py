@@ -18,7 +18,6 @@ from django.contrib.messages.api import success
 from django.urls import path, re_path
 from django.urls import include
 from django.views.generic import RedirectView
-from django.conf.urls import url
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -60,7 +59,7 @@ def redirect_proj_view(request):
 
 
 urlpatterns = [
-    url(r'^health_check/', include('health_check.urls')),
+    re_path(r'^health_check/', include('health_check.urls')),
     path('admin/', admin.site.urls),
     #account endpoints
     path('accounts/create_user/', users.create_user, name='create_user'),
