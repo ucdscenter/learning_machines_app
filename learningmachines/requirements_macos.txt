@@ -1,6 +1,6 @@
 Django==4.0.4
 pycurl==7.43.0.5
-psycopg2-binary==2.8.6
+psycopg2==2.9.3
 elasticsearch==7.6.0
 requests-aws4auth==1.1.1
 nltk==3.4.5
