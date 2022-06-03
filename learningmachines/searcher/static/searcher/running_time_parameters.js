@@ -221,5 +221,17 @@ var database_runtimes = {
 	"b" : 0,
 	"count" : 44309,
 	"max" : 45000
+	},
+	'Hathi_Climate' : {
+	"a" : 0, 
+	"b" : 0,
+	"count" : 4556,
+	"max" : 5000
+	},
+    'Hathi_Rand' : {
+	"a" : 0, 
+	"b" : 0,
+	"count" : 4974,
+	"max" : 5000
 	}
 }
