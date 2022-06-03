@@ -1190,6 +1190,14 @@ $.ajaxSetup({
 
 let DATABASES =
 {
+  'Hathi_Climate' : {
+    'options': [],
+    'name': "Hathi Climate"
+  },
+  'Hathi_Rand' : {
+    'options': [],
+    'name': "Hathi Random"
+  },
 
   'Poetry_Foundation' : {
     'options': [],
