@@ -31,8 +31,33 @@
   
 
       {%if url_parameter %}
-      <div style="background-color: black; height: 100vh; width: 100vw;">
-        <h1>Hello world</h1>
+      <div class="visContainer" style="height: 100vh; width: 100vw;">
+        <div class="visContainer__infoContainer">
+          <div class="visContainer__dropDownContainer">
+            <h6>Select Algorithm</h6>
+            <select class="visContainer__dropDown">
+              <option value="bert">Bert</option>
+              <option value="UMAP">UMAP</option>
+              <option value="tSNE">tSNE</option>
+              <option value="PCA">PCA</option>
+              <option value="KMeans+PCA">KMeans+PCA</option>
+              <option value="PCA+KMeans">PCA+KMeans</option>
+              <option value="KMeans+UMAP">KMeans+UMAP</option>
+              <option value="KMeans+tSNE">KMeans+tSNE</option>
+            </select>
+          </div>
+          <div class="visContainer__info">
+            <h6>Label: </h6>
+            <h6>Text: </h6>
+          </div>
+        </div>
+        <div class="visContainer__graphContainer">
+          <div class="visContainer__graph">
+            <canvas width="716" height="820" style="width: 716.6666666666666px; height: 820px;">hello world</canvas>
+          </div>
+        </div>
+        <h1>{{ url_parameter }}</h1>
+
       </div>
       
     <!-- <div id="vis_details" style="display: flex; flex-direction: column; align-items: center;">
