@@ -1,7 +1,12 @@
 'use-strict';
 
 async function wrapper(){
-    dataset_name = window.location.search.substring(9);
+    const elem = document.getElementById('visContainer__dropDown');
+    elem.addEventListener('change', function(){
+        console.log(elem.options[elem.selectedIndex].text);
+    })
+    
+    dataset_name = window.location;
     console.log(dataset_name);
     if (dataset_name.length == 0){
         console.log("No dataset selected");

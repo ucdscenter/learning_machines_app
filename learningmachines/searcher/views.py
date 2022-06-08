@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 
 import json
 import logging
+import boto3
 
 from django.http import JsonResponse
 
@@ -444,7 +445,12 @@ def bert_method_vis(request, dataset=''):
     if request.method == 'GET' and dataset == '':
         return render(request, 'searcher/bert_method_vis.html', context)
     elif request.method == 'GET' and dataset in context['datasets']:
-        return render(request, 'searcher/bert_method_vis.html', {'url_parameter': dataset})
+        s3Obj = boto3.client('s3')
+        s3ClientObj = s3Obj.get_object(
+            Bucket='rnlp-data', Key=f"bert_embeddings/{context['datasets']['carereviews']['s3_name']}.json")
+        datasetJsonString = s3ClientObj['Body'].read().decode('utf-8')
+        # print(type(datasetJson))
+        return render(request, 'searcher/bert_method_vis.html', {'url_parameter': dataset, 'datasetJsonString': datasetJsonString})
     # return render(request, 'searcher/bert_method_vis.html', context)
 
     # if request.method == 'POST':

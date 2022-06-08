@@ -35,7 +35,8 @@
         <div class="visContainer__infoContainer">
           <div class="visContainer__dropDownContainer">
             <h6>Select Algorithm</h6>
-            <select class="visContainer__dropDown">
+            <select class="visContainer__dropDown" id="visContainer__dropDown">
+              <option value="bert">None</option>
               <option value="bert">Bert</option>
               <option value="UMAP">UMAP</option>
               <option value="tSNE">tSNE</option>
@@ -53,7 +54,7 @@
         </div>
         <div class="visContainer__graphContainer">
           <div class="visContainer__graph">
-            <canvas width="716" height="820" style="width: 716.6666666666666px; height: 820px;">hello world</canvas>
+            <canvas id="visContainer__graphCanvas" width="716" height="820" style="width: 716.6666666666666px; height: 820px;">{{ datasetJsonString }}</canvas>
           </div>
         </div>
         <h1>{{ url_parameter }}</h1>
