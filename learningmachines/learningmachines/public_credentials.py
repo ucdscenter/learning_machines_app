@@ -12,7 +12,6 @@ except:
 	#processing for docker deploy with aws secretsmanagerkey
 	if 'DJANGO_SECRETS' in os.environ:
 		print("django secrets found, setting system variables!")
-		print(os.environ['DJANGO_SECRETS'])
 		#client = boto3.client('secretsmanager', region_name='us-east-2')
 		#response = client.get_secret_value(
     	#	SecretId=os.environ['DJANGO_SECRETS']
