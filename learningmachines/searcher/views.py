@@ -445,12 +445,20 @@ def bert_method_vis(request, dataset=''):
     if request.method == 'GET' and dataset == '':
         return render(request, 'searcher/bert_method_vis.html', context)
     elif request.method == 'GET' and dataset in context['datasets']:
+        # s3Obj = boto3.client('s3')
+        # s3ClientObj = s3Obj.get_object(
+        #     Bucket='rnlp-data', Key=f"bert_embeddings/{context['datasets']['carereviews']['s3_name']}.json")
+        # datasetJsonString = s3ClientObj['Body'].read().decode('utf-8')
+        # print(type(datasetJson))
+        return render(request, 'searcher/bert_method_vis.html', {'url_parameter': dataset})
+    elif request.method == 'POST' and dataset in context['datasets']:
+        modelName = json.loads(request.body.decode('utf-8')).lower()
+        print(modelName)
         s3Obj = boto3.client('s3')
         s3ClientObj = s3Obj.get_object(
-            Bucket='rnlp-data', Key=f"bert_embeddings/{context['datasets']['carereviews']['s3_name']}.json")
+            Bucket='rnlp-data', Key=f"bert_embeddings/{context['datasets'][dataset]['s3_names'][modelName]}.json")
         datasetJsonString = s3ClientObj['Body'].read().decode('utf-8')
-        # print(type(datasetJson))
-        return render(request, 'searcher/bert_method_vis.html', {'url_parameter': dataset, 'datasetJsonString': datasetJsonString})
+        print(datasetJsonString)
     # return render(request, 'searcher/bert_method_vis.html', context)
 
     # if request.method == 'POST':

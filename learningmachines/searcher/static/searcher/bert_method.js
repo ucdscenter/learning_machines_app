@@ -1,9 +1,20 @@
 'use-strict';
 
 async function wrapper(){
-    const elem = document.getElementById('visContainer__dropDown');
-    elem.addEventListener('change', function(){
-        console.log(elem.options[elem.selectedIndex].text);
+    const dropDownElement = document.getElementById('visContainer__dropDown');
+    dropDownElement.addEventListener('change', function(){
+        const selectedValue = dropDownElement.options[dropDownElement.selectedIndex].text;
+        if (selectedValue != 'None'){
+            fetch( `${window.location.pathname}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(selectedValue),
+            }).then(res => {
+                return res.json();
+            }).then(data => {
+                console.log(data);
+            })
+        };
     })
     
     dataset_name = window.location;

@@ -41,10 +41,10 @@
               <option value="UMAP">UMAP</option>
               <option value="tSNE">tSNE</option>
               <option value="PCA">PCA</option>
-              <option value="KMeans+PCA">KMeans+PCA</option>
-              <option value="PCA+KMeans">PCA+KMeans</option>
-              <option value="KMeans+UMAP">KMeans+UMAP</option>
-              <option value="KMeans+tSNE">KMeans+tSNE</option>
+              <option value="KMeans+PCA">KMeansPCA</option>
+              <option value="PCA+KMeans">PCAKMeans</option>
+              <option value="KMeans+UMAP">KMeansUMAP</option>
+              <option value="KMeans+tSNE">KMeanstSNE</option>
             </select>
           </div>
           <div class="visContainer__info">
@@ -57,7 +57,7 @@
             <canvas id="visContainer__graphCanvas" width="716" height="820" style="width: 716.6666666666666px; height: 820px;">{{ datasetJsonString }}</canvas>
           </div>
         </div>
-        <h1>{{ url_parameter }}</h1>
+        <h1 id="urlParameter">{{ url_parameter }}</h1>
 
       </div>
       
