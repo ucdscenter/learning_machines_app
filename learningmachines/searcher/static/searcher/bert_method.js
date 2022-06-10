@@ -391,11 +391,8 @@ async function wrapper(){
                 }).then(res => {
                     return res.json();
                 }).then(data => {
-                    console.log(data);
-                    // console.log(document.getElementById("visContainer__info__docTitle"));
                     document.getElementById("visContainer__info__docTitle").textContent = "Title: " + data.doc_title;
                     document.getElementById("visContainer__info__docText").textContent = "Text: " + data.doc_text;
-                    // console.log(typeof data.doc_title);
                 });
 
             } else {

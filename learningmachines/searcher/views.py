@@ -448,16 +448,13 @@ def bert_method_vis(request, dataset=''):
         return render(request, 'searcher/bert_method_vis.html', {'url_parameter': dataset})
     elif request.method == 'POST' and dataset in context['datasets']:
         if isinstance(request.POST.get('id'), type(None)) and int(request.headers['Content-Length']) < 30:
-            print(request.headers)
             modelName = json.loads(request.body.decode('utf-8')).lower()
-            print(modelName)
             s3Obj = boto3.client('s3')
             s3ClientObj = s3Obj.get_object(
                 Bucket='rnlp-data', Key=f"bert_embeddings/{context['datasets'][dataset]['s3_names'][modelName]}.json")
             datasetJsonString = s3ClientObj['Body'].read().decode('utf-8')
             return JsonResponse({'dataset': json.loads(datasetJsonString)})
         else:
-            # qry_str = {k: v[0] for k, v in dict(request.GET).items()}
             if permiss(dataset, request) == False:
                 return HttpResponse(json.dumps("No permissions"), status=403)
 
@@ -465,42 +462,9 @@ def bert_method_vis(request, dataset=''):
             es = SearchResults_ES(
                 database=context['datasets'][dataset]['database'])
             rslt = es.get_doc(data_id)
-            print(rslt)
             article_title = rslt.article_title
             article_text = rslt.text
             return JsonResponse({'doc_title': article_title, 'doc_text': article_text})
-
-    # if request.method == 'POST' and request.POST["id"] is not None:
-
-    # if request.method == 'POST':
-    # 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-    # 	if permiss(qry_str['dataset'], request) == False:
-    # 		return HttpResponse(json.dumps("No permissions"), status=403)
-    # 	data_id = json.loads(request.body.decode('utf-8'))['data_id']
-    # 	es = SearchResults_ES(database=qry_str['dataset'])
-    # 	rslt = es.get_doc(data_id)
-    # 	article_title = rslt.article_title
-    # 	article_text = rslt.text
-    # 	return JsonResponse({'doc_title': article_title, 'doc_text': article_text})
-    # if request.method == 'GET':
-    # 	dataset = request.GET.get('dataset')
-    # 	if dataset is not None and dataset == "Care_Reviews":
-    # 		qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-    # 		print('qry_str: ', qry_str)
-    # 		return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'Care_Reviews'})
-    # 	elif dataset is not None and dataset == "Pubmed":
-    # 		qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-    # 		print('qry_str: ', qry_str)
-    # 		return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'Pubmed'})
-    # 	elif dataset is not None and dataset == "China_news":
-    # 		qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-    # 		print('qry_str: ', qry_str)
-    # 		return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'China_news'})
-    # 	elif dataset is not None and dataset == "TCP":
-    # 		qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-    # 		print('qry_str: ', qry_str)
-    # 		return render(request, 'searcher/bert_method_vis.html', {'dataset_name' : 'TCP'})
-    # 	return render(request, 'searcher/bert_method_vis.html', {'dataset_name': ''})
 
 
 def helper_json_function(filename):
