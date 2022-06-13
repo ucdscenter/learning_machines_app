@@ -35,7 +35,9 @@ ES_FIELDS = {
         'Mayerson_qna' : 'mayerson_qna',
         'hathitrust_novels' : 'hathitrust_novels',
         'early_modern':'early_modern', 
-        'NYNPO_taxforms': 'nynpo_taxforms'
+        'NYNPO_taxforms': 'nynpo_taxforms',
+        'Hathi_Climate' : 'hathi_climate',
+        'Hathi_Rand' : 'hathi_climate_rand'
     },
     'id': {
         'Poetry_Foundation' : 'pmid',
@@ -73,7 +75,9 @@ ES_FIELDS = {
         'Mayerson_qna' : 'case_no',
         'hathitrust_novels' : 'id',
         'early_modern' : 'id', 
-        'NYNPO_taxforms': 'ein' 
+        'NYNPO_taxforms': 'ein',
+        'Hathi_Climate' : 'hathi_id',
+        'Hathi_Rand' : 'hathi_id'
     },
     'abstract': {
         'Poetry_Foundation' : 'text',
@@ -109,7 +113,10 @@ ES_FIELDS = {
         'Mayerson_qna' : 'text',
         'hathitrust_novels' : 'page_tokens',
         'early_modern' : 'text', 
-        'NYNPO_taxforms': 'text'
+        'NYNPO_taxforms': 'text',
+                'Hathi_Climate' : 'text',
+        'Hathi_Rand' : 'text'
+
     },
     'full_text': {
         'Poetry_Foundation' : 'text',
@@ -147,7 +154,9 @@ ES_FIELDS = {
         'Mayerson_qna' : 'text',
         'hathitrust_novels' : 'page_tokens',
         'early_modern' : 'text', 
-        'NYNPO_taxforms': 'text'
+        'NYNPO_taxforms': 'text',
+        'Hathi_Climate' : 'text',
+        'Hathi_Rand' : 'text'
 
     },
     'doc_title' :
@@ -188,7 +197,9 @@ ES_FIELDS = {
         'Mayerson_qna' : 'case_no',
         'hathitrust_novels' : 'title',
         'early_modern' : 'title', 
-        'NYNPO_taxforms': 'title'
+        'NYNPO_taxforms': 'title',
+                'Hathi_Climate' : 'title',
+        'Hathi_Rand' : 'title'
 
         },
     'author' :
@@ -212,7 +223,9 @@ ES_FIELDS = {
         'Mayerson_qna' : 'interviewer',
         'hathitrust_novels' : 'author',
         'early_modern' : 'author', 
-        'NYNPO_taxforms': 'title'
+        'NYNPO_taxforms': 'title',
+        'Hathi_Climate' : 'author',
+        'Hathi_Rand' : 'author'
         },
     'date': {
         'Poetry_Foundation' : 'date',
@@ -250,7 +263,9 @@ ES_FIELDS = {
         'Mayerson_qna' : 'file_date',
         'hathitrust_novels' : 'date',
         'early_modern' : 'date', 
-        'NYNPO_taxforms': 'date'
+        'NYNPO_taxforms': 'date',
+        'Hathi_Climate' : 'date',
+        'Hathi_Rand' : 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -290,8 +305,10 @@ ES_FIELDS = {
         'Mayerson_qna' : ['case_no', 'file_date'],
         'hathitrust_novels' : ['title', 'date'],
         'early_modern' : ['title', 'date'],
-        'NYNPO_taxforms': ['title', 'date']
-    }
+        'NYNPO_taxforms': ['title', 'date'],
+        'Hathi_Climate' : ['title', 'page'],
+        'Hathi_Rand' : ['title' 'page']
+     }
 }
 MAX_NUM_DOC_VIS = {
     'Poetry_Foundation' : 16000,
@@ -331,5 +348,7 @@ MAX_NUM_DOC_VIS = {
     'Mayerson_qna' : 20000,
     'hathitrust_novels' : 2000,
     'early_modern' : 6000, 
-    'NYNPO_taxforms': 45000
+    'NYNPO_taxforms': 45000,
+    'Hathi_Climate' : 5000,
+    'Hathi_Rand' : 5000
 }
