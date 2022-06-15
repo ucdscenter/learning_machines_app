@@ -215,9 +215,11 @@ class FormattedDataManager:
 	def create_meta(self):
 		docs = SearchResults_ES(database=self.qry_str['database'], qry_obj=self.qry_str)
 		for doc in docs:
+			print(doc.authors)
+			print(type(doc.authors))
 			meta_row = '"{DOI}","{title}","{authors}","{journal_title}","{volume}","{issue}","{date}","{page_range}","{art_id}"\n'.format( DOI=doc.doi,
 					title=doc.article_title.replace('"', ""),
-					authors=doc.authors,
+					authors=doc.authors if type(doc.authors) == str else ';'.join(doc.authors),
 					journal_title=doc.journal_title,
 					volume='',
 					issue='',
