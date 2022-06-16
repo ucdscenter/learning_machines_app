@@ -1,0 +1,218 @@
+:root {
+	--other-color: #a9cdff;
+	--main-bg-color: #eee; 
+	--third-color: #515892; 
+	--main-color: #FFBF6E;
+	--other-color-subtle: #c2d5ee;
+	--title-color: #ed8e1a;
+	--other-title-color : #68a6fc;
+};
+
+/* orange-purple*/
+/*:root {
+	--main-color: #FFBF6E;
+	--main-bg-color: #eee; 
+	--other-color: #188757; 
+}*/
+/*
+:root {
+	--main-color: #B60C30;
+	--main-bg-color: #eee; 
+	--other-color: #f2e996; 
+}
+*/
+/*:root {
+	--main-color: #ed8d3f;
+	--main-bg-color: #eee; 
+	--other-color: #58771E; 
+}
+*/
+@font-face {
+  font-family: mainBodyStuff;
+  src: url(/static/ext/fonts/VISION/Vision.otf);
+}
+
+@font-face {
+  font-family: highlightStuff;
+  src: url(/static/ext/fonts/SANTI0/Santio-regular.otf);
+}
+body {
+	background-color: #eee;
+}
+
+p, button {
+	font-family: 'Roboto', serif;
+}
+td {
+	font-family: 'Roboto', serif;
+}
+h1, h2, h3, h4, h5, h6, th, figcaption {
+	font-family: 'Roboto Slab', serif;
+}
+h3 {
+	font-family: 'Roboto Slab', serif;
+}
+li>a {
+	font-family: 'Roboto Slab', sans-serif;
+	color: black;
+	border-radius: 3px;
+	border-top : 1px solid white;
+	border-bottom : 1px solid white;
+}
+li>a:hover {
+	color : black;
+	border-top : 1px solid var(--other-color);
+	border-bottom : 1px solid var(--other-color);
+	transition: border .25s;
+}
+.nav-page-disp {
+	border-top : 1px solid var(--main-color);
+	border-bottom : 1px solid var(--main-color);
+}
+.disabled {
+	pointer-events:none;
+}
+
+.btn-secondary:focus {
+	box-shadow: unset;
+}
+
+.specialtext {
+	font-family: 'Roboto Slab', sans-serif;
+}
+.normaltext {
+	font-family: 'Roboto', sans-serif;
+}
+.clickpointer {
+	cursor : pointer;
+}
+#main-nav {
+	border-top: var(--main-color) 0px solid;
+	border-bottom: var(--main-color) 3px solid;
+	background-color : white;
+}
+
+.main-color {
+	color : var(--main-color);
+}
+.bg-color {
+	 background-color : var(--main-bg-color);
+}
+.other-color-bg {
+	background-color : var(--other-color);
+}
+.other-color-subtle-bg {
+	background-color : var(--other-color-subtle);
+}
+.other-color {
+	color : var(--other-color);
+}
+.third-color {
+	color : var(--third-color);
+}
+.title-color {
+	color : var(--title-color);
+}
+.other-title-color {
+	color : var(--other-title-color);
+}
+.center_icon {
+	position : relative;
+	top : 5px;
+	left : 2px;
+}
+.center_icon_h3 {
+	position : relative;
+	top : 4px;
+	left : 2px;
+	cursor:pointer;
+	width: 22px;
+	height: 23px;
+}
+.center_icon_options {
+	position : relative;
+	top : 4px;
+	left : 2px;
+	cursor:pointer;
+	width: 15px;
+	height: 15px;
+	font-size: 17px;
+}
+.arrow {
+}
+.popover-body {
+}
+.side-nav-active {
+	background-color : var(--main-color);
+	border: 1px solid white;
+	transition: background-color 1s, border 1s;
+}
+.side-nav-inactive {
+	background-color : unset;
+	transition: background-color 1s, border 1s;
+}
+.dropdown-divider {
+	border-top: 1px solid white;
+}
+.hidden{
+	display : none;
+}
+
+.home-bg {
+	background-image: linear-gradient(to right, var(--main-color), var(--other-color));
+}
+.highlighted {
+   background-color: var(--main-color);
+  }
+thead {
+	background-color : var(--main-color);
+}
+.footer {
+	border-top: 3px solid var(--main-color);
+	background-color: white;
+	height: 300px;
+}
+.big-button {
+	border-radius: 10px; 
+	font-size: 30px; 
+	font-family: 'Roboto Slab', sans-serif;
+	background-color: var(--third-color);
+	border-color: unset;
+	border: 0px ;
+}
+.big-button:hover {
+	box-shadow: 0px 0px 5px grey;
+}
+#legend {
+}
+.page-header {
+	background-color: var(--other-color-subtle);
+	min-height: 150px;
+	height: 25%;
+	max-height: 400px;
+	border-bottom: 1px solid var(--main-color);
+}
+.page-header>#legend>h1 {
+	font-size: 100px;
+	color: var(--third-color);
+}
+hr {
+	border-top: 1px solid var(--main-color);
+}
+
+.info-header {
+	background-color: var(--other-color-subtle);
+	border-bottom: 1px solid var(--main-color);
+}
+.model_item {
+	border-bottom: 1px solid var(--third-color);
+}
+
+.table_div {
+	border-radius: 2px;
+	background-color: #eee;
+	min-height: 50px;
+	max-height: 200px;
+	overflow-y: auto;
+}
+
