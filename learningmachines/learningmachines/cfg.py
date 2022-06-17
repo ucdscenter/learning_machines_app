@@ -5,3 +5,9 @@ TEMP_MODEL_FOLDER = 'searcher/tempmodeldata'
 S3_RNLP_DATA_DIR = 'LDA-models'
 S3_LDA_MODEL_ADDRESS = 'LDA-models'
 S3_BUCKET = 'rnlp-data'
+
+
+
+NUM_MLMOM_MODELS = 6 * 100
+
+MLMOM_SEED_INTERVAL = 100
