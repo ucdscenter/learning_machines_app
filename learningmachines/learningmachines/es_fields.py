@@ -1,5 +1,6 @@
 ES_FIELDS = {
     'index': {
+        'Poetry_Foundation': 'poetry-foundation',
         'SEC_Texts': 'sec_texts',
         'China_news': 'china_newstranscripts',
         'Care_Reviews': 'care_reviews',
@@ -284,7 +285,7 @@ MAX_NUM_DOC_VIS = {
     'Care_Reviews': 30000,
     'caselaw_env': 121000,
     'Covid': 144000,
-    'Pubmed': 2000000,
+    'Pubmed': 100000,
     'PMC': 20000,
     'JSTOR': 4000,
     'foster': 10000,
@@ -332,7 +333,7 @@ datasetNames = {
     'archaeology': {'num_docs': 5000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     'latin': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     'ehealth': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'tcp': {'num_docs': 1500, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    'tcp': {'num_docs': 1500, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': 'tcp_umap', 'tsne': 'tcp_tsne', 'kmeanspca': 'tcp_kmeanspca', 'pca': 'tcp_pca', 'pcakmeans': 'tcp_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'TCP'},
     'acj': {'num_docs': '20000', 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     'searchpage': {'num_docs': 144000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     'caselawv2': {'num_docs': 10000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
@@ -353,5 +354,6 @@ datasetNames = {
     'mayersonqna': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     'hathitrustnovels': {'num_docs': 2000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     'earlymodern': {'num_docs': 6000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'nynpotaxforms': {'num_docs': 45000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''}
+    'nynpotaxforms': {'num_docs': 45000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    'poetryfoundation': {'num_docs': 45000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': 'poetry_foundation_bert', 'umap': 'poetry_foundation_umap', 'tsne': 'poetry_foundation_tsne', 'kmeanspca': 'poetry_foundation_kmeanspca', 'pca': 'poetry_foundation_pca', 'pcakmeans': 'poetry_foundation_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'Poetry_Foundation'}
 }

@@ -449,6 +449,7 @@ def bert_method_vis(request, dataset=''):
     elif request.method == 'POST' and dataset in context['datasets']:
         if isinstance(request.POST.get('id'), type(None)) and int(request.headers['Content-Length']) < 30:
             modelName = json.loads(request.body.decode('utf-8')).lower()
+            print(modelName)
             s3Obj = boto3.client('s3')
             s3ClientObj = s3Obj.get_object(
                 Bucket='rnlp-data', Key=f"bert_embeddings/{context['datasets'][dataset]['s3_names'][modelName]}.json")
