@@ -34,9 +34,10 @@ ES_FIELDS = {
         'Mayerson_qna': 'mayerson_qna',
         'hathitrust_novels': 'hathitrust_novels',
         'early_modern': 'early_modern',
-        'NYNPO_taxforms': 'nynpo_taxforms'
+        'NYNPO_taxforms': 'nynpo_taxforms',
     },
     'id': {
+    	'Poetry_Foundation' : 'pmid',
         'SEC_Texts': 'id',
         'China_news': 'id',
         'Care_Reviews': 'UUID',
@@ -70,9 +71,10 @@ ES_FIELDS = {
         'Mayerson_qna': 'case_no',
         'hathitrust_novels': 'id',
         'early_modern': 'id',
-        'NYNPO_taxforms': 'ein'
+        'NYNPO_taxforms': 'ein',
     },
     'abstract': {
+    	'Poetry_Foundation' : 'text',
         'SEC_Texts': 'title',
         'China_news': 'description',
         'Care_Reviews': 'reviewText',
@@ -107,6 +109,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'text'
     },
     'full_text': {
+    	'Poetry_Foundation' : 'text',
         'SEC_Texts': 'text',
         'China_news': 'text',
         'Care_Reviews': 'reviewText',
@@ -145,6 +148,7 @@ ES_FIELDS = {
     },
     'doc_title':
         {
+        'Poetry_Foundation' : 'title',
         'SEC_Texts': 'title',
         'china_newstranscripts': 'title',
         'China_news': 'title',
@@ -183,6 +187,7 @@ ES_FIELDS = {
     },
     'author':
         {
+        'Poetry_Foundation' : 'author',
         'SEC_Texts': 'title',
         'China_news': 'program',
         'Care_Reviews': 'dataSource',
@@ -203,6 +208,7 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'title'
     },
     'date': {
+    	'Poetry_Foundation' : 'date',
         'SEC_Texts': 'date',
         'China_news': 'date',
         'Care_Reviews': 'reviewDate',
@@ -243,6 +249,7 @@ ES_FIELDS = {
         'foster_encounter': 'note'
     },
     'info': {
+    	'Poetry_Foundation' : ['title', 'author'],
         'SEC_Texts': ['title', 'date'],
         'china_newstranscripts': ['title', 'date', 'program'],
         'China_news': ['title', 'date', 'program'],
@@ -278,7 +285,7 @@ ES_FIELDS = {
     }
 }
 MAX_NUM_DOC_VIS = {
-
+	'Poetry_Foundation' : 16000,
     'SEC_Texts': 22000,
     'china_newstranscripts': 189000,
     'China_news': 50000,
@@ -319,41 +326,41 @@ MAX_NUM_DOC_VIS = {
 
 datasetNames = {
 
-    'sectexts': {'num_docs': 22000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'chinanewstranscripts': {'num_docs': 189000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'chinanews': {'num_docs': 50000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'carereviews': {'num_docs': 30000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': 'Care_Reviews_bert', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'Care_Reviews'},
-    'caselawenv': {'num_docs': 121000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'covid': {'num_docs': 144000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'pubmed': {'num_docs': 2000000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'pmc': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'jstor': {'num_docs': 4000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'foster': {'num_docs': 10000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'caselaw': {'num_docs': 6000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'archaeology': {'num_docs': 5000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'latin': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'ehealth': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'tcp': {'num_docs': 1500, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': 'tcp_umap', 'tsne': 'tcp_tsne', 'kmeanspca': 'tcp_kmeanspca', 'pca': 'tcp_pca', 'pcakmeans': 'tcp_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'TCP'},
-    'acj': {'num_docs': '20000', 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'searchpage': {'num_docs': 144000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'caselawv2': {'num_docs': 10000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'aa': {'num_docs': 23000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'cchmc': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'ted': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'pulmonary': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'ehealththreads': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'cannabisnews': {'num_docs': 15000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'npotaxforms': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'ohnpotaxforms': {'num_docs': 10000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'cannabisnewsv2': {'num_docs': 14000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'pubmedcoi': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'reddit': {'num_docs': 50000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'saaabstracts': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'medapplications': {'num_docs': 4000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'mayerson': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'mayersonqna': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'hathitrustnovels': {'num_docs': 2000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'earlymodern': {'num_docs': 6000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'nynpotaxforms': {'num_docs': 45000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'poetryfoundation': {'num_docs': 45000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': 'poetry_foundation_bert', 'umap': 'poetry_foundation_umap', 'tsne': 'poetry_foundation_tsne', 'kmeanspca': 'poetry_foundation_kmeanspca', 'pca': 'poetry_foundation_pca', 'pcakmeans': 'poetry_foundation_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'Poetry_Foundation'}
+    # 'sectexts': {'num_docs': 22000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'chinanewstranscripts': {'num_docs': 189000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'chinanews': {'num_docs': 50000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+     'carereviews': {'num_docs': 30000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': 'Care_Reviews_bert', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'Care_Reviews'},
+    # 'caselawenv': {'num_docs': 121000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'covid': {'num_docs': 144000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'pubmed': {'num_docs': 2000000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'pmc': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'jstor': {'num_docs': 4000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'foster': {'num_docs': 10000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'caselaw': {'num_docs': 6000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'archaeology': {'num_docs': 5000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'latin': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'ehealth': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+     'tcp': {'num_docs': 1500, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': 'tcp_umap', 'tsne': 'tcp_tsne', 'kmeanspca': 'tcp_kmeanspca', 'pca': 'tcp_pca', 'pcakmeans': 'tcp_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'TCP'},
+    # 'acj': {'num_docs': '20000', 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'searchpage': {'num_docs': 144000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'caselawv2': {'num_docs': 10000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'aa': {'num_docs': 23000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'cchmc': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'ted': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'pulmonary': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'ehealththreads': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'cannabisnews': {'num_docs': 15000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'npotaxforms': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'ohnpotaxforms': {'num_docs': 10000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'cannabisnewsv2': {'num_docs': 14000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'pubmedcoi': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'reddit': {'num_docs': 50000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'saaabstracts': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'medapplications': {'num_docs': 4000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'mayerson': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'mayersonqna': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'hathitrustnovels': {'num_docs': 2000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'earlymodern': {'num_docs': 6000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+    # 'nynpotaxforms': {'num_docs': 45000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
+     'poetryfoundation': {'num_docs': 15692, 'description': 'Open source collection of poems from the Poetry Foundation', 's3_names': {'bert': 'poetry_foundation_bert', 'umap': 'poetry_foundation_umap', 'tsne': 'poetry_foundation_tsne', 'kmeanspca': 'poetry_foundation_kmeanspca', 'pca': 'poetry_foundation_pca', 'pcakmeans': 'poetry_foundation_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'Poetry_Foundation'}
 }
