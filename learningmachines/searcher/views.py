@@ -163,7 +163,8 @@ def show_vis(request):
 def process_search(request):
 	from .tasks import get_docs
 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}
-	print(qry_str)
+	if permiss(qry_str['database'], request) == False:
+		return HttpResponse(json.dumps("No permissions"), status=403)
 	rslts = get_docs(qry_str)
 	return HttpResponse(json.dumps(rslts), content_type="application/json")
 
