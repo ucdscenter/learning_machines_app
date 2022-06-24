@@ -159,7 +159,7 @@ def show_vis(request):
 	return render(request, html_path, ctxt)
 
 
-@access_required('all')
+
 def process_search(request):
 	from .tasks import get_docs
 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}
@@ -168,7 +168,7 @@ def process_search(request):
 	return HttpResponse(json.dumps(rslts), content_type="application/json")
 
 
-@access_required('all')
+
 def get_doc(request):
 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}
 	if permiss(qry_str['database'], request) == False:
