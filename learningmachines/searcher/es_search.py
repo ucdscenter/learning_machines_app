@@ -117,7 +117,7 @@ class SearchResults_ES:
                                 }
                         }
                 }
-                es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
+                es_qry = self.es.search(index=self.es_index, body=doc) #, doc_type='_doc'
                 hits = es_qry['hits']['hits']
                 return self._process_hit(hits[0])
 
@@ -272,12 +272,12 @@ class SearchResults_ES:
                 print('search query', doc)
                 if self.total_hits < _max_hits:
                         doc = {'size': self.total_hits,'query': query}
-                        es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
+                        es_qry = self.es.search(index=self.es_index, doc_type='_doc', body=doc)
                         self.page_hits = es_qry['hits']['hits']        
                         self.scroll_size = len(self.page_hits)        
                 else:
                         if self.scroll_id == None:
-                                es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
+                                es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='_doc', body=doc)
                                 self.page_hits = es_qry['hits']['hits']
 
                                 self.scroll_id = es_qry['_scroll_id']
