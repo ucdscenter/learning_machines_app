@@ -1190,6 +1190,10 @@ $.ajaxSetup({
 
 let DATABASES =
 {
+  'NYT_China' : {
+    'options': [],
+    'name': "NYT China"
+  },
   'Hathi_Climate' : {
     'options': [],
     'name': "Hathi Climate"
