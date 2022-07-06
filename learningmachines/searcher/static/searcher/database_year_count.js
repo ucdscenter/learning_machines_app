@@ -1,7 +1,6 @@
 
 
 let database_years = {
-
 	'NYT_China' : {
 		'2008': 6432,
 		'2009': 6882,
@@ -206,7 +205,6 @@ let database_years = {
 	'Poetry_Foundation' : {
     '2022' : 15652
     },
-
 	'News_Articles': {
 		"2016":604511,
 		"2017":640493,

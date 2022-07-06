@@ -229,6 +229,7 @@ ES_FIELDS = {
         'Hathi_Climate' : 'author',
         'Hathi_Rand' : 'author',
         'NYT_China' : 'author',
+
         },
     'date': {
         'Poetry_Foundation' : 'date',

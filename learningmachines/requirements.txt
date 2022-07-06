@@ -1,5 +1,5 @@
 Django==4.0.4
-#pycurl==7.43.0.5
+pycurl==7.43.0.5
 psycopg2-binary==2.8.6
 elasticsearch==7.6.0
 requests-aws4auth==1.1.1
