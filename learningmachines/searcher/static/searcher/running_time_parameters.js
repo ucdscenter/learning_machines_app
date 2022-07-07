@@ -233,5 +233,11 @@ var database_runtimes = {
 	"b" : 0,
 	"count" : 4974,
 	"max" : 5000
+	},
+	'NYT_China' : {
+	"a" : 0, 
+	"b" : 0,
+	"count" : 79923,
+	"max" : 80000
 	}
 }
