@@ -1189,10 +1189,42 @@ $.ajaxSetup({
 
 
 let DATABASES =
-{
-  'NYT_China' : {
+{ 
+  'ACJ': {
     'options': [],
-    'name': "NYT China"
+    'name': 'AC Justice '
+  },
+  'AA': {
+    'options': [],
+    'name': 'Anesthesiology'
+  },
+  'Archaeology': {
+    'options': [{ "type": "select", "choices": { "name": "Journal", "selects": ["all", "Latin American Antiquity", "Ancient Mesoamerica"] } }],
+    'name': 'Archaeology'
+  },
+  'CaseLaw_v2': {
+    'options': [{ "type": "select", "choices": { "name": "Jurisdiction", "selects": ["all", "federal", "other"] } }],
+    'name': 'CaseLaw'
+  },
+  'caselaw_env': {
+    'options': [],
+    'name': 'CaseLaw Environment'
+  },
+    'Covid': {
+    'options': [],
+    'name': 'COVID-19 Articles'
+  },
+  'early_modern': {
+    'options': [],
+    'name': 'Early Modern JSTOR'
+  },
+  'Ehealth': {
+    'options': [],
+    'name': 'Ehealth Alzheimer'
+  },
+  'Care_Reviews': {
+    'options': [],
+    'name': 'ER, Urgent Care Reviews'
   },
   'Hathi_Climate' : {
     'options': [],
@@ -1202,34 +1234,46 @@ let DATABASES =
     'options': [],
     'name': "Hathi Random"
   },
-
-  'Poetry_Foundation' : {
+  'Latin': {
     'options': [],
-    'name': "Poetry Foundation"
+    'name': 'Iowa Latin Canon'
+  },
+  'JSTOR': {
+    'options': [],
+    'name': 'Jstor Life Science'
   },
   'News_Articles': {
     'options': [],
     'name': "News Articles"
   },
-  'SEC_Texts': {
-    'options': [],
-    'name': 'Form 8K Sample'
-  },
   'China_news': {
     'options': [],
     'name': 'News Transcripts - China'
   },
-  'caselaw_env': {
+
+  'Mayerson': {
     'options': [],
-    'name': 'CaseLaw Environment'
+    'name': 'Mayerson'
   },
-  'Care_Reviews': {
+  'Mayerson_qna': {
     'options': [],
-    'name': 'ER, Urgent Care Reviews'
+    'name': 'Mayerson QNA'
   },
-  'Covid': {
+  'Med_Applications': {
     'options': [],
-    'name': 'COVID-19 Articles'
+    'name': 'Med Applications'
+  },
+  'NYT_China' : {
+    'options': [],
+    'name': "NYT China"
+  },
+  'NYNPO_taxforms': {
+    'options': [],
+    'name': 'NY NPO Descriptions'
+  },
+  'Poetry_Foundation' : {
+    'options': [],
+    'name': "Poetry Foundation"
   },
   'Pubmed': {
     'options': [],
@@ -1239,61 +1283,17 @@ let DATABASES =
     'options': [],
     'name': 'Pubmed Central'
   },
-  'JSTOR': {
-    'options': [],
-    'name': 'Jstor Life Science'
-  },
-  'CaseLaw_v2': {
-    'options': [{ "type": "select", "choices": { "name": "Jurisdiction", "selects": ["all", "federal", "other"] } }],
-    'name': 'CaseLaw'
-  },
-  'Archaeology': {
-    'options': [{ "type": "select", "choices": { "name": "Journal", "selects": ["all", "Latin American Antiquity", "Ancient Mesoamerica"] } }],
-    'name': 'Archaeology'
-  },
-  'Latin': {
-    'options': [],
-    'name': 'Iowa Latin Canon'
-  },
-  'Ehealth': {
-    'options': [],
-    'name': 'Ehealth Alzheimer'
-  },
   'TCP': {
     'options': [],
     'name': 'Text Creation'
-  },
-  'ACJ': {
-    'options': [],
-    'name': 'AC Justice '
-  },
-  'AA': {
-    'options': [],
-    'name': 'Anesthesiology'
   },
   'CCHMC': {
     'options': [],
     'name': 'CCHMC Notes'
   },
-  'TED': {
-    'options': [],
-    'name': 'Ted Talks'
-  },
   'Pulmonary': {
     'options': [],
     'name': 'Pulmonary'
-  },
-  'Ehealth_Threads': {
-    'options': [],
-    'name': 'Ehealth Threads'
-  },
-  'Cannabis_News': {
-    'options': [],
-    'name': 'Cannabis News'
-  },
-  'NPO_taxforms': {
-    'options': [],
-    'name': 'NPO Descriptions'
   },
   'OHNPO_taxforms': {
     'options': [],
@@ -1311,26 +1311,6 @@ let DATABASES =
     'options': [],
     'name': 'SAA Abstracts'
   },
-  'Med_Applications': {
-    'options': [],
-    'name': 'Med Applications'
-  },
-  'Mayerson': {
-    'options': [],
-    'name': 'Mayerson'
-  },
-  'Mayerson_qna': {
-    'options': [],
-    'name': 'Mayerson QNA'
-  },
-  'early_modern': {
-    'options': [],
-    'name': 'Early Modern JSTOR'
-  },
-  'NYNPO_taxforms': {
-    'options': [],
-    'name': 'NY NPO Descriptions'
-  }
 };
 let dbi = 0;
 Object.keys(DATABASES).forEach(function (db) {
