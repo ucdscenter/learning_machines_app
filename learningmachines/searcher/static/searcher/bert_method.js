@@ -344,7 +344,8 @@ async function wrapper(){
             category_number = data[i].data_category_number;
             data_id = data[i].data_id;
             data_title = data[i].data_title;
-            let point = {position, category_number, data_id, data_title};
+            data_category = data[i].data_category;
+            let point = {position, category_number, data_id, data_title, data_category};
             data_points.push(point);
         }
 
@@ -534,6 +535,7 @@ async function wrapper(){
             }).then(data => {
                 document.getElementById("visContainer__info__docTitle").textContent = "Title: " + data.doc_title;
                 document.getElementById("visContainer__info__docAuthor").textContent = "Author: " + data.doc_author;
+                document.getElementById("visContainer__info__docTopic").textContent = "Topic: " + datum['data_category'];
                 d3.selectAll(".doc-line").remove()
                 data.doc_text.split("\n").forEach(function(t){
                     d3.select('#visContainer__info__docText')
