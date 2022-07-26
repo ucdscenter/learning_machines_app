@@ -142,16 +142,13 @@ function formatData(data, topicSim) {
 
 	let clusterNodes = {};
 	let modelI = 0;
+
 	data.forEach(function (model) {
 		let topicI = 0;
-
 
 		model.clusters.forEach(function (c) {
 			let g = topNwords(data[modelI].top_words[topicI]);
 			let labelArr = [];
-			let docscount = [0, 0];
-
-			docscount[model.level] = model.docs[topicI].length;
 			g = g.split("\n");
 			g.shift();
 			if (clusterNodes[c] == undefined) {
@@ -162,7 +159,7 @@ function formatData(data, topicSim) {
 					"size": 1,
 					"indexes": [[modelI, topicI]],
 					"lwords": labelArr,
-					"docsCount": docscount
+					"docsCount": new Set(model.docs[topicI].map(x => x[0][0]))//docscount
 				};
 			}
 			else {
@@ -181,12 +178,21 @@ function formatData(data, topicSim) {
 
 				clusterNodes[c].size++;
 				clusterNodes[c].indexes.push([modelI, topicI]);
-				clusterNodes[c].docsCount[model.level] += docscount[model.level];
+				model.docs[topicI].map(x => x[0][0]).forEach(function(d){
+					clusterNodes[c].docsCount.add(d)
+				})
+				
 			}
 			topicI++;
+
+			
 		});
 		modelI++;
 	});
+	Object.keys(clusterNodes).forEach(function(c){
+		clusterNodes[c].docsCount = [0, clusterNodes[c].docsCount.size]
+	})
+	
 
 	Object.keys(clusterNodes).forEach(function (key) {
 
