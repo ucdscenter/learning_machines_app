@@ -65,7 +65,7 @@ async function renderDataBaseSelect(dbdata) {
     .append("p")
     .style("display", "inline-block")
     .text(function (d) {
-      return ": " + formatter(database_runtimes[d].count) + " docs";
+      return ": " + formatter(databases[d].rt_params.count) + " docs";
     });
 
   let dbthings = dbdivs.append("div")
@@ -83,7 +83,7 @@ async function renderDataBaseSelect(dbdata) {
 
 
   Object.keys(dbdata).forEach(function (n) {
-    yearExt = d3.extent(Object.keys(database_years[n]), function (d) {
+    yearExt = d3.extent(Object.keys(databases[n]['year_count']), function (d) {
       return d;
     });
     countMax = d3.max(Object.keys(database_years[n]), function (d) {
@@ -513,9 +513,9 @@ function renderFilterDocs(articles, dbn, qry) {
     $('doc-table-wrapper').scrollTop(0);
     let selected_docs = minSelect.dimension().top(100);
     console.log(selected_docs);
-    console.log(database_runtimes[dbn].max);
-    if (selected_docs.length > database_runtimes[dbn].max) {
-      alert("Warning!\nIf you continue with this number of documents we will cut the model to " + database_runtimes[dbn].max + " documents at runtime to save our poor servers.\nPlease contact us at mccabeen@ucmail.uc.edu if you want to run extra large models");
+    console.log(databases[dbn]["rt_params"].max);
+    if (selected_docs.length > databases[dbn]['rt_params'].max) {
+      alert("Warning!\nIf you continue with this number of documents we will cut the model to " + databases[dbn]['rt_params'].max + " documents at runtime to save our poor servers.\nPlease contact us at mccabeen@ucmail.uc.edu if you want to run extra large models");
     }
     showContinue('explore-docs');
     renderExploreDocs(selected_docs, dbn, qry, fromhistory, total_articles);
@@ -588,7 +588,7 @@ function prepareCounts(labelstring) {
 
 function updateEstimatedTime(selected, dbn, pre) {
 
-  let est_time = (database_runtimes[dbn].a * selected) + database_runtimes[dbn].b;
+  let est_time = (databases[dbn]['rt_params'].a * selected) + databases[dbn]['rt_params'].b;
   let formatted_est_time = new Date(est_time * 1000).toISOString().substr(11, 8);
 
   $('.' + pre + '-estimated-time').text(formatted_est_time);

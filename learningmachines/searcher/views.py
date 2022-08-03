@@ -20,6 +20,7 @@ from .models import Profile
 from .models import QueryRequest, VisRequest, DocFilter, Annotation
 from celery.result import AsyncResult
 from learningmachines.cfg import TEMP_MODEL_FOLDER
+from learningmachines.database import databases
 import os
 
 from django.views.decorators.clickjacking import xframe_options_exempt
@@ -122,7 +123,7 @@ def search_page(request):
 		if a.endpoint == 'mayerson_transcripts':
 			special_access.append(2)
 			special_access.append(3)
-	ctxt = {'special_access' : special_access}
+	ctxt = {'special_access' : special_access, 'database' : databases}
 	return render(request, 'searcher/search_template.html', ctxt)
 
 

@@ -591,7 +591,10 @@
 {% block footer_javascript_section %}
 
 <script>
-  let special_access = '{{ special_access }}'
+  let special_access = "{{ special_access }}"
+  let databases = "{{ database }}".replaceAll("&#x27;", "")
+  console.log(databases)
+
 </script>
 
 <script src="{% static 'searcher/js/jquery.min.js' %}"></script>
@@ -602,8 +605,8 @@
 <script src="{% static 'searcher/js/d3.min.js' %}"></script>
 <script src="{% static 'searcher/js/crossfilter.js' %}"></script>
 <script src="{% static 'searcher/js/dc.min.js' %}"></script>
-<script src="{% static 'searcher/database_year_count.js' %}"></script>
-<script src="{% static 'searcher/running_time_parameters.js' %}"></script>
+<!-- <script src="{% static 'searcher/database_year_count.js' %}"></script>
+<script src="{% static 'searcher/running_time_parameters.js' %}"></script> -->
 <script src="{% static 'searcher/search-controller.js' %}"></script>
 {% endblock footer_javascript_section %}
 
