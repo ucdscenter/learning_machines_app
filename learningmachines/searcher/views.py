@@ -123,6 +123,7 @@ def search_page(request):
 		if a.endpoint == 'mayerson_transcripts':
 			special_access.append(2)
 			special_access.append(3)
+
 	ctxt = {'special_access' : special_access, 'database' : databases}
 	return render(request, 'searcher/search_template.html', ctxt)
 

@@ -60,12 +60,11 @@ async function renderDataBaseSelect(dbdata) {
     .text(function (d) {
       return dbdata[d].name;
     });
-
   dbLabels
     .append("p")
     .style("display", "inline-block")
     .text(function (d) {
-      return ": " + formatter(databases[d].rt_params.count) + " docs";
+      return ": " + formatter(datasets[d].rt_params.count) + " docs";
     });
 
   let dbthings = dbdivs.append("div")
@@ -83,11 +82,11 @@ async function renderDataBaseSelect(dbdata) {
 
 
   Object.keys(dbdata).forEach(function (n) {
-    yearExt = d3.extent(Object.keys(databases[n]['year_count']), function (d) {
+    yearExt = d3.extent(Object.keys(datasets[n]['year_count']), function (d) {
       return d;
     });
-    countMax = d3.max(Object.keys(database_years[n]), function (d) {
-      return database_years[n][d];
+    countMax = d3.max(Object.keys(datasets[n]['year_count']), function (d) {
+      return datasets[n]['year_count'][d];
     });
 
     var gwidth = $('#' + n + "_svg").width();
@@ -105,19 +104,19 @@ async function renderDataBaseSelect(dbdata) {
         return xScale(d);
       })
         .y(function (d) {
-          return yScale(database_years[n][d]);
+          return yScale(datasets[n]['year_count']);
         });
 
 
       d3.select("#" + n + '_svg').append("path")
-        .datum(Object.keys(database_years[n]))
+        .datum(Object.keys(datasets[n]['year_count']))
         .attr("class", "line")
         .attr("d", line);
 
       d3.select('#' + n + "_svg").append("circle")
         .attr("cx", xScale(yearExt[0]))
         .attr("cy", function () {
-          return yScale(database_years[n][Object.keys(database_years[n])[0]]);
+          return yScale(datasets[n]['year_count'][Object.keys(datasets[n]['year_count'])[0]]);
         }
         )
         .attr("r", 2);
@@ -125,7 +124,7 @@ async function renderDataBaseSelect(dbdata) {
       d3.select('#' + n + "_svg").append("circle")
         .attr("cx", xScale(yearExt[1]))
         .attr("cy", function () {
-          return yScale(database_years[n][Object.keys(database_years[n])[Object.keys(database_years[n]).length - 1]]);
+          return yScale(datasets[n]['year_count'][Object.keys(datasets[n]['year_count'])[Object.keys(datasets[n]['year_count']).length - 1]]);
         }
         )
         .attr("r", 2);
@@ -133,9 +132,9 @@ async function renderDataBaseSelect(dbdata) {
       d3.select('#' + n + "_svg").append("circle")
         .attr("cx", function () {
 
-          for (var i = 0; i < Object.keys(database_years[n]).length; i++) {
-            if (database_years[n][Object.keys(database_years[n])[i]] == countMax) {
-              return xScale(Object.keys(database_years[n])[i]);
+          for (var i = 0; i < Object.keys(datasets[n]['year_count']).length; i++) {
+            if (datasets[n]['year_count'][Object.keys(datasets[n]['year_count'])[i]] == countMax) {
+              return xScale(Object.keys(datasets[n]['year_count'])[i]);
             }
           }
         })
@@ -151,7 +150,7 @@ async function renderDataBaseSelect(dbdata) {
       d3.select('#' + n + "_svg").append("text")
         .attr("x", xScale(yearExt[0]))
         .attr("y", function () {
-          return yScale(database_years[n][Object.keys(database_years[n])[0]]);
+          return yScale(datasets[n]['year_count'][Object.keys(datasets[n]['year_count'])[0]]);
         }
         )
         .attr("dy", "-1px")
@@ -162,7 +161,7 @@ async function renderDataBaseSelect(dbdata) {
       d3.select('#' + n + "_svg").append("text")
         .attr("x", xScale(yearExt[1]))
         .attr("y", function () {
-          return yScale(database_years[n][Object.keys(database_years[n])[Object.keys(database_years[n]).length - 1]]);
+          return yScale(datasets[n]['year_count'][Object.keys(datasets[n]['year_count'])[Object.keys(datasets[n]['year_count']).length - 1]]);
         }
         )
         .attr("dy", "-1px")
@@ -174,9 +173,9 @@ async function renderDataBaseSelect(dbdata) {
       d3.select('#' + n + "_svg").append("text")
         .attr("x", function () {
 
-          for (var i = 0; i < Object.keys(database_years[n]).length; i++) {
-            if (database_years[n][Object.keys(database_years[n])[i]] == countMax) {
-              return xScale(Object.keys(database_years[n])[i]);
+          for (var i = 0; i < Object.keys(datasets[n]['year_count']).length; i++) {
+            if (datasets[n]['year_count'][Object.keys(datasets[n]['year_count'])[i]] == countMax) {
+              return xScale(Object.keys(datasets[n]['year_count'])[i]);
             }
           }
         })
@@ -1188,156 +1187,156 @@ $.ajaxSetup({
 });
 
 
-let DATABASES =
-{
-  'Hathi_Climate' : {
-    'options': [],
-    'name': "Hathi Climate"
-  },
-  'Hathi_Rand' : {
-    'options': [],
-    'name': "Hathi Random"
-  },
+// let DATABASES =
+// {
+//   'Hathi_Climate' : {
+//     'options': [],
+//     'name': "Hathi Climate"
+//   },
+//   'Hathi_Rand' : {
+//     'options': [],
+//     'name': "Hathi Random"
+//   },
 
-  'Poetry_Foundation' : {
-    'options': [],
-    'name': "Poetry Foundation"
-  },
-  'News_Articles': {
-    'options': [],
-    'name': "News Articles"
-  },
-  'SEC_Texts': {
-    'options': [],
-    'name': 'Form 8K Sample'
-  },
-  'China_news': {
-    'options': [],
-    'name': 'News Transcripts - China'
-  },
-  'caselaw_env': {
-    'options': [],
-    'name': 'CaseLaw Environment'
-  },
-  'Care_Reviews': {
-    'options': [],
-    'name': 'ER, Urgent Care Reviews'
-  },
-  'Covid': {
-    'options': [],
-    'name': 'COVID-19 Articles'
-  },
-  'Pubmed': {
-    'options': [],
-    'name': 'Pubmed Abstract'
-  },
-  'PMC': {
-    'options': [],
-    'name': 'Pubmed Central'
-  },
-  'JSTOR': {
-    'options': [],
-    'name': 'Jstor Life Science'
-  },
-  'CaseLaw_v2': {
-    'options': [{ "type": "select", "choices": { "name": "Jurisdiction", "selects": ["all", "federal", "other"] } }],
-    'name': 'CaseLaw'
-  },
-  'Archaeology': {
-    'options': [{ "type": "select", "choices": { "name": "Journal", "selects": ["all", "Latin American Antiquity", "Ancient Mesoamerica"] } }],
-    'name': 'Archaeology'
-  },
-  'Latin': {
-    'options': [],
-    'name': 'Iowa Latin Canon'
-  },
-  'Ehealth': {
-    'options': [],
-    'name': 'Ehealth Alzheimer'
-  },
-  'TCP': {
-    'options': [],
-    'name': 'Text Creation'
-  },
-  'ACJ': {
-    'options': [],
-    'name': 'AC Justice '
-  },
-  'AA': {
-    'options': [],
-    'name': 'Anesthesiology'
-  },
-  'CCHMC': {
-    'options': [],
-    'name': 'CCHMC Notes'
-  },
-  'TED': {
-    'options': [],
-    'name': 'Ted Talks'
-  },
-  'Pulmonary': {
-    'options': [],
-    'name': 'Pulmonary'
-  },
-  'Ehealth_Threads': {
-    'options': [],
-    'name': 'Ehealth Threads'
-  },
-  'Cannabis_News': {
-    'options': [],
-    'name': 'Cannabis News'
-  },
-  'NPO_taxforms': {
-    'options': [],
-    'name': 'NPO Descriptions'
-  },
-  'OHNPO_taxforms': {
-    'options': [],
-    'name': 'OH NPO Descriptions'
-  },
-  'Pubmed_COI': {
-    'options': [],
-    'name': 'Pubmed COI'
-  },
-  'Reddit': {
-    'options': [],
-    'name': 'Reddit'
-  },
-  'SAA_Abstracts': {
-    'options': [],
-    'name': 'SAA Abstracts'
-  },
-  'Med_Applications': {
-    'options': [],
-    'name': 'Med Applications'
-  },
-  'Mayerson': {
-    'options': [],
-    'name': 'Mayerson'
-  },
-  'Mayerson_qna': {
-    'options': [],
-    'name': 'Mayerson QNA'
-  },
-  'early_modern': {
-    'options': [],
-    'name': 'Early Modern JSTOR'
-  },
-  'NYNPO_taxforms': {
-    'options': [],
-    'name': 'NY NPO Descriptions'
-  }
-};
+//   'Poetry_Foundation' : {
+//     'options': [],
+//     'name': "Poetry Foundation"
+//   },
+//   'News_Articles': {
+//     'options': [],
+//     'name': "News Articles"
+//   },
+//   'SEC_Texts': {
+//     'options': [],
+//     'name': 'Form 8K Sample'
+//   },
+//   'China_news': {
+//     'options': [],
+//     'name': 'News Transcripts - China'
+//   },
+//   'caselaw_env': {
+//     'options': [],
+//     'name': 'CaseLaw Environment'
+//   },
+//   'Care_Reviews': {
+//     'options': [],
+//     'name': 'ER, Urgent Care Reviews'
+//   },
+//   'Covid': {
+//     'options': [],
+//     'name': 'COVID-19 Articles'
+//   },
+//   'Pubmed': {
+//     'options': [],
+//     'name': 'Pubmed Abstract'
+//   },
+//   'PMC': {
+//     'options': [],
+//     'name': 'Pubmed Central'
+//   },
+//   'JSTOR': {
+//     'options': [],
+//     'name': 'Jstor Life Science'
+//   },
+//   'CaseLaw_v2': {
+//     'options': [{ "type": "select", "choices": { "name": "Jurisdiction", "selects": ["all", "federal", "other"] } }],
+//     'name': 'CaseLaw'
+//   },
+//   'Archaeology': {
+//     'options': [{ "type": "select", "choices": { "name": "Journal", "selects": ["all", "Latin American Antiquity", "Ancient Mesoamerica"] } }],
+//     'name': 'Archaeology'
+//   },
+//   'Latin': {
+//     'options': [],
+//     'name': 'Iowa Latin Canon'
+//   },
+//   'Ehealth': {
+//     'options': [],
+//     'name': 'Ehealth Alzheimer'
+//   },
+//   'TCP': {
+//     'options': [],
+//     'name': 'Text Creation'
+//   },
+//   'ACJ': {
+//     'options': [],
+//     'name': 'AC Justice '
+//   },
+//   'AA': {
+//     'options': [],
+//     'name': 'Anesthesiology'
+//   },
+//   'CCHMC': {
+//     'options': [],
+//     'name': 'CCHMC Notes'
+//   },
+//   'TED': {
+//     'options': [],
+//     'name': 'Ted Talks'
+//   },
+//   'Pulmonary': {
+//     'options': [],
+//     'name': 'Pulmonary'
+//   },
+//   'Ehealth_Threads': {
+//     'options': [],
+//     'name': 'Ehealth Threads'
+//   },
+//   'Cannabis_News': {
+//     'options': [],
+//     'name': 'Cannabis News'
+//   },
+//   'NPO_taxforms': {
+//     'options': [],
+//     'name': 'NPO Descriptions'
+//   },
+//   'OHNPO_taxforms': {
+//     'options': [],
+//     'name': 'OH NPO Descriptions'
+//   },
+//   'Pubmed_COI': {
+//     'options': [],
+//     'name': 'Pubmed COI'
+//   },
+//   'Reddit': {
+//     'options': [],
+//     'name': 'Reddit'
+//   },
+//   'SAA_Abstracts': {
+//     'options': [],
+//     'name': 'SAA Abstracts'
+//   },
+//   'Med_Applications': {
+//     'options': [],
+//     'name': 'Med Applications'
+//   },
+//   'Mayerson': {
+//     'options': [],
+//     'name': 'Mayerson'
+//   },
+//   'Mayerson_qna': {
+//     'options': [],
+//     'name': 'Mayerson QNA'
+//   },
+//   'early_modern': {
+//     'options': [],
+//     'name': 'Early Modern JSTOR'
+//   },
+//   'NYNPO_taxforms': {
+//     'options': [],
+//     'name': 'NY NPO Descriptions'
+//   }
+// };
 let dbi = 0;
-Object.keys(DATABASES).forEach(function (db) {
+Object.keys(datasets).forEach(function (db) {
   let color = d3.color(d3.select("#other-color").style("color")).hex();
   let third_color = d3.color(d3.select("#third-color").style("color"));
   let rgbObj = hexToRgb(color);
   /*let rgbObj = hexToRgb(d3.interpolateViridis(dbi/ Object.keys(DATABASES).length))
   DATABASES[db].color = "rgb(" + rgbObj.r  + "," + rgbObj.g + "," + rgbObj.b + ", .5)"
   DATABASES[db].nonbgcolor = d3.interpolateViridis(dbi/ Object.keys(DATABASES).length)*/
-  DATABASES[db].color = "rgb(" + rgbObj.r + "," + rgbObj.g + "," + rgbObj.b + ", .5)";
-  DATABASES[db].nonbgcolor = third_color;
+  datasets[db].color = "rgb(" + rgbObj.r + "," + rgbObj.g + "," + rgbObj.b + ", .5)";
+  datasets[db].nonbgcolor = third_color;
   dbi++;
 });
 
@@ -1397,11 +1396,11 @@ async function wrapper() {
     console.log(loaded.database);
     query_id_str = '&query_id=' + loaded.query_id;
     fromhistory = true;
-    renderDataBaseSelect(DATABASES, fromhistory = true);
+    renderDataBaseSelect(datasets, fromhistory = true);
 
   }
   else {
-    renderDataBaseSelect(DATABASES);
+    renderDataBaseSelect(datasets);
   }
 
 
