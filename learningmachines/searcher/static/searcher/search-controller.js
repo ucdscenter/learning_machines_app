@@ -60,7 +60,6 @@ async function renderDataBaseSelect(dbdata) {
     .text(function (d) {
       return dbdata[d].name;
     });
-
   dbLabels
     .append("p")
     .style("display", "inline-block")
@@ -83,7 +82,7 @@ async function renderDataBaseSelect(dbdata) {
 
 
   Object.keys(dbdata).forEach(function (n) {
-    yearExt = d3.extent(Object.keys(databases[n]['year_count']), function (d) {
+    yearExt = d3.extent(Object.keys(datasets[n]['year_count']), function (d) {
       return d;
     });
     countMax = d3.max(Object.keys(databases[n]['year_count']), function (d) {
