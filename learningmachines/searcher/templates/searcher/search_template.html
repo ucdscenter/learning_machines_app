@@ -592,7 +592,7 @@
 
 <script>
   let special_access = "{{ special_access }}"
-  let databases = "{{ database }}".replaceAll("&#x27;", "")
+  let databases = JSON.parse("{{ database }}".replaceAll("&#x27;", "\""))
   console.log(databases)
 
 </script>
