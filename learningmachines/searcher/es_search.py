@@ -8,7 +8,8 @@ from collections import namedtuple
 
 from learningmachines.public_credentials import AWS_PROFILE
 from learningmachines.cfg import ES_SCROLL_SIZE
-from learningmachines.es_fields import ES_FIELDS, MAX_NUM_DOC_VIS
+# from learningmachines.es_fields import ES_FIELDS, MAX_NUM_DOC_VIS
+from learningmachines.database import databases
 from .pre_processing import  get_min_term_occurrence, TextHandler
 import sys
 from gensim.models.doc2vec import TaggedDocument
@@ -22,7 +23,7 @@ class SearchResults_ES:
                 aws_auth = AWS4Auth(region='us-east-2', service='es', refreshable_credentials=credentials)
                 aws_host = AWS_PROFILE['AWS_HOST']
                 self.database = database
-                self.es_index = ES_FIELDS['index'][database]
+                self.es_index = databases[database]['index']
                 self.qry_obj = qry_obj
                 self.cm = cm
                 self.tokenized = tokenized
@@ -74,7 +75,7 @@ class SearchResults_ES:
         def __next__(self):
                 if self.page_hits == None:
                         self.do_search()
-                if self.total_docs >= self.total_hits or self.total_docs >= MAX_NUM_DOC_VIS[self.database]:
+                if self.total_docs >= self.total_hits or self.total_docs >= databases[self.database]['max_doc']:
                         self._stop_and_reset()
                         raise StopIteration
                 if self.scroll_size < 1000 and self.num_docs >= self.scroll_size:
@@ -191,7 +192,7 @@ class SearchResults_ES:
                 if len(qry) != 0:
                         must_terms.append({
                   "query_string": {
-                        "default_field" : ES_FIELDS['full_text'][self.database],
+                        "default_field" : databases[self.database]['full_text'],
                         "query": qry
                   }
                 })

@@ -35,7 +35,7 @@ async function renderDataBaseSelect(dbdata) {
   var dbdivs = dbBtns.append("div")
     .attr("class", "btn btn-success db-button row")
     .style("background-color", function (d) {
-      return dbdata[d].color;
+      return dbdata[d]['site_info'].color;
     })
     .style("border-color", "white")
     .style("text-align", "left");
@@ -45,7 +45,7 @@ async function renderDataBaseSelect(dbdata) {
 
   dbBtns.on("click", function (d) {
     showContinue('search-text');
-    renderSearchInput(d, dbdata, fromhistory);
+    renderSearchInput(d, databases, fromhistory);
   });
 
   let formatter = d3.format(".3s");
@@ -58,7 +58,7 @@ async function renderDataBaseSelect(dbdata) {
     .append("h6")
     .style("display", "inline-block")
     .text(function (d) {
-      return dbdata[d].name;
+      return dbdata[d]['site_info'].site_name;
     });
   dbLabels
     .append("p")
@@ -82,7 +82,7 @@ async function renderDataBaseSelect(dbdata) {
 
 
   Object.keys(dbdata).forEach(function (n) {
-    yearExt = d3.extent(Object.keys(datasets[n]['year_count']), function (d) {
+    yearExt = d3.extent(Object.keys(databases[n]['year_count']), function (d) {
       return d;
     });
     countMax = d3.max(Object.keys(databases[n]['year_count']), function (d) {
@@ -281,13 +281,13 @@ function renderSearchInput(d, dbdata) {
   $('.doc-button').off("click");
   $('#archaeology-row-div select').val('all');
   $('#caselaw-row-div select').val('all');
-  $('#db-search-label').text(dbdata[d].name);
+  $('#db-search-label').text(dbdata[d]['site_info'].site_name);
   $('#search-term').focus(function (e) {
-    $(this).css("border", "1px solid " + dbdata[d].color);
-    $(this).css("box-shadow", "0 0 10px " + dbdata[d].color);
+    $(this).css("border", "1px solid " + dbdata[d]['site_info'].color);
+    $(this).css("box-shadow", "0 0 10px " + dbdata[d]['site_info'].color);
   });
 
-  $('.doc-button').css("background-color", dbdata[d].color);
+  $('.doc-button').css("background-color", dbdata[d]['site_info'].color);
   if (d == 'Care_Reviews') {
     $('#carereview-row-div').removeClass("hidden");
     $('#archaeology-row-div').addClass("hidden");
