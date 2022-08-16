@@ -52,7 +52,7 @@ class SearchResults_ES:
                 
                 self.cleaned = cleaned
                 if self.qry_obj != None:
-                        self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
+                        self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else databases[self.database]['max_doc'])
                         self.qry_obj['f_start'] = int(self.qry_obj['f_start']) if 'f_start' in qry_obj else -1
                         self.qry_obj['f_end'] = int(self.qry_obj['f_end']) if 'f_end' in qry_obj else -1
                         self.qry_obj['min_occurrence'] = int(self.qry_obj['min_occurrence']) if 'min_occurrence' in qry_obj else -1
@@ -114,7 +114,7 @@ class SearchResults_ES:
                 doc = {
                         "query": {
                                 "term": {
-                                        ES_FIELDS['id'][self.database]: str(doc_id)
+                                        databases[self.database]['id']: str(doc_id)
                                 }
                         }
                 }
@@ -124,17 +124,17 @@ class SearchResults_ES:
 
         def _process_hit(self, hit):
                 source= hit["_source"]
-                doc_id = source[ES_FIELDS['id'][self.database]]
-                full_text = source.get(ES_FIELDS['full_text'][self.database])
+                doc_id = source[databases[self.database]['id']]
+                full_text = source.get(databases[self.database]['full_text'])
 
-                article_title = source[ES_FIELDS['doc_title'][self.database]] if ES_FIELDS['doc_title'][self.database] in source else ''
+                article_title = source[databases[self.database]['doc_title']] if databases[self.database]['doc_title'] in source else ''
                 journal_title = source[u'JournalTitle'] if 'JournalTitle' in source else ''
-                date = source.get(ES_FIELDS['date'][self.database]) if ES_FIELDS['date'][self.database] in source else ''
+                date = source.get(databases[self.database]['date']) if databases[self.database]['date'] in source else ''
                 doi = source["doi"] if "doi" in source else ""
                 authors = []
-                if self.database in ES_FIELDS['author']:
-                        if ES_FIELDS['author'][self.database] in source:
-                                authors = source[ES_FIELDS['author'][self.database]]
+                if self.database in databases:#databases['author']:
+                        if databases[self.database]['author'] in source:
+                                authors = source[databases[self.database]['author']]
                                 if isinstance(authors, list):
                                         authors=authors
                                 else:
@@ -218,7 +218,7 @@ class SearchResults_ES:
                 if time_range:
                         must_terms.append({
                            'range': {
-                                   ES_FIELDS['date'][self.database]: time_range
+                                   databases[self.database]['date']: time_range
                            }
                         })
                 must_not_terms = []
@@ -258,7 +258,7 @@ class SearchResults_ES:
                         #query = {'function_score' : { "query" : query}, "random_score" : {}}
                         query = {"function_score": {
                                 "query": query,
-                                "random_score": {"seed": 10, "field": ES_FIELDS['id'][self.database]},
+                                "random_score": {"seed": 10, "field": databases[self.database]['id']},
                                 }}
                 print(query)
                 return query
@@ -278,7 +278,7 @@ class SearchResults_ES:
                         self.scroll_size = len(self.page_hits)        
                 else:
                         if self.scroll_id == None:
-                                es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
+                                es_qry = self.es.search(index=self.es_index, doc_type='document', scroll='5m', body=doc)
                                 self.page_hits = es_qry['hits']['hits']
 
                                 self.scroll_id = es_qry['_scroll_id']
