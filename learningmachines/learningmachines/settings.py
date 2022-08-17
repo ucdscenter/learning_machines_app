@@ -117,10 +117,7 @@ if DB_ENV == 'PRODUCTION':
     RDS_USR="zhaowezra"
     RDS_REGION="us-east-2"
     RDS_DBNAME="dev_db"
-    #session = BotoSession().refreshable_session()
-    #client = session.client('rds', region_name=RDS_REGION)
-
-    #token = client.generate_db_auth_token(DBHostname=RDS_ENDPOINT, Port=RDS_PORT, DBUsername=RDS_USR, Region=RDS_REGION)
+    
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -134,7 +131,6 @@ if DB_ENV == 'PRODUCTION':
     }
 
 if DB_ENV == 'DEV':
-    RDS_ENDPOINT="mellondb-dev.cykdbek7llhv.us-east-2.rds.amazonaws.com"
     RDS_PORT="5432"
     RDS_USR="zhaowezra"
     RDS_REGION="us-east-2"
