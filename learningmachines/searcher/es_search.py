@@ -129,7 +129,7 @@ class SearchResults_ES:
 
                 article_title = source[databases[self.database]['doc_title']] if databases[self.database]['doc_title'] in source else ''
                 journal_title = source[u'JournalTitle'] if 'JournalTitle' in source else ''
-                date = source.get(databases[self.database]['date']) if databases[self.database]['date'] in source else ''
+                date = source.get(databases[self.database]['date_type']) if databases[self.database]['date'] in source else ''
                 doi = source["doi"] if "doi" in source else ""
                 authors = []
                 if self.database in databases:#databases['author']:
