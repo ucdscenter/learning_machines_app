@@ -25,7 +25,7 @@ import os
 
 from django.views.decorators.clickjacking import xframe_options_exempt
 
-
+#False is for Production, True is for Dev
 # SEND_WORKER = False
 SEND_WORKER = True
 

@@ -111,14 +111,17 @@ class SearchResults_ES:
                                 return retdoc
 
         def get_doc(self, doc_id):
+                #Add document type_ into the mapping when using Production credentials because it's at ES version 6. 
+                #Search document type for version 6, and add it.
                 doc = {
                         "query": {
                                 "term": {
                                         databases[self.database]['id']: str(doc_id)
                                 }
                         }
-                }
-                es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
+                }                
+                # Version 7 es search, no doc_type required. Version 6, on production, doc_type = "document" required
+                es_qry = self.es.search(index=self.es_index, body=doc) #This doesn't need doc_type to be specified because on DEV it's version 7
                 hits = es_qry['hits']['hits']
                 return self._process_hit(hits[0])
 
@@ -129,7 +132,7 @@ class SearchResults_ES:
 
                 article_title = source[databases[self.database]['doc_title']] if databases[self.database]['doc_title'] in source else ''
                 journal_title = source[u'JournalTitle'] if 'JournalTitle' in source else ''
-                date = source.get(databases[self.database]['date_type']) if databases[self.database]['date'] in source else ''
+                date = source.get(databases[self.database]['date_type']) if databases[self.database]['date_type'] in source else ''
                 doi = source["doi"] if "doi" in source else ""
                 authors = []
                 if self.database in databases:#databases['author']:
@@ -273,12 +276,11 @@ class SearchResults_ES:
                 print('search query', doc)
                 if self.total_hits < _max_hits:
                         doc = {'size': self.total_hits,'query': query}
-                        es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
-                        self.page_hits = es_qry['hits']['hits']        
+                        es_qry = self.es.search(index=self.es_index, doc_type='_doc', body=doc) #doc_type = "document" for version 6, doc_type = "_doc" for version 7                        self.page_hits = es_qry['hits']['hits']        
                         self.scroll_size = len(self.page_hits)        
                 else:
                         if self.scroll_id == None:
-                                es_qry = self.es.search(index=self.es_index, doc_type='document', scroll='5m', body=doc)
+                                es_qry = self.es.search(index=self.es_index, doc_type='_doc', scroll='5m', body=doc)  #doc_type = "document" for version 6, doc_type = "_doc" for version 7
                                 self.page_hits = es_qry['hits']['hits']
 
                                 self.scroll_id = es_qry['_scroll_id']
