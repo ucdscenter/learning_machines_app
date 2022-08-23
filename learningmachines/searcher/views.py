@@ -25,7 +25,7 @@ import os
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 
-SEND_WORKER = True
+SEND_WORKER = False
 
 
 """
@@ -71,8 +71,8 @@ def home(request):
 
 @xframe_options_exempt
 def projects(request):
-	ctxt = {}
-	print(request)
+	from learningmachines.external_projects import PROJECTS
+
 	project_name = request.GET.get('name')
 	html = 'searcher/projects.html'
 	if project_name == 'blm':
@@ -98,7 +98,7 @@ def projects(request):
 	if project_name == 'vent_notes':
 		html = 'searcher/projects/vent_notes.html'
 
-	return render(request, html, ctxt)
+	return render(request, html, {'projects': PROJECTS})
 
 def proxy_static(request):
 	print(request)

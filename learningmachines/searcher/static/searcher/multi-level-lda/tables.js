@@ -146,7 +146,7 @@
 			})
 
 		var ctd = ctr.selectAll("td").data(function(d, i){
-			return [d.data.id, Math.floor(d.data.docsCount[1]/6), d.data.subtopics.length, d.data.label]
+			return [d.data.id, d.data.docsCount[1], d.data.subtopics.length, d.data.label]
 		})
 		.enter()
 		.append("td").text(function(d){
