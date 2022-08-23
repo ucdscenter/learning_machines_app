@@ -6,7 +6,7 @@ import json
 
 try:
 	#this is if you are using a user defined credentials.py file, it will override these values. 
-	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, RDS_ENDPOINT, S3_OBJECT, EMAIL_INFO, DEBUG_SETTING
+	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, RDS_ENDPOINT, S3_OBJECT, EMAIL_INFO, DEBUG_SETTING, S3_BUCKET
 	print("credentials file found")
 
 except:
@@ -74,3 +74,5 @@ except:
 		'EMAIL_NAME' : 'ezraedgerton@gmail.com',
 		'EMAIL_PW' : client_email_pw
 	}
+
+	S3_BUCKET = 'rnlp-data'
