@@ -73,13 +73,23 @@ async function wrapper(){
         rslts.results.forEach(function(d){
             rslts_dict[d.id] = 0;
         })
-        filtered_data = data.filter(function(d){
-            if(rslts_dict[d.data_id] == undefined){
-                return false
+        let ret_arr = [];
+        data.id.forEach(function(i){
+            if(rslts_dict[i] == undefined){
+                ret_arr.push(false)
             }
-            return true
+            else{
+                ret_arr.push(true)
+            }
         })
-        createSearchPoints(filtered_data)
+        // filtered_data = data.filter(function(d){
+        //     if(rslts_dict[d.data_id] == undefined){
+        //         return false
+        //     }
+        //     return true
+        // })
+        // createSearchPoints(filtered_data)
+        createSearchPoints(ret_arr, data)
 
         pointsMaterial.needsUpdate = true
         choose_points = s_points;
@@ -204,6 +214,7 @@ async function wrapper(){
         scene = new THREE.Scene();
 
         scene.background = new THREE.Color(0xefefef);
+        console.log(data)
         createPoints(data);
         animate();
 
@@ -260,20 +271,23 @@ async function wrapper(){
          s_pointsMaterial, s_points;
 
 
-    function createSearchPoints(data){
+    function createSearchPoints(f_map, data){
 
         let num_points = data.length;
         let data_points = [];
-        for (let i = 0; i < data.length; i++) {
-            x_coor = data[i].data_x;
-            y_coor = data[i].data_y;
-            position = [x_coor, y_coor];
-            // rating = data[i].rating;
-            category_number = data[i].data_category_number;
-            data_id = data[i].data_id;
-            data_title = data[i].data_title;
-            let point = {position, category_number, data_id, data_title};
-            data_points.push(point);
+        for (let i = 0; i < data.x.length; i++) {
+            if(f_map[i] == true){
+                x_coor = data.x[i];
+                y_coor = data.y[i];
+                position = [x_coor, y_coor];
+                // rating = data[i].rating;
+                category_number = data.cluster[i];
+                data_id = data.id[i];
+                data_title = data.title[i];
+                let point = {position, category_number, data_id, data_title};
+                data_points.push(point);
+            }
+            
         }
 
         s_generated_points = data_points;
@@ -334,18 +348,19 @@ async function wrapper(){
 
     function createPoints(data){
 
-        let num_points = data.length;
+        let num_points = data.x.length;
         let data_points = [];
-        for (let i = 0; i < data.length; i++) {
-            x_coor = data[i].data_x;
-            y_coor = data[i].data_y;
+        for (let i = 0; i < data.x.length; i++) {
+            x_coor = data.x[i];
+            y_coor = data.y[i];
             position = [x_coor, y_coor];
             // rating = data[i].rating;
-            category_number = data[i].data_category_number;
-            data_id = data[i].data_id;
-            data_title = data[i].data_title;
-            data_category = data[i].data_category;
+            category_number = data.clusters[i];
+            data_id = data.id[i];
+            data_title = data.title[i];
+            data_category = data.clusters[i];
             let point = {position, category_number, data_id, data_title, data_category};
+            console.log(point)
             data_points.push(point);
         }
 

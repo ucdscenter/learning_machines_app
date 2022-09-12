@@ -39,6 +39,7 @@ ES_FIELDS = {
     },
     'id': {
         'Poetry_Foundation': 'pmid',
+        'News_Articles': 'id',
         'SEC_Texts': 'id',
         'China_news': 'id',
         'Care_Reviews': 'UUID',
@@ -76,6 +77,7 @@ ES_FIELDS = {
     },
     'abstract': {
         'Poetry_Foundation': 'text',
+        'News_Articles': 'url',
         'SEC_Texts': 'title',
         'China_news': 'description',
         'Care_Reviews': 'reviewText',
@@ -111,6 +113,7 @@ ES_FIELDS = {
     },
     'full_text': {
         'Poetry_Foundation': 'text',
+        'News_Articles': 'article',
         'SEC_Texts': 'text',
         'China_news': 'text',
         'Care_Reviews': 'reviewText',
@@ -150,6 +153,7 @@ ES_FIELDS = {
     'doc_title':
         {
         'Poetry_Foundation': 'title',
+        'News_Articles': 'title',
         'SEC_Texts': 'title',
         'china_newstranscripts': 'title',
         'China_news': 'title',
@@ -189,6 +193,7 @@ ES_FIELDS = {
     'author':
         {
         'Poetry_Foundation': 'author',
+        'News_Articles': 'author',
         'SEC_Texts': 'title',
         'China_news': 'program',
         'Care_Reviews': 'dataSource',
@@ -210,6 +215,7 @@ ES_FIELDS = {
     },
     'date': {
         'Poetry_Foundation': 'date',
+        'News_Articles': 'date',
         'SEC_Texts': 'date',
         'China_news': 'date',
         'Care_Reviews': 'reviewDate',
@@ -251,6 +257,7 @@ ES_FIELDS = {
     },
     'info': {
         'Poetry_Foundation': ['title', 'author'],
+        'News_Articles': ['title', 'author', 'publication'],
         'SEC_Texts': ['title', 'date'],
         'china_newstranscripts': ['title', 'date', 'program'],
         'China_news': ['title', 'date', 'program'],
@@ -334,7 +341,7 @@ datasetNames = {
     'newsarticles': {'num_docs': 22000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': 'newsarticles_umap', 'tsne': 'newsarticles_tsne', 'kmeanspca': 'newsarticles_kmeanspca', 'pca': 'newsarticles_pca', 'pcakmeans': 'newsarticles_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'News_Articles'},
     # 'caselawenv': {'num_docs': 121000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     # 'covid': {'num_docs': 144000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'pubmed': {'num_docs': 2000000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': 'pubmed_umap', 'tsne': 'pubmed_tsne', 'kmeanspca': 'pubmed_kmeanspca', 'pca': 'pubmed_pca', 'pcakmeans': 'pubmed_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'Pubmed'},
+    'pubmed': {'num_docs': 2000000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': 'Pubmed_umap_kmeans', 'umap': 'pubmed_umap', 'tsne': 'pubmed_tsne', 'kmeanspca': 'pubmed_kmeanspca', 'pca': 'pubmed_pca', 'pcakmeans': 'pubmed_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'Pubmed'},
     # 'pmc': {'num_docs': 20000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     # 'jstor': {'num_docs': 4000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     # 'foster': {'num_docs': 10000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
@@ -364,5 +371,5 @@ datasetNames = {
     # 'hathitrustnovels': {'num_docs': 2000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     # 'earlymodern': {'num_docs': 6000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
     # 'nynpotaxforms': {'num_docs': 45000, 'description': 'This is a sample description for a dataset.', 's3_names': {'bert': '', 'umap': '', 'tsne': '', 'kmeanspca': '', 'pca': '', 'pcakmeans': '', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': ''},
-    'poetryfoundation': {'num_docs': 15692, 'description': 'Open source collection of poems from the Poetry Foundation', 's3_names': {'bert': 'poetry_foundation_bert', 'umap': 'poetry_foundation_umap', 'tsne': 'poetry_foundation_tsne', 'kmeanspca': 'poetry_foundation_kmeanspca', 'pca': 'poetry_foundation_pca', 'pcakmeans': 'poetry_foundation_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'Poetry_Foundation'}
+    'poetryfoundation': {'num_docs': 15692, 'description': 'Open source collection of poems from the Poetry Foundation', 's3_names': {'bert': 'Poetry_foundation_umap_kmeans', 'umap': 'poetry_foundation_umap', 'tsne': 'poetry_foundation_tsne', 'kmeanspca': 'poetry_foundation_kmeanspca', 'pca': 'poetry_foundation_pca', 'pcakmeans': 'poetry_foundation_pcakmeans', 'kmeansumap': '', 'kmeanstsne': ''}, 'database': 'Poetry_Foundation'}
 }
