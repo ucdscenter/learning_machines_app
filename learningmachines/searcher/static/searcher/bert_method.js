@@ -61,7 +61,8 @@ async function wrapper(){
         choose_points = points;
         choose_generated_points = generated_points;
         $("#restore-search-button").addClass("hidden")
-        $('#s-doc-count').text(data.length + " documents")
+
+        $('#s-doc-count').text(data.x.length + " documents")
 
     }
 
@@ -94,6 +95,7 @@ async function wrapper(){
         pointsMaterial.needsUpdate = true
         choose_points = s_points;
         choose_generated_points = s_generated_points;
+        console.log(s_generated_points)
         $("#restore-search-button").removeClass("hidden")
         $('#s-doc-count').text(rslts.results.length + " matching documents")
 
@@ -128,7 +130,7 @@ async function wrapper(){
                 console.log(result)
                 dataset = result.dataset_name;
                 console.log(dataset)
-                $('#s-doc-count').text(data.length + " documents")
+                $('#s-doc-count').text(data.x.length + " documents")
                 $('#visContainer__graph').removeClass("hidden")
                 $('#visContainer__loading').addClass("hidden")
         // console.log(num_points)
@@ -272,33 +274,32 @@ async function wrapper(){
 
 
     function createSearchPoints(f_map, data){
-
-        let num_points = data.length;
-        let data_points = [];
+        console.log(f_map)
+        console.log(data)
+        let num_points = data.x.length;
+        let s_data_points = [];
         for (let i = 0; i < data.x.length; i++) {
             if(f_map[i] == true){
                 x_coor = data.x[i];
                 y_coor = data.y[i];
                 position = [x_coor, y_coor];
                 // rating = data[i].rating;
-                category_number = data.cluster[i];
+                category_number = data.clusters[i];
                 data_id = data.id[i];
                 data_title = data.title[i];
                 let point = {position, category_number, data_id, data_title};
-                data_points.push(point);
+                s_data_points.push(point);
             }
             
         }
 
-        s_generated_points = data_points;
-        // console.log(generated_points);
+        s_generated_points = s_data_points;
 
         s_pointsGeometry = new THREE.BufferGeometry();
 
         s_colors = new Float32Array(num_points * 3);
         s_vertices = new Float32Array(num_points * 3);
         s_sizes = new Float32Array(num_points);
-        // console.log(vertices);
 
         i = 0
         for (let datum of s_generated_points) {
@@ -306,8 +307,8 @@ async function wrapper(){
             s_vertices[i] = datum.position[0];
             s_vertices[i + 1] = datum.position[1];
             s_vertices[i + 2] = 0;
-            // let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
-            // pointsGeometry.vertices.push(vertex);
+             //let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
+             //pointsGeometry.vertices.push(vertex);
             let color = new THREE.Color(getColorForPubmed(datum));
             s_colors[i] = color.r;
             s_colors[i+1] = color.g;
@@ -319,7 +320,7 @@ async function wrapper(){
 
         s_pointsGeometry.setAttribute('position', new THREE.BufferAttribute(s_vertices, 3));
         s_pointsGeometry.setAttribute('color', new THREE.BufferAttribute(s_colors, 3));
-        // pointsGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+        //pointsGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
         // console.log(pointsGeometry);
         // pointsGeometry.colors = colors;
         // console.log(pointsGeometry.colors);
@@ -360,7 +361,6 @@ async function wrapper(){
             data_title = data.title[i];
             data_category = data.clusters[i];
             let point = {position, category_number, data_id, data_title, data_category};
-            console.log(point)
             data_points.push(point);
         }
 
