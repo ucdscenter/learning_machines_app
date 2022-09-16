@@ -559,6 +559,7 @@ async function wrapper() {
 		mlmom_data = the_data.data;
 		let model_info = the_data.model_info;
 		let meta = the_data.meta;
+		meta['q_pk'] = params.q_pk;
 		if (params.q_pk != undefined) {
 			params.corpus = model_info.corpus;
 			$('#corpus').text(undefined_fixer(model_info.corpus));
