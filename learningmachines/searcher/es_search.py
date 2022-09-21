@@ -32,7 +32,7 @@ class SearchResults_ES:
 						use_ssl=True,
 						verify_certs=True,
 						connection_class=RequestsHttpConnection,
-						timeout=300
+						timeout=10000
 				)
 				self.esDoc = namedtuple('esDoc', ['doc_id', 'journal_title', 'article_title', 'authors', 'date', 'text', 'doi'])
 				self.page_hits = None
@@ -43,6 +43,7 @@ class SearchResults_ES:
 				self.total_docs = 0
 				self.taggedDoc=taggedDoc
 				self.rand = rand
+				self.scroll_timeout = '20m'
 				
 				if self.qry_obj != None:
 						self.th = TextHandler(self.qry_obj)
@@ -287,14 +288,14 @@ class SearchResults_ES:
 						self.scroll_size = len(self.page_hits)		
 				else:
 						if self.scroll_id == None:
-								es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
+								es_qry = self.es.search(index=self.es_index, scroll=self.scroll_timeout, doc_type='document', body=doc)
 								self.page_hits = es_qry['hits']['hits']
 
 								self.scroll_id = es_qry['_scroll_id']
 								self.scroll_size = len(es_qry['hits']['hits'])
 								self.num_scroll = 0
 						else:
-								es_qry = self.es.scroll(scroll_id=self.scroll_id, scroll='5m')
+								es_qry = self.es.scroll(scroll_id=self.scroll_id, scroll=self.scroll_timeout)
 								self.scroll_id = es_qry['_scroll_id']
 								self.scroll_size = len(es_qry['hits']['hits'])
 								print('scroll', self.num_scroll, self.scroll_size)
