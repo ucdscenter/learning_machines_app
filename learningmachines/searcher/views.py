@@ -29,7 +29,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 from learningmachines.es_fields import datasetNames
 
-SEND_WORKER = True
+SEND_WORKER = False
 
 
 """
