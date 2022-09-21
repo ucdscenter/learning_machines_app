@@ -436,6 +436,8 @@ def searcher(request):
 # Function for BERT Visualization
 
 
+USE_S3_BERT = True
+
 @csrf_exempt
 def bert_method_vis(request, dataset=''):
 	from learningmachines.public_credentials import S3_OBJECT
@@ -446,7 +448,8 @@ def bert_method_vis(request, dataset=''):
 		return render(request, 'searcher/bert_method_vis.html', {'url_parameter': dataset})
 	elif request.method == 'POST' and dataset in context['datasets']:
 		if isinstance(request.POST.get('id'), type(None)) and int(request.headers['Content-Length']) < 30:
-			if S3_OBJECT['USE_S3'] == True:
+			#if S3_OBJECT['USE_S3'] == True:
+			if USE_S3_BERT == True:
 				modelName = json.loads(request.body.decode('utf-8')).lower()
 				s3Obj = boto3.client('s3')
 				s3ClientObj = s3Obj.get_object(
