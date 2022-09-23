@@ -1327,6 +1327,14 @@ let DATABASES =
     'options': [],
     'name': 'SAA Abstracts'
   },
+  'WSJ_China' : {
+    'options': [],
+    'name': 'WSJ China'
+  },
+  'WAPO_China' : {
+    'options': [],
+    'name': 'WAPO China'
+  }
 };
 let dbi = 0;
 Object.keys(DATABASES).forEach(function (db) {

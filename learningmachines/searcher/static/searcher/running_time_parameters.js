@@ -274,5 +274,19 @@ var database_runtimes = {
 	"count" : 79923,
 	"max" : 80000,
 	"description" : "New York times articles mentioning China"
+	},
+	'WSJ_China' : {
+	"a" : 0,
+	"b" : 0,
+	"count" : 30415,
+	"max" : 31000,
+	"description" : "Washington Journal articles mentioning China"
+	},
+	'WAPO_China' : {
+	"a" : 0,
+	"b" : 0,
+	"count" : 9596,
+	"max" : 10000,
+	"description" : "Washington Post articles mentioning China"
 	}
 }
