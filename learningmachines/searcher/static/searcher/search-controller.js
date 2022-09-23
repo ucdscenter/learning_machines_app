@@ -51,12 +51,13 @@ async function renderDataBaseSelect(dbdata) {
   let formatter = d3.format(".3s");
 
   let dbLabels = dbdivs.append("div")
-    .attr("class", "db_label col-12");
+    .attr("class", "db_label col-12").style("width", "100%");;
 
 
   dbLabels
     .append("h6")
     .style("display", "inline-block")
+    .classed("pp", true)
     .text(function (d) {
       return dbdata[d].name;
     });
@@ -64,12 +65,26 @@ async function renderDataBaseSelect(dbdata) {
   dbLabels
     .append("p")
     .style("display", "inline-block")
+    .classed("pp", true)
     .text(function (d) {
       return ": " + formatter(database_runtimes[d].count) + " docs";
     });
 
+  dbLabels.append("p")
+    .classed("dataset-btn-p", true)
+    .text(function(d){
+    yearExt = d3.extent(Object.keys(database_years[d]), function (d) {
+      return d;
+    });
+    var yearstr = ""
+    if (yearExt[0] != undefined) {
+      yearstr = yearExt[0] + "-" + yearExt[1] + ": "
+    }
+    return yearstr + database_runtimes[d].description
+  })
   let dbthings = dbdivs.append("div")
-    .attr("class", "col-12");
+    .attr("class", "col-12")
+    .style("height", "0px");;
 
   let dbsvgs = dbthings
     .append("svg")
@@ -77,7 +92,7 @@ async function renderDataBaseSelect(dbdata) {
     .attr("id", function (d) {
       return d + "_svg";
     })
-    .style("height", height + 'px')
+    .style("height", 0 + 'px')
     .style("width", "100%");
 
 
@@ -95,6 +110,7 @@ async function renderDataBaseSelect(dbdata) {
     var padding = { left: 15, right: 10, top: 5, bottom: 8 };
 
     if (yearExt[0] != undefined) {
+
       var xScale = d3.scaleLinear()
         .domain(yearExt)
         .range([0 + padding.left, gwidth - padding.left - padding.right]);
@@ -189,13 +205,13 @@ async function renderDataBaseSelect(dbdata) {
         )
         .style("fill", "blue")
         .text(countMax);
-
+      
     }
     else {
       d3.select("#" + n + "_svg").append("text").attr("x", 20).attr("y", height / 2).text("No Time Data");
     }
 
-  });//dbkeys foreach
+  });//dbkeys foreach*/
 
   if (fromhistory) {
     $('#' + loaded.database + '_btn').trigger("click");
@@ -1311,6 +1327,14 @@ let DATABASES =
     'options': [],
     'name': 'SAA Abstracts'
   },
+  'WSJ_China' : {
+    'options': [],
+    'name': 'WSJ China'
+  },
+  'WAPO_China' : {
+    'options': [],
+    'name': 'WAPO China'
+  }
 };
 let dbi = 0;
 Object.keys(DATABASES).forEach(function (db) {

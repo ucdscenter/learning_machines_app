@@ -154,7 +154,7 @@ $('#note-color-input').on("change", function (e) {
 $('#ex-a-b').on('click', function (e) {
 	html2canvas(document.querySelector("#network-graph")).then(exportCanvas => {
 		const exportPlaceholder = document.getElementById('export-placeholder');
-		exportPlaceholder.download = 'Network';
+		exportPlaceholder.download = 'Network_'+ query_pk;
 		exportPlaceholder.href = exportCanvas.toDataURL();
 		exportPlaceholder.click();
 	});
@@ -203,12 +203,14 @@ function hideNoteOptions() {
 	$('#e-a-b').addClass("hidden");
 	$('#l-a-b').addClass("hidden");
 	$('#c-a-b').addClass("hidden");
+	$('#ex-a-b').addClass("hidden");
 	$('#edit-notes-modal').hide();
 }
 
 function showNoteOptions() {
 	$('#e-a-b').removeClass("hidden");
 	$('#l-a-b').removeClass("hidden");
+	$('#ex-a-b').removeClass("hidden");
 	$('#edit-notes-modal').show();
 	setRandomNoteColor();
 }

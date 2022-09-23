@@ -38,7 +38,9 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'nynpo_taxforms',
         'Hathi_Climate' : 'hathi_climate',
         'Hathi_Rand' : 'hathi_climate_rand',
-        'NYT_China' : 'nyt-china'
+        'NYT_China' : 'nyt-china',
+        'WSJ_China' : 'wsj_china',
+        'WAPO_China': 'wapo_china'
     },
     'id': {
         'Poetry_Foundation' : 'pmid',
@@ -79,7 +81,9 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'ein',
         'Hathi_Climate' : 'hathi_id',
         'Hathi_Rand' : 'hathi_id',
-        'NYT_China' : 'uid'
+        'NYT_China' : 'uid',
+        'WSJ_China' : 'uid',
+        'WAPO_China' : 'uid'
     },
     'abstract': {
         'Poetry_Foundation' : 'text',
@@ -118,7 +122,9 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'text',
         'Hathi_Climate' : 'text',
         'Hathi_Rand' : 'text',
-        'NYT_China' : 'text'
+        'NYT_China' : 'text',
+        'WSJ_China' : 'text',
+        'WAPO_China' : 'text'
     },
     'full_text': {
         'Poetry_Foundation' : 'text',
@@ -159,7 +165,9 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'text',
         'Hathi_Climate' : 'text',
         'Hathi_Rand' : 'text',
-        'NYT_China' : 'text'
+        'NYT_China' : 'text',
+        'WSJ_China' : 'text',
+        'WAPO_China' : 'text'
     },
     'doc_title' :
         {
@@ -202,7 +210,9 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'title',
         'Hathi_Climate' : 'title',
         'Hathi_Rand' : 'title',
-        'NYT_China' : 'title'
+        'NYT_China' : 'title',
+        'WSJ_China' : 'title',
+        'WAPO_China' : 'title'
         },
     'author' :
         {
@@ -229,7 +239,8 @@ ES_FIELDS = {
         'Hathi_Climate' : 'author',
         'Hathi_Rand' : 'author',
         'NYT_China' : 'author',
-
+        'WSJ_China' : 'author',
+        'WAPO_China' : 'author'
         },
     'date': {
         'Poetry_Foundation' : 'date',
@@ -270,7 +281,9 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'date',
         'Hathi_Climate' : 'date',
         'Hathi_Rand' : 'date',
-        'NYT_China' : 'date'
+        'NYT_China' : 'date',
+        'WSJ_China' : 'date',
+        'WAPO_China' : 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -313,7 +326,9 @@ ES_FIELDS = {
         'NYNPO_taxforms': ['title', 'date'],
         'Hathi_Climate' : ['title', 'page'],
         'Hathi_Rand' : ['title', 'page'],
-        'NYT_China' : ['title', 'author']
+        'NYT_China' : ['title', 'author'],
+        'WSJ_China' : ['title', 'author'],
+        'WAPO_China' : ['title', 'author']
      }
 }
 MAX_NUM_DOC_VIS = {
@@ -357,5 +372,7 @@ MAX_NUM_DOC_VIS = {
     'NYNPO_taxforms': 45000,
     'Hathi_Climate' : 5000,
     'Hathi_Rand' : 5000,
-    'NYT_China' : 80000
+    'NYT_China' : 80000,
+    'WSJ_China' : 31000,
+    'WAPO_China': 10000
 }
