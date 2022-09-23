@@ -16,6 +16,7 @@ var networkGraphNotes = {
 	"notes": [],
 	"activeTopic": ""
 };
+var query_pk;
 var defaultColors = d3.schemePaired;
 function renderNetwork(formattedData, meta) {
 	var label_show_cutoff = 0;
@@ -23,6 +24,7 @@ function renderNetwork(formattedData, meta) {
 	var label_show_cutoff = 2;
 	var label_font_size = 8;
 	vis_request_id = meta.vis_request_id;
+	query_pk = meta.q_pk;
 	// var edges;
 	// var nodes;
 	var showlabels = params.nodelabels;
