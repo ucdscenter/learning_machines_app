@@ -289,7 +289,7 @@ var database_runtimes = {
 	"max" : 10000,
 	"description" : "Washington Post articles mentioning China"
 	},
-	'ÚS_Poetics' : {
+	'US_Poetics' : {
 		"a" : 0,
 		"b" : 0,
 		"count" : 51235,

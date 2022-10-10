@@ -75,7 +75,7 @@ def get_docs(self, qry_str, q_pk=None):
 		else:
 			num_occur = 0
 		doc_obj = {
-			"id" : doc.doc_id,
+			"id" : str(doc.doc_id) if type(doc.doc_id) == int else doc.doc_id,
 			"journal_title" : doc.journal_title,
 			"article_title" : doc.article_title,
 			"authors" : doc.authors,
