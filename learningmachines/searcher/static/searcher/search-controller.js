@@ -67,6 +67,7 @@ async function renderDataBaseSelect(dbdata) {
     .style("display", "inline-block")
     .classed("pp", true)
     .text(function (d) {
+      console.log(d)
       return ": " + formatter(database_runtimes[d].count) + " docs";
     });
 
@@ -293,7 +294,7 @@ async function getA(dbn, qry, timeExt, size) {
 }
 
 function renderSearchInput(d, dbdata) {
-  console.log(d);
+
   $('#search-term').off('keyup');
   $('.doc-button').off("click");
   $('#archaeology-row-div select').val('all');
@@ -1334,6 +1335,10 @@ let DATABASES =
   'WAPO_China' : {
     'options': [],
     'name': 'WAPO China'
+  },
+  'US_Poetics' : {
+    'options' : [],
+    'name': 'US Poetics'
   }
 };
 let dbi = 0;
