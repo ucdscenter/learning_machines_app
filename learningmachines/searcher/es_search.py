@@ -111,9 +111,11 @@ class SearchResults_ES:
 
         def get_doc(self, doc_id):
                 doc = {
-                        "query": {
-                                "term": {
-                                        ES_FIELDS['id'][self.database]: str(doc_id)
+                        "document": {
+                                "query": {
+                                        "term": {
+                                                ES_FIELDS['id'][self.database]: str(doc_id)
+                                        }
                                 }
                         }
                 }

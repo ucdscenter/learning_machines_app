@@ -1334,6 +1334,10 @@ let DATABASES =
   'WAPO_China' : {
     'options': [],
     'name': 'WAPO China'
+  },
+  'US_Poetics' : {
+    'options' : [],
+    'name': 'US Poetics'
   }
 };
 let dbi = 0;
