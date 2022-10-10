@@ -25,8 +25,8 @@ import os
 from django.views.decorators.clickjacking import xframe_options_exempt
 
 
-# SEND_WORKER = True
-SEND_WORKER = False
+SEND_WORKER = True
+
 
 """
 'Med_Applications': 'family_medicine',
