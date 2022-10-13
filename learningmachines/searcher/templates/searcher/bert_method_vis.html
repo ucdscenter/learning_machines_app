@@ -34,7 +34,7 @@
       <div class="visContainer" style="height: 100vh; width: 100vw;">
         <div class="visContainer__infoContainer">
 
-          <div class="visContainer__dropDownContainer">
+          <div class="visContainer__dropDownContainer" style='display: none;'>
             <h6>Select Algorithm</h6>
             <select class="visContainer__dropDown" id="visContainer__dropDown">
               <option value="bert">Bert</option>
@@ -63,7 +63,7 @@
           <div class="visContainer__info" style='overflow-y: auto;'>
             <h5 class="visContainer__info__docTitle" id="visContainer__info__docTitle">Label: </h5>
             <h6 class="visContainer__info__docTitle" id="visContainer__info__docAuthor">Author: </h6>
-            <h6 class="visContainer__info__docTitle" id="visContainer__info__docTopic">Topic: </h6>
+            <h6 class="visContainer__info__docTitle" id="visContainer__info__docTopic">Cluster: </h6>
             <div class="visContainer__info__docText" id="visContainer__info__docText"></div>
           </div>
         </div>
@@ -72,6 +72,28 @@
               <img class='mt-5' src="{% static 'searcher/images/big-ajax-loader.gif' %}" alt="loading">
           </div>
           <div class="visContainer__graph hidden" id="visContainer__graph">
+            <div class="visContainer__cluster" id="visContainer__cluster">
+
+              <div id="visContainer__clustershow" class='clustershow' style="cursor: pointer; color: black"><h5 align="center"> Show Cluster Info<i id="icon-show" class="material-icons center_icon_h3">expand_more</i><i id="icon-hide" class="material-icons center_icon_h3 hidden">expand_less</i></h5></div>
+
+              <div  id="visContainer__clusterInfo" class="visContainer_clusterInfo hidden m-2" style="max-height: 75vh; overflow-y: scroll">
+                <table class="table">
+                  <thead style="background-color: white;">
+                    <tr>
+                    <th>Cluster</th>
+                    <th>Size</th>
+                    <th>central title</th>
+                    <th>tfidf label</th>
+                  </tr>
+                  </thead>
+                  <tbody id="dtbody" style="font-size: 10px;">
+              
+                  </tbody>
+
+                </table>
+              </div>
+             
+            </div>
             <!-- <canvas id="visContainer__graphCanvas" width="716" height="820" style="width: 716.6666666666666px; height: 820px;">{{ datasetJsonString }}</canvas> -->
           </div>
         </div>

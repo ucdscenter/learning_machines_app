@@ -3,6 +3,7 @@
 async function wrapper(){
 
     //DECLARE ~GLOBAL VARIABLES
+    var data_path;
     var dataset;
     var data;
 
@@ -17,7 +18,29 @@ async function wrapper(){
     pointsMaterial, points, initial_scale, 
     initial_transform, raycaster, hoverContainer, searchContainer, choose_points, choose_generated_points;
 
-
+     color_array = [
+            "#1f78b4",
+            "#b2df8a",
+            "#33a02c",
+            "#fb9a99",
+            "#e31a1c",
+            "#90fc03",
+            "#fdbf6f",
+            "#ff7f00",
+            "#cab2d6",
+            "#6a3d9a",
+            "#ffff99",
+            "#b15928",
+            "#a6cee3",
+            "#b2df8a",
+            "#33a02c",
+            "#fb9a99",
+            "#e31a1c",
+            "#90fc03",
+            "#fdbf6f",
+            "#ff7f00",
+            "#cab2d6",
+        ]
 
 
     async function fetchData(url, selectedValue){
@@ -47,7 +70,15 @@ async function wrapper(){
             if(qry.length == 0){
                 return;
             }
-            let qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + qry
+            let fullq = qry
+            let base_qry = dataset_path.split("_")[0] 
+            if (base_qry.length == 0){
+                fullq = qry
+            }
+            else{
+                fullq = base_qry + " AND " + qry; 
+            }
+            let qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq
             console.log(qry_str)
             getDocs(qry_str)
             
@@ -127,12 +158,15 @@ async function wrapper(){
             $('#visContainer__loading').removeClass("hidden")
             fetchData(window.location.pathname, selectedValue).then((result) => {
                 data = result.dataset;
+                dataset_path = result.dataset_path;
                 console.log(result)
                 dataset = result.dataset_name;
                 console.log(dataset)
                 $('#s-doc-count').text(data.x.length + " documents")
                 $('#visContainer__graph').removeClass("hidden")
                 $('#visContainer__loading').addClass("hidden")
+
+                renderClusterInfo()
         // console.log(num_points)
 
          width = window.innerWidth
@@ -160,29 +194,8 @@ async function wrapper(){
             camera.updateProjectionMatrix();
         })
 
-         color_array = [
-            "#1f78b4",
-            "#b2df8a",
-            "#33a02c",
-            "#fb9a99",
-            "#e31a1c",
-            "#90fc03",
-            "#fdbf6f",
-            "#ff7f00",
-            "#cab2d6",
-            "#6a3d9a",
-            "#ffff99",
-            "#b15928",
-            "#a6cee3",
-            "#b2df8a",
-            "#33a02c",
-            "#fb9a99",
-            "#e31a1c",
-            "#90fc03",
-            "#fdbf6f",
-            "#ff7f00",
-            "#cab2d6",
-        ]
+        
+        console.log(color_array)
 
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(width, height);
@@ -550,7 +563,7 @@ async function wrapper(){
             }).then(data => {
                 document.getElementById("visContainer__info__docTitle").textContent = "Title: " + data.doc_title;
                 document.getElementById("visContainer__info__docAuthor").textContent = "Author: " + data.doc_author;
-                document.getElementById("visContainer__info__docTopic").textContent = "Topic: " + datum['data_category'];
+                document.getElementById("visContainer__info__docTopic").textContent = "Cluster: " + datum.data_category;
                 d3.selectAll(".doc-line").remove()
                 data.doc_text.split("\n").forEach(function(t){
                     d3.select('#visContainer__info__docText')
@@ -635,6 +648,87 @@ async function wrapper(){
 
     dropDownElement.value='bert'
     dropDownElement.dispatchEvent(new Event('change'));
+
+
+    //Do cluster info table
+
+   d3.select("#visContainer__clustershow").on("click", function(d){
+    let show = d3.select(this).classed("clustershow")
+    if (show == true){
+        d3.select('#icon-hide').classed("hidden", !show);
+        d3.select('#icon-show').classed("hidden", show);
+        d3.select("#visContainer__clusterInfo").classed("hidden", !show)
+    }
+    else {
+        d3.select('#icon-hide').classed("hidden", true);
+        d3.select('#icon-show').classed("hidden", false);
+        d3.select("#visContainer__clusterInfo").classed("hidden", true)
+    }
+    d3.select(this).classed("clustershow", !show)
+   })
+
+   function renderClusterInfo(){
+
+    function clusterColor(cc, op){
+        let ccc = new THREE.Color(color_array[cc + 1]);
+        return "rgba(" + (ccc.r * 255) + ',' + (ccc.g * 255) + ',' + (ccc.b * 255) + ","+ op +")";
+    }
+
+    data['clusters_sizes'] = []
+
+    let clusterSet = new Set(data['clusters']);
+
+    clusterSet.forEach(function(c){
+        data['clusters_sizes'].push(0)
+        //
+    })
+
+    clusterSet.forEach(function(c){
+        data['clusters_sizes'][c] = data['clusters'].filter(x => x === c).length 
+        //
+    })
+    let c_idxs = []
+    for(var i=0; i < data['clusters_sizes'].length; i++){
+        c_idxs.push(i)
+    }
+
+    let c_table = d3.select("#dtbody")
+    
+    let rows = c_table.selectAll(".row")
+                    .data(c_idxs)
+                    .enter()
+                    .append("tr")
+                    .style("background-color", function(d){
+                        return clusterColor(d,.5)
+                    })
+                    .on("mouseover", function(){
+                        d3.select(this).style("background-color",function(d){
+                            return clusterColor(d, 1)
+                        })
+                    })
+                    .on("mouseout",function(){
+                        d3.select(this).style("background-color",function(d){
+                            return clusterColor(d, .5)
+                        })
+                    })
+
+    let c_td = rows.selectAll("td").data(function(d, i){
+        return [i, data['clusters_sizes'][i], data['cluster_labels_docs'][i], data['cluster_labels_tfidf'][i]]
+    }).enter()
+    .append("td")
+     c_td.append("div")
+        .style("max-height", '10vh')
+        .style("overflow-y", "auto")
+        .text(function(d){
+         return d
+        })
+    console.log(data['clusters_sizes'].length)
+
+
+    console.log(data['clusters_sizes'])
+   }
+
+   
 
 
 }//wrapper

@@ -459,7 +459,7 @@ def bert_method_vis(request, dataset=''):
 				modelName = json.loads(request.body.decode('utf-8')).lower()
 				data_f = open(f"searcher/static/searcher/bert_method_data/{context['datasets'][dataset]['s3_names'][modelName]}.json", 'r')
 				datasetJsonString = data_f.read()
-			return JsonResponse({'dataset': json.loads(datasetJsonString), 'dataset_name': context['datasets'][dataset]['database']})
+			return JsonResponse({'dataset': json.loads(datasetJsonString), 'dataset_name': context['datasets'][dataset]['database'], 'dataset_path' : context['datasets'][dataset]['s3_names'][modelName]})
 		else:
 			if permiss(dataset, request) == False:
 				return HttpResponse(json.dumps("No permissions"), status=403)

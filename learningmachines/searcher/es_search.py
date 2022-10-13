@@ -150,8 +150,8 @@ class SearchResults_ES:
 
 				return self.esDoc(
 						doc_id=doc_id,
-						journal_title=journal_title,
-						article_title=article_title,
+						journal_title=journal_title.replace('"', "").replace("\n", ""),
+						article_title=article_title.replace('"', "").replace("\n", ""),
 						authors=authors,
 						text=full_text,
 						date=date,
