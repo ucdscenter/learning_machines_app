@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import Normalizer
 import numpy as np
 from .es_search import SearchResults_ES
-from learningmachines.cfg import TEMP_MODEL_FOLDER
+from learningmachines.cfg import TEMP_MODEL_FOLDER, NUM_MLMOM_MODELS, MLMOM_SEED_INTERVAL
 
 class MLMOMFormatter:
 	def __init__(self, qry_str, cm=None, qh=None):
@@ -39,16 +39,16 @@ class MLMOMFormatter:
 	def create(self):
 
 		save_fp = TEMP_MODEL_FOLDER + "/" + self.model_name + "/model_"
-		for x in range(0, 600, 100):
-			x1 = int(x / 100)
+		for x in range(0, NUM_MLMOM_MODELS, MLMOM_SEED_INTERVAL):
+			x1 = int(x / MLMOM_SEED_INTERVAL)
 			model_info_json = {
 				"name" : "m" + str(x1),
 				"diffs" : []
 				}
 			lda1 = gensim.models.LdaModel.load(save_fp + str(x))
 
-			for y in range(x, 600, 100):
-				y1 = int(y / 100)
+			for y in range(x, NUM_MLMOM_MODELS, MLMOM_SEED_INTERVAL):
+				y1 = int(y / MLMOM_SEED_INTERVAL)
 				lda2 = gensim.models.LdaModel.load(save_fp + str(y))
 				mdiff, annotation = lda1.diff(lda2, distance='hellinger')
 				model_info_json["diffs"].append({
@@ -86,7 +86,7 @@ class MLMOMFormatter:
 		for d in corpus_iter:
 			corpus_iterator.append(d)
 
-		for x in range(0, 600, 100):
+		for x in range(0, NUM_MLMOM_MODELS, MLMOM_SEED_INTERVAL):
 			save_fp = TEMP_MODEL_FOLDER + "/" + self.model_name + "/model_"
 			lda1 = gensim.models.LdaModel.load(save_fp + str(x))
 			doc_index = 0
@@ -128,7 +128,7 @@ class MLMOMFormatter:
 						}
 		self.graph["links"] = list(linksdict.values())
 		base_nps = []
-		for x in range(0, 600, 100):
+		for x in range(0, NUM_MLMOM_MODELS, MLMOM_SEED_INTERVAL):
 			lda1 = gensim.models.LdaModel.load(save_fp + str(x))
 			if x == 0:
 				base_nps = lda1.get_topics()
@@ -155,7 +155,7 @@ class MLMOMFormatter:
 		mcount = 0
 		tcount = 0
 
-		for x in range(0, 600, 100):
+		for x in range(0, NUM_MLMOM_MODELS, MLMOM_SEED_INTERVAL):
 			
 			lda1 = gensim.models.LdaModel.load(save_fp + str(x))
 			if self.qh.get_status() == "Cancelled":

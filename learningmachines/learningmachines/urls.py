@@ -18,14 +18,15 @@ from django.contrib.messages.api import success
 from django.urls import path, re_path
 from django.urls import include
 from django.views.generic import RedirectView
-from django.conf.urls import url
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponse
 from . import users
 
 from django.shortcuts import redirect
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+
 
 def redirect_all_view(request, path=None):
     print(path)
@@ -57,9 +58,14 @@ def redirect_proj_view(request):
     response = redirect('/searcher/projects' + params_str)
     return response
 
-
+def certbot_endpoint(request):
+    lines = [
+        "06V56UKHxJMcw68rQ_qpDEqelPqS-KqzxfrX_xuzSBM.9ZWDVF6y5ROeoQG7L4j_XEuGUePDB7Bkn1hwDDqf2Io",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
 
 urlpatterns = [
+    re_path(r'^health_check/', include('health_check.urls')),
     path('admin/', admin.site.urls),
     #account endpoints
     path('accounts/create_user/', users.create_user, name='create_user'),
@@ -85,6 +91,7 @@ urlpatterns = [
     path('projects/vent_notes/', redirect_proj_view),
     #path('search/', redirect('searcher')),#RedirectView.as_view(url='searcher', permanent=True)),
     #url(, home)
+    path(".well-known/acme-challenge/06V56UKHxJMcw68rQ_qpDEqelPqS-KqzxfrX_xuzSBM", certbot_endpoint),
     re_path(r'^(?P<path>.*)/$', redirect_all_view),
     path('', RedirectView.as_view(url='searcher', permanent=True)),
 

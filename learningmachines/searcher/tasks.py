@@ -64,7 +64,6 @@ def get_docs(self, qry_str, q_pk=None):
 	r = qh.update_status("Fetching Documents")
 	if r == "Cancelled":
 		return "CANCEL"
-	print("NOTHING")
 	es = SearchResults_ES(database=qry_str['database'], qry_obj=qry_str)
 	print("searchresults!")
 	rslt_json = []
@@ -76,7 +75,7 @@ def get_docs(self, qry_str, q_pk=None):
 		else:
 			num_occur = 0
 		doc_obj = {
-			"id" : doc.doc_id,
+			"id" : str(doc.doc_id) if type(doc.doc_id) == int else doc.doc_id,
 			"journal_title" : doc.journal_title,
 			"article_title" : doc.article_title,
 			"authors" : doc.authors,

@@ -32,7 +32,7 @@ class SearchResults_ES:
 						use_ssl=True,
 						verify_certs=True,
 						connection_class=RequestsHttpConnection,
-						timeout=10000
+						timeout=300
 				)
 				self.esDoc = namedtuple('esDoc', ['doc_id', 'journal_title', 'article_title', 'authors', 'date', 'text', 'doi'])
 				self.page_hits = None
@@ -43,7 +43,6 @@ class SearchResults_ES:
 				self.total_docs = 0
 				self.taggedDoc=taggedDoc
 				self.rand = rand
-				self.scroll_timeout = '20m'
 				
 				if self.qry_obj != None:
 						self.th = TextHandler(self.qry_obj)
@@ -52,10 +51,7 @@ class SearchResults_ES:
 				
 				self.cleaned = cleaned
 				if self.qry_obj != None:
-						if 'maximum_hits' in self.qry_obj:
-							self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
-						else:
-							self.total_hits = MAX_NUM_DOC_VIS[self.database]
+						self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
 						self.qry_obj['f_start'] = int(self.qry_obj['f_start']) if 'f_start' in qry_obj else -1
 						self.qry_obj['f_end'] = int(self.qry_obj['f_end']) if 'f_end' in qry_obj else -1
 						self.qry_obj['min_occurrence'] = int(self.qry_obj['min_occurrence']) if 'min_occurrence' in qry_obj else -1
@@ -114,18 +110,20 @@ class SearchResults_ES:
 								return retdoc
 
 		def get_doc(self, doc_id):
-			print(ES_FIELDS['id'][self.database])
-			doc = {
-					"query": {
-							"term": {
-									ES_FIELDS['id'][self.database]: str(doc_id)
+				print(doc_id)
+				doc = {
+							"query": {
+									"term": {
+											ES_FIELDS['id'][self.database]: str(doc_id)
+									}
 							}
-					}
-			}
-			print(doc)
-			es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
-			hits = es_qry['hits']['hits']
-			return self._process_hit(hits[0])
+						}
+				print(doc)
+				es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
+				#es v7
+				#es_qry = self.es.search(index=self.es_index, body=doc)
+				hits = es_qry['hits']['hits']
+				return self._process_hit(hits[0])
 
 		def _process_hit(self, hit):
 				source= hit["_source"]
@@ -183,14 +181,8 @@ class SearchResults_ES:
 		def format_qry(self):
 				print(self.qry_obj)
 				qry = self.qry_obj['qry'].replace('+', ' ')
-				if 'start' in self.qry_obj:
-					start = self.qry_obj['start'] if self.qry_obj['start'].split("-")[0].isdigit() else None
-				else: 
-					start = None
-				if 'end' in self.qry_obj:
-					end = self.qry_obj['end'] if self.qry_obj['end'].split("-")[0].isdigit() else None
-				else:
-					end = None
+				start = self.qry_obj['start'] if self.qry_obj['start'].split("-")[0].isdigit() else None
+				end = self.qry_obj['end'] if self.qry_obj['end'].split("-")[0].isdigit() else None
 				min_care_rating = self.qry_obj.get('min_care_rating')
 				jurisdiction = self.qry_obj.get('jurisdiction')
 				auth_qry = self.qry_obj.get('auth_s')
@@ -271,6 +263,7 @@ class SearchResults_ES:
 								"query": query,
 								"random_score": {"seed": 10, "field": ES_FIELDS['id'][self.database]},
 								}}
+				print(query)
 				return query
 
 		def do_search(self):
@@ -283,25 +276,28 @@ class SearchResults_ES:
 				print('search query', doc)
 				if self.total_hits < _max_hits:
 						doc = {'size': self.total_hits,'query': query}
-						es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
+						#es v7
+						#es_qry = self.es.search(index=self.es_index, doc_type='_doc', body=doc)
+						es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
 						self.page_hits = es_qry['hits']['hits']		
 						self.scroll_size = len(self.page_hits)		
 				else:
 						if self.scroll_id == None:
-								es_qry = self.es.search(index=self.es_index, scroll=self.scroll_timeout, doc_type='document', body=doc)
+								#es v7
+								#es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='_doc', body=doc)
+								es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
 								self.page_hits = es_qry['hits']['hits']
 
 								self.scroll_id = es_qry['_scroll_id']
 								self.scroll_size = len(es_qry['hits']['hits'])
 								self.num_scroll = 0
 						else:
-								es_qry = self.es.scroll(scroll_id=self.scroll_id, scroll=self.scroll_timeout)
+								es_qry = self.es.scroll(scroll_id=self.scroll_id, scroll='5m')
 								self.scroll_id = es_qry['_scroll_id']
 								self.scroll_size = len(es_qry['hits']['hits'])
 								print('scroll', self.num_scroll, self.scroll_size)
 								self.page_hits = es_qry['hits']['hits']
 								self.num_scroll += 1
-
 
 
 

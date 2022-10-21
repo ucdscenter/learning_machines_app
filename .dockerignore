@@ -1,0 +1,6 @@
+learningmachines/static/
+learningmachines/searcher/static/
+learningmachines/learningmachines/credentials.py
+learningmachines/db.sqlite3
+learningmachines/eval_data/
+node_modules

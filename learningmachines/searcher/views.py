@@ -1,3 +1,4 @@
+import email
 from django.shortcuts import render
 from learningmachines.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
@@ -11,7 +12,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.http import HttpResponse, HttpRequest
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import get_object_or_404, render
 
 from .es_search import SearchResults_ES
@@ -19,7 +20,7 @@ from .query_handler import QueryHandler
 from .decorators import access_required
 
 from .models import Profile
-from .models import QueryRequest, VisRequest, DocFilter
+from .models import QueryRequest, VisRequest, DocFilter, Annotation
 from celery.result import AsyncResult
 from learningmachines.cfg import TEMP_MODEL_FOLDER
 import os
@@ -29,6 +30,8 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 from learningmachines.es_fields import datasetNames
 
+
+# SEND_WORKER = True
 SEND_WORKER = False
 
 
@@ -80,8 +83,8 @@ def home(request):
 
 @xframe_options_exempt
 def projects(request):
-	ctxt = {}
-	print(request)
+	from learningmachines.external_projects import PROJECTS
+
 	project_name = request.GET.get('name')
 	html = 'searcher/projects.html'
 	if project_name == 'blm':
@@ -107,7 +110,7 @@ def projects(request):
 	if project_name == 'vent_notes':
 		html = 'searcher/projects/vent_notes.html'
 
-	return render(request, html, ctxt)
+	return render(request, html, {'projects': PROJECTS})
 
 
 def proxy_static(request):
@@ -168,6 +171,7 @@ def process_search(request):
 	return HttpResponse(json.dumps(rslts), content_type="application/json")
 
 
+#@access_required('all')
 def get_doc(request):
 	qry_str = {k: v[0] for k, v in dict(request.GET).items()}
 	if permiss(qry_str['database'], request) == False:
@@ -285,6 +289,7 @@ def start_model_run(request):
 
 	if not request.user.is_anonymous:
 		query_request.user = request.user
+
 	print(qry_str)
 	doc_filter = DocFilter(
 		method=qry_str['method'],
@@ -313,6 +318,7 @@ def start_model_run(request):
 		jurisdiction=qry_str['jurisdiction_select']
 	)
 
+
 	model_name = '{query}_{time}_{random_str}'.format(
 		query=qry_str['qry'],
 		time=get_now(),
@@ -326,6 +332,7 @@ def start_model_run(request):
 		# task_id=task.id,
 	)
 
+
 	query_request.save()
 	doc_filter.save()
 	vis.save()
@@ -337,10 +344,11 @@ def start_model_run(request):
 		rsp_obj = {
 			"task_id": task.id
 		}
+
 	else:
 		run_model(qry_str, q_pk=query_request.pk)
 
-	rsp_obj = {"hi": "there"}
+	rsp_obj = { "hi" : "there"}
 	return HttpResponse(json.dumps(rsp_obj))
 
 
@@ -385,7 +393,7 @@ def load_formatted(request):
 		data_str = data_obj.read()
 		data_obj.close()
 		the_data = json.loads(data_str.decode('utf-8'))
-		rsp_obj = {"model_info": model_display_info, "data": the_data}
+		rsp_obj = {"model_info" : model_display_info, "data" : the_data, "meta": {"vis_request_id": vis_request.pk}}
 		rsp_str = json.dumps(rsp_obj)
 		return HttpResponse(rsp_str, content_type="application/json")
 	else:
@@ -479,3 +487,103 @@ def helper_json_function(filename):
 		json_bert_vis = json.load(openfile)
 		bert_vis_points = {'bert_vis_points_data': json_bert_vis}
 	return bert_vis_points
+
+def get_annotations(request):
+	print(request)
+	try:
+		vis_request = request.GET.get('vis_request_id')
+		print(vis_request)
+		if not vis_request:
+			return HttpResponse('Invalid request id', 400)
+		#TODO: Populate activeTopic after storing in DB
+		annotations = Annotation.objects.filter(vis_request = vis_request)
+
+		if(annotations.count() == 0):
+			return HttpResponse(status=404)
+
+		response = { 'notes': [], 'activeTopic': ''}
+		for annotation in annotations:
+			formatted = {
+				'nodes': annotation.nodes_and_edges['nodes'],
+				'edges': annotation.nodes_and_edges['edges'],
+				'labelPosition':{
+									'x': annotation.label_position_x, 
+									'y': annotation.label_position_y
+								},
+				'labelText': annotation.label_text,
+				'labelColor': annotation.label_color,
+				'labelId': annotation.note_id,
+				'activeTopic': annotation.active_topic,
+				'visRequest': annotation.vis_request.pk,
+				'pk': annotation.pk,
+				'canEdit': annotation.user == request.user or (annotation.user is not None and annotation.user.email == request.user.email)
+			}
+			response['notes'].append(formatted)
+
+		return HttpResponse(json.dumps(response), status = 200, content_type="application/json")
+	except Exception as e:
+		print(e)
+		return HttpResponse('Error while fetching annotations', status = 500)
+
+def save_annotations(request):
+	try:
+		user = request.user
+		print(request)
+		#TODO: Validation
+		pk = request.POST.get('pk')
+		nodes = request.POST.getlist('nodes[]')
+		edges = request.POST.getlist('edges[]')
+		label_id = request.POST.get('labelId')
+		label_position_x = float(request.POST.get('labelPosition[x]'))
+		label_position_y = float(request.POST.get('labelPosition[y]'))
+		label_text = request.POST.get('labelText')
+		label_color = request.POST.get('labelColor')
+		if(pk):
+			annotation = Annotation.objects.get(pk = pk)
+			if annotation.nodes_and_edges != dict(nodes = nodes, edges = edges): 
+				annotation.nodes_and_edges = dict(nodes = nodes, edges = edges)
+			if annotation.note_id  != label_id:
+				annotation.note_id  = label_id
+			if annotation.label_position_x != label_position_x:
+				annotation.label_position_x = label_position_x
+			if annotation.label_position_y != label_position_y:
+				annotation.label_position_y = label_position_y
+			if annotation.label_text != label_text:
+				annotation.label_text = label_text
+			if annotation.label_color != label_color:
+				annotation.label_color = label_color
+			annotation.user = user
+			annotation.save()
+			return HttpResponse(status = 200)
+		else:
+			annotation = Annotation(nodes_and_edges = dict(nodes = nodes, edges = edges), 
+				note_id  = label_id,
+				label_position_x = label_position_x,
+				label_position_y = label_position_y,
+				label_text = label_text,
+				label_color = label_color,
+				vis_request = VisRequest.objects.get(pk=request.POST.get('vis_request_id')),user = user)
+			annotation.save()
+			return HttpResponse(status = 201)
+	except Exception as e:
+		print(e)
+		return HttpResponse('Error while saving annotations', status = 500)
+
+def delete_annotation(request):
+	try:
+		vis_request_id = request.GET.get('vis_request_id')
+		note_id = request.GET.get('note_id')
+
+		if(vis_request_id == None or note_id == None):
+			return HttpResponse(status = 404)
+
+		annotation = Annotation.objects.get(vis_request = vis_request_id, note_id = note_id)
+		annotation.delete()
+		return HttpResponse(status = 200)
+	except Annotation.DoesNotExist as e:
+		print(e)
+		return HttpResponse(status = 404)
+	except Exception as e:
+		print(e)
+		return HttpResponse('Error while deleting annotations', 500)
+

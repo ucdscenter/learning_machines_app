@@ -3,7 +3,7 @@ import shutil
 from gensim.models.callbacks import CallbackAny2Vec
  
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-from learningmachines.cfg import TEMP_MODEL_FOLDER
+from learningmachines.cfg import TEMP_MODEL_FOLDER, NUM_MLMOM_MODELS, MLMOM_SEED_INTERVAL
 from .es_search import SearchResults_ES
 from gensim.models.callbacks import CallbackAny2Vec
 from .sentiment_model import SentimentModel
@@ -91,13 +91,18 @@ class NLPModelManager:
 		for d in docs:
 			corpus_docs.append(d)
 		print(os.listdir("."))
+		print(os.getcwd())
+		print(os.listdir("searcher"))
 		if os.path.exists(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"]):
 			return
 		else:
 			os.mkdir(TEMP_MODEL_FOLDER + "/" + self.qry_str["model_name"])
-		for seed in range(0, 600, 100):
+		for seed in range(0, NUM_MLMOM_MODELS, MLMOM_SEED_INTERVAL):
 			try:
-				self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha='symmetric', passes=NUM_PASSES, random_state=seed, callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
+				alpha, beta = 'symmetric', 'auto'
+				print(alpha)
+				print(beta)
+				self.model = LdaModel(corpus_docs, num_topics=self.num_topics, id2word=self.cm.dct, alpha=alpha, eta=beta, passes=NUM_PASSES, random_state=seed, callbacks=[EpochLogger(self.qh, num_passes=NUM_PASSES)])
 				self.model.save(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name'] +  "/model_" + str(seed))
 			except QueryCancelledException:
 				if os.path.exists(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name']) and os.path.isdir(TEMP_MODEL_FOLDER +'/' + self.qry_str['model_name']):

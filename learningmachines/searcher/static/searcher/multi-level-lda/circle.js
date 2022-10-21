@@ -30,6 +30,7 @@ var t = d3.transition()
     });
 
     var svg = d3.select("#circle-graph-div").append("svg")
+    .attr("id", 'circle-svg')
     .attr("width", diameter)
     .attr("height", diameter)
   	.append("g")
