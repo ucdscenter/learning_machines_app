@@ -1328,6 +1328,14 @@ let DATABASES =
     'options': [],
     'name': 'SAA Abstracts'
   },
+  'space_news': {
+    'options': [],
+    'name': 'Space News Articles'
+  },
+  'US_Poetics' : {
+    'options' : [],
+    'name': 'US Poetics'
+  },
   'WSJ_China' : {
     'options': [],
     'name': 'WSJ China'
@@ -1336,10 +1344,7 @@ let DATABASES =
     'options': [],
     'name': 'WAPO China'
   },
-  'US_Poetics' : {
-    'options' : [],
-    'name': 'US Poetics'
-  }
+  
 };
 let dbi = 0;
 Object.keys(DATABASES).forEach(function (db) {
