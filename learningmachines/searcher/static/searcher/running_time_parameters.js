@@ -239,5 +239,11 @@ var database_runtimes = {
 	"b" : 0,
 	"count" : 79923,
 	"max" : 80000
+	},
+	'space_news' : {
+	"a" : 0, 
+	"b" : 0,
+	"count" : 9063,
+	"max" : 10000
 	}
 }

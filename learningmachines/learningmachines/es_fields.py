@@ -38,7 +38,8 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'nynpo_taxforms',
         'Hathi_Climate' : 'hathi_climate',
         'Hathi_Rand' : 'hathi_climate_rand',
-        'NYT_China' : 'nyt-china'
+        'NYT_China' : 'nyt-china',
+        'space_news': 'space_news'
     },
     'id': {
         'Poetry_Foundation' : 'pmid',
@@ -79,7 +80,8 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'ein',
         'Hathi_Climate' : 'hathi_id',
         'Hathi_Rand' : 'hathi_id',
-        'NYT_China' : 'uid'
+        'NYT_China' : 'uid', 
+        'space_news' : 'uid'
     },
     'abstract': {
         'Poetry_Foundation' : 'text',
@@ -118,7 +120,8 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'text',
         'Hathi_Climate' : 'text',
         'Hathi_Rand' : 'text',
-        'NYT_China' : 'text'
+        'NYT_China' : 'text',
+        'space_news' : 'text'
     },
     'full_text': {
         'Poetry_Foundation' : 'text',
@@ -159,7 +162,8 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'text',
         'Hathi_Climate' : 'text',
         'Hathi_Rand' : 'text',
-        'NYT_China' : 'text'
+        'NYT_China' : 'text', 
+        'space_news' : 'text'
     },
     'doc_title' :
         {
@@ -202,7 +206,8 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'title',
         'Hathi_Climate' : 'title',
         'Hathi_Rand' : 'title',
-        'NYT_China' : 'title'
+        'NYT_China' : 'title',
+        'space_news' : 'title'
         },
     'author' :
         {
@@ -229,7 +234,7 @@ ES_FIELDS = {
         'Hathi_Climate' : 'author',
         'Hathi_Rand' : 'author',
         'NYT_China' : 'author',
-
+        'space_news' : 'author'
         },
     'date': {
         'Poetry_Foundation' : 'date',
@@ -270,7 +275,8 @@ ES_FIELDS = {
         'NYNPO_taxforms': 'date',
         'Hathi_Climate' : 'date',
         'Hathi_Rand' : 'date',
-        'NYT_China' : 'date'
+        'NYT_China' : 'date', 
+        'space_news' : 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -313,7 +319,8 @@ ES_FIELDS = {
         'NYNPO_taxforms': ['title', 'date'],
         'Hathi_Climate' : ['title', 'page'],
         'Hathi_Rand' : ['title', 'page'],
-        'NYT_China' : ['title', 'author']
+        'NYT_China' : ['title', 'author'],
+        'space_news' : ['title', 'author']
      }
 }
 MAX_NUM_DOC_VIS = {
@@ -357,5 +364,6 @@ MAX_NUM_DOC_VIS = {
     'NYNPO_taxforms': 45000,
     'Hathi_Climate' : 5000,
     'Hathi_Rand' : 5000,
-    'NYT_China' : 80000
+    'NYT_China' : 80000, 
+    'space_news' : 10000
 }

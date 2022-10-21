@@ -1311,6 +1311,10 @@ let DATABASES =
     'options': [],
     'name': 'SAA Abstracts'
   },
+  'space_news': {
+    'options': [],
+    'name': 'Space News Articles'
+  },
 };
 let dbi = 0;
 Object.keys(DATABASES).forEach(function (db) {
