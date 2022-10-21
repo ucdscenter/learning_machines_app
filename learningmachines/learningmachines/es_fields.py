@@ -41,7 +41,8 @@ ES_FIELDS = {
         'NYT_China' : 'nyt-china',
         'WSJ_China' : 'wsj_china',
         'WAPO_China': 'wapo_china',
-        'US_Poetics' : 'us_poetics'
+        'US_Poetics' : 'us_poetics',
+        'space_news': 'space_news'
     },
     'id': {
         'Poetry_Foundation' : 'pmid',
@@ -85,7 +86,8 @@ ES_FIELDS = {
         'NYT_China' : 'uid',
         'WSJ_China' : 'uid',
         'WAPO_China' : 'uid',
-        'US_Poetics' : 'uid'
+        'US_Poetics' : 'uid',
+        'space_news' : 'uid'
     },
     'abstract': {
         'Poetry_Foundation' : 'text',
@@ -127,7 +129,8 @@ ES_FIELDS = {
         'NYT_China' : 'text',
         'WSJ_China' : 'text',
         'WAPO_China' : 'text',
-        'US_Poetics' : 'url'
+        'US_Poetics' : 'url',
+        'space_news' : 'text'
     },
     'full_text': {
         'Poetry_Foundation' : 'text',
@@ -171,7 +174,8 @@ ES_FIELDS = {
         'NYT_China' : 'text',
         'WSJ_China' : 'text',
         'WAPO_China' : 'text',
-        'US_Poetics' : 'text'
+        'US_Poetics' : 'text',
+        'space_news' : 'text'
     },
     'doc_title' :
         {
@@ -217,7 +221,8 @@ ES_FIELDS = {
         'NYT_China' : 'title',
         'WSJ_China' : 'title',
         'WAPO_China' : 'title',
-        'US_Poetics' : 'title'
+        'US_Poetics' : 'title',
+        'space_news' : 'title'
         },
     'author' :
         {
@@ -246,7 +251,8 @@ ES_FIELDS = {
         'NYT_China' : 'author',
         'WSJ_China' : 'author',
         'WAPO_China' : 'author',
-        'US_Poetics' : 'author'
+        'US_Poetics' : 'author',
+        'space_news' : 'author'
         },
     'date': {
         'Poetry_Foundation' : 'date',
@@ -290,7 +296,8 @@ ES_FIELDS = {
         'NYT_China' : 'date',
         'WSJ_China' : 'date',
         'WAPO_China' : 'date',
-        'US_Poetics' : 'date'
+        'US_Poetics' : 'date',
+        'space_news' : 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -336,7 +343,8 @@ ES_FIELDS = {
         'NYT_China' : ['title', 'author'],
         'WSJ_China' : ['title', 'author'],
         'WAPO_China' : ['title', 'author'],
-        'US_Poetics' : ['title', 'author']
+        'US_Poetics' : ['title', 'author'],
+        'space_news' : ['title', 'author']
      }
 }
 MAX_NUM_DOC_VIS = {
@@ -383,5 +391,6 @@ MAX_NUM_DOC_VIS = {
     'NYT_China' : 80000,
     'WSJ_China' : 31000,
     'WAPO_China': 10000,
-    'US_Poetics' : 52000
+    'US_Poetics' : 52000,
+    'space_news' : 10000
 }

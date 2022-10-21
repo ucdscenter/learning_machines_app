@@ -295,5 +295,12 @@ var database_runtimes = {
 		"count" : 51235,
 		"max" : 52000,
 		"description" : "Articles about US Poetics"
+	},
+	'space_news' : {
+	"a" : 0, 
+	"b" : 0,
+	"count" : 9063,
+	"max" : 10000,
+	"description" : "News articles about space!"
 	}
 }
