@@ -87,7 +87,7 @@ ES_FIELDS = {
         'WSJ_China' : 'uid',
         'WAPO_China' : 'uid',
         'US_Poetics' : 'uid',
-        'space_news' : 'uid'
+        'space_news' : 'id'
     },
     'abstract': {
         'Poetry_Foundation' : 'text',
