@@ -38,6 +38,7 @@
     <link href="{% static 'searcher/fonts/roboto_robotoslab.css' %}" rel="stylesheet" type="text/css">
     <link  href="{% static 'searcher/fonts/material_icons.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'searcher/mymain.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'searcher/bert.css' %}" type="text/css" >
   {% endblock head_css_site %}
   {% block head_css_section %}
    
@@ -73,7 +74,8 @@
       {% if user.is_authenticated %}
       <li class="nav-item" id="search-btn"><a class="nav-link" href="/searcher/models/" id="search-nav"> | Models | </a></li>
       {% endif %}
-      <li class="nav-item" id="search-btn"><a class="nav-link" href="/searcher/projects/" id="search-nav">   Projects  </a></li>
+      <li class="nav-item" id="search-btn"><a class="nav-link" href="/searcher/projects/" id="search-nav">  | Projects |  </a></li>
+      <li class="nav-item" id="search-btn"><a class="nav-link" href="/searcher/bert_method_vis/" id="search-nav">  | BERT Projection | </a></li>
       <!--<li class="nav-item"><a class="nav-link" href="/learn/" id="learn-nav">Learn</a></li>
       <li class="nav-item"><a class="nav-link" href="/analyze/" id="analyze-nav">Analyze</a></li>-->
     </ul>

@@ -1,0 +1,125 @@
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 400px);
+    /* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); */
+    padding: 25px;
+    grid-gap: 40px;
+}
+
+.card {
+    /* background-color: #1c1b29; */
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    /* display: block; */
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card__imageContainer { 
+    position: relative;
+}
+
+.card__image { 
+    width: 100%;
+    display: block;
+    border-radius: 20px 20px;
+}
+
+.card__imageContainer:after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px 20px 0 0;
+    opacity: 0.7;
+}
+
+.card__overlay { 
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    background-color: #fff;
+    transform: translateX(100%);
+    transition: .4s ease-in-out;
+    border-radius: 20px;
+    /* visibility: hidden; */
+    cursor: pointer;
+}
+
+.card:hover .card__overlay {
+    transform: translateX(0);
+    visibility: visible;
+    /* left: 0; */
+    /* right: 0; */
+}
+
+.card__header { 
+  align-items: center;
+  padding: 1em;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.card__thumb {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;      
+    border-radius: 50%;
+    margin-top: 0;      
+}
+
+.card__title {
+    font-size: 1em;
+    margin: 0.3em 0 .3em;
+    color: #6A515E;
+}
+
+.visContainer {
+    position: relative;
+    color: white;
+}
+
+.visContainer__infoContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(34, 34, 34);
+}
+
+.visContainer__dropDownContainer {
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.visContainer__searchContainer {
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.visContainer__dropDown {
+    margin: 10px;
+}
+
+.visContainer__info {
+    padding: 20px;
+}
+
+.visContainer__graphContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
