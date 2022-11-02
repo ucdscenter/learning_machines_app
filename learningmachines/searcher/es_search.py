@@ -51,6 +51,10 @@ class SearchResults_ES:
 				
 				self.cleaned = cleaned
 				if self.qry_obj != None:
+						if 'maximum_hits' in self.qry_obj:
+							self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
+						else:
+							self.total_hits = MAX_NUM_DOC_VIS[self.database]
 						self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
 						self.qry_obj['f_start'] = int(self.qry_obj['f_start']) if 'f_start' in qry_obj else -1
 						self.qry_obj['f_end'] = int(self.qry_obj['f_end']) if 'f_end' in qry_obj else -1
@@ -77,7 +81,7 @@ class SearchResults_ES:
 				if self.total_docs >= self.total_hits or self.total_docs >= MAX_NUM_DOC_VIS[self.database]:
 						self._stop_and_reset()
 						raise StopIteration
-				if self.scroll_size < 1000 and self.num_docs >= self.scroll_size:
+				if self.scroll_size < ES_SCROLL_SIZE and self.num_docs >= self.scroll_size:
 						self._stop_and_reset()
 						raise StopIteration
 				if self.num_docs >= self.scroll_size:
@@ -181,8 +185,14 @@ class SearchResults_ES:
 		def format_qry(self):
 				print(self.qry_obj)
 				qry = self.qry_obj['qry'].replace('+', ' ')
-				start = self.qry_obj['start'] if self.qry_obj['start'].split("-")[0].isdigit() else None
-				end = self.qry_obj['end'] if self.qry_obj['end'].split("-")[0].isdigit() else None
+				if 'start' in self.qry_obj:
+					start = self.qry_obj['start'] if self.qry_obj['start'].split("-")[0].isdigit() else None
+				else: 
+					start = None
+				if 'end' in self.qry_obj:
+					end = self.qry_obj['end'] if self.qry_obj['end'].split("-")[0].isdigit() else None
+				else:
+					end = None
 				min_care_rating = self.qry_obj.get('min_care_rating')
 				jurisdiction = self.qry_obj.get('jurisdiction')
 				auth_qry = self.qry_obj.get('auth_s')

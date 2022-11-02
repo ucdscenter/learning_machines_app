@@ -12,7 +12,6 @@ ES_FIELDS = {
         'JSTOR': 'jstor',
         'foster': 'foster_care_note',
         'foster_encounter': 'foster_care_encounter',
-        'CaseLaw': 'case_law',
         'Archaeology': 'archaeology',
         'Latin': 'latin',
         'Ehealth': 'alzheimer_threads',
@@ -42,7 +41,8 @@ ES_FIELDS = {
         'WSJ_China' : 'wsj_china',
         'WAPO_China': 'wapo_china',
         'US_Poetics' : 'us_poetics',
-        'space_news': 'space_news'
+        'space_news': 'space_news',
+        'chicago-novels' : 'chicago-novels'
     },
     'id': {
         'Poetry_Foundation' : 'pmid',
@@ -87,7 +87,8 @@ ES_FIELDS = {
         'WSJ_China' : 'uid',
         'WAPO_China' : 'uid',
         'US_Poetics' : 'uid',
-        'space_news' : 'uid'
+        'space_news' : 'id',
+        'chicago-novels' : 'id'
     },
     'abstract': {
         'Poetry_Foundation' : 'text',
@@ -130,7 +131,8 @@ ES_FIELDS = {
         'WSJ_China' : 'text',
         'WAPO_China' : 'text',
         'US_Poetics' : 'url',
-        'space_news' : 'text'
+        'space_news' : 'text',
+        'chicago-novels' : 'genre'
     },
     'full_text': {
         'Poetry_Foundation' : 'text',
@@ -175,7 +177,8 @@ ES_FIELDS = {
         'WSJ_China' : 'text',
         'WAPO_China' : 'text',
         'US_Poetics' : 'text',
-        'space_news' : 'text'
+        'space_news' : 'text',
+        'chicago-novels' : 'text'
     },
     'doc_title' :
         {
@@ -222,7 +225,8 @@ ES_FIELDS = {
         'WSJ_China' : 'title',
         'WAPO_China' : 'title',
         'US_Poetics' : 'title',
-        'space_news' : 'title'
+        'space_news' : 'title',
+        'chicago-novels' : 'title'
         },
     'author' :
         {
@@ -252,7 +256,8 @@ ES_FIELDS = {
         'WSJ_China' : 'author',
         'WAPO_China' : 'author',
         'US_Poetics' : 'author',
-        'space_news' : 'author'
+        'space_news' : 'author',
+        'chicago-novels' : 'author'
         },
     'date': {
         'Poetry_Foundation' : 'date',
@@ -297,7 +302,8 @@ ES_FIELDS = {
         'WSJ_China' : 'date',
         'WAPO_China' : 'date',
         'US_Poetics' : 'date',
-        'space_news' : 'date'
+        'space_news' : 'date',
+        'chicago-novels' : 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -344,7 +350,8 @@ ES_FIELDS = {
         'WSJ_China' : ['title', 'author'],
         'WAPO_China' : ['title', 'author'],
         'US_Poetics' : ['title', 'author'],
-        'space_news' : ['title', 'author']
+        'space_news' : ['title', 'author'],
+        'chicago-novels' : ['title', 'author'],
      }
 }
 MAX_NUM_DOC_VIS = {
@@ -353,7 +360,7 @@ MAX_NUM_DOC_VIS = {
     'SEC_Texts': 22000,
     'china_newstranscripts' : 189000,
     'China_news' : 189000,
-    'Care_Reviews': 30000,
+    'Care_Reviews': 40000,
     'caselaw_env':121000,
     'Covid': 144000,
     'Pubmed': 20000,
@@ -367,7 +374,7 @@ MAX_NUM_DOC_VIS = {
     'TCP': 1500,
     'ACJ': 20000,
     'searchpage' : 144000,
-    'CaseLaw_v2' : 10000,
+    'CaseLaw_v2' : 326000,
     'AA' : 23000,
     'CCHMC' : 20000,
     'TED' : 20000,
@@ -392,114 +399,172 @@ MAX_NUM_DOC_VIS = {
     'WSJ_China' : 31000,
     'WAPO_China': 10000,
     'US_Poetics' : 52000,
-    'space_news' : 10000
+    'space_news' : 10000,
+    'chicago-novels' : 10000
 }
 
-datasetNames = {
 
-    'chinanews': {
+# 'index': {
+#     'Poetry_Foundation' : 'poetry-foundation',
+#     'News_Articles': 'all-the-news',
+#     'SEC_Texts': 'sec_texts',
+#     'China_news' : 'china_newstranscripts',
+#     'Care_Reviews':'care_reviews',
+#     'caselaw_env':'caselaw_env',
+#     'Covid':'covid_v4',
+#     'Pubmed': 'pubmed_v3',
+#     'PMC': 'pmc_test',
+#     'JSTOR': 'jstor',
+#     'foster': 'foster_care_note',
+#     'foster_encounter': 'foster_care_encounter',
+#     'Archaeology': 'archaeology',
+#     'Latin': 'latin',
+#     'Ehealth': 'alzheimer_threads',
+#     'TCP': 'tcp',
+#     'ACJ': 'ac_justice',
+#     'AA': 'anesthesiology',
+#     'CaseLaw_v2': 'case_law_v2',
+#     'CCHMC' : 'cchmc_notes',
+#     'TED' : 'ted_talks',
+#     'Pulmonary' : 'pulmonary_notes',
+#     'Ehealth_Threads': 'alzheimer_threads', 
+#     'Cannabis_News':'cannabis',
+#     'NPO_taxforms':'npo_990forms',
+#     'OHNPO_taxforms': 'ohio_npo_essential',
+#     'Pubmed_COI': 'coi_statements',
+#     'Reddit' : 'parenting_subreddit', 
+#     'SAA_Abstracts': 'arch_abstracts',
+#     'Med_Applications': 'family_medicine',
+#     'Mayerson' : 'mayerson',
+#     'Mayerson_qna' : 'mayerson_qna',
+#     'hathitrust_novels' : 'hathitrust_novels',
+#     'early_modern':'early_modern', 
+#     'NYNPO_taxforms': 'nynpo_taxforms',
+#     'Hathi_Climate' : 'hathi_climate',
+#     'Hathi_Rand' : 'hathi_climate_rand',
+#     'NYT_China' : 'nyt-china',
+#     'WSJ_China' : 'wsj_china',
+#     'WAPO_China': 'wapo_china',
+#     'US_Poetics' : 'us_poetics',
+#     'space_news': 'space_news'
+# },
+
+
+datasetNames = {
+	'archaeology': {
             'num_docs': 50000,
-         'description': 'This is a sample description for a dataset.',
+         'description': 'Archaeology journal Articles',
          's3_names': {
-            'bert': '_China_news_umap_kmeans',
-         'umap': '',
-         'tsne': '',
-         'kmeanspca': '',
-         'pca': '',
-         'pcakmeans': '',
-         'kmeansumap': '',
-         'kmeanstsne': ''},
+            'bert': '_Archaeology_umap_kmeans'},
+            'display_name' : 'Archaeology',
+         'database': 'Archaeology'},
+	'anesthesiology': {
+            'num_docs': 50000,
+         'description': 'Anesthesiology publication abstracts',
+         's3_names': {
+            'bert': '_AA_umap_kmeans'},
+            'display_name' : 'Anesthesiology Abstracts',
+         'database': 'AA'},
+
+    'case_law_v2' : {
+            'num_docs': 50000,
+         'description': 'Caselaw antitrust results',
+         's3_names': {
+            'bert': 'antitrust_CaseLaw_v2_umap_kmeans'},
+            'display_name' : 'Caselaw Antitrust',
+         'database': 'CaseLaw_v2'},
+
+	'chinanews': {
+            'num_docs': 50000,
+         'description': 'news transcripts mentioning china',
+         's3_names': {
+            'bert': '_China_news_umap_kmeans'},
+            'display_name' : 'China News Transcripts',
          'database': 'China_news'},
      'carereviews': {
             'num_docs': 30000,
          'description': 'This is a sample description for a dataset.',
          's3_names': {
-            'bert': '_Care_Reviews_bert',
-         'umap': '',
-         'tsne': '',
-         'kmeanspca': '',
-         'pca': '',
-         'pcakmeans': '',
-         'kmeansumap': '',
-         'kmeanstsne': ''},
+            'bert': '_Care_Reviews_umap_kmeans'},
+            'display_name' : 'Urgent Care Reviews',
          'database': 'Care_Reviews'},
      'covid': {
             'num_docs': 144000,
-         'description': 'This is a sample description for a dataset.',
+         'description': 'Covid CDC dataset as of November 2020.',
          's3_names': {
-            'bert': '_Covid_umap_kmeans',
-         'umap': '',
-         'tsne': '',
-         'kmeanspca': '',
-         'pca': '',
-         'pcakmeans': '',
-         'kmeansumap': '',
-         'kmeanstsne': ''},
+            'bert': '_Covid_umap_kmeans',},
+            'display_name' : 'CDC Covid Dataset',
          'database': 'Covid'},
      'pubmed': {
             'num_docs': 2000000,
-         'description': 'This is a sample description for a dataset.',
+         'description': 'Pubmed abstracts mentioning climate.',
          's3_names': {
-            'bert': '_Pubmed_umap_kmeans',
-         'umap': 'pubmed_umap',
-         'tsne': 'pubmed_tsne',
-         'kmeanspca': 'pubmed_kmeanspca',
-         'pca': 'pubmed_pca',
-         'pcakmeans': 'pubmed_pcakmeans',
-         'kmeansumap': '',
-         'kmeanstsne': ''},
+            'bert': 'climate_Pubmed_umap_kmeans'},
+            'display_name' : 'Pubmed Abstracts climate',
          'database': 'Pubmed'},
      'tcp': {
             'num_docs': 1500,
-         'description': 'This is a sample description for a dataset.',
+         'description': 'Old english works',
          's3_names': {
-            'bert': 'TCP_umap_kmeans',
-         'umap': 'tcp_umap',
-         'tsne': 'tcp_tsne',
-         'kmeanspca': 'tcp_kmeanspca',
-         'pca': 'tcp_pca',
-         'pcakmeans': 'tcp_pcakmeans',
-         'kmeansumap': '',
-         'kmeanstsne': ''},
-         'database': 'TCP'},
-         'reddit': {
+            'bert': '_TCP_umap_kmeans'},
+            'display_name' : 'Text Creation Partnership',
+            'database': 'TCP'},
+
+       'reddit': {
             'num_docs': 45000,
          'description': 'Comments pulled from the /r/Parenting subreddit.',
          's3_names': {
-            'bert': 'Reddit_umap_kmeans',
-         'umap': '',
-         'tsne': '',
-         'kmeanspca': '',
-         'pca': '',
-         'pcakmeans': '',
-         'kmeansumap': '',
-         'kmeanstsne': ''},
+            'bert': '_Reddit_umap_kmeans',},
+            'display_name' : '/r/Parenting',
          'database': 'Reddit'},
      'medapplications': {
         'num_docs': 4000,
-         'description': 'This is a sample description for a dataset.',
+         'description': '',
          's3_names': {
             'bert': 'Med_Applications_umap_kmeans',
-         'umap': '',
-         'tsne': '',
-         'kmeanspca': '',
-         'pca': '',
-         'pcakmeans': '',
-         'kmeansumap': '',
-         'kmeanstsne': ''},
+			},
+			'display_name' : 'Medical School Applications',
          'database': 'Med_Applications'},
+      'nyt-china' : {
+      		'num_docs' : 45000,
+      		'description' : 'New York Times articles mentioning China',
+      		's3_names': {
+            'bert': '_NYT_China_umap_kmeans'
+            	},
+            	'display_name' : 'NYTimes China',
+         'database': 'NYT_China'
+         },
+       # 'pulmonary_notes' :{
+      	# 	'num_docs' : 45000,
+      	# 	'description' : 'Pulmonary notes',
+      	# 	's3_names': {
+       #      'bert': '_Pulmonary_umap_kmeans'
+       #      	},
+       #   'database': 'Pulmonary'
+       #   },
      'poetryfoundation': {
          'num_docs': 15692,
          'description': 'Open source collection of poems from the Poetry Foundation',
          's3_names': {
             'bert': '_Poetry_foundation_umap_kmeans',
-             'umap': 'poetry_foundation_umap',
-             'tsne': 'poetry_foundation_tsne',
-             'kmeanspca': 'poetry_foundation_kmeanspca',
-             'pca': 'poetry_foundation_pca',
-             'pcakmeans': 'poetry_foundation_pcakmeans',
-             'kmeansumap': '',
-             'kmeanstsne': ''},
-         'database': 'Poetry_Foundation'}
+      		},
+      		'display_name' : 'Poetry Foundation',
+         'database': 'Poetry_Foundation'},
+   	 'wapo_china': {
+   	 	'num_docs': 15692,
+         'description': 'Washington post articles mentioning China',
+         's3_names': {
+            'bert': '_WAPO_China_umap_kmeans',},
+            'display_name' : 'Washington Post China',
+         'database': 'WAPO_China'},
+      'wsj_china': {
+   	 	'num_docs': 15692,
+         'description': 'Wall St. Journal articles mentioning China',
+         's3_names': {
+            'bert': '_WSJ_China_umap_kmeans',},
+            'display_name' : 'WSJ China',
+         'database': 'WSJ_China'}
+
 }
+
 

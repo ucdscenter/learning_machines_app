@@ -8,14 +8,19 @@
         <a href="/searcher/bert_method_vis/{{dataset}}">
         <div class="card">
           <div class="card__imageContainer">
-            <img class="card__image" alt={{dataset}} src="{% static 'searcher/images/bert_images/' %}{{dataset}}.png">
+            <!-- <img class="card__image" alt={{dataset}} src="{% static 'searcher/images/bert_images/' %}{{dataset}}.png"> -->
+            <div class="p-5" style="min-height: 100px;">
+              <h3 style="color: black">
+                {{dataset_info.display_name}}
+              </h3>
+            </div>
           </div>
   
           <div class="card__overlay">
             <div class="card__header">
               <!--<img class="card__thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="" />-->
                 <div class="card__header-text">
-                  <h3 class="card__title">{{dataset}}</h3>            
+                  <h3 class="card__title">{{dataset_info.display_name}}</h3>            
                   <span class="card__text">{{dataset_info.description}}</span>
                 </div>
             </div>

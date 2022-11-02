@@ -1227,6 +1227,10 @@ let DATABASES =
     'options': [],
     'name': 'CaseLaw Environment'
   },
+  'chicago-novels' : {
+    'options' : [],
+    'name' : 'Chicago Corpus'
+  },
     'Covid': {
     'options': [],
     'name': 'COVID-19 Articles'

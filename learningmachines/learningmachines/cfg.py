@@ -1,6 +1,6 @@
 from learningmachines.public_credentials import S3_BUCKET
 ES_MAX_SIZE = 100000
-ES_SCROLL_SIZE = 1000
+ES_SCROLL_SIZE = 250
 
 TEMP_MODEL_FOLDER = 'searcher/tempmodeldata'
 S3_RNLP_DATA_DIR = 'LDA-models'
