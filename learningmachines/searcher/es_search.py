@@ -52,10 +52,15 @@ class SearchResults_ES:
 				self.cleaned = cleaned
 				if self.qry_obj != None:
 						if 'maximum_hits' in self.qry_obj:
-							self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
+							if self.qry_obj['maximum_hits'] != None:
+								print("MAX HITS")
+								print(self.qry_obj.get('maximum_hits'))
+								self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
+							else:
+								self.total_hits = MAX_NUM_DOC_VIS[self.database]
 						else:
 							self.total_hits = MAX_NUM_DOC_VIS[self.database]
-						self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
+						#self.total_hits = int(self.qry_obj.get('maximum_hits') if self.qry_obj.get('maximum_hits').isdigit() else MAX_NUM_DOC_VIS[self.database])
 						self.qry_obj['f_start'] = int(self.qry_obj['f_start']) if 'f_start' in qry_obj else -1
 						self.qry_obj['f_end'] = int(self.qry_obj['f_end']) if 'f_end' in qry_obj else -1
 						self.qry_obj['min_occurrence'] = int(self.qry_obj['min_occurrence']) if 'min_occurrence' in qry_obj else -1
