@@ -12,7 +12,7 @@ async function wrapper(){
     far, camera, color_array,
     scene, renderer, zoom,
     d3_transform, view, radius,
-    circle_sprite, radius,
+    radius,
     data_points, generated_points, pointsGeometry,
     colors, vertices, sizes,
     pointsMaterial, points, initial_scale, 
@@ -220,9 +220,6 @@ async function wrapper(){
         }
         setUpZoom();
 
-        circle_sprite= new THREE.TextureLoader().load(
-        "/static/searcher/images/disc.png"
-        )
 
         radius = 2000;
        
