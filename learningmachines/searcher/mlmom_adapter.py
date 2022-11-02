@@ -94,7 +94,7 @@ class MLMOMFormatter:
 				return
 			
 			for doc in corpus_iterator:
-				topics_in_doc = lda1.get_document_topics(doc, minimum_probability=0.01)
+				topics_in_doc = lda1.get_document_topics(doc, minimum_probability=0.3)
 				for t in topics_in_doc:
 					model_topic_name = self.formatted_m[model_index]["name"] + ":" + str(t[0])
 					if doc_index not in doc_graphlinks:
