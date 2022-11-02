@@ -216,6 +216,15 @@ hr {
 	overflow-y: auto;
 }
 
+
+#visContainer__cluster {
+	position : absolute;
+	top : 2.5vh;
+	left : 80vw;
+	background-color: #eee;
+	width:  17vw;
+}
+
 p, button {
 	font-family: 'Roboto', serif;
 }
