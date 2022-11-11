@@ -42,7 +42,9 @@ ES_FIELDS = {
         'WAPO_China': 'wapo_china',
         'US_Poetics' : 'us_poetics',
         'space_news': 'space_news',
-        'chicago-novels' : 'chicago-novels'
+        'chicago-novels' : 'chicago-novels', 
+        'space_tvnews' : 'space_tvnews'
+
     },
     'id': {
         'Poetry_Foundation' : 'pmid',
@@ -88,7 +90,8 @@ ES_FIELDS = {
         'WAPO_China' : 'uid',
         'US_Poetics' : 'uid',
         'space_news' : 'id',
-        'chicago-novels' : 'id'
+        'chicago-novels' : 'id',
+        'space_tvnews' : 'id'
     },
     'abstract': {
         'Poetry_Foundation' : 'text',
@@ -132,7 +135,8 @@ ES_FIELDS = {
         'WAPO_China' : 'text',
         'US_Poetics' : 'url',
         'space_news' : 'text',
-        'chicago-novels' : 'genre'
+        'chicago-novels' : 'genre',
+        'space_tvnews' : 'abstract'
     },
     'full_text': {
         'Poetry_Foundation' : 'text',
@@ -178,7 +182,8 @@ ES_FIELDS = {
         'WAPO_China' : 'text',
         'US_Poetics' : 'text',
         'space_news' : 'text',
-        'chicago-novels' : 'text'
+        'chicago-novels' : 'text',
+        'space_tvnews' : 'text'
     },
     'doc_title' :
         {
@@ -226,7 +231,8 @@ ES_FIELDS = {
         'WAPO_China' : 'title',
         'US_Poetics' : 'title',
         'space_news' : 'title',
-        'chicago-novels' : 'title'
+        'chicago-novels' : 'title',
+        'space_tvnews' : 'title'
         },
     'author' :
         {
@@ -257,7 +263,8 @@ ES_FIELDS = {
         'WAPO_China' : 'author',
         'US_Poetics' : 'author',
         'space_news' : 'author',
-        'chicago-novels' : 'author'
+        'chicago-novels' : 'author',
+        'space_tvnews' : 'title'
         },
     'date': {
         'Poetry_Foundation' : 'date',
@@ -303,7 +310,8 @@ ES_FIELDS = {
         'WAPO_China' : 'date',
         'US_Poetics' : 'date',
         'space_news' : 'date',
-        'chicago-novels' : 'date'
+        'chicago-novels' : 'date',
+        'space_tvnews' : 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -352,6 +360,7 @@ ES_FIELDS = {
         'US_Poetics' : ['title', 'author'],
         'space_news' : ['title', 'author'],
         'chicago-novels' : ['title', 'author'],
+        'space_tvnews' : ['title', 'abstract'],
      }
 }
 MAX_NUM_DOC_VIS = {
@@ -400,7 +409,8 @@ MAX_NUM_DOC_VIS = {
     'WAPO_China': 10000,
     'US_Poetics' : 52000,
     'space_news' : 10000,
-    'chicago-novels' : 10000
+    'chicago-novels' : 10000,
+    'space_tvnews' : 15000
 }
 
 

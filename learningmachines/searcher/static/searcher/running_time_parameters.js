@@ -310,4 +310,11 @@ var database_runtimes = {
 	"max" : 10000,
 	"description" : "Chicago Novels corpus"
 	},
+	'space_tvnews' : {
+	"a" : 0, 
+	"b" : 0,
+	"count" : 14399,
+	"max" : 15000,
+	"description" : "TV News about space!"
+	},
 }
