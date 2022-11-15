@@ -1348,6 +1348,10 @@ let DATABASES =
     'options': [],
     'name': 'WAPO China'
   },
+  'space_tvnews' : {
+    'options': [],
+    'name': 'Space TV News'
+  }
   
 };
 let dbi = 0;
