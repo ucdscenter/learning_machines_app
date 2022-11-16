@@ -441,8 +441,12 @@ def searcher(request):
 		return render(request, 'searcher/success.html', {'recepient': recepient})
 	return render(request, 'searcher/index2.html', {'form': sub})
 
-# Function for BERT Visualization
 
+
+def wikiarts_method_vis(request):
+	return render(request, 'searcher/wikiarts_method_vis.html')
+
+# Function for BERT Visualization
 
 USE_S3_BERT = True
 

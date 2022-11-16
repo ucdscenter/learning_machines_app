@@ -22,6 +22,7 @@ urlpatterns = [
     path('load_formatted/', views.load_formatted, name='load_formatted'),
     path('proxy_static/', views.proxy_static, name='proxy_static'),
     path('projects/', views.projects, name='projects'),
+    path('wikiarts_method_vis/', views.wikiarts_method_vis, name='wikiarts_method_vis'),
     path('bert_method_vis/', views.bert_method_vis, name='bert_method_vis'),
     path('bert_method_vis/<str:dataset>',
          views.bert_method_vis, name='bert_method_vis'),
