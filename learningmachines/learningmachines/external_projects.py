@@ -13,7 +13,7 @@ PROJECTS = {
 		"Name" : "1923 Crow Maps",
 		"Info" : "Maps of every allotment on the Crow Reservation from 1923, showing land parcels and their heads of household.",
 		"image" : "",
-		"Links" : [["https://rebeccawingo.com/reframed/map/maps_static/about-map", "Visit Rebecca Wingo's Site"]]
+		"Links" : [["https://rebeccawingo.com/reframed/map/maps_static/map-proto.html", "Visit Rebecca Wingo's Site"]]
 	},
 	"Library" : {
 		"Name" : "UC Published Documents Dashboard",
