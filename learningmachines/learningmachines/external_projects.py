@@ -74,6 +74,14 @@ PROJECTS = {
 		["http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=fastgreedy", "Random Sample of 1 million tweets"]]
 	},
 
+	"Union Kerfuffle" : {
+		"Name" : "NLRB Union Twitter",
+		"Info" : "Twitter user interaction networks for Barstool, Tesla, and the Federalist when their CEO's made tweets that violated NLRB rules",
+		"image" : "",
+		"Links" : [
+		["http://socialmedia.modelofmodels.io/union", "Union Page"]]
+	},
+
 }
 #http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=hydroxychloroquinefastgreedy
 
