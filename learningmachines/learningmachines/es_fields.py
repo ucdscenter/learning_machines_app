@@ -409,7 +409,7 @@ MAX_NUM_DOC_VIS = {
     'WAPO_China': 10000,
     'US_Poetics' : 52000,
     'space_news' : 10000,
-    'chicago-novels' : 10000,
+    'chicago-novels' : 18000000,
     'space_tvnews' : 15000
 }
 

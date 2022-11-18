@@ -306,8 +306,8 @@ var database_runtimes = {
 	'chicago-novels' : {
 	"a" : 0, 
 	"b" : 0,
-	"count" : 9089,
-	"max" : 10000,
+	"count" : 17287636,
+	"max" : 17287636,
 	"description" : "Chicago Novels corpus"
 	},
 	'space_tvnews' : {
