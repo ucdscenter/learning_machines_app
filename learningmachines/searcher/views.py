@@ -446,7 +446,18 @@ def searcher(request):
 def wikiarts_method_vis(request):
 	return render(request, 'searcher/wikiarts_method_vis.html')
 
-# Function for BERT Visualization
+def s3_image(request):
+	import base64
+	s3Obj = boto3.client('s3')
+	#rslt = s3Obj.get_object(Bucket='wikiart-project', Key='images/184896.jpg')
+	#rslt_decode = base64.b64encode(rslt['Body'].read()).decode('utf-8')
+	#print(rslt_decode)
+	
+	url = s3Obj.generate_presigned_url('get_object', Params = { 
+                                                'Bucket': 'wikiart-project', 
+                                                'Key': 'images/' + request.GET.get("id") + ".jpg", }, 
+                                    ExpiresIn = 600, )
+	return JsonResponse({"url" : url})#rslt_decode # Function for BERT Visualization
 
 USE_S3_BERT = True
 

@@ -23,6 +23,7 @@ urlpatterns = [
     path('proxy_static/', views.proxy_static, name='proxy_static'),
     path('projects/', views.projects, name='projects'),
     path('wikiarts_method_vis/', views.wikiarts_method_vis, name='wikiarts_method_vis'),
+    path('s3_image/', views.s3_image, name='s3_image'),
     path('bert_method_vis/', views.bert_method_vis, name='bert_method_vis'),
     path('bert_method_vis/<str:dataset>',
          views.bert_method_vis, name='bert_method_vis'),
