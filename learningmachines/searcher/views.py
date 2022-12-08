@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 import json
 import logging
 import boto3
+from botocore.client import Config
 
 from django.http import JsonResponse
 
@@ -449,7 +450,7 @@ def wikiarts_method_vis(request):
 def s3_image(request):
 	import base64
 	from learningmachines.public_credentials import WIKIARTS_URL
-	s3Obj = boto3.client('s3')
+	s3Obj = boto3.client('s3', config=Config(signature_version='s3v4'))
 	url = s3Obj.generate_presigned_url('get_object', Params = { 
 												'Bucket': 'wikiart-project', 
 												'Key': 'images/' + request.GET.get("id") + ".jpg", }, ExpiresIn = 600, )
