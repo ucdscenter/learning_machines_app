@@ -187,7 +187,8 @@ async function wrapper(){
         	data_id = d.contentId;
         	data_title = d.title;
         	data_category = d[chosen_name];
-        	let point = {position, category_number, data_id, data_title, data_category};
+            artist_name = d.artistName;
+        	let point = {position, category_number, data_id, data_title, data_category, artist_name};
         	data_points.push(point);
         	})
         // for (let i = 0; i < data.x.length; i++) {
@@ -444,45 +445,37 @@ async function wrapper(){
             // console.log(window.location);
 
 
-            fetch("/searcher/s3_image/" + "?id=" + datum['data_id'], {
+            fetch("/searcher/s3_image/" + "?id=" + datum['data_id'] + "&fetch_similarity=True", {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             }).then(res => {
                 return res.json();
             }).then(data => {
-                document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.doc_title;
-                document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.doc_author;
+                console.log(data)
+                console.log(datum)
+                document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
+                document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
                 document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
                 document.getElementById("selectedImage").src = data.url
+
+                let sim_ims = d3.select("#similar_images")
+                sim_ims.selectAll(".sim_im").remove()
+                sim_ims.selectAll(".img")
+                    .data(data.sim_urls)
+                    .enter()
+                    .append("img")
+                    .attr("class", "sim_im")
+                    .attr("src", function(d){
+                        return d
+                    })
+                    .style("width", "25%")
+
+                
             
             }).catch(error => {
                     console.error('Error:', error);
             })
             
-            // fetch(window.location.pathname + "?id=" + datum['data_id'], {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(datum)
-            // }).then(res => {
-            //     return res.json();
-            // }).then(data => {
-            //     document.getElementById("visContainer__info__docTitle").textContent = "Title: " + data.doc_title;
-            //     document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + data.doc_author;
-            //     document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
-            //     d3.selectAll(".doc-line").remove()
-            //     data.doc_text.split("\n").forEach(function(t){
-            //         d3.select('#visContainer__info__docText')
-            //             .append("p")
-            //             .classed("mb-0", true)
-            //             .classed("doc-line", true)
-            //             .style("font-size", '.8rem')
-            //             .text(t)
-
-            //     })
-            // }).catch(error => {
-            //         console.error('Error:', error);
-            // });;
-
         } else {
             // removeHighlights();
             // hideTooltip();

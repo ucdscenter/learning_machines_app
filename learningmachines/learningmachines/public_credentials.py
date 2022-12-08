@@ -6,7 +6,7 @@ import json
 
 try:
 	#this is if you are using a user defined credentials.py file, it will override these values. 
-	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, RDS_ENDPOINT, S3_OBJECT, EMAIL_INFO, DEBUG_SETTING, S3_BUCKET
+	from .credentials import AWS_PROFILE, DB_ENV, DEV_DB_PROFILE, DJANGO_SECRET, SQS_QUEUE_NAME, REDIS_IP, REDIS_URL, RDS_ENDPOINT, S3_OBJECT, EMAIL_INFO, DEBUG_SETTING, S3_BUCKET, WIKIARTS_URL
 	print("credentials file found")
 
 except:
@@ -33,6 +33,7 @@ except:
 		django_secret = os.environ['DJANGO_SECRET']
 		redis_ip = os.environ['REDIS_IP']
 		client_email_pw = os.environ['CLIENT_EMAIL_PW']
+		wikairts_url = os.environ['WIKIARTS_URL']
 
 
 	AWS_PROFILE = {
@@ -68,6 +69,8 @@ except:
 		'BUCKET_NAME' : 'learningmachines-static',
 		'CUSTOM_DOMAIN' : f'learningmachines-static.s3.amazonaws.com'
 	}
+
+	WIKIARTS_URL = ""
 
 
 	EMAIL_INFO = {

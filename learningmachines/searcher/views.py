@@ -32,7 +32,7 @@ from learningmachines.es_fields import datasetNames
 
 
 
-SEND_WORKER = True
+SEND_WORKER = False
 
 
 """
@@ -448,16 +448,25 @@ def wikiarts_method_vis(request):
 
 def s3_image(request):
 	import base64
+	from learningmachines.public_credentials import WIKIARTS_URL
 	s3Obj = boto3.client('s3')
-	#rslt = s3Obj.get_object(Bucket='wikiart-project', Key='images/184896.jpg')
-	#rslt_decode = base64.b64encode(rslt['Body'].read()).decode('utf-8')
-	#print(rslt_decode)
-	
 	url = s3Obj.generate_presigned_url('get_object', Params = { 
-                                                'Bucket': 'wikiart-project', 
-                                                'Key': 'images/' + request.GET.get("id") + ".jpg", }, 
-                                    ExpiresIn = 600, )
-	return JsonResponse({"url" : url})#rslt_decode # Function for BERT Visualization
+												'Bucket': 'wikiart-project', 
+												'Key': 'images/' + request.GET.get("id") + ".jpg", }, ExpiresIn = 600, )
+	sim_urls = []
+	if request.GET.get("fetch_similarity") == "True":
+		import requests
+		sim_rsp = json.loads(requests.get(WIKIARTS_URL + ":8080/similar_images/" + request.GET.get("id")).text)
+		for s in sim_rsp["sim_rslts"]:
+			#Code for reading image here and posting image data, so no need for boto3 in wikairts server
+			#rslt = s3Obj.get_object(Bucket='wikiart-project', Key='images/184896.jpg')
+			#rslt_decode = base64.b64encode(rslt['Body'].read()).decode('utf-8')
+			#print(rslt_decode)
+			s_url = s3Obj.generate_presigned_url('get_object', Params = { 
+												'Bucket': 'wikiart-project', 
+												'Key': 'images/' + s + ".jpg", }, ExpiresIn = 600, )
+			sim_urls.append(s_url)
+	return JsonResponse({"url" : url, "sim_urls" : sim_urls})#rslt_decode # Function for BERT Visualization
 
 USE_S3_BERT = True
 
