@@ -450,7 +450,7 @@ def wikiarts_method_vis(request):
 def s3_image(request):
 	import base64
 	from learningmachines.public_credentials import WIKIARTS_URL
-	s3Obj = boto3.client('s3', config=Config(signature_version='s3v4'))
+	s3Obj = boto3.client('s3', config=Config(signature_version='s3v4', region_name='us-east-2'))
 	url = s3Obj.generate_presigned_url('get_object', Params = { 
 												'Bucket': 'wikiart-project', 
 												'Key': 'images/' + request.GET.get("id") + ".jpg", }, ExpiresIn = 600, )
