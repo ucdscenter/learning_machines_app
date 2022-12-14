@@ -70,7 +70,7 @@ except:
 		'CUSTOM_DOMAIN' : f'learningmachines-static.s3.amazonaws.com'
 	}
 
-	WIKIARTS_URL = ""
+	WIKIARTS_URL = wikairts_url
 
 
 	EMAIL_INFO = {
