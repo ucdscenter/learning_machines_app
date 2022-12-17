@@ -29,4 +29,4 @@ __pycache__/
 /learningmachines/bash_aws_worker_start.sh
 /learningmachines/bert_scripts/data/
 /learningmachines/bert_scripts/.ipynb_checkpoints/
-.ipynb_checkpoints/
+/learningmachines/searcher/static/searcher/wikiarts_data
