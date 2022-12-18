@@ -1,9 +1,25 @@
-
 async function wrapper(){
 	console.log("Hi There!")
 	console.log(wiki_path)
 
 	let wiki_data = await d3.csv(wiki_path);
+
+    // search bar
+    const searchInput = document.querySelector("[data-search]")
+
+    searchInput.addEventListener("input", e => {
+        const value = e.target.value.toLowerCase();
+        wiki_data.forEach(data_point => {
+            const found = data_point.style.toLowerCase().includes(value) ||
+            data_point.title.toLowerCase().includes(value) ||
+            data_point.artistName.toLowerCase().includes(value)
+            if (found) {
+                document.getElementById("visContainer__info__docTitle").textContent = "Title: " + data_point.title;
+                document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + data_point.artistName;
+                document.getElementById("visContainer__info__docTopic").textContent = "Group: " + data_point.style; 
+            }
+        })
+    })
 
     var height, width, viz_width,
     aspect, fov, near,
