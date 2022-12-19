@@ -9,6 +9,11 @@ async function wrapper(){
 
     searchInput.addEventListener("input", e => {
         const value = e.target.value.toLowerCase();
+
+        if(value == ''){
+            clearVis();
+        }
+
         wiki_data.forEach(data_point => {
             const found = data_point.style.toLowerCase().includes(value) ||
             data_point.title.toLowerCase().includes(value) ||
@@ -31,6 +36,10 @@ async function wrapper(){
     colors, vertices, sizes,
     pointsMaterial, points, initial_scale, 
     initial_transform, raycaster, hoverContainer, searchContainer, choose_points, choose_generated_points;
+
+    var s_generated_points, s_pointsGeometry, s_colors,
+        s_vertices, s_sizes, s_pointsGeometry,
+         s_pointsMaterial, s_points;
 
     let tooltip_state = { display: "none" }
 //<img src="https://wikiart-project.s3.us-east-2.amazonaws.com/images/184896.jpg?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEN7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIGE0wy4hlTNeuTVyuikOEpjZyAa%2FhscboiMjD5WZRhzsAiAsVi4BLGHMY247drxi4r%2FlAaRoZedGtTB99mWZ2JkGUiqIAwj3%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAQaDDA0OTg3OTE0OTM5MiIM1x944aEkDNMgWwxGKtwCc8B4U3I%2BB2iD%2F7TMPNrkJxkt%2BQd4PBc9GRdGQOBLQ%2BqUPETxw4tZg3opa3gMPWjzuKaAQ5ex9DsiFS4Dza%2FoszeNHZlCPOL1pvQfp7gW%2F1iA7n8rChuemGSQAs60f6ya%2FP6Kh5SPDRQHkJH5BQRxTXX%2BYnompCz2pJJJwc45H5YTRhRSjpo6lTN32SwtVbHSW1gzmLNivXvkPSV2uC31jrKwK%2BtXhICQzOo1oN4B4nWnIROfQfHlPY%2B5%2FL0YW%2Bji57Z%2FJ2qZ%2B4snOQmi9pmzUgchtVh8t9w6%2B%2B1GnjDYIsOGLlV63ulo2TPkMmDHsM1FFIBcuP5DNkS%2BYvxQPgXWTU%2FIFLTeR9XAMfwMDROCe67ohCyL1woYbUStoI2lbrpLmnn7jfIFJUXb3DZCaeZyn2pfAUgY2KAiOHntoqlxx6gaIVSBUanMR4Py9hXplqZ1lL9EB75zcUowUPorMMDHuZwGOrQCbOUlhQimbzAiUFAxDDzI6vQJ6qTSNBgAD%2BTxZ8KlFxDmKO1tXUALLfRXw5XtpTGdmge%2Fi34SI7XGwWOkqxJ0zNAMtJ7aQI8xlVaQn1ZMYvBAC4nVB9XfGtupU9k2fMWpPKCOHW6bOulNO1961zu2QQEysRM7nUT9tV2%2BwdVq4gOeJJI6WfeqIzaUue%2F9MLRhcmN4EVF9tA4r8K4P79%2Bw908syZB3z8QbK9vgGDHATxG1RGn7%2F6BtXcqmQysD9%2FD50R%2F2adWl2YmIazM3zrXfHc8OOYBTW7z%2B%2FCjNCzNSxKNGWt5GoVAotHZoECWZ04CmTUqtAhIBWFAUtGrxBl5FHP5QatySKGidBqudXTkPKmN4I51pxCWfn%2BMliRWZ77Ndgs9%2FL%2F6dGRALEIeYAUtQAcD5NMc%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20221205T214427Z&X-Amz-SignedHeaders=host&X-Amz-Expires=1800&X-Amz-Credential=ASIAQXHIHNNIE43RE3CN%2F20221205%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Signature=a4c4c9e2a25c6e7dddfd684c86cef0a619031a174ea344fc7c25680f9bfcf138" style="width: 100%"></img
@@ -83,6 +92,128 @@ async function wrapper(){
        'Neoclassicism' : 8, 'Symbolism' : 9}
      var chosen = styles
      var chosen_name = 'style'
+
+
+
+     searchInput.addEventListener("keyup", (e) => {
+        if(e.key === "Enter"){
+            const value = e.target.value.toLowerCase();
+            // clear out a previous visualization
+            clearVis()
+
+            // empty results array for storing query results
+            query_results = []
+            // find all 
+            wiki_data.forEach(data_point => {
+                const found = data_point.style.toLowerCase().includes(value) ||
+                data_point.title.toLowerCase().includes(value) ||
+                data_point.artistName.toLowerCase().includes(value)
+                if (found) {
+                    query_results.push(data_point);
+                }
+            })
+            
+            // create a visualization of those search results
+            searchVis(query_results);
+            console.log(query_results);
+        }
+    })
+
+    function clearVis(){
+        scene.remove(s_points)
+        pointsMaterial.opacity = .5;
+        pointsMaterial.needsUpdate = true
+        choose_points = points;
+        choose_generated_points = generated_points;
+        // $("#restore-search-button").addClass("hidden")
+
+        // $('#s-doc-count').text(data.x.length + " documents")
+    }
+
+    function searchVis(results){
+        pointsMaterial.opacity = .01
+        createSearchPoints(results);
+        pointsMaterial.needsUpdate = true;
+        choose_points = s_points;
+        choose_generated_points = s_generated_points;
+    }
+
+    function createSearchPoints(data){
+        let num_points = data.length;
+        let s_data_points = [];
+        data.forEach(function(d){
+        	d.x = +d.x;
+        	d.y = +d.y;
+        	position = [d.x, d.y];
+        	category_number = chosen[d[chosen_name]];
+        	if(category_number == undefined){
+        		category_number = -1
+        	}
+        	data_id = d.contentId;
+        	data_title = d.title;
+        	data_category = d[chosen_name];
+            artist_name = d.artistName;
+        	let point = {position, category_number, data_id, data_title, data_category, artist_name};
+        	s_data_points.push(point);
+        	})
+
+        s_generated_points = s_data_points;
+        // console.log(generated_points);
+
+        s_pointsGeometry = new THREE.BufferGeometry();
+
+        s_colors = new Float32Array(num_points * 3);
+        s_vertices = new Float32Array(num_points * 3);
+        s_sizes = new Float32Array(num_points);
+        // console.log(vertices);
+
+        i = 0
+        for (let datum of s_generated_points) {
+        // Set vector coordinates from data
+            s_vertices[i] = datum.position[0];
+            s_vertices[i + 1] = datum.position[1];
+            s_vertices[i + 2] = 0;
+            // let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
+            // pointsGeometry.vertices.push(vertex);
+            let color = new THREE.Color(getColorForPubmed(datum));
+
+            s_colors[i] = color.r;
+            s_colors[i+1] = color.g;
+            s_colors[i+2] = color.b;
+            
+            i += 3;
+        }
+        // console.log(vertices);
+
+        s_pointsGeometry.setAttribute('position', new THREE.BufferAttribute(s_vertices, 3));
+        s_pointsGeometry.setAttribute('color', new THREE.BufferAttribute(s_colors, 3));
+        // pointsGeometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+        // console.log(pointsGeometry);
+        // pointsGeometry.colors = colors;
+        // console.log(pointsGeometry.colors);
+        
+
+        s_pointsMaterial = new THREE.PointsMaterial({
+            size: 10,
+            sizeAttenuation: false,
+            // its like telling to read colors provided in geometry (true)
+            vertexColors: THREE.VertexColors,
+            map: circle_sprite,
+            transparent: true,
+            color: new THREE.Color( 0xffffff ),
+            opacity: 1
+        });
+        
+        // console.log(pointsMaterial);
+
+
+        
+
+        s_points = new THREE.Points(s_pointsGeometry, s_pointsMaterial);
+        // choose_points = points
+        // choose_generated_points = generated_points
+        scene.add(s_points);
+    }
 
      function setup(){
 
@@ -189,7 +320,6 @@ async function wrapper(){
 
 
     function createPoints(data){
-
         let num_points = data.length;
         let data_points = [];
         data.forEach(function(d){
@@ -207,20 +337,6 @@ async function wrapper(){
         	let point = {position, category_number, data_id, data_title, data_category, artist_name};
         	data_points.push(point);
         	})
-        // for (let i = 0; i < data.x.length; i++) {
-        // 	data.x = +data.x;
-        // 	data.y = +data.y
-        //     x_coor = data.x[i];
-        //     y_coor = data.y[i];
-        //     position = [x_coor, y_coor];
-        //     // rating = data[i].rating;
-        //     category_number = data.clusters[i];
-        //     data_id = data.id[i];
-        //     data_title = data.title[i];
-        //     data_category = data.clusters[i];
-        //     let point = {position, category_number, data_id, data_title, data_category};
-        //     data_points.push(point);
-        // }
 
         generated_points = data_points;
         // console.log(generated_points);
@@ -266,7 +382,7 @@ async function wrapper(){
             map: circle_sprite,
             transparent: true,
             color: new THREE.Color( 0xffffff ),
-            opacity: .5
+            opacity: 1
         });
         
         // console.log(pointsMaterial);
