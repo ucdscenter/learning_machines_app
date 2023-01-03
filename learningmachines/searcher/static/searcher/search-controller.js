@@ -1207,6 +1207,10 @@ $.ajaxSetup({
 
 let DATABASES =
 { 
+    'Poetry_Foundation' : {
+    'options': [],
+    'name': "Poetry Foundation"
+  },
   'ACJ': {
     'options': [],
     'name': 'AC Justice '
@@ -1292,10 +1296,7 @@ let DATABASES =
     'options': [],
     'name': 'NY NPO Descriptions'
   },
-  'Poetry_Foundation' : {
-    'options': [],
-    'name': "Poetry Foundation"
-  },
+
   'Pubmed': {
     'options': [],
     'name': 'Pubmed Abstract'
