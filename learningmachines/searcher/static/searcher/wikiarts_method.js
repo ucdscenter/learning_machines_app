@@ -575,42 +575,43 @@ async function wrapper(){
             // showTooltip(mouse_position, datum);
             // console.log(datum.data_id);
             // console.log(window.location);
-            document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
-            document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
-            document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
-            // document.getElementById("selectedImage").src = data.url 
+            // document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
+            // document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
+            // document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
+            //document.getElementById("selectedImage").src = data.url 
 
 
-            // fetch("/searcher/s3_image/" + "?id=" + datum['data_id'] + "&fetch_similarity=True", {
-            //     method: 'GET',
-            //     headers: { 'Content-Type': 'application/json' }
-            // }).then(res => {
-            //     return res.json();
-            // }).then(data => {
-            //     console.log(data)
-            //     console.log(datum)
-            //     document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
-            //     document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
-            //     document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
-            //     document.getElementById("selectedImage").src = data.url
+            fetch("/searcher/s3_image/" + "?id=" + datum['data_id'] + "&fetch_similarity=True", {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            }).then(res => {
+                console.log(res)
+                return res.json();
+            }).then(data => {
+                console.log(data)
+                console.log(datum)
+                document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
+                document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
+                document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
+                document.getElementById("selectedImage").src = data.url
 
-            //     let sim_ims = d3.select("#similar_images")
-            //     sim_ims.selectAll(".sim_im").remove()
-            //     sim_ims.selectAll(".img")
-            //         .data(data.sim_urls)
-            //         .enter()
-            //         .append("img")
-            //         .attr("class", "sim_im")
-            //         .attr("src", function(d){
-            //             return d
-            //         })
-            //         .style("width", "25%")
+                let sim_ims = d3.select("#similar_images")
+                sim_ims.selectAll(".sim_im").remove()
+                sim_ims.selectAll(".img")
+                    .data(data.sim_urls)
+                    .enter()
+                    .append("img")
+                    .attr("class", "sim_im")
+                    .attr("src", function(d){
+                        return d
+                    })
+                    .style("width", "25%")
 
                 
             
-            // }).catch(error => {
-            //         console.error('Error:', error);
-            // })
+            }).catch(error => {
+                    console.error('Error:', error);
+            })
             
         } else {
             // removeHighlights();
