@@ -128,9 +128,10 @@ class SearchResults_ES:
 							}
 						}
 				print(doc)
-				#es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
+				
 				#es v7
 				es_qry = self.es.search(index=self.es_index, body=doc)
+				#es_qry = self.es.search(index=self.es_index, doc_type='document', body=doc)
 				hits = es_qry['hits']['hits']
 				return self._process_hit(hits[0])
 
@@ -299,8 +300,8 @@ class SearchResults_ES:
 				else:
 						if self.scroll_id == None:
 								#es v7
-								#es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='_doc', body=doc)
-								es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
+								es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='_doc', body=doc)
+								#es_qry = self.es.search(index=self.es_index, scroll='5m', doc_type='document', body=doc)
 								self.page_hits = es_qry['hits']['hits']
 
 								self.scroll_id = es_qry['_scroll_id']
