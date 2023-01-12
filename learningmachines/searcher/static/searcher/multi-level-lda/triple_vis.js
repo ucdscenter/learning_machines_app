@@ -423,10 +423,30 @@ function clusterSelect(clusterData) {
 	d3.selectAll(".cluster" + clusterData.id).classed("cselected", true);
 
 	let j = networkGraph.elements("node[cluster = " + clusterData.id + "]");
+
+	let c_ids = []
+	j.forEach(function(n){
+		c_ids.push(n._private.data.id)
+	})
+
 	j.style({
 		"border-color": "#ffa500",
 		"border-width": 3
 	});
+
+	function in_edges(edge){
+		if(c_ids.includes(edge._private.data.source) || c_ids.includes(edge._private.data.target))
+		{
+			return true
+		}
+		return false
+	}
+	
+	const edges = networkGraph.edges().filter(in_edges);
+	edges.style({
+		"line-color" : "#ffa500",
+		"z-index": 10000
+	})
 	/*networkGraph.animate({
 		fit: {
 			eles: j,
@@ -459,6 +479,11 @@ function deselectAll() {
 		"border-color": "black",
 		"border-width": .5
 	});
+
+	networkGraph.elements("edge").style({
+		"line-color" : "#ccc",
+		"z-index" :  1
+	})
 }
 
 

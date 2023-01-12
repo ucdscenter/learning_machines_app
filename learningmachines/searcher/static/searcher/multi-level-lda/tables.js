@@ -18,7 +18,9 @@
 	function formatDocsForTable(docsIndexes, tcolor){
 		console.log(docsIndexes)
 		let tableData = {}
-		if (docsIndexes.length > 1 && docsIndexes[0][0][0][1] > -1){
+		if (docsIndexes.length > 1 ){
+			//got rid of this for some reason, might break things in the future?
+			//&& docsIndexes[0][0][0][1] > -1
 			docsIndexes.forEach(function(topic){
 				topic.forEach(function(doc){
 				if(tableData[metaData[doc[0][0]][8] + "-" + doc[0][1]] == undefined){

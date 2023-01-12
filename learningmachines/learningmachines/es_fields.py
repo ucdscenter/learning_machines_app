@@ -409,7 +409,7 @@ MAX_NUM_DOC_VIS = {
     'WAPO_China': 10000,
     'US_Poetics' : 52000,
     'space_news' : 10000,
-    'chicago-novels' : 10000,
+    'chicago-novels' : 18000000,
     'space_tvnews' : 15000
 }
 
@@ -498,6 +498,13 @@ datasetNames = {
             'bert': '_Care_Reviews_umap_kmeans'},
             'display_name' : 'Urgent Care Reviews',
          'database': 'Care_Reviews'},
+     'chicago-novels': {
+            'num_docs': 1738730,
+         'description': 'The chicago novels corpus split into 500 word chunks',
+         's3_names': {
+            'bert': '_chicago-novels_umap_kmeans'},
+            'display_name' : 'Chicago Novels Chunks',
+         'database': 'chicago-novels'},
      'covid': {
             'num_docs': 144000,
          'description': 'Covid CDC dataset as of November 2020.',

@@ -13,7 +13,7 @@ PROJECTS = {
 		"Name" : "1923 Crow Maps",
 		"Info" : "Maps of every allotment on the Crow Reservation from 1923, showing land parcels and their heads of household.",
 		"image" : "",
-		"Links" : [["https://rebeccawingo.com/reframed/map/maps_static/about-map", "Visit Rebecca Wingo's Site"]]
+		"Links" : [["https://rebeccawingo.com/reframed/map/maps_static/map-proto.html", "Visit Rebecca Wingo's Site"]]
 	},
 	"Library" : {
 		"Name" : "UC Published Documents Dashboard",
@@ -72,6 +72,14 @@ PROJECTS = {
 		"Links" : [
 		["http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=hydroxychloroquinefastgreedy", "Hydroxychloroquine tweets"],
 		["http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=fastgreedy", "Random Sample of 1 million tweets"]]
+	},
+
+	"Union Kerfuffle" : {
+		"Name" : "NLRB Union Twitter",
+		"Info" : "Twitter user interaction networks for Barstool, Tesla, and the Federalist when their CEO's made tweets that violated NLRB rules",
+		"image" : "",
+		"Links" : [
+		["http://socialmedia.modelofmodels.io/union", "Union Page"]]
 	},
 
 }
