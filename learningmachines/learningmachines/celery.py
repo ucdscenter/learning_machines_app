@@ -3,8 +3,8 @@ import typing
 
 from celery import Celery
 from kombu import Exchange, Queue
-from .celeryconfig import CELERY_SETTINGS, BROKER_URL, BROKER_TRANSPORT_OPTIONS, AWS_PROFILE
-
+from .celeryconfig import CELERY_SETTINGS 
+#from .celeryconfig import BROKER_URL, BROKER_TRANSPORT_OPTIONS, AWS_PROFILE
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'learningmachines.settings')
 
 app = Celery('learningmachines')
