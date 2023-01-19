@@ -1,27 +1,144 @@
-{% extends 'searcher/base.html' %}
-{% block title %}Home{% endblock title %}
+<!doctype html>
+<html lang="en">
 
-{% block content %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<div class="col-12 screen-col align-middle pt-5" align="center">
-      <div class="">
-        <h1 style="font-size: 100px;">model<span style="color: var(--other-color">|</span> of <span style="color: var(--main-color)">|</span>models</h1>
-    <p>A platform for collaborative language research and teaching, bringing together humanistic methods with technical innovations.</p>
-         
-    <a class="btn btn-primary mt-5 big-button"  href="/searcher/search">Get Started</a>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <h3 class="mt-5">Note</h3>
-    <div class="col-8">
-     <p>The modelofmodels.io tool was created with funding provided by the <a href="https://mellon.org/">Andrew W. Mellon Foundation</a> . We continue to provide updates and improvements to this site as we move into Phase 2 of the tool’s development. Additional documentation and resources are forthcoming and will be updated during our second grant’s award period. </p>
-    <p>Contact us at digitalsc@ucmail.uc.edu or <a href="https://sites.libraries.uc.edu/dsc/contact-us">here</a>  with any questions or comments. </p>
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Basic:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 5 files -->
+    <link href="fontawesome/css/all.css" rel="stylesheet">
+
+    <!-- MoM Styles -->
+    <link rel="stylesheet" href="../../static/searcher/css/momstyles.css">
+
+    <title>Model of Models</title>
+
+</head>
+
+<body>
+    <header>
+
+        <nav class="navbar navbar-expand-xl navbar-light bg-white px-xl-0">
+            <div class="container-fluid limit">
+                <a class="navbar-brand" href="#"><img src="../../static/searcher/images/MOMx4-removebg-preview.png" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item mx-xl-1 active">
+                            <a class="nav-link" href="#">Create a Model <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item  mx-xl-1">
+                            <a class="nav-link" href="#">DSC Projects</a>
+                        </li>
+
+                        <li class="nav-item  mx-xl-1 dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Tutorials
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Creating a Model</a>
+                                <a class="dropdown-item" href="#">Interpreting a Model</a>
+                            </div>
+                        </li>
+                        <li class="nav-item  mx-xl-1">
+                            <a class="nav-link" href="#">My Models</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="loginlink nav-item">
+                    <i class="far fa-user-circle orange"></i> <a href="#">Login</a>
+                    <!-- logged in state shown - you may have sublinks here for profile, logout etc. - show "Login" if a user is not logged in -->
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="main-content home">
+        <div class="container-fluid limit">
+            <div class="row align-items-center">
+                <div class="homecta col-md-6 col-xl-5 offset-xl-1">
+                    <h1 class="mb-4">Model of Models</h1>
+                    <div class="maxout">
+                        <p>Model of Models is a platform for collaborative language research and teaching, bringing together humanistic methods with technical innovations.</p>
+                        <p>Model of Models is a project of the UC Cincinnati Digital Scholarship Center (DSC) funded by the Andrew W. Mellon Foundation</p>
+                    </div>
+
+                    <div class="btn-toolbar mt-4" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <div class="buttoncontainer orangepipebg">
+                                <button type="button" href="#" class="btn btn-main graybg">Create a Model</button>
+                            </div>
+                        </div>
+                        <div class="btn-group mr-2" role="group" aria-label="Second group">
+                            <div class="buttoncontainer orangepipebg">
+                                <button type="button" href="#" class="btn btn-main graybg"><a href="/learning_machines_app/learningmachines/searcher/templates/searcher/Tutorial.html">Start the Tutorial</a></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xl-5 grayrule pl-md-4 my-5">
+                    <div class="projintro d-flex align-items-end">
+                        <h3 class="mr-5 mb-0">Featured Project</h3><a class="ml-5 mb-0" href="#">VIEW ALL</a>
+                    </div>
+                    <div class="projectsnap"><img class="grayborder w-100 my-4" src="../../static/searcher/images/sample model.png" /></div>
+                    <div class="projectdescription">
+                        <h3 class="gent">Dakota Access Pipleline Range Twitter Networks</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
+    <footer>
+        <div class="container-fluid limit">
+            <div class="row">
+                <div class="col-md-6 col-xl-3">
+                    <h5 class="mb-0">UC Digital Scholarship Center</h5>
+                    <p class="mt-0">
+                        <br /> Langsam Library
+                        <br /> 2911 Woodside Drive
+                        <br /> Cincinnati, OH 45221
+                    </p>
+                    <p>PHONE: 513.556.8794
+                        <br /> digitalsc@ucmail.uc.edu
+                    </p>
+                </div>
+                <div class="col-md-6 col-xl-3 mt-5 mt-md-0">
+                    <nav class="flex-column">
+                        <h5>About Us</h5>
+                        <a class="nav-link mt-4 mb-2" href="#">About Model of Models</a>
+                        <a class="nav-link my-2" href="https://sites.libraries.uc.edu/dsc/contact-us">Contact Us</a>
+                    </nav>
+                </div>
 
-</div>
+                <div class="col-md-6 offset-md-6 col-xl-2 offset-xl-2 mt-5 mt-md-0">
+                    <img src="../../static/searcher/images/University_of_Cincinnati_logo.svg.png" />
+                </div>
+                <div class="col-md-6 offset-md-6 col-xl-2 offset-xl-0 mt-5 mt-xl-0">
+                    <img src="../../static/searcher/images/mellon-new-logo.png" />
+                </div>
+            </div>
+        </div>
 
 
-{% endblock content %}
-{% block footer_javascript_page %}
-	<script>
-	    $('#site-wrapper').addClass('home-bg')
-	</script>
-{% endblock footer_javascript_page %}
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+
+</html>

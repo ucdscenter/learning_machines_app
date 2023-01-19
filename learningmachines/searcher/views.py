@@ -32,7 +32,7 @@ from learningmachines.es_fields import datasetNames
 
 
 
-SEND_WORKER = True
+SEND_WORKER = False
 
 
 """

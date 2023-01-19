@@ -1,0 +1,296 @@
+ /* Basic styles */
+ 
+ .limit {
+     max-width: 1660px;
+ }
+ 
+ html,
+ body {
+     font-family: 'Open Sans', sans-serif;
+     color: #000;
+ }
+ 
+ a {
+     color: #22587A;
+ }
+ 
+ a:visited,
+ a:focus,
+ a:hover,
+ a:active {
+     color: #104262;
+     text-decoration: none;
+ }
+ 
+ .orange {
+     color: #ED8E23;
+ }
+ 
+ .graybg {
+     background: #F3F3F3;
+ }
+ 
+ .graypipebg {
+     background: #DEDEDE;
+     padding-left: 6px;
+ }
+ 
+ .orangepipebg {
+     background: #ED8E23;
+     padding-left: 6px;
+ }
+ 
+ .orange-border {
+     border-left: 6px solid #ED8E23;
+ }
+ 
+ .gray-border {
+     border-left: 6px solid #DEDEDE;
+ }
+ 
+ .bluepipebg {
+     background: #22587A;
+     padding-left: 6px;
+ }
+ 
+ .grayrule {
+     border-left: 1px solid #DDDDDD;
+ }
+ 
+ .grayrule-right {
+     border-right: 1px solid #DDDDDD;
+ }
+ 
+ .grayrule-bottom {
+     border-bottom: 1px solid #DDDDDD;
+ }
+ 
+ .grayborder {
+     border: 1px solid #DDDDDD;
+ }
+ 
+ .btn.btn-main {
+     border-radius: 0;
+ }
+ 
+ .btn-secondary {
+     color: #fff !important;
+     background-color: #22587A;
+     border-color: #22587a;
+ }
+ 
+ btn-secondary:hover {
+     background-color: #dedede;
+     border-color: #dedede;
+ }
+ 
+ .maxout {
+     max-width: 450px;
+ }
+ 
+ .btn {
+     text-align: left;
+ }
+ /* Typograhy */
+ 
+ .gent {
+     font-family: 'Gentium Book Basic', serif;
+ }
+ 
+ h5 {
+     font-family: 'Gentium Book Basic', serif;
+     font-weight: 700;
+ }
+ /* Header */
+ 
+ header nav {
+     border-bottom: 1px solid #DDDDDD;
+ }
+ 
+ .navbar-light .navbar-nav .nav-link {
+     color: #000;
+ }
+ 
+ .navbar-toggler {
+     border: 0;
+     padding: 0;
+ }
+ 
+ .navbar-brand img {
+     width: 140px;
+     height: auto;
+     margin-top: -5px;
+ }
+ 
+ .navbar-light .navbar-nav .active>.nav-link {
+     text-decoration: underline;
+ }
+ 
+ .loginlink {
+     display: inline;
+     position: absolute;
+     right: 80px;
+     top: 15px;
+ }
+ 
+ .navbar-nav {
+     background: #f3f3f3;
+     padding: 20px;
+ }
+ /*footer*/
+ 
+ footer {
+     border-top: 1px solid #DDDDDD;
+     padding: 4rem 0 4rem 0;
+     padding-bottom: 4rem;
+     display: flex;
+     flex-wrap: wrap;
+     margin: 0 auto;
+ }
+ 
+ footer img {
+     margin-left: auto;
+     margin-right: auto;
+     width: 170px
+ }
+ 
+ footer .nav-link {
+     padding: 0;
+ }
+
+ /* Home */
+ .main-content {
+     padding: 40px 0
+ }
+ 
+ 
+ .main-content.home {
+     background-image: url("hometexture.png");
+     background-position: left center;
+     background-size: cover;
+     background-repeat: no-repeat;
+     padding: 0;
+ }
+ 
+ .homecta {
+     margin-top: 2em;
+ }
+ /* Tutorials */
+ 
+ .progreminder {
+     position: fixed;
+     width: 160px;
+     top: 20%;
+     right: 0
+ }
+ /*Vis*/
+ 
+ .clustertable,
+ .docstable {
+     border-collapse: collapse;
+     font-size: 13px;
+ }
+ 
+ .docstable tr {
+     margin-bottom: 8px;
+ }
+ 
+ .clustertable td,
+ .clustertable th,
+ .docstable td,
+ .docstable th {
+     border-top: 0;
+ }
+ 
+ .colorbar {
+     width: 6px;
+     height: 36px;
+ }
+ 
+ .clustertable th {
+     text-align: left;
+     margin: 2px 0;
+     padding-left: 0
+ }
+ 
+ .clustertable thead th {
+     vertical-align: middle;
+     border-bottom: 0;
+ }
+ 
+ .clustertable td {
+     padding: 0 6px 6px 0;
+     vertical-align: middle;
+ }
+ 
+ .clustertable td.cindex {
+     padding: 0 6px 6px 0;
+ }
+ 
+ .cindex {
+     text-align: right;
+ }
+ 
+ .selectdoc {
+     font-size: 13px;
+ }
+ 
+ .limitheight {
+     height: 1000px;
+     overflow-y: auto;
+ }
+ /* Media Queries */
+ /* Small devices (landscape phones, 576px and up)*/
+ 
+ @media (min-width: 576px) {
+     navbar-brand img {
+         width: 170px;
+     }
+
+    
+ }
+ /* Medium devices (tablets, 768px and up)*/
+ 
+ @media (min-width: 768px) {
+     .navbar-brand img {
+         width: 190px;
+     }
+     .homecta {
+         margin-top: -50px;
+     }
+     /* .row {
+        text-align: center;
+     } */
+ }
+ /* Large devices (desktops, 992px and up)*/
+ 
+ @media (min-width: 992px) {
+     .navbar-nav {
+         background: #ffffff;
+         padding: 0;
+     }
+
+     /* .row {
+        text-align: center;
+     } */
+ }
+ /* Extra large devices (large desktops, 1200px and up)*/
+ 
+ @media (min-width: 1200px) {
+
+    /* nav bar */
+     .navbar-brand img {
+         width: 297px;
+         height: auto;
+     }
+     .nav-item {
+         font-size: 18px;
+     }
+     .loginlink {
+         right: 30px;
+         top: 20px;
+     }
+
+    /* footer */
+
+ }

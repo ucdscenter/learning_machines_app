@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Basic:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 5 files -->
+    <link href="fontawesome/css/all.css" rel="stylesheet">
+
+    <!-- MoM Styles -->
+    <link rel="stylesheet" href="momstyles.css">
+
+    <title>Model of Models Visualization</title>
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-xl navbar-light bg-white px-xl-0">
+            <div class="container-fluid limit">
+                <a class="navbar-brand" href="#"><img src="momlogo.png" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item mx-xl-1 active">
+                            <a class="nav-link" href="#">Create a Model <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item  mx-xl-1">
+                            <a class="nav-link" href="#">DSC Projects</a>
+                        </li>
+
+                        <li class="nav-item  mx-xl-1 dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Tutorials
+        </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Creating a Model</a>
+                                <a class="dropdown-item" href="#">Interpreting a Model</a>
+                            </div>
+                        </li>
+                        <li class="nav-item  mx-xl-1">
+                            <a class="nav-link" href="#">My Models</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="loginlink nav-item">
+                    <i class="far fa-user-circle orange"></i> <a href="#">James Jasper</a>
+                    <!-- logged in state shown - you may have sublinks here for profile, logout etc. - show "Login" if a user is not logged in -->
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="main-content vis">
+        <div class="container-fluid limit">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col d-flex flex-wrap graybg p-2 justify-content-start justify-content-xl-between"><span class="mr-2"><strong>Dataset:</strong> Pubmed</span><span class="mr-2"><strong>Query:</strong> Apple</span><span class="mr-2"><strong>Parameters:</strong> 100 docs; 20 topics; year-year</span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex flex-wrap  p-2 justify-content-start">
+                            <div class="p-3">Notes Mode:
+                                <i class="fas fa-toggle-on orange"></i>
+                            </div>
+                            <div class="p-3"><a href="#">Show Tools</a></div>
+                            <div class="p-3"><a href="#">Export Notes</a></div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <ul class="nav nav-tabs" id="visTabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tree-tab" data-toggle="tab" href="#tree" role="tab" aria-controls="tree" aria-selected="true">Tree <i class="fas fa-info-circle  ml-2"></i></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="circle-tab" data-toggle="tab" href="#circle" role="tab" aria-controls="circle" aria-selected="true">Circle <i class="fas fa-info-circle  ml-2"></i></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="network-tab" data-toggle="tab" href="#network" role="tab" aria-controls="network" aria-selected="true">Network <i class="fas fa-info-circle  ml-2"></i></a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="tab-content grayborder mt-5" id="visTabContent">
+                        <div class="tab-pane fade" id="tree" role="tabpanel" aria-labelledby="tree-tab">Tree</div>
+                        <div class="tab-pane fade" id="circle" role="tabpanel" aria-labelledby="circle-tab">Circle</div>
+                        <div class="tab-pane fade show active" id="network" role="tabpanel" aria-labelledby="network-tab">Network</div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <!--nested row for tables -->
+                        <div class="col-xl-7">
+                            <h4 class="gent">Clusters <i class="fas fa-info-circle orange ml-2"></i></h4>
+
+                            <table id="ctable" class="table clustertable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Docs</th>
+                                        <th scope="col" id="topics_th">Topics</th>
+                                        <th scope="col">Terms</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table_txt cluster4" id="table_row_cluster_4" style="background-color: rgba(64, 70, 136, 0.6); color:#fff">
+                                        <td class="cindex">4</td>
+                                        <td class="indicator">
+                                            <div class="colorbar"></div>
+                                        </td>
+                                        <td>56</td>
+                                        <td>17</td>
+                                        <td>
+                                            juice patulin cider study using
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster10" id="table_row_cluster_10">
+                                        <td class="cindex">10</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(31, 150, 139, 0.6);"></div>
+                                        </td>
+                                        <td>37</td>
+                                        <td>9</td>
+                                        <td>
+                                            apples apple_ring_rot juice study aphid
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster3" id="table_row_cluster_3">
+                                        <td class="cindex">3</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(69, 55, 129, 0.6);"></div>
+                                        </td>
+                                        <td>31</td>
+                                        <td>8</td>
+                                        <td>
+                                            study pomace birch_pollen effect patients
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster8" id="table_row_cluster_8">
+                                        <td class="cindex">8</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(40, 125, 142, 0.6);"></div>
+                                        </td>
+                                        <td>22</td>
+                                        <td>7</td>
+                                        <td>
+                                            essence genes juice study melatonin
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster0" id="table_row_cluster_0">
+                                        <td class="cindex">0</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(68, 1, 84, 0.6);"></div>
+                                        </td>
+                                        <td>26</td>
+                                        <td>6</td>
+                                        <td>
+                                            juice pomace showed apples oligosaccharide
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster1" id="table_row_cluster_1">
+                                        <td class="cindex">1</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(72, 20, 103, 0.6);"></div>
+                                        </td>
+                                        <td>30</td>
+                                        <td>6</td>
+                                        <td>
+                                            juice beta2gpi c321s_beta2gpi addition consumption
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster5" id="table_row_cluster_5">
+                                        <td class="cindex">5</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(57, 85, 140, 0.6);"></div>
+                                        </td>
+                                        <td>19</td>
+                                        <td>6</td>
+                                        <td>
+                                            flavoring leaves vie mali eau_de
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster6" id="table_row_cluster_6">
+                                        <td class="cindex">6</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(51, 99, 141, 0.6);"></div>
+                                        </td>
+                                        <td>14</td>
+                                        <td>6</td>
+                                        <td>
+                                            species pirina major plant himachal_pradesh
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster14" id="table_row_cluster_14">
+                                        <td class="cindex">14</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(86, 198, 103, 0.6);"></div>
+                                        </td>
+                                        <td>17</td>
+                                        <td>6</td>
+                                        <td>
+                                            woolly aphid significantly resistant maggot
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster15" id="table_row_cluster_15">
+                                        <td class="cindex">15</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(117, 208, 84, 0.6);"></div>
+                                        </td>
+                                        <td>20</td>
+                                        <td>6</td>
+                                        <td>
+                                            leaves significantly juice three pear
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster18" id="table_row_cluster_18">
+                                        <td class="cindex">18</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(221, 227, 24, 0.6);"></div>
+                                        </td>
+                                        <td>24</td>
+                                        <td>6</td>
+                                        <td>
+                                            consumption group anti health intake
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster2" id="table_row_cluster_2">
+                                        <td class="cindex">2</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(72, 37, 118, 0.6);"></div>
+                                        </td>
+                                        <td>16</td>
+                                        <td>5</td>
+                                        <td>
+                                            aphid transformation using seedlings infested
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster11" id="table_row_cluster_11">
+                                        <td class="cindex">11</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(32, 163, 134, 0.6);"></div>
+                                        </td>
+                                        <td>10</td>
+                                        <td>5</td>
+                                        <td>
+                                            kei cu infested seedlings snails
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster19" id="table_row_cluster_19">
+                                        <td class="cindex">19</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(253, 231, 37, 0.6);"></div>
+                                        </td>
+                                        <td>21</td>
+                                        <td>5</td>
+                                        <td>
+                                            ssrs anti pomace maggot juice
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster7" id="table_row_cluster_7">
+                                        <td class="cindex">7</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(45, 113, 142, 0.6);"></div>
+                                        </td>
+                                        <td>9</td>
+                                        <td>4</td>
+                                        <td>
+                                            juice able treated cadmium wistar_rats
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster9" id="table_row_cluster_9">
+                                        <td class="cindex">9</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(35, 138, 141, 0.6);"></div>
+                                        </td>
+                                        <td>16</td>
+                                        <td>4</td>
+                                        <td>
+                                            juice pomace eaters study cider
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster16" id="table_row_cluster_16">
+                                        <td class="cindex">16</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(149, 216, 64, 0.6);"></div>
+                                        </td>
+                                        <td>8</td>
+                                        <td>4</td>
+                                        <td>
+                                            coli_o157h7 cells tissue mdpif1 chips
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster17" id="table_row_cluster_17">
+                                        <td class="cindex">17</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(186, 222, 40, 0.6);"></div>
+                                        </td>
+                                        <td>12</td>
+                                        <td>4</td>
+                                        <td>
+                                            pomace mdflp species growers chips
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster12" id="table_row_cluster_12">
+                                        <td class="cindex">12</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(41, 175, 127, 0.6);"></div>
+                                        </td>
+                                        <td>8</td>
+                                        <td>3</td>
+                                        <td>
+                                            pacific_madrone population isolates washingtonensis study
+                                        </td>
+                                    </tr>
+                                    <tr class="table_txt cluster13" id="table_row_cluster_13">
+                                        <td class="cindex">13</td>
+                                        <td class="indicator">
+                                            <div class="colorbar" style="background-color: rgba(61, 188, 116, 0.6);"></div>
+                                        </td>
+                                        <td>15</td>
+                                        <td>3</td>
+                                        <td>
+                                            juice pectin aphid woolly cashew
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-xl-5">
+                            <h4 class="gent">Documents <i class="fas fa-info-circle orange ml-2"></i></h4>
+                            <div class="limitheight mt-4">
+                                <table id="dtable" class="table docstable" style="border-left: 6px solid rgba(64, 70, 136, 0.6);">
+
+                                    <tbody id="dtbody">
+                                        <tr class="table_txt">
+                                            <td>Volatility of patulin in apple juice.
+                                                <br />5.899989902973175</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Rapid detection of acetamiprid in foods using surface-enhanced Raman spectroscopy (SERS).
+                                                <br />4.9610618352890015</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Prior storage conditions influence the destruction of Escherichia coli O157:H7 during heating of apple cider and juice.
+                                                <br />4.829269766807556</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Patulin and patulin producing Penicillium spp. occurrence in apples and apple-based products including baby food.
+                                                <br />3.9760980010032654</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Inactivation of Escherichia coli O157:H7 in apple juice and apple cider by trans-cinnamaldehyde.
+                                                <br />3.9591357111930847</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Reduced generation time of apple seedlings to within a year by means of a plant virus vector: a new plant-breeding technique with no transmission of genetic modification to the next generation.
+                                                <br />3.8960747122764587</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Variability and uncertainty assessment of patulin exposure for preschool children in Flanders.
+                                                <br />3.7914788722991943</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Classification of juices and fermented beverages made from unripe, ripe and senescent apples based on the aromatic profile using chemometrics.
+                                                <br />3.2916519045829773</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Inactivation of Escherichia coli O157:H7, Salmonella Typhimurium and Listeria monocytogenes in apple juice at different pH levels by gaseous ozone treatment.
+                                                <br />2.9725937843322754</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Occurrence of patulin in organic, conventional, and handcrafted apple juices marketed in Belgium.
+                                                <br />2.9712100625038147</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Physical and antibacterial properties of edible films formulated with apple skin polyphenols.
+                                                <br />2.703926920890808</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Low-drift nozzles vs. standard nozzles for pesticide application in the biological efficacy trials of pesticides in apple pest and disease control.
+                                                <br />1.988269865512848</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Survival of Listeria innocua on Fuji apples under commercial cold storage with or without low dose continuous ozone gaseous.
+                                                <br />1.9858191013336182</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Mapping Global Potential Risk of Establishment of Rhagoletis pomonella (Diptera: Tephritidae) Using MaxEnt and CLIMEX Niche Models.
+                                                <br />1.9852693676948547</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Latent Infection of Valsa mali in the Seeds, Seedlings and Twigs of Crabapple and Apple Trees is a Potential Inoculum Source of Valsa Canker.
+                                                <br />1.9833317399024963</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Phylogenetic and Pathogenic Analyses Show That the Causal Agent of Apple Ring Rot in China Is Botryosphaeria dothidea.
+                                                <br />1.9822412729263306</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>UPLC-PDA quantification of chemical constituents of two different varieties (golden and royal) of apple leaves and their antioxidant activity.
+                                                <br />1.9819032549858093</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Functional identification of MdPIF1 as a Phytochrome Interacting Factor in Apple.
+                                                <br />1.980805218219757</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Bioavailability of quercetin in humans and the influence of food matrix comparing quercetin capsules and different apple sources.
+                                                <br />1.9793458580970764</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Antiulcerative properties of crude polyphenols and juice of apple, and Chinese quince extracts.
+                                                <br />1.9753225445747375</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Determination of amygdalin in apple seeds, fresh apples and processed apple juices.
+                                                <br />1.9746646285057068</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Characterization of cider apples on the basis of their fatty acid profiles.
+                                                <br />1.97432142496109</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>The bad apple effect and social value orientation in public-goods dilemmas: replication and extension of research findings.
+                                                <br />1.9728549718856812</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Comparative Diminution of Patulin Content in Apple Juice With Food-Grade Additives Sodium Bicarbonate, Vinegar, Mixture of Sodium Bicarbonate and Vinegar, Citric Acid, Baking Powder, and Ultraviolet Irradiation.
+                                                <br />1.9716395735740662</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Efficacy of phytic acid as an inhibitor of enzymatic and non-enzymatic browning in apple juice.
+                                                <br />1.96414715051651</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Colonic availability of polyphenols and D-(-)-quinic acid after apple smoothie consumption.
+                                                <br />1.8940664529800415</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Relevance of apple polyphenols as antioxidants in human plasma: contrasting in vitro and in vivo effects.
+                                                <br />1.8455215096473694</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Consumption of apples is associated with a better diet quality and reduced risk of obesity in children: National Health and Nutrition Examination Survey (NHANES) 2003-2010.
+                                                <br />1.7551239132881165</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Double-blind, placebo-controlled food challenge with apple.
+                                                <br />1.3447652161121368</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Apple consumption is related to better sexual quality of life in young women.
+                                                <br />0.993013858795166</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Transformation of apple (Malus × domestica) using mutants of apple acetolactate synthase as a selectable marker and analysis of the T-DNA integration sites.
+                                                <br />0.992577314376831</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Schizosaccharomyces pombe and Saccharomyces cerevisiae yeasts in sequential fermentations: Effect on phenolic acids of fermented Kei-apple (Dovyalis caffra L.) juice.
+                                                <br />0.9925187826156616</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Assessment of the reduced allergenic properties of the Santana apple.
+                                                <br />0.9923379421234131</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Consumption of both low and high (-)-epicatechin apple puree attenuates platelet reactivity and increases plasma concentrations of nitric oxide metabolites: a randomized controlled trial.
+                                                <br />0.9913629293441772</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Population dynamics of Cacopsylla melanoneura (Homoptera: Psyllidae), a vector of apple proliferation phytoplasma in northwestern Italy.
+                                                <br />0.9913625717163086</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>The occurrence and abundance of two alien eucalypt psyllids in apple orchards.
+                                                <br />0.9909512996673584</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Transmission electron microscopy study of enterohemorrhagic Escherichia coli O157:H7 in apple tissue.
+                                                <br />0.9907752275466919</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Transcriptional regulation of MdPIN3 and MdPIN10 by MdFLP during apple self-rooted stock adventitious root gravitropism.
+                                                <br />0.9906845092773438</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Phylogenetic analysis of 47 chloroplast genomes clarifies the contribution of wild species to the domesticated apple maternal line.
+                                                <br />0.9902052283287048</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Vr2: a new apple scab resistance gene.
+                                                <br />0.9899990558624268</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Effects of Fermentation Temperature on Key Aroma Compounds and Sensory Properties of Apple Wine.
+                                                <br />0.9897839426994324</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Lipid transfer protein in diagnosis of birch-apple syndrome in children.
+                                                <br />0.989672839641571</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Polyphenol variability in the fruits and juices of a cider apple progeny.
+                                                <br />0.9893240332603455</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Apple peel as a contributor to whole fruit quantity of potentially healthful bioactive compounds. Cultivar and year implication.
+                                                <br />0.988952100276947</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Effect of ultrasound dielectric pretreatment on the oxidation resistance of vacuum-fried apple chips.
+                                                <br />0.9888227581977844</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Cloning and characterization of a cyclic peptide synthetase gene from Alternaria alternata apple pathotype whose product is involved in AM-toxin synthesis and pathogenicity.
+                                                <br />0.9888221621513367</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>The domestication and evolutionary ecology of apples.
+                                                <br />0.9885528683662415</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Influence of apple cultivar and juice pasteurization on hard cider and eau-de-vie methanol content.
+                                                <br />0.9884136915206909</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Physical and sensory properties of ready to eat apple chips produced by osmo-convective drying.
+                                                <br />0.9876610636711121</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Ursolic acid from apple pomace and traditional plants: A valuable triterpenoid with functional properties.
+                                                <br />0.9876610040664673</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Apple juice attenuates genotoxicity and oxidative stress induced by cadmium exposure in multiple organs of rats.
+                                                <br />0.9874989986419678</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Aphis pomi (Hemiptera: Aphididae) population development, shoot characteristics, and antibiosis resistance in different apple genotypes.
+                                                <br />0.9507572650909424</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Identification of genes for melatonin synthetic enzymes in 'Red Fuji' apple (Malus domestica Borkh.cv.Red) and their expression and melatonin production during fruit development.
+                                                <br />0.9479146003723145</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Fluid intake and industrial processing in apple juice induced chronic non-specific diarrhoea.
+                                                <br />0.9460917115211487</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>A comprehensive analysis of the composition, health benefits, and safety of apple pomace.
+                                                <br />0.9453683495521545</td>
+                                        </tr>
+                                        <tr class="table_txt">
+                                            <td>Simultaneous detection of major pome fruit viruses and a viroid.
+                                                <br />0.6334070563316345</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col selectdoc mt-4">
+                            <h4 class="gent">Selected Document</h4>
+
+                            <p> <strong>Survival of Listeria innocua on Fuji apples under commercial cold storage with or without low dose continuous ozone gaseous.</strong></p>
+
+                            <p>This study evaluated the fate of Listeria innocua, a non-pathogenic species closely related to Listeria monocytogenes, on Fuji apple fruit surfaces during commercial cold storage with and without continuous low doses of gaseous ozone. Unwaxed Fuji apples of commercially acceptable maturity were inoculated with 6.0-7.0 Log10CFU L. innocua/apple, and subjected to refrigerated air (RA, 33 degrees F), controlled atmosphere (CA, 33 degrees F, 2% O2, 1% CO2), or CA with low doses of ozone gas (50.0-87.0ppb) storage in a commercial facility for 30 weeks. A set of uninoculated apples was simultaneously subjected to the above storage conditions for total plate count and yeasts and molds enumeration. L. innocua survival under RA and CA storage was similar, which led to 2.5-3.0 Log10CFU/apple reduction during storage. Continuous gaseous ozone application decreased L. innocua population on Fuji apples to approximately 1.0 Log10CFU/apple after 30-week storage, and suppressed apple native flora. CA storage delayed apple fruit ripening through reduction of apple firmness and titratable acidity loss, and low dose gaseous ozone application had no negative influence on apple visual quality, including both external and internal disorders. In summary, L. innocua decreased on Fuji apple surfaces during commercial long-term RA and CA storage. Ozone gas has the potential to be used as a supplemental intervention method to control Listeria spp. and to ensure fresh apple safety.</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container-fluid limit">
+            <div class="row">
+                <div class="col-md-6 col-xl-3">
+                    <h5 class="mb-0">UC Digital Scholarship Center</h5>
+                    <p class="mt-0">
+                        <br /> Langsam Library
+                        <br /> 2911 Woodside Drive
+                        <br /> Cincinnati, OH 45221
+                    </p>
+                    <p>PHONE: 513.556.8794
+                        <br /> digitalsc@ucmail.uc.edu
+                    </p>
+                </div>
+                <div class="col-md-6 col-xl-3 mt-5 mt-md-0">
+                    <nav class="flex-column">
+                        <h5>About Us</h5>
+                        <a class="nav-link mt-4 mb-2" href="#">About Model of Models  
+</a>
+                        <a class="nav-link my-2" href="#">Contact Us</a>
+                    </nav>
+                </div>
+
+                <div class="col-md-6 offset-md-6 col-xl-2 offset-xl-2 mt-5 mt-md-0">
+                    <img src="UClogo.png" />
+                </div>
+                <div class="col-md-6 offset-md-6 col-xl-2 offset-xl-0 mt-5 mt-xl-0">
+                    <img src="mellonlogo.png" />
+                </div>
+            </div>
+        </div>
+
+
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+
+</html>

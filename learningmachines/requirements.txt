@@ -1,10 +1,10 @@
 Django==4.0.4
-pycurl==7.43.0.5
-psycopg2-binary==2.8.6
+#pycurl==7.43.0.5
+#psycopg2-binary==2.8.6
 elasticsearch==7.6.0
 requests-aws4auth==1.1.1
 nltk==3.4.5
-gensim==4.0.1
+#gensim==4.0.1
 langdetect==1.0.8
 scikit-learn==0.24.0
 umap==0.1.1
