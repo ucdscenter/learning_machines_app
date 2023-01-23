@@ -85,6 +85,25 @@
     color: white;
 }
 
+.visContainer__timeline {
+    position : absolute;
+    top : 2.5vh;
+    left : 30vw;
+    background-color: #eee;
+    width:  40vw;
+    color: black;
+}
+
+
+#visContainer__cluster {
+    position : absolute;
+    top : 2.5vh;
+    left : 80vw;
+    background-color: #eee;
+    width:  20vw;
+}
+
+
 .visContainer__infoContainer {
     position: absolute;
     left: 0;

@@ -167,6 +167,7 @@ async function wrapper(){
                 $('#visContainer__loading').addClass("hidden")
 
                 renderClusterInfo()
+                renderTimelines()
         // console.log(num_points)
 
          width = window.innerWidth
@@ -195,7 +196,6 @@ async function wrapper(){
         })
 
         
-        console.log(color_array)
 
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(width, height);
@@ -664,12 +664,126 @@ async function wrapper(){
     d3.select(this).classed("clustershow", !show)
    })
 
-   function renderClusterInfo(){
+   //Do timeline info logic
 
-    function clusterColor(cc, op){
+   d3.select("#visContainer__timelineshow").on("click", function(d){
+    let show = d3.select(this).classed("timelineshow")
+    if (show == true){
+        d3.select('#t-icon-hide').classed("hidden", !show);
+        d3.select('#t-icon-show').classed("hidden", show);
+        d3.select("#visContainer__timelineInfo").classed("hidden", !show)
+    }
+    else {
+        d3.select('#t-icon-hide').classed("hidden", true);
+        d3.select('#t-icon-show').classed("hidden", false);
+        d3.select("#visContainer__timelineInfo").classed("hidden", true)
+    }
+    d3.select(this).classed("timelineshow", !show)
+   })
+
+   function renderTimelines(){
+    console.log("rendering timeline")
+    console.log(data)
+    let square_size = {w:1200, h:350}
+    const margin = {"top": 10, "bottom" : 25, "left" : 35, "right" : 15};
+    var width = square_size.w - margin.left - margin.right,
+        height = square_size.h - margin.top - margin.bottom;
+
+    let cluster_line_data = {}
+
+    let dateParse = d3.timeParse('%Y-%m-%d')
+    let dateFormat = d3.timeFormat("%Y")
+    let yearExt = [5000, -5000];
+    let countExt = [0, -10000000];
+
+    let cc = [... new Set(data.clusters)]
+    //creating formatted dates
+
+    cc.forEach(function(c){
+        cluster_line_data[c] = {};
+    })
+    let ii = 0
+    data.clusters.forEach(function(d){
+        
+        let d_obj = dateParse(data.dates[ii])
+        if(d_obj != null){
+            if(d_obj.getFullYear() < yearExt[0]){
+                yearExt[0] = d_obj.getFullYear()
+            }
+            if(d_obj.getFullYear() > yearExt[1]){
+                yearExt[1] = d_obj.getFullYear()
+            }
+            if(cluster_line_data[d].hasOwnProperty(d_obj.getFullYear())){
+                cluster_line_data[d][d_obj.getFullYear()] += 1
+            }
+            else {
+                cluster_line_data[d][d_obj.getFullYear()] = 1
+            }
+        }
+        ii += 1;
+        
+    })
+
+    Object.keys(cluster_line_data).forEach(function(c){
+        Object.keys(cluster_line_data[c]).forEach(function(d){
+            if(cluster_line_data[c][d] > countExt[1]){
+                countExt[1] = cluster_line_data[c][d]
+            }
+        })
+    })
+
+    var y = d3.scaleLinear()
+      .domain(countExt)
+      .range([ height, 0 ]);
+
+    var x = d3.scaleLinear().domain(yearExt).range([0, width])
+
+     let svg = d3.select('#timeline-div')
+        .append("svg")
+        .attr("id", "timeline-svg")
+        .attr("viewBox", "0 0 " + square_size.w + " " + square_size.h)
+        .attr("preserveAspectRatio", "xMidYMid meet")
+
+    let svg_g = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg_g.append("g")
+        .attr("class", "yaxis")
+        .call(d3.axisLeft(y));
+
+    svg_g.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .attr("class", "xaxis")
+      .call(d3.axisBottom(x).tickFormat(d3.format(".0f")));
+
+    Object.keys(cluster_line_data).forEach(function(c_time){
+
+        let line_color = color_array[parseInt(c_time) + 1];
+        svg_g.append("path")
+            .datum(Object.keys(cluster_line_data[c_time]))
+            .attr("fill", "none")
+            .attr("stroke", line_color)
+            .attr("stroke-width", 2)
+            .attr("d", d3.line()//.curve(d3.curveBundle.beta(1))
+                .x(function(d){
+                    return x(d)
+                })
+                .y(function(d){
+                    return y(cluster_line_data[c_time][d])
+                }))
+    })
+
+    
+   }//renderTimelines
+
+   function clusterColor(cc, op){
         let ccc = new THREE.Color(color_array[cc + 1]);
         return "rgba(" + (ccc.r * 255) + ',' + (ccc.g * 255) + ',' + (ccc.b * 255) + ","+ op +")";
     }
+
+   function renderClusterInfo(){
+
+    
 
     data['clusters_sizes'] = []
 
