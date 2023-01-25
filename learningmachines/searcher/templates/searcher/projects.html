@@ -1,67 +1,195 @@
-{% extends 'searcher/base.html' %}
-{% block title %}Projects{% endblock title%}
-{% block content %}
-<div class="col-8 bg-color mt-3 mb-3" align="center" style="border-radius: 10px; box-shadow: 0px 0px 5px 2px grey;">
-       <div id="legend" class="mt-5">
-        <h1 style="text-decoration: underline;">Projects</h1>
-        <div class="row mb-5 mt-5">
-        {% for key, values in projects.items %}
-        <div class="col-4 mt-2">
-          <div class="card p-3">
-            <h5 style="text-decoration: underline;">{{values.Name}}</h5>
-            <p>{{values.Info}}</p>
-            {% for link in values.Links %}
-              <a href="{{link.0}}">{{link.1}}</a>
-            {% endfor %}
-          </div>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+    <!-- <link rel="stylesheet" href="http://getbootstrap.com.vn/examples/equal-height-columns/equal-height-columns.css" /> -->
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Basic:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 5 files -->
+    <link href="fontawesome/css/all.css" rel="stylesheet">
+
+    <!-- MoM Styles -->
+    <link rel="stylesheet" href="../../static/searcher/css/momstyles.css">
+
+    <title>DSC Projects</title>
+
+</head>
+
+<body>
+    <header>
+
+        <nav class="navbar navbar-expand-xl navbar-light bg-white px-xl-0">
+            <div class="container-fluid limit">
+                <a class="navbar-brand" href="#"><img src="../../static/searcher/images/MOMx4-removebg-preview.png" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item mx-xl-1 active">
+                            <a class="nav-link" href="#">Create a Model <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item  mx-xl-1">
+                            <a class="nav-link" href="/searcher/projects">DSC Projects</a>
+                        </li>
+
+                        <li class="nav-item  mx-xl-1 dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Tutorials
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Creating a Model</a>
+                                <a class="dropdown-item" href="#">Interpreting a Model</a>
+                            </div>
+                        </li>
+                        <li class="nav-item  mx-xl-1">
+                            <a class="nav-link" href="#">My Models</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="loginlink nav-item">
+                    <i class="far fa-user-circle orange"></i> <a href="#">Login</a>
+                    <!-- logged in state shown - you may have sublinks here for profile, logout etc. - show "Login" if a user is not logged in -->
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="main-content home">
+        <div class="container-fluid limit">
+            <div class="row align-contents-center">
+                <div class="homecta col-md-12">
+                    <div class="projlist container-fluid mt-5">
+                      <h2>Projects</h2>
+                        <div class="row" style="margin-bottom: 1.5rem;"> <!--row 1-->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="https://ucdscenter.github.io/public_sculpture_conversations/" target="_blank">Instagram Hashtag Networks</a></h3>
+                                    <p>Network Visualizations of Instagram posts and their hashtags related Public Artwork. Posts are from 2018-2020.</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="https://rebeccawingo.com/reframed/map/maps_static/map-proto.html" target="_blank">1923 Crow Maps</a></h3>
+                                    <p>Maps of every allotment on the Crow Reservation from 1923, showing land parcels and their heads of household.</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="https://modelofmodels.io/searcher/projects/?name=library_docs" target="_blank">UC Published Documents Dashboard</a></h3>
+                                    <p>Dashboard showing 10,000 publications by UC affiliated researchers, allowing you to filter by various attibutes.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 1.5rem;"> <!--row 2-->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="https://ucdscenter.github.io/climate_race_maps" target="_blank">CO2 Emissions and Race</a></h3>
+                                    <p>Maps and Visualizations showing the relationships between race, income, and CO2 emissions for select cities, from 2010.</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="projects/vent_notes.html" target="_blank">Ventilator Timelines</a></h3>
+                                    <p>Timelines showing severity of events in newborns on at-home ventilators, for medical exploration.</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="https://modelofmodels.io/searcher/projects/?name=library_docs" target="_blank">Defining the Anthropocene in the 20th Century</a></h3>
+                                    <p>LDA Models using derived Bag-of-Words data from 2100 best-selling 20th century novels.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 1.5rem;"> <!--row 3-->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="/searcher/projects/?name=dapl" target="_blank">Dakota Access Pipeline Twitter Networks</a></h3>
+                                    <p>Twitter user interaction networks from the DAPL protests. From archive.org archived tweets.</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="https://rebeccawingo.com/reframed/map/maps_static/map-proto.html" target="_blank">Ferguson Twitter Networks</a></h3>
+                                    <p>Twitter user interaction networks from the Ferguson protests and ensuing events. From archive.org archived tweets.</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="/searcher/projects/?name=debates" target="_blank">Presidential Debate Twitter Networks</a></h3>
+                                    <p>Twitter user interaction networks from the 2016 Presidential Debates. From archive.org archived tweets.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 1.5rem;"> <!--row 4-->
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="https://ucdscenter.github.io/public_sculpture_conversations/" target="_blank">Hydroxychloroquine Twitter Networks</a></h3>
+                                    <p>Twitter user interaction networks from the first six months of 2020, exploring Hydroxychloroquine information.</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card h-100 p-3">
+                                    <h3><a href="http://socialmedia.modelofmodels.io/union" target="_blank">NLRB Union Twitter</a></h3>
+                                    <p>Twitter user interaction networks for Barstool, Tesla, and the Federalist when their CEO's made tweets that violated NLRB rules.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        
-        {% endfor %}
+    </div>
+    <footer>
+        <div class="container-fluid limit">
+            <div class="row">
+                <div class="col-md-6 col-xl-3">
+                    <h5 class="mb-0">UC Digital Scholarship Center</h5>
+                    <p class="mt-0">
+                        <br /> Langsam Library
+                        <br /> 2911 Woodside Drive
+                        <br /> Cincinnati, OH 45221
+                    </p>
+                    <p>PHONE: 513.556.8794
+                        <br /> digitalsc@ucmail.uc.edu
+                    </p>
+                </div>
+                <div class="col-md-6 col-xl-3 mt-5 mt-md-0">
+                    <nav class="flex-column">
+                        <h5>About Us</h5>
+                        <a class="nav-link mt-4 mb-2" href="#">About Model of Models</a>
+                        <a class="nav-link my-2" href="https://sites.libraries.uc.edu/dsc/contact-us">Contact Us</a>
+                    </nav>
+                </div>
+
+                <div class="col-md-6 offset-md-6 col-xl-2 offset-xl-2 mt-5 mt-md-0">
+                    <img src="../../static/searcher/images/University_of_Cincinnati_logo.svg.png" />
+                </div>
+                <div class="col-md-6 offset-md-6 col-xl-2 offset-xl-0 mt-5 mt-xl-0">
+                    <img src="../../static/searcher/images/mellon-new-logo.png" />
+                </div>
+            </div>
         </div>
 
-        <!--<div class="row mb-5 mt-5">
-        	<div class="col-12">
-        		<h4><a href="/searcher/projects/?name=dapl">Dakota Access Pipeline Twitter Networks</a></h4>
-        	</div>
 
-        	<div class="col-12">
-        		<h4><a href="/searcher/projects/?name=blm&type=networks-aug">Twitter Ferguson Protests Networks August</a></h4>
-        		<h4><a href="/searcher/projects/?name=blm&type=networks-novdec">Twitter Ferguson Protests Networks Nov-Dec</a></h4>
-        		<h4><a href="/searcher/projects/?name=blm&type=basic-aug">Twitter Ferguson Protests Timelines August</a></h4>
-        		<h4><a href="/searcher/projects/?name=blm&type=basic-novdec">Twitter Ferguson Protests Timelines Nov-Dec</a></h4>
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
 
-        	</div>
-        	<div class="col-12">
-        		<h4><a href="/searcher/projects/?name=debates">2016 Presidential Debate Twitter Networks</a></h4>
-        	</div>
-        	<div class="col-12">
-        		<h4><a href="/searcher/projects/?name=library_docs">Library Document Data Dashboard</a></h4>
-        	</div>
-        	<div class="col-12">
-        		<h4><a href="https://ucdscenter.github.io/public_sculpture_conversations/">Instagram Networks</a></h4>
-        	</div>
-        	<div class="col-12">
-        		<h4><a href="https://ucdscenter.github.io/climate_race_maps/">CO2 Emissions Maps</a></h4>
-        	</div>
-        	<div class="col-12">
-        		<h4><a href="/searcher/projects/?name=vent_notes">Ventilation Notes</a></h4>
-        		<h4><a href="/searcher/projects/?name=vent_notes&sample=True">Ventilation Notes Samples</a></h4>
-        	</div>
-        </div>
-
-        <h3>Hathitrust Anthropocene Novels</h3>
-        <div class="col-12">
-            <h4><a href="https://vis.modelofmodels.io/lda/vis?method=hdsr&model=full_pages&num_topics=40&tfidf=False&passes=20&corpus=HathiTrust&level_select=article&dn=710,790&nodesize=docs">All pages as docs: 710,790 pages</a></h4>
-            <h4><a href="https://vis.modelofmodels.io/lda/vis?method=hdsr&model=page_climate_post_1945&num_topics=40&tfidf=False&passes=20&corpus=HathiTrust&level_select=article&dn=28,831&nodesize=docs">POST 1945 Climate: "bomb", "atom", "nuclear", "pollution", "climate", "environment", "earth": 28,831 pages</a></h4>
-            <h4><a href="https://vis.modelofmodels.io/lda/vis?method=hdsr&model=page_climate_pre_1945&num_topics=40&tfidf=False&passes=20&corpus=HathiTrust&level_select=article&dn=6,831&nodesize=docs">PRE 1945 Climate: "bomb", "atom", "nuclear", "pollution", "climate", "environment", "earth": 6,831 pages</a></h4>
-        </div>-->
-      </div>
-
-
-
-{% endblock content %}
-{% block footer_javascript_page %}
-  <script>
-      $('#site-wrapper').addClass('home-bg')
-  </script>
-{% endblock footer_javascript_page %}
+</html>
