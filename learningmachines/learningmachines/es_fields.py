@@ -502,8 +502,22 @@ datasetNames = {
             'num_docs': 1738730,
          'description': 'The chicago novels corpus split into 500 word chunks',
          's3_names': {
-            'bert': '_chicago-novels_umap_kmeans'},
+            'bert': '_chicago-novels_umap_kmeans' },
             'display_name' : 'Chicago Novels Chunks',
+         'database': 'chicago-novels'},
+     'chicago-novels-1900': {
+            'num_docs': 59295,
+         'description': 'The chicago novels corpus 1900 to 1910 split into 500 word chunks',
+         's3_names': {
+            'bert': '1900_1910_chicago_novels' },
+            'display_name' : 'Chicago Novels 1900-1910',
+         'database': 'chicago-novels'},
+     'chicago-novels-1890': {
+            'num_docs': 59295,
+         'description': 'The chicago novels corpus 1900 to 1910 split into 500 word chunks',
+         's3_names': {
+            'bert': '1890_1900_chicago_novels' },
+            'display_name' : 'Chicago Novels 1890-1900',
          'database': 'chicago-novels'},
      'covid': {
             'num_docs': 144000,

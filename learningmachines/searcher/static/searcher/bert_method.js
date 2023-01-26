@@ -71,7 +71,8 @@ async function wrapper(){
                 return;
             }
             let fullq = qry
-            let base_qry = dataset_path.split("_")[0] 
+            let base_qry = dataset_path.split("_")[0]
+
             if (base_qry.length == 0){
                 fullq = qry
             }
@@ -79,6 +80,12 @@ async function wrapper(){
                 fullq = base_qry + " AND " + qry; 
             }
             let qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq
+            //special case for decades based chicago corpus models
+            if(typeof(parseInt(base_qry.slice(0,4))) == 'number'){
+                fullq = qry
+                qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq + "&start=" + dataset_path.split("_")[0] + "&end=" + dataset_path.split("_")[1]
+            }
+            
             console.log(qry_str)
             getDocs(qry_str)
             
@@ -114,13 +121,6 @@ async function wrapper(){
                 ret_arr.push(true)
             }
         })
-        // filtered_data = data.filter(function(d){
-        //     if(rslts_dict[d.data_id] == undefined){
-        //         return false
-        //     }
-        //     return true
-        // })
-        // createSearchPoints(filtered_data)
         createSearchPoints(ret_arr, data)
 
         pointsMaterial.needsUpdate = true

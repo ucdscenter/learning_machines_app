@@ -446,6 +446,7 @@ def searcher(request):
 
 USE_S3_BERT = False
 
+
 @csrf_exempt
 def bert_method_vis(request, dataset=''):
 	from learningmachines.public_credentials import S3_OBJECT
