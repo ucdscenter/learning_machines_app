@@ -81,8 +81,6 @@ async function wrapper(){
             "#cab2d6",
         ]
 
-     console.log(color_array.length)
-
      var genres = {'portrait' : 0, 'landscape' : 1, 'genre painting' : 2, 'abstract' : 3,
        'religious painting' : 4, 'cityscape' : 5, 'figurative' : 6, 'sketch and study' : 7,
        'illustration' : 8, 'still life' : 9};
@@ -153,13 +151,12 @@ async function wrapper(){
         	data_title = d.title;
         	data_category = d[chosen_name];
             artist_name = d.artistName;
-        	let point = {position, category_number, data_id, data_title, data_category, artist_name};
+            data_url = d.url;
+        	let point = {position, category_number, data_id, data_title, data_category, artist_name, data_url};
         	s_data_points.push(point);
         	})
 
         s_generated_points = s_data_points;
-        // console.log(generated_points);
-
         s_pointsGeometry = new THREE.BufferGeometry();
 
         s_colors = new Float32Array(num_points * 3);
@@ -204,8 +201,6 @@ async function wrapper(){
             opacity: 1
         });
         
-        // console.log(pointsMaterial);
-
 
         
 
@@ -242,9 +237,6 @@ async function wrapper(){
             // must be called after any change of parameters of camera
             camera.updateProjectionMatrix();
         })
-
-        
-        console.log(color_array)
 
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(width, height);
@@ -334,7 +326,8 @@ async function wrapper(){
         	data_title = d.title;
         	data_category = d[chosen_name];
             artist_name = d.artistName;
-        	let point = {position, category_number, data_id, data_title, data_category, artist_name};
+            data_url = d.url;
+        	let point = {position, category_number, data_id, data_title, data_category, artist_name, data_url};
         	data_points.push(point);
         	})
 
@@ -384,10 +377,6 @@ async function wrapper(){
             color: new THREE.Color( 0xffffff ),
             opacity: 1
         });
-        
-        // console.log(pointsMaterial);
-
-
         
 
         points = new THREE.Points(pointsGeometry, pointsMaterial);
@@ -494,7 +483,9 @@ async function wrapper(){
             }).then(res => {
                 return res.json();
             }).then(data => {
+                console.log(data);
             	$image_tip.src = data.url
+                // document.getElementById("selectedImage").src = data.url;
             }).catch(error => {
                     console.error('Error:', error);
             })
@@ -571,44 +562,19 @@ async function wrapper(){
             let index = intersect.index;
             let datum = choose_generated_points[index];
             // highlightPoint(datum);
-            console.log(datum);
-            // showTooltip(mouse_position, datum);
-            // console.log(datum.data_id);
-            // console.log(window.location);
-            // document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
-            // document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
-            // document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
-            //document.getElementById("selectedImage").src = data.url 
-
-
-            fetch("/searcher/s3_image/" + "?id=" + datum['data_id'] + "&fetch_similarity=True", {
+            document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
+            document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
+            document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
+            fetch("/searcher/s3_image/" + "?id=" + datum.data_id, {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'image/jpeg' }
             }).then(res => {
-                console.log(res)
                 return res.json();
             }).then(data => {
-                console.log(data)
-                console.log(datum)
-                document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
-                document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
-                document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
-                document.getElementById("selectedImage").src = data.url
-
-                let sim_ims = d3.select("#similar_images")
-                sim_ims.selectAll(".sim_im").remove()
-                sim_ims.selectAll(".img")
-                    .data(data.sim_urls)
-                    .enter()
-                    .append("img")
-                    .attr("class", "sim_im")
-                    .attr("src", function(d){
-                        return d
-                    })
-                    .style("width", "25%")
-
-                
-            
+                // console.log(data);
+                document.getElementById("selectedImage").src = data.url;
+                // console.log(document.getElementById("selectedImage"));
+            	// $image_tip.src = data.url
             }).catch(error => {
                     console.error('Error:', error);
             })
@@ -642,16 +608,12 @@ async function wrapper(){
     }
 
     const getColorForPubmed = function(d){
-        // console.log(typeof d["category_number"]);
         if (d['category_number'] == -1){
         	return "#d3d3d3"
         }
             return color_array[Number(d["category_number"])+1];
         }
         // Add topic number
-                
-        
-    
      setup()
 }
 
