@@ -455,9 +455,11 @@ def s3_image(request):
 												'Bucket': 'wikiart-project', 
 												'Key': 'images/' + request.GET.get("id") + ".jpg", }, ExpiresIn = 600, )
 	sim_urls = []
+	proj_embs = []
 	if request.GET.get("fetch_similarity") == "True":
 		import requests
 		sim_rsp = json.loads(requests.post(WIKIARTS_URL + ":8080/similar_images/", data={'data' : url}).text)
+		proj_embs = sim_rsp['pred_embs']
 		for s in sim_rsp["sim_rslts"]:
 			#Code for reading image here and posting image data, so no need for boto3 in wikairts server
 			#rslt = s3Obj.get_object(Bucket='wikiart-project', Key='images/184896.jpg')
@@ -467,7 +469,7 @@ def s3_image(request):
 			 									'Bucket': 'wikiart-project', 
 			 									'Key': 'images/' + s + ".jpg", }, ExpiresIn = 600, )
 			sim_urls.append(s_url)
-	return JsonResponse({"url" : url, "sim_urls" : sim_urls})#rslt_decode # Function for BERT Visualization
+	return JsonResponse({"url" : url, "sim_urls" : sim_urls, 'proj_embs' : proj_embs })#rslt_decode # Function for BERT Visualization
 
 USE_S3_BERT = True
 
