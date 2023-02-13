@@ -3,107 +3,104 @@
 {% block title %}BERT Embeddings Visualization{% endblock title %}
 
 {% block content %}
-      {% for dataset, dataset_info in datasets.items %}
-      <div class="cards">
-        <a href="/searcher/bert_method_vis/{{dataset}}">
-        <div class="card">
-          <div class="card__imageContainer">
-            <!-- <img class="card__image" alt={{dataset}} src="{% static 'searcher/images/bert_images/' %}{{dataset}}.png"> -->
-            <div class="p-5" style="min-height: 100px;">
-              <h3 style="color: black">
-                {{dataset_info.display_name}}
-              </h3>
+  <div class="row">
+    <div class="projlist container-fluid mt-5">
+      <h2>BERT Projection</h2>
+      <div class="row justify-content-evenly" style="margin-bottom: 1.5rem;">
+        {% for dataset, dataset_info in datasets.items %}
+
+        <div class="col-12 col-md-4 col-lg-4 col-xl-4" style="padding: 1.5rem;">
+          <a href="/searcher/bert_method_vis/{{dataset}}">
+            <div class="card h-100 p-3">
+              <div class="card__imageContainer">
+                <h3 style="color: black" >{{dataset_info.display_name}}</h3>
+                <span>{{dataset_info.description}}</span>
+              </div>
             </div>
-          </div>
-  
-          <div class="card__overlay">
-            <div class="card__header">
-              <!--<img class="card__thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="" />-->
-                <div class="card__header-text">
-                  <h3 class="card__title">{{dataset_info.display_name}}</h3>            
-                  <span class="card__text">{{dataset_info.description}}</span>
-                </div>
-            </div>
-          </div>
+          </a>
         </div>
-      </a>
+
+        {% endfor %}
+
+        {%if url_parameter %}
+          <div class="visContainer" style="height: 100vh; width: 100vw;">
+            <div class="visContainer__infoContainer">
+
+              <div class="visContainer__dropDownContainer" style='display: none;'>
+                <h6>Select Algorithm</h6>
+                <select class="visContainer__dropDown" id="visContainer__dropDown">
+                  <option value="bert">Bert</option>
+                  <option value="UMAP">UMAP</option>
+                  <option value="tSNE">tSNE</option>
+                  <option value="PCA">PCA</option>
+                  <option value="KMeans+PCA">KMeansPCA</option>
+                  <option value="PCA+KMeans">PCAKMeans</option>
+                  <!-- <option value="KMeans+UMAP">KMeansUMAP</option> -->
+                  <!-- <option value="KMeans+tSNE">KMeanstSNE</option> -->
+                </select>
+              </div>
+
+              <div class="visContainer__searchContainer">
+                <!--<h6>Filter Documents : </h6>-->
+                <div class='row'>
+                  <div class="col-12">
+                <input type="text" style="font-size: 15px" name="search-term"  id="search-input" class="form-control input-lg" placeholder="Search Documents"/>
+              </div>
+              <div class="col-12 mt-2">
+                <h6 id="s-doc-count"></h6>
+                <button class="btn btn-secondary hidden" id="restore-search-button">Restore Search</button>
+                </div>
+              </div>
+              </div>
+              <div class="visContainer__info" style='overflow-y: auto;'>
+                <h5 class="visContainer__info__docTitle" id="visContainer__info__docTitle">Label: </h5>
+                <h6 class="visContainer__info__docTitle" id="visContainer__info__docAuthor">Author: </h6>
+                <h6 class="visContainer__info__docTitle" id="visContainer__info__docTopic">Cluster: </h6>
+                <div class="visContainer__info__docText" id="visContainer__info__docText"></div>
+              </div>
+            </div>
+            <div class="visContainer__graphContainer">
+              <div class="visContainer__loading" id="visContainer__loading">
+                  <img class='mt-5' src="{% static 'searcher/images/big-ajax-loader.gif' %}" alt="loading">
+              </div>
+              <div class="visContainer__graph hidden" id="visContainer__graph">
+                <div class="visContainer__cluster" id="visContainer__cluster">
+
+                  <div id="visContainer__clustershow" class='clustershow' style="cursor: pointer; color: black"><h5 align="center"> Show Cluster Info<i id="icon-show" class="material-icons center_icon_h3">expand_more</i><i id="icon-hide" class="material-icons center_icon_h3 hidden">expand_less</i></h5></div>
+
+                  <div  id="visContainer__clusterInfo" class="visContainer_clusterInfo hidden m-2" style="max-height: 75vh; overflow-y: scroll">
+                    <table class="table">
+                      <thead style="background-color: white;">
+                        <tr>
+                        <th>Cluster</th>
+                        <th>Size</th>
+                        <th>central title</th>
+                        <th>tfidf label</th>
+                      </tr>
+                      </thead>
+                      <tbody id="dtbody" style="font-size: 10px;">
+                  
+                      </tbody>
+
+                    </table>
+                  </div>
+                
+                </div>
+                <!-- <canvas id="visContainer__graphCanvas" width="716" height="820" style="width: 716.6666666666666px; height: 820px;">{{ datasetJsonString }}</canvas> -->
+              </div>
+            </div>
+          </div>
+        {% endif %}
       </div>
-    {% endfor %}
-    
+    </div>
+  </div>
+
     
      
 
   
 
-      {%if url_parameter %}
-      <div class="visContainer" style="height: 100vh; width: 100vw;">
-        <div class="visContainer__infoContainer">
-
-          <div class="visContainer__dropDownContainer" style='display: none;'>
-            <h6>Select Algorithm</h6>
-            <select class="visContainer__dropDown" id="visContainer__dropDown">
-              <option value="bert">Bert</option>
-              <option value="UMAP">UMAP</option>
-              <option value="tSNE">tSNE</option>
-              <option value="PCA">PCA</option>
-              <option value="KMeans+PCA">KMeansPCA</option>
-              <option value="PCA+KMeans">PCAKMeans</option>
-              <!-- <option value="KMeans+UMAP">KMeansUMAP</option> -->
-              <!-- <option value="KMeans+tSNE">KMeanstSNE</option> -->
-            </select>
-          </div>
-
-          <div class="visContainer__searchContainer">
-            <!--<h6>Filter Documents : </h6>-->
-            <div class='row'>
-              <div class="col-12">
-            <input type="text" style="font-size: 15px" name="search-term"  id="search-input" class="form-control input-lg" placeholder="Search Documents"/>
-          </div>
-          <div class="col-12 mt-2">
-            <h6 id="s-doc-count"></h6>
-            <button class="btn btn-secondary hidden" id="restore-search-button">Restore Search</button>
-            </div>
-          </div>
-          </div>
-          <div class="visContainer__info" style='overflow-y: auto;'>
-            <h5 class="visContainer__info__docTitle" id="visContainer__info__docTitle">Label: </h5>
-            <h6 class="visContainer__info__docTitle" id="visContainer__info__docAuthor">Author: </h6>
-            <h6 class="visContainer__info__docTitle" id="visContainer__info__docTopic">Cluster: </h6>
-            <div class="visContainer__info__docText" id="visContainer__info__docText"></div>
-          </div>
-        </div>
-        <div class="visContainer__graphContainer">
-          <div class="visContainer__loading" id="visContainer__loading">
-              <img class='mt-5' src="{% static 'searcher/images/big-ajax-loader.gif' %}" alt="loading">
-          </div>
-          <div class="visContainer__graph hidden" id="visContainer__graph">
-            <div class="visContainer__cluster" id="visContainer__cluster">
-
-              <div id="visContainer__clustershow" class='clustershow' style="cursor: pointer; color: black"><h5 align="center"> Show Cluster Info<i id="icon-show" class="material-icons center_icon_h3">expand_more</i><i id="icon-hide" class="material-icons center_icon_h3 hidden">expand_less</i></h5></div>
-
-              <div  id="visContainer__clusterInfo" class="visContainer_clusterInfo hidden m-2" style="max-height: 75vh; overflow-y: scroll">
-                <table class="table">
-                  <thead style="background-color: white;">
-                    <tr>
-                    <th>Cluster</th>
-                    <th>Size</th>
-                    <th>central title</th>
-                    <th>tfidf label</th>
-                  </tr>
-                  </thead>
-                  <tbody id="dtbody" style="font-size: 10px;">
-              
-                  </tbody>
-
-                </table>
-              </div>
-             
-            </div>
-            <!-- <canvas id="visContainer__graphCanvas" width="716" height="820" style="width: 716.6666666666666px; height: 820px;">{{ datasetJsonString }}</canvas> -->
-          </div>
-        </div>
-      </div>
-      {% endif %}
+  
 {% endblock content %}
 
 {% block footer_javascript_page %}

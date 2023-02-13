@@ -7,6 +7,7 @@
 
   <title>{% block title %}Home {% endblock title %} | Catalyst</title> 
   {% block head_favicon %}
+    <link rel="shortcut icon" type="image/x-icon" href="../../static/searcher/images/favicon.ico" />
   {% endblock head_favicon %}
 
   {% block head_meta %}
@@ -60,7 +61,7 @@
   </div> -->
   {# Navigation Menu #}
   {% csrf_token %}
-  <nav class="navbar navbar-expand-xl navbar-light bg-white px-xl-0" id="main-nav">
+  <nav class="navbar navbar-expand-xl navbar-light bg-white px-xl-0 grayrule-bottom" id="main-nav">
 
     <div class="container-fluid limit">
 
@@ -98,7 +99,7 @@
           {% endif %}
         </ul>
 
-        <ul class="navbar-nav navbar-right">
+        <ul class="navbar-nav navbar-right justify-content-end">
           {% if user.is_authenticated %}
             <li class="nav-item  mx-xl-1 dropdown">
               <a class="nav-link pointer clickpointer dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
@@ -109,8 +110,8 @@
               </div>
             </li>
           {% else %}
-            <div class="loginlink nav-item">
-              <i class="far fa-user-circle orange"></i> <a href="/accounts/login/">Login</a>
+            <div class="nav-item mx-xl-1 loginlink">
+              <a href="/accounts/login/">Login</a>
               <!-- logged in state shown - you may have sublinks here for profile, logout etc. - show "Login" if a user is not logged in -->
             </div>
           {% endif %}
@@ -134,7 +135,7 @@
   </div>
 
   <footer>
-    <div class="container-fluid limit">
+    <div class="container-fluid limit" style="max-width: 1200px; margin: auto;">
         <div class="row">
             <div class="col-md-6 col-xl-3">
                 <h5 class="mb-0">UC Digital Scholarship Center</h5>
