@@ -20,8 +20,8 @@ class ProfileModelTest(SimpleTestCase):
     def test_string_representation(self):  
 
         user = User(email="srivasyi@mail.uc.edu")
-        profile = Profile(user = user, institute = 'University', department = 'Aerospace Enineering')
-        self.assertEqual(str(profile), 'Email:{} Department:{} Institute:{}'.format(profile.user.email, profile.institute, profile.department))
+        profile = Profile(user = user, first_name = 'Sri', last_name = 'Vasyi', institute = 'University', department = 'Aerospace Enineering')
+        self.assertEqual(str(profile), 'Email:{} First_name:{} Last_name:{} Department:{} Institute:{}'.format(profile.user.email, profile.first_name, profile.last_name, profile.institute, profile.department))
 
 class AccessModelTest(SimpleTestCase):
 

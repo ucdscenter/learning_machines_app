@@ -17,7 +17,7 @@ class VisRequestAdmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    search_fields = ('user__email', 'department', 'institute')
+    search_fields = ('user__email', 'first_name', 'last_name', 'department', 'institute')
 
 
 class AnnotationAdmin(admin.ModelAdmin):

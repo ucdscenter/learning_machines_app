@@ -43,6 +43,8 @@ def create_user(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         re_password = request.POST.get('re_password')
+        first_name = request.POST.get('first-name')
+        last_name = request.POST.get('last_name')
         institute = request.POST.get('institute')
         department = request.POST.get('department')
         if not is_qualified_password(password, re_password):
@@ -54,7 +56,7 @@ def create_user(request):
             return HttpResponse(json.dumps(error), status=400)
         user = User.objects.create_user(username=email, email=email, password=password)
         user.save()
-        profile = Profile(user=user, institute=institute, department=department)
+        profile = Profile(user=user, first_name=first_name, last_name=last_name, institute=institute, department=department)
         profile.save()
         login(request, user)
         ## Default access is pubmed
@@ -95,10 +97,14 @@ def show_user(request):
         return redirect('/searcher/accounts/login/')
     user = request.user
     profiles = Profile.objects.filter(user=user).all()
+    first_name = profiles[0].institute if len(profiles) else ''
+    last_name = profiles[0].institute if len(profiles) else ''
     institute = profiles[0].institute if len(profiles) else ''
     department = profiles[0].department if len(profiles) else ''
     profile = {
         'email': user.email,
+        'first_name': first_name,
+        'last_name': last_name,
         'institute': institute,
         'department': department
     }
@@ -116,6 +122,14 @@ def show_user(request):
             user.email = email
             edited = True
             user.save()
+        first_name = request.POST.get('first_name')
+        if first_name != "":
+            p.first_name = first_name
+            edited = True
+        last_name = request.POST.get('last_name')
+        if last_name != "":
+            p.last_name = last_name
+            edited = True
         institute = request.POST.get('institute')
         if institute != "":
             p.institute = institute

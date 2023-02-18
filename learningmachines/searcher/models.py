@@ -14,8 +14,11 @@ class Profile(models.Model):
     institute = models.CharField(max_length=200, null=True)
     department = models.CharField(max_length=200, null=True)
 
+    first_name = models.CharField(max_length=200, null=True, blank=True)
+    last_name = models.CharField(max_length=200, null=True, blank=True)
+
     def __str__(self):
-        return 'Email:{} Department:{} Institute:{}'.format(self.user.email, self.institute, self.department)
+        return 'Email:{} First_Name:{} Last_Name:{} Department:{} Institute:{}'.format(self.user.email, self.first_name, self.last_name, self.institute, self.department)
 
 
 class Access(models.Model):
