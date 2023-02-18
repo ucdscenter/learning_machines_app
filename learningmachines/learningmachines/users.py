@@ -3,12 +3,11 @@ from django.contrib.auth.models import User
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from searcher.models import Profile,Access, VisRequest
+from searcher.models import Profile, Access, VisRequest
 from django.contrib.messages import info
 #from cfg.dev_config import SKPN_ADDRESS
 import json
 import re
-
 
 
 def login_user(request):
@@ -35,7 +34,7 @@ def logout_user(request):
 
 
 def create_user(request):
-    ##TODO check arguments
+    # TODO check arguments
     if request.method == 'GET':
         html = 'searcher/register_template.html'
         return render(request, html, {})
@@ -43,7 +42,7 @@ def create_user(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         re_password = request.POST.get('re_password')
-        first_name = request.POST.get('first-name')
+        first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         institute = request.POST.get('institute')
         department = request.POST.get('department')
@@ -54,12 +53,14 @@ def create_user(request):
         if len(user):
             error = {'error': 'Email already exists'}
             return HttpResponse(json.dumps(error), status=400)
-        user = User.objects.create_user(username=email, email=email, password=password)
+        user = User.objects.create_user(
+            username=email, email=email, password=password)
         user.save()
-        profile = Profile(user=user, first_name=first_name, last_name=last_name, institute=institute, department=department)
+        profile = Profile(user=user, first_name=first_name,
+                          last_name=last_name, institute=institute, department=department)
         profile.save()
         login(request, user)
-        ## Default access is pubmed
+        # Default access is pubmed
         try:
             access = Access.objects.get(endpoint='all')
         except:
@@ -68,9 +69,9 @@ def create_user(request):
         access.user.add(user)
         access.save()
         html = 'searcher/index.html'
-       
+
         return render(request, html, {})
-       
+
 
 def change_password(request):
     if request.user.is_anonymous:
@@ -97,8 +98,8 @@ def show_user(request):
         return redirect('/searcher/accounts/login/')
     user = request.user
     profiles = Profile.objects.filter(user=user).all()
-    first_name = profiles[0].institute if len(profiles) else ''
-    last_name = profiles[0].institute if len(profiles) else ''
+    first_name = profiles[0].first_name if len(profiles) else ''
+    last_name = profiles[0].last_name if len(profiles) else ''
     institute = profiles[0].institute if len(profiles) else ''
     department = profiles[0].department if len(profiles) else ''
     profile = {
@@ -164,20 +165,23 @@ def show_history(request):
 
         search_url = re.sub('/get_articles/', '/search/', search_url)
 
-        vis_requests = VisRequest.objects.filter(query=r, is_finished=True).all()
+        vis_requests = VisRequest.objects.filter(
+            query=r, is_finished=True).all()
         if len(vis_requests):
             vis_data = []
             i = 0
             for request in vis_requests:
                 if len(request.url.split('?')) > 0:
                     name = request.url.split('?')[1]
-                    formatted_name = 'Vis:' + name.replace('%2C', ',').replace('+', ' ').replace('&', ' ')
+                    formatted_name = 'Vis:' + \
+                        name.replace('%2C', ',').replace(
+                            '+', ' ').replace('&', ' ')
                     vis_data.append({
                         'url': '{}&search={}'.format(request.url, r.pk),
                         'name': formatted_name
                     })
                 else:
-                     vis_data.append({
+                    vis_data.append({
                         'url': {},
                         'name': {}
                     })

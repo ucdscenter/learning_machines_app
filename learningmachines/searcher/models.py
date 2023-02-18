@@ -18,7 +18,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return 'Email:{} First_Name:{} Last_Name:{} Department:{} Institute:{}'.format(self.user.email, self.first_name, self.last_name, self.institute, self.department)
+        return 'Email:{} First_Name:{} Last_Name:{} Department:{} Institute:{}'.format(self.user.email, self.first_name, self.last_name, self.department, self.institute)
 
 
 class Access(models.Model):
@@ -43,8 +43,10 @@ class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_time = models.DateTimeField(default=timezone.now)
     url = models.CharField(max_length=1000)
+
     class Meta:
         abstract = True
+
     def start(self):
         self.created_time = timezone.now()
         self.save()
@@ -82,7 +84,7 @@ class DocFilter(models.Model):
     doc_number = models.CharField(default='', max_length=6)
     phrases = models.CharField(default='', max_length=500)
     remove_digits = models.BooleanField(default=False, null=False)
-    tfidf= models.BooleanField(default=False, null=False)
+    tfidf = models.BooleanField(default=False, null=False)
     replacement = models.CharField(default='', max_length=1000)
     level_select = models.CharField(default='', max_length=100)
     para_filter_terms = models.CharField(default='', max_length=200)
@@ -114,18 +116,19 @@ class VisRequest(Request):
     is_saved = models.BooleanField(default=False, null=False)
     is_finished = models.BooleanField(default=False, null=False)
 
+
 class Annotation(models.Model):
-    #Note: We can use ArrayField if we are using postgres
-    nodes_and_edges = models.JSONField(default = dict)
+    # Note: We can use ArrayField if we are using postgres
+    nodes_and_edges = models.JSONField(default=dict)
     label_position_x = models.FloatField(default=0)
-    label_position_y =  models.FloatField(default=0)
-    #TODO: Max notes length, DocumentId
+    label_position_y = models.FloatField(default=0)
+    # TODO: Max notes length, DocumentId
     label_text = models.CharField(max_length=500, default='Note')
     label_color = models.CharField(max_length=20, default='')
     note_id = models.CharField(max_length=50, default='')
     active_topic = models.CharField(max_length=50, default='', blank=True)
     vis_request = models.ForeignKey(VisRequest, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
     def __str__(self):
         return 'note_id:{} label_text:{}'.format(self.note_id, self.label_text)
-   
