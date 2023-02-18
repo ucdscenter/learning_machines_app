@@ -43,7 +43,7 @@ def create_user(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         re_password = request.POST.get('re_password')
-        first_name = request.POST.get('first-name')
+        first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         institute = request.POST.get('institute')
         department = request.POST.get('department')
@@ -97,8 +97,8 @@ def show_user(request):
         return redirect('/searcher/accounts/login/')
     user = request.user
     profiles = Profile.objects.filter(user=user).all()
-    first_name = profiles[0].institute if len(profiles) else ''
-    last_name = profiles[0].institute if len(profiles) else ''
+    first_name = profiles[0].first_name if len(profiles) else ''
+    last_name = profiles[0].last_name if len(profiles) else ''
     institute = profiles[0].institute if len(profiles) else ''
     department = profiles[0].department if len(profiles) else ''
     profile = {
