@@ -101,14 +101,16 @@
 
         <ul class="navbar-nav navbar-right justify-content-end">
           {% if user.is_authenticated %}
+          <div class="nav-item mx-xl-1 loginlink">
             <li class="nav-item  mx-xl-1 dropdown">
-              <a class="nav-link pointer clickpointer dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+              <a class="nav-link pointer clickpointer dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi {{ user.profile.first_name }}</a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="/accounts/user/">Profile</a>
                 <a class="dropdown-item" href="/accounts/change_pw/">Password</a>
                 <a class="dropdown-item" href="/accounts/logout/">Logout</a>
               </div>
             </li>
+          </div>
           {% else %}
             <div class="nav-item mx-xl-1 loginlink">
               <a href="/accounts/login/">Login</a>
