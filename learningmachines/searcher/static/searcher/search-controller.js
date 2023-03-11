@@ -217,7 +217,7 @@ async function renderDataBaseSelect(dbdata) {
   if (fromhistory) {
     $('#' + loaded.database + '_btn').trigger("click");
   }
-}//renderDatabaseSelect
+}//renderDatabaseSelect 
 
 async function getArticles(qry, dbn, fromhistory, timeExt, size) {
 
