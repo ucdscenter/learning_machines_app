@@ -150,146 +150,159 @@
 
   <div class="row" id="titlerow">
     <div class="col">
-      <h2 class="gent mb-4">Tutorial: Building a Query</h2>
+      <h2 class="gent mb-4">Create a Model</h2>
     </div>
   </div>
 
   <div class="row" id="mainrow">
-      <div class="col-md-6 mt-4 mt-md-0">
-        <!-- nested row for nav and form-->
-        <div class="row">
-          <div class="col-lg-5">
-              <ul class="nav nav-pills flex-column" role="tablist">
-                  <li class="nav-item mt-1">
-                      <div class="buttoncontainer bluepipebg">
-                          <button type="button" href="#" class="btn btn-main graybg  w-100">Login or Register</button>
-                      </div>
-                  </li>
-                  <li class="nav-item mt-1">
-                      <div class="buttoncontainer bluepipebg">
-                          <button type="button" href="#" class="btn btn-main graybg  w-100">Select Dataset</button>
-                      </div>
-                  </li>
-                  <li class="nav-item mt-1">
-                      <div class="buttoncontainer orangepipebg">
-                          <button type="button" href="#" class="btn btn-main graybg  w-100">Build Query</button>
-                      </div>
-                  </li>
-                  <li class="nav-item mt-1">
-                      <div class="buttoncontainer graypipebg">
-                          <button type="button" href="#" class="btn btn-main graybg  w-100">Focus Query</button>
-                      </div>
-                  </li>
-                  <li class="nav-item mt-1">
-                      <div class="buttoncontainer graypipebg">
-                          <button type="button" href="#" class="btn btn-main graybg  w-100">Review Data Sources</button>
-                      </div>
-                  </li>
-                  <li class="nav-item mt-1">
-                      <div class="buttoncontainer graypipebg">
-                          <button type="button" href="#" class="btn btn-main graybg w-100">Select Visualization</button>
-                      </div>
-                  </li>
-                  <li class="nav-item mt-1">
-                      <div class="buttoncontainer graypipebg">
-                          <button type="button" href="#" class="btn btn-main graybg w-100">Set Parameters</button>
-                      </div>
-                  </li>
-                  <li class="nav-item mt-1">
-                      <div class="buttoncontainer graypipebg">
-                          <button type="button" href="#" class="btn btn-main graybg  w-100">Run Model</button>
-                      </div>
-                  </li>
+    <div class="col-md-6 mt-4 mt-md-0">
+      <!-- nested row for nav and form-->
+      <div class="row">
+        <div class="col-lg-3" id="side-nav">
+          <ul class="nav nav-pills flex-column" role="tablist">
+              <li class="nav-item mt-1">
+                  <div class="buttoncontainer bluepipebg">
+                      <button type="button" href="#" class="btn btn-main graybg  w-100">Login or Register</button>
+                  </div>
+              </li>
+              <li class="nav-item mt-1">
+                  <div class="buttoncontainer bluepipebg">
+                      <button type="button" href="#" class="btn btn-main graybg  w-100">Select Dataset</button>
+                  </div>
+              </li>
+              <li class="nav-item mt-1">
+                  <div class="buttoncontainer orangepipebg">
+                      <button type="button" href="#" class="btn btn-main graybg  w-100">Build Query</button>
+                  </div>
+              </li>
+              <li class="nav-item mt-1">
+                  <div class="buttoncontainer graypipebg">
+                      <button type="button" href="#" class="btn btn-main graybg  w-100">Focus Query</button>
+                  </div>
+              </li>
+              <li class="nav-item mt-1">
+                  <div class="buttoncontainer graypipebg">
+                      <button type="button" href="#" class="btn btn-main graybg  w-100">Review Data Sources</button>
+                  </div>
+              </li>
+              <li class="nav-item mt-1">
+                  <div class="buttoncontainer graypipebg">
+                      <button type="button" href="#" class="btn btn-main graybg w-100">Select Visualization</button>
+                  </div>
+              </li>
+              <li class="nav-item mt-1">
+                  <div class="buttoncontainer graypipebg">
+                      <button type="button" href="#" class="btn btn-main graybg w-100">Set Parameters</button>
+                  </div>
+              </li>
+              <li class="nav-item mt-1">
+                  <div class="buttoncontainer graypipebg">
+                      <button type="button" href="#" class="btn btn-main graybg  w-100">Run Model</button>
+                  </div>
+              </li>
 
-              </ul>
+          </ul>
+        </div>
 
+        <div class="col-lg-7 mt-4 mt-lg-0" id="search-text-div">
+          <div class="search-section row justify-content-center">
+            <div class="row">
+              <div class="col-12">
+                <h3>Select your Database
+                <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Select a database to search for model creation, time estimates are based on time increases in seconds per additional 100 docs" class="material-icons center_icon_h3">info_outlined</i>
+                </h3>
+                
+              </div>
+            </div>
+            <div class="row" id="select-db" style="height: 650px; overflow-y:auto">
+
+            </div>
+          </div>
+          
+          <form>
+            <div class="form-group">
+              <label for="start-year">Start Date</label>
+              <input type="date" class="form-control" id="start-year" placeholder="2016">
+            </div>
+            <div class="form-group">
+              <label for="end-year">End Date</label>
+              <input type="date" class="form-control" id="end-year" placeholder="2020">
+            </div>
+            <div class="form-group">
+              <label for="search-term">Search Query</label>
+              <input type="text" name="search-term" class="form-control" id="search-term" placeholder="eg: Bad OR Horrible">
+              <p class="tinytext">Tip: Use 'AND', 'NOT', 'OR' as logical keywords, nesting and combining them with parentheses. Multi word phrases should be within double quotes e.g. "apple sauce" </p>
+            </div>
+            <div class="form-group hidden" id="care-rating-low-lab">
+              <label for="journal-options-select" id="care-rating-low-lab">Folter by reviewer's star rating</label>
+              <input type="text" class="form-control" id="Filter" placeholder="One Star">
+            </div>
+            <div class="form-group hidden" id="archaeology-row-div">
+              <label for="journal-options-select" id="journal-label">Select Journal</label>
+              <div id="journal-div">
+                <select name="journal" class="form-control form-control-sm" id="journal-options-select">
+                  <option value="all">all</option>
+                  <option value="Latin American Antiquity">Latin American Antiquity</option>
+                  <option value="Ancient Mesoamerica">Ancient Mesoamerica</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group hidden" id="caselaw-row-div">
+              <label for="law-options-select" id="juris-label">Jurisdiction:</label>
+              <div id="juris-div">
+                <select name="jurisdiction" class="form-control form-control-sm" id="law-options-select">
+                  <option value="all">all</option>
+                  <option value="federal">federal</option>
+                  <option value="other">others</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group hidden" id="family-row-div">
+              <label for="family-options-select" id="family-label">Keyword:</label>
+              <div id="family-div">
+                <select name="family" class="form-control form-control-sm" id="family-options-select">
+                  <option value="all">all</option>
+                  <option value="true">true</option>
+                  <option value="false">false</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group hidden" id="coi-row-div">
+              <label for="law-options-select" id="auth-s-label">Search Authors:</label>
+              <input type="text" class="form-control" name="search-term" id="search-term" placeholder="search authors">
+            </div>
+          </form>
+
+          <div class="row justify-content-evenly">
+            <div class="col-12" style="padding: 0.5rem;">
+              <div class="row"> 
+                <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
+                  <button class="btn btn-lg db-button doc-button w-100" id="docs-100" style="text-align: center; margin: auto; border-radius: 0%;">100 docs</button>
+                </div>
+                <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
+                  <button class="btn btn-lg db-button doc-button w-100" id="docs-500" style="text-align: center; margin: auto; border-radius: 0%;">500 docs</button>
+                </div>
+                <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
+                  <button class="btn btn-lg db-button doc-button w-100" id="docs-1000" style="text-align: center; margin: auto; border-radius: 0%;">1000 docs</button>
+                </div>
+                <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
+                  <button class="btn btn-lg db-button doc-button w-100" id="docs-5000" style="text-align: center; margin: auto; border-radius: 0%;">5000 docs</button>
+                </div>
+                <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
+                  <button class="btn btn-lg db-button doc-button w-100" id="docs-10000" style="text-align: center; margin: auto; border-radius: 0%;">10000 docs</button>
+                </div>
+                <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
+                  <button class="btn btn-lg db-button doc-button w-100" id="docs-20000" style="text-align: center; margin: auto; border-radius: 0%;">20000 docs</button>
+                </div>
+              </div>
+            </div>
+            
           </div>
 
-          <div class="col-lg-7 mt-4 mt-lg-0">
-            <form>
-              <div class="form-group">
-                <label for="start-year">Start Date</label>
-                <input type="date" class="form-control" id="start-year" placeholder="2016">
-              </div>
-              <div class="form-group">
-                <label for="end-year">End Date</label>
-                <input type="date" class="form-control" id="end-year" placeholder="2020">
-              </div>
-              <div class="form-group">
-                <label for="search-term">Search Query</label>
-                <input type="text" name="search-term" class="form-control" id="search-term" placeholder="eg: Bad OR Horrible">
-                <p class="tinytext">Tip: Use 'AND', 'NOT', 'OR' as logical keywords, nesting and combining them with parentheses. Multi word phrases should be within double quotes e.g. "apple sauce" </p>
-              </div>
-              <div class="form-group hidden" id="care-rating-low-lab">
-                <label for="journal-options-select" id="care-rating-low-lab">Folter by reviewer's star rating</label>
-                <input type="text" class="form-control" id="Filter" placeholder="One Star">
-              </div>
-              <div class="form-group hidden" id="archaeology-row-div">
-                <label for="journal-options-select" id="journal-label">Select Journal</label>
-                <div id="journal-div">
-                  <select name="journal" class="form-control form-control-sm" id="journal-options-select">
-                    <option value="all">all</option>
-                    <option value="Latin American Antiquity">Latin American Antiquity</option>
-                    <option value="Ancient Mesoamerica">Ancient Mesoamerica</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group hidden" id="caselaw-row-div">
-                <label for="law-options-select" id="juris-label">Jurisdiction:</label>
-                <div id="juris-div">
-                  <select name="jurisdiction" class="form-control form-control-sm" id="law-options-select">
-                    <option value="all">all</option>
-                    <option value="federal">federal</option>
-                    <option value="other">others</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group hidden" id="family-row-div">
-                <label for="family-options-select" id="family-label">Keyword:</label>
-                <div id="family-div">
-                  <select name="family" class="form-control form-control-sm" id="family-options-select">
-                    <option value="all">all</option>
-                    <option value="true">true</option>
-                    <option value="false">false</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group hidden" id="coi-row-div">
-                <label for="law-options-select" id="auth-s-label">Search Authors:</label>
-                <input type="text" class="form-control" name="search-term" id="search-term" placeholder="search authors">
-              </div>
-            </form>
-
-            <div class="row justify-content-evenly">
-              <div class="col-12" style="padding: 0.5rem;">
-                <div class="row"> 
-                  <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-100" style="text-align: center; margin: auto; border-radius: 0%;">100 docs</button>
-                  </div>
-                  <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-500" style="text-align: center; margin: auto; border-radius: 0%;">500 docs</button>
-                  </div>
-                  <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-1000" style="text-align: center; margin: auto; border-radius: 0%;">1000 docs</button>
-                  </div>
-                  <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-5000" style="text-align: center; margin: auto; border-radius: 0%;">5000 docs</button>
-                  </div>
-                  <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-10000" style="text-align: center; margin: auto; border-radius: 0%;">10000 docs</button>
-                  </div>
-                  <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-20000" style="text-align: center; margin: auto; border-radius: 0%;">20000 docs</button>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-
-            <div class="row justify-content-center">
-              <div class="col-12">
-                <h3>Filter Docs containing <span id="search-qry"></span> <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="These bar graphs show the selected doc counts over both time and occurrence of search term. Click and drag across the graphs to additionally filter texts for the model. If documents were fetched with no search term, occurrence is simply the number of words in the document" class="material-icons center_icon_h3">info_outlined</i></h3>
-                <div class="row ">
+          <div class="row justify-content-center hidden">
+            <div class="col-12">
+              <h3>Filter Docs containing <span id="search-qry"></span> <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="These bar graphs show the selected doc counts over both time and occurrence of search term. Click and drag across the graphs to additionally filter texts for the model. If documents were fetched with no search term, occurrence is simply the number of words in the document" class="material-icons center_icon_h3">info_outlined</i></h3>
+              <div class="row ">
                 <div class="col-12">
                   <img src="{% static 'searcher/images/big-ajax-loader.gif' %}" id="loading-img">
                 </div>
@@ -309,26 +322,28 @@
                   <div class="btn btn-lg btn-success db-button explore-docs-btn" style="border-color: white;" >Explore Docs</div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
-        <!-- /nested row for nav and form-->
       </div>
-      <!--end left column -->
+      <!-- /nested row for nav and form-->
+    </div>
+    <!--end left column -->
 
-      <div class="col-md-4" id="explanation mt-4 mt-lg-0">
-          <h5>Date Ranges:</h5>
-          <p>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    <div class="col-md-3" id="explanation mt-4 mt-lg-0">
+      <h5>Date Ranges:</h5>
+      <p>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 
-          <h5>Search Queries:</h5>
-          <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+      <h5>Search Queries:</h5>
+      <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
 
-          <h5>Using Logical Operators and Non-Text Searches:</h5>
-          <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+      <h5>Using Logical Operators and Non-Text Searches:</h5>
+      <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
 
-          <h5>Dataset-specific filtering:</h5>
-          <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
-      </div>
+      <h5>Dataset-specific filtering:</h5>
+      <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+    </div>
 
   </div>
   <!--end main content row-->

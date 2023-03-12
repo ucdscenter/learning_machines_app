@@ -1,6 +1,6 @@
 var qry, size, selected_database;
 async function renderDataBaseSelect(dbdata) {
-  console.log(dbdata);
+  console.log("hello:", dbdata);
   console.log(special_access);
   access_obj = JSON.parse(special_access);
   console.log(access_obj);
@@ -1211,10 +1211,10 @@ let DATABASES =
     'options': [],
     'name': 'AC Justice '
   },
-  'AA': {
-    'options': [],
-    'name': 'Anesthesiology'
-  },
+  // 'AA': {
+  //   'options': [],
+  //   'name': 'Anesthesiology'
+  // },
   'Archaeology': {
     'options': [{ "type": "select", "choices": { "name": "Journal", "selects": ["all", "Latin American Antiquity", "Ancient Mesoamerica"] } }],
     'name': 'Archaeology'
@@ -1355,15 +1355,20 @@ let DATABASES =
   
 };
 let dbi = 0;
+console.log(Object.keys(DATABASES));
 Object.keys(DATABASES).forEach(function (db) {
-  let color = d3.color(d3.select("#other-color").style("color")).hex();
-  let third_color = d3.color(d3.select("#third-color").style("color"));
+  console.log(db);
+  // let color = d3.color(d3.select("--other-color").style("color")).hex();
+  let color = "#123456"
+  // let third_color = d3.color(d3.select("#third-color").style("color"));
   let rgbObj = hexToRgb(color);
+  let element = d3.select("#" + db + "_btn").style("color","black");
+  console.log(element);
   /*let rgbObj = hexToRgb(d3.interpolateViridis(dbi/ Object.keys(DATABASES).length))
   DATABASES[db].color = "rgb(" + rgbObj.r  + "," + rgbObj.g + "," + rgbObj.b + ", .5)"
   DATABASES[db].nonbgcolor = d3.interpolateViridis(dbi/ Object.keys(DATABASES).length)*/
   DATABASES[db].color = "rgb(" + rgbObj.r + "," + rgbObj.g + "," + rgbObj.b + ", .5)";
-  DATABASES[db].nonbgcolor = third_color;
+  // DATABASES[db].nonbgcolor = third_color;
   dbi++;
 });
 
