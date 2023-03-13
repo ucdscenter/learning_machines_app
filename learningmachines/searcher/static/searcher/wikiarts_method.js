@@ -561,23 +561,54 @@ async function wrapper(){
             let intersect = sorted_intersects[0];
             let index = intersect.index;
             let datum = choose_generated_points[index];
-            // highlightPoint(datum);
-            document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
-            document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
-            document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
-            fetch("/searcher/s3_image/" + "?id=" + datum.data_id, {
+                        fetch("/searcher/s3_image/" + "?id=" + datum['data_id'] + "&fetch_similarity=True", {
                 method: 'GET',
-                headers: { 'Content-Type': 'image/jpeg' }
+                headers: { 'Content-Type': 'application/json' }
             }).then(res => {
+                console.log(res)
                 return res.json();
             }).then(data => {
-                // console.log(data);
-                document.getElementById("selectedImage").src = data.url;
-                // console.log(document.getElementById("selectedImage"));
-            	// $image_tip.src = data.url
+                console.log(data)
+                console.log(datum)
+                document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
+                document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
+                document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
+                document.getElementById("selectedImage").src = data.url
+
+                let sim_ims = d3.select("#similar_images")
+                sim_ims.selectAll(".sim_im").remove()
+                sim_ims.selectAll(".img")
+                    .data(data.sim_urls)
+                    .enter()
+                    .append("img")
+                    .attr("class", "sim_im")
+                    .attr("src", function(d){
+                        return d
+                    })
+                    .style("width", "25%")
+
+                
+            
             }).catch(error => {
                     console.error('Error:', error);
             })
+            // highlightPoint(datum);
+            // document.getElementById("visContainer__info__docTitle").textContent = "Title: " + datum.data_title;
+            // document.getElementById("visContainer__info__docAuthor").textContent = "Artist: " + datum.artist_name;
+            // document.getElementById("visContainer__info__docTopic").textContent = "Group: " + datum.data_category;
+            // fetch("/searcher/s3_image/" + "?id=" + datum.data_id, {
+            //     method: 'GET',
+            //     headers: { 'Content-Type': 'image/jpeg' }
+            // }).then(res => {
+            //     return res.json();
+            // }).then(data => {
+            //     // console.log(data);
+            //     document.getElementById("selectedImage").src = data.url;
+            //     // console.log(document.getElementById("selectedImage"));
+            // 	// $image_tip.src = data.url
+            // }).catch(error => {
+            //         console.error('Error:', error);
+            // })
             
         } else {
             // removeHighlights();
