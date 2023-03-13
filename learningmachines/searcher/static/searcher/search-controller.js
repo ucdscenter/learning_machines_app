@@ -252,7 +252,12 @@ async function getArticles(qry, dbn, fromhistory, timeExt, size) {
 }
 
 async function getA(dbn, qry, timeExt, size) {
+  console.log("Function started");
+
   let journal_select = $('#journal-options-select').val();
+  console.log("journal_select: ", journal_select);
+  console.log(d3);
+
   let jurisdiction_select = $('#law-options-select').val();
   let auth_search_qry = $('#search-author').val();
   let family_select = $('#family-options-select').val();
@@ -291,6 +296,7 @@ async function getA(dbn, qry, timeExt, size) {
   $('#explore-docs-time').removeClass("hidden");
 
   renderFilterDocs(articles, dbn, qry);
+  console.log("getA function has completed");
 }
 
 function renderSearchInput(d, dbdata) {
@@ -1211,10 +1217,10 @@ let DATABASES =
     'options': [],
     'name': 'AC Justice '
   },
-  // 'AA': {
-  //   'options': [],
-  //   'name': 'Anesthesiology'
-  // },
+  'AA': {
+    'options': [],
+    'name': 'Anesthesiology'
+  },
   'Archaeology': {
     'options': [{ "type": "select", "choices": { "name": "Journal", "selects": ["all", "Latin American Antiquity", "Ancient Mesoamerica"] } }],
     'name': 'Archaeology'
@@ -1354,24 +1360,41 @@ let DATABASES =
   }
   
 };
-let dbi = 0;
 console.log(Object.keys(DATABASES));
-Object.keys(DATABASES).forEach(function (db) {
+Object.keys(DATABASES).forEach(function (db, index) {
   console.log(db);
-  // let color = d3.color(d3.select("--other-color").style("color")).hex();
-  let color = "#123456"
-  // let third_color = d3.color(d3.select("#third-color").style("color"));
-  let rgbObj = hexToRgb(color);
-  let element = d3.select("#" + db + "_btn").style("color","black");
-  console.log(element);
-  /*let rgbObj = hexToRgb(d3.interpolateViridis(dbi/ Object.keys(DATABASES).length))
-  DATABASES[db].color = "rgb(" + rgbObj.r  + "," + rgbObj.g + "," + rgbObj.b + ", .5)"
-  DATABASES[db].nonbgcolor = d3.interpolateViridis(dbi/ Object.keys(DATABASES).length)*/
-  DATABASES[db].color = "rgb(" + rgbObj.r + "," + rgbObj.g + "," + rgbObj.b + ", .5)";
-  // DATABASES[db].nonbgcolor = third_color;
-  dbi++;
-});
+  
+  // check if #other-color and #third-color elements exist
+  let otherColorElement = d3.select("#other-color");
+  let thirdColorElement = d3.select("#third-color");
+  if (!otherColorElement.empty() && !thirdColorElement.empty()) {
+    let color = d3.color(otherColorElement.style("color")).hex();
+    let third_color = d3.color(thirdColorElement.style("color"));
+    let rgbObj = hexToRgb(color);
+    
 
+    /*
+    let rgbObj = hexToRgb(d3.interpolateViridis(index / Object.keys(DATABASES).length));
+    DATABASES[db].color = "rgb(" + rgbObj.r  + "," + rgbObj.g + "," + rgbObj.b + ", .5)";
+    DATABASES[db].nonbgcolor = d3.interpolateViridis(index / Object.keys(DATABASES).length);
+    */
+    
+
+    DATABASES[db].color = color;
+    DATABASES[db].nonbgcolor = third_color;
+    
+    // create a button for the database and set its style
+    let databaseButton = d3.select("#select-db").append("button")
+      .attr("id", db + "_btn")
+      .classed("card h-100 p-3", true)
+      .text(db)
+      .style("background-color", DATABASES[db].color)
+      .style("color", DATABASES[db].nonbgcolor);
+    DATABASES[db].button = databaseButton;
+  } else {
+    console.error("Could not find #other-color or #third-color elements");
+  }
+});
 
 
 function getJsonFromUrl(hashBased) {

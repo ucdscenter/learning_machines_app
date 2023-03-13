@@ -7,7 +7,7 @@
 <!--<link rel="stylesheet" href="/static/ext/bootstrap.min.css">-->
 <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<style type="text/css" id="page-css">
+<!-- <style type="text/css" id="page-css">
   td {
     font: 10px;
   }
@@ -101,35 +101,40 @@
     outline: none !important;
     border:1px solid red;
     box-shadow: 0 0 10px red;
-}
-.figure-caption {
-  font-size : 100%;
-  color : black;
-}
+  }
+  .figure-caption {
+    font-size : 100%;
+    color : black;
+  }
 
-.vis-img-hover {
-  left : 0;
-  right : 0;
-  margin : auto;
-  visibility: hidden;
-  opacity: 0;
-  border-radius: 5px;
-  background-color: white;
-  position: absolute;
-  height: 200px;
-  max-width: 400px;
-  width: 93%;
-  transition: opacity .2s, visibility .2s;
-}
+  .vis-img-hover {
+    left : 0;
+    right : 0;
+    margin : auto;
+    visibility: hidden;
+    opacity: 0;
+    border-radius: 5px;
+    background-color: white;
+    position: absolute;
+    height: 200px;
+    max-width: 400px;
+    width: 93%;
+    transition: opacity .2s, visibility .2s;
+  }
 
-.fig:hover .vis-img-hover{
-  color : black;
-  visibility: visible;
-  opacity: .9;
-}
+  .fig:hover .vis-img-hover{
+    color : black;
+    visibility: visible;
+    opacity: .9;
+  }
 
 
 
+</style> -->
+<style type="text/css" id="page-css">
+    .hidden {
+    display: none;
+  }
 </style>
 
 {% endblock head_css_page %}
@@ -211,6 +216,7 @@
           <!-- <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Select a database to search for model creation, time estimates are based on time increases in seconds per additional 100 docs" class="material-icons center_icon_h3">info_outlined</i> -->
           </h3>
           <div class="row" id="select-db" style="height: 650px; overflow-y:auto">
+        
           </div>
 
         </div>
@@ -221,11 +227,11 @@
               <form>
                 <div class="form-group">
                   <label for="start-year">Start Date</label>
-                  <input type="date" class="form-control" id="start-year" placeholder="2016">
+                  <input type="text" class="form-control" id="start-year" placeholder="2016">
                 </div>
                 <div class="form-group">
                   <label for="end-year">End Date</label>
-                  <input type="date" class="form-control" id="end-year" placeholder="2020">
+                  <input type="text" class="form-control" id="end-year" placeholder="2020">
                 </div>
                 <div class="form-group">
                   <label for="search-term">Search Query</label>
@@ -272,7 +278,7 @@
                 </div>
               </form>
 
-              <div class="row justify-content-evenly hidden">
+              <div class="row justify-content-evenly">
                 <div class="col-12" style="padding: 0.5rem;">
                   <div class="row"> 
                     <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
