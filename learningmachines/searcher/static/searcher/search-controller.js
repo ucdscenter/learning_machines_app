@@ -27,18 +27,20 @@ async function renderDataBaseSelect(dbdata) {
     .data(Object.keys(dbdata))
     .enter()
     .append("div")
-    .attr("class", "col-xl-4 col-lg-6 col-md-6 col-sm-12 p-3")
+    .attr("class", "col-9 col-lg-3 col-md-3 col-sm-3 p-3")
     .attr("id", function (d) {
       return d + "_btn";
     });
 
   var dbdivs = dbBtns.append("div")
-    .attr("class", "btn btn-success db-button row")
+    .attr("class", "btn btn-secondary db-button row h-100 card p-3")
     .style("background-color", function (d) {
       return dbdata[d].color;
     })
     .style("border-color", "white")
-    .style("text-align", "left");
+    .style("text-align", "center")
+    .style("max-width", "100%")
+    .style("white-space", "normal");
 
 
   //.style("width", "100%")
@@ -51,13 +53,15 @@ async function renderDataBaseSelect(dbdata) {
   let formatter = d3.format(".3s");
 
   let dbLabels = dbdivs.append("div")
-    .attr("class", "db_label col-12").style("width", "100%");;
+    .attr("class", "db_label col-12 card-body")
+    .style("max-width", "100%")
+    .style("display", "inline");;
 
 
   dbLabels
     .append("h6")
     .style("display", "inline-block")
-    .classed("pp", true)
+    .classed("pp card-text", true)
     .text(function (d) {
       return dbdata[d].name;
     });
@@ -65,14 +69,15 @@ async function renderDataBaseSelect(dbdata) {
   dbLabels
     .append("p")
     .style("display", "inline-block")
-    .classed("pp", true)
+    .classed("pp card-text", true)
     .text(function (d) {
       console.log(d)
       return ": " + formatter(database_runtimes[d].count) + " docs";
     });
 
   dbLabels.append("p")
-    .classed("dataset-btn-p", true)
+    .classed("dataset-btn-p card-text  align-middle", true)
+    .style("overflow-wrap", "break-word")
     .text(function(d){
     yearExt = d3.extent(Object.keys(database_years[d]), function (d) {
       return d;
@@ -1135,26 +1140,54 @@ function renderVisParams(dbn, qry, method, fromhistory) {
   });
 };
 
-function showContinue(prefix) {
+
+// function showContinue(prefix) {
+//   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
+//   let remove_index = false;
+//   for (var i = 0; i < sections.length; i++) {
+//     if (sections[i] == prefix) {
+//       remove_index = true;
+//     }
+//     if (remove_index) {
+
+//       $('#' + sections[i] + '-div').addClass("hidden");
+//       $('#' + sections[i] + '-nav').addClass("disabled");
+//       $('#' + sections[i] + '-nav').removeClass("side-nav-active");
+//     }
+//   }
+//   $('#' + prefix + '-div').removeClass("hidden");
+//   $('#' + prefix + '-nav').removeClass("disabled");
+//   $('#' + prefix + '-nav').addClass("side-nav-active");
+//   $('#' + prefix + '-nav').trigger('click');
+
+// }
+function showContinue(prefix, direction) {
   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
-  let remove_index = false;
-  for (var i = 0; i < sections.length; i++) {
-    if (sections[i] == prefix) {
-      remove_index = true;
-    }
-    if (remove_index) {
-
-      $('#' + sections[i] + '-div').addClass("hidden");
-      $('#' + sections[i] + '-nav').addClass("disabled");
-      $('#' + sections[i] + '-nav').removeClass("side-nav-active");
-    }
-  }
-  $('#' + prefix + '-div').removeClass("hidden");
-  $('#' + prefix + '-nav').removeClass("disabled");
-  $('#' + prefix + '-nav').addClass("side-nav-active");
-  $('#' + prefix + '-nav').trigger('click');
-
+  let currentIndex = sections.indexOf(prefix);
+  let nextIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
+  
+  $('#' + prefix + '-div').addClass("hidden");
+  $('#' + prefix + '-nav').addClass("disabled");
+  $('#' + prefix + '-nav').removeClass("side-nav-active");
+  
+  $('#' + sections[nextIndex] + '-div').removeClass("hidden");
+  $('#' + sections[nextIndex] + '-nav').removeClass("disabled");
+  $('#' + sections[nextIndex] + '-nav').addClass("side-nav-active");
+  $('#' + sections[nextIndex] + '-nav').trigger('click');
 }
+
+$('.prev').on('click', function(e) {
+  e.preventDefault();
+  let currentSection = $('.side-nav-active').attr('id').replace('-nav', '');
+  showContinue(currentSection, 'prev');
+});
+
+$('.next').on('click', function(e) {
+  e.preventDefault();
+  let currentSection = $('.side-nav-active').attr('id').replace('-nav', '');
+  showContinue(currentSection, 'next');
+});
+
 
 function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -1360,6 +1393,7 @@ let DATABASES =
   }
   
 };
+
 console.log(Object.keys(DATABASES));
 Object.keys(DATABASES).forEach(function (db, index) {
   console.log(db);
@@ -1386,7 +1420,6 @@ Object.keys(DATABASES).forEach(function (db, index) {
     // create a button for the database and set its style
     let databaseButton = d3.select("#select-db").append("button")
       .attr("id", db + "_btn")
-      .classed("card h-100 p-3", true)
       .text(db)
       .style("background-color", DATABASES[db].color)
       .style("color", DATABASES[db].nonbgcolor);

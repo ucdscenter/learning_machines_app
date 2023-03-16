@@ -210,20 +210,21 @@
     <div class="col-lg-9 m-5 mt-lg-0">
 
       <div class="row">
-        <div class="search-section row justify-content-center" id="database-select-div">
+        <div class="search-section row justify-content-center mb-5" id="database-select-div">
 
           <h3 class="gent">Select your Database
           <!-- <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Select a database to search for model creation, time estimates are based on time increases in seconds per additional 100 docs" class="material-icons center_icon_h3">info_outlined</i> -->
           </h3>
-          <div class="row" id="select-db" style="height: 650px; overflow-y:auto">
+          <div class="row" id="select-db" style="height: 650px; overflow-y:auto; overflow-x: hidden;">
         
           </div>
 
         </div>
 
         <div class="row">
-          <div class="col-md-6 mt-4 mt-md-0">
-            <div class="row search-section align-items-center hidden" id="search-text-div">
+          <div class="col-md-12 mt-4 mt-md-0">
+            
+            <div class="col-md-6 search-section align-items-center mx-auto hidden" id="search-text-div">
               <form>
                 <div class="form-group">
                   <label for="start-year">Start Date</label>
@@ -240,7 +241,7 @@
                 </div>
                 <div class="form-group hidden" id="care-rating-low-lab">
                   <label for="journal-options-select" id="care-rating-low-lab">Folter by reviewer's star rating</label>
-                  <input type="text" class="form-control" id="Filter" placeholder="One Star">
+                  <input type="number" class="form-control" id="care_rating_low" name="care_rating_low" min="-1" max="5" value="-1">
                 </div>
                 <div class="form-group hidden" id="archaeology-row-div">
                   <label for="journal-options-select" id="journal-label">Select Journal</label>
@@ -278,7 +279,7 @@
                 </div>
               </form>
 
-              <div class="row justify-content-evenly">
+              <div class="justify-content-evenly">
                 <div class="col-12" style="padding: 0.5rem;">
                   <div class="row"> 
                     <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
@@ -304,8 +305,10 @@
                 
               </div>
             </div>
+            
 
-            <div class="row search-section align-items-center justify-content-center hidden" id="filter-docs-div" >
+            
+            <div class="col-8 search-section align-items-center justify-content-center mx-auto hidden" id="filter-docs-div" >
               <div class="col-12">
                 <h3>Filter Docs containing <span id="search-qry"></span> <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="These bar graphs show the selected doc counts over both time and occurrence of search term. Click and drag across the graphs to additionally filter texts for the model. If documents were fetched with no search term, occurrence is simply the number of words in the document" class="material-icons center_icon_h3">info_outlined</i></h3>
                 <div class="row ">
@@ -325,12 +328,13 @@
                     <h6>Estimated Time for Model :  <span class="explore-estimated-time"></span></h6>
                   </div>
                   <div class="col-12 hidden" id="explore-docs-btn-div">
-                    <div class="btn btn-lg btn-success db-button explore-docs-btn" style="border-color: white;" >Explore Docs</div>
+                    <div class="btn btn-lg btn-secondary db-button explore-docs-btn" style="border-color: white;" >Explore Docs</div>
                   </div>
                 </div>
 
               </div>
             </div>
+            
             
             <div class="row search-section justify-content-center hidden" id="explore-docs-div">
               <div class="col-10 mt-2">
@@ -569,27 +573,6 @@
                             <input type="text" id="pk_text" name="filter_pk"/>
                             <input type="text" id="search_pk" name="search_pk"/>
                         </div>
-                      
-                        <!--<label for="static-db" class="col-sm-2 col-form-label">Database</label>
-                        <div class="col-sm-10">
-                          <input type="text" readonly class="form-control" id="static-db" value="">
-                        </div>
-                        <label for="static-sy" class="col-sm-2 col-form-label">Start Year</label>
-                        <div class="col-sm-4">
-                          <input type="text" readonly class="form-control" id="static-sy" name="start" value="start">
-                        </div>
-                        <label for="static-ey" class="col-sm-2 col-form-label" name="end">End Year</label>
-                        <div class="col-sm-4">
-                          <input type="text" readonly class="form-control" id="static-ey" value="end">
-                        </div>
-                        <label for="min-count" class="col-sm-2 col-form-label">Min Count</label>
-                        <div class="col-sm-4">
-                          <input type="text" readonly class="form-control" id="min-count" value="1">
-                        </div>
-                        <label for="max-count" class="col-sm-2 col-form-label">Max Count</label>
-                        <div class="col-sm-4">
-                          <input type="text" readonly class="form-control" id="max-count" value="all">
-                        </div>-->
                       </div>
           
                       <div class="form-row mt-5 mb-1" style="border-radius: 5px; background-color:white">
