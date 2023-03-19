@@ -47,6 +47,7 @@ async function renderDataBaseSelect(dbdata) {
 
   dbBtns.on("click", function (d) {
     showContinue('search-text');
+    updateSideNav('build-query');
     renderSearchInput(d, dbdata, fromhistory);
   });
 
@@ -375,6 +376,7 @@ function renderSearchInput(d, dbdata) {
     size = size.split('-')[1];
     selected_database = d;
     showContinue('filter-docs');
+    updateSideNav('focus-query');
     getArticles(qry, d, fromhistory, timeExt, size);
   });
 
@@ -531,6 +533,7 @@ function renderFilterDocs(articles, dbn, qry) {
     .on("renderlet", function (d) {
       if (d3.select('#explore-docs-div').classed("hidden") == false) {
         showContinue('filter-docs');
+        updateSideNav('focus-query');
       }
       updateEstimatedTime(d.group().value(), dbn, 'explore');
     });
@@ -546,6 +549,7 @@ function renderFilterDocs(articles, dbn, qry) {
       alert("Warning!\nIf you continue with this number of documents we will cut the model to " + database_runtimes[dbn].max + " documents at runtime to save our poor servers.\nPlease contact us at mccabeen@ucmail.uc.edu if you want to run extra large models");
     }
     showContinue('explore-docs');
+    updateSideNav('review-data-sources');
     renderExploreDocs(selected_docs, dbn, qry, fromhistory, total_articles);
   });
 
@@ -918,6 +922,7 @@ function renderExploreDocs(articles, dbn, qry, fromhistory, total_docs) {
   $('.filtered-count').css('color', updateEstimatedTime(total_docs, dbn, 'vis'));
   $('#choose-vis-btn').on("click", function (d) {
     showContinue('select-vis');
+    updateSideNav('select-visualization');
     renderVisSelect(dbn, qry, fromhistory);
   });
 
@@ -1003,6 +1008,7 @@ function renderVisSelect(dbn, qry) {
 
   $('.fig').on("click", function (d) {
     showContinue('vis-params');
+    updateSideNav('set-parameters');
     renderVisParams(dbn, qry, $(this).attr("id"));
   });
 
@@ -1161,33 +1167,64 @@ function renderVisParams(dbn, qry, method, fromhistory) {
 //   $('#' + prefix + '-nav').trigger('click');
 
 // }
-function showContinue(prefix, direction) {
+function showContinue(prefix) {
   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
-  let currentIndex = sections.indexOf(prefix);
-  let nextIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
-  
-  $('#' + prefix + '-div').addClass("hidden");
-  $('#' + prefix + '-nav').addClass("disabled");
-  $('#' + prefix + '-nav').removeClass("side-nav-active");
-  
-  $('#' + sections[nextIndex] + '-div').removeClass("hidden");
-  $('#' + sections[nextIndex] + '-nav').removeClass("disabled");
-  $('#' + sections[nextIndex] + '-nav').addClass("side-nav-active");
-  $('#' + sections[nextIndex] + '-nav').trigger('click');
+  let current_index = sections.indexOf(prefix);
+  let prev_index = current_index - 1;
+  let next_index = current_index + 1;
+
+  // Disable previous button for first section
+  if (current_index === 0) {
+    $('.prev').addClass('disabled');
+  } else {
+    $('.prev').removeClass('disabled');
+  }
+
+  // Disable next button for last section
+  if (current_index === sections.length - 1) {
+    $('.next').addClass('disabled');
+  } else {
+    $('.next').removeClass('disabled');
+  }
+
+  // Hide sections before current section
+  for (var i = 0; i < current_index; i++) {
+    $('#' + sections[i] + '-div').addClass('hidden');
+    $('#' + sections[i] + '-nav').addClass('disabled');
+    $('#' + sections[i] + '-nav').removeClass('side-nav-active');
+  }
+
+  // Hide sections after current section
+  for (var j = current_index + 1; j < sections.length; j++) {
+    $('#' + sections[j] + '-div').addClass('hidden');
+    $('#' + sections[j] + '-nav').addClass('disabled');
+    $('#' + sections[j] + '-nav').removeClass('side-nav-active');
+  }
+
+  // Show current section
+  $('#' + prefix + '-div').removeClass('hidden');
+  $('#' + prefix + '-nav').removeClass('disabled');
+  $('#' + prefix + '-nav').addClass('side-nav-active');
+  $('#' + prefix + '-nav').trigger('click');
 }
 
-$('.prev').on('click', function(e) {
-  e.preventDefault();
-  let currentSection = $('.side-nav-active').attr('id').replace('-nav', '');
-  showContinue(currentSection, 'prev');
-});
+function updateSideNav(currentSection) {
+  const sectionIds = ['login-register', 'select-dataset', 'build-query', 'focus-query', 'review-data-sources', 'select-visualization', 'set-parameters', 'run-model'];
 
-$('.next').on('click', function(e) {
-  e.preventDefault();
-  let currentSection = $('.side-nav-active').attr('id').replace('-nav', '');
-  showContinue(currentSection, 'next');
-});
-
+  sectionIds.forEach((sectionId, index) => {
+      const buttonContainer = document.getElementById(`${sectionId}-nav`);
+      if (sectionId === currentSection) {
+          buttonContainer.classList.add('orangepipebg');
+          buttonContainer.classList.remove('bluepipebg', 'graypipebg');
+      } else if (index < sectionIds.indexOf(currentSection)) {
+          buttonContainer.classList.add('bluepipebg');
+          buttonContainer.classList.remove('orangepipebg', 'graypipebg');
+      } else {
+          buttonContainer.classList.add('graypipebg');
+          buttonContainer.classList.remove('orangepipebg', 'bluepipebg');
+      }
+  });
+}
 
 function hexToRgb(hex) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
