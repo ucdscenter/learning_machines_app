@@ -1146,6 +1146,67 @@ function renderVisParams(dbn, qry, method, fromhistory) {
   });
 };
 
+
+// function showContinue(prefix) {
+//   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
+//   let remove_index = false;
+//   for (var i = 0; i < sections.length; i++) {
+//     if (sections[i] == prefix) {
+//       remove_index = true;
+//     }
+//     if (remove_index) {
+
+//       $('#' + sections[i] + '-div').addClass("hidden");
+//       $('#' + sections[i] + '-nav').addClass("disabled");
+//       $('#' + sections[i] + '-nav').removeClass("side-nav-active");
+//     }
+//   }
+//   $('#' + prefix + '-div').removeClass("hidden");
+//   $('#' + prefix + '-nav').removeClass("disabled");
+//   $('#' + prefix + '-nav').addClass("side-nav-active");
+//   $('#' + prefix + '-nav').trigger('click');
+
+// }
+// function showContinue(prefix) {
+//   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
+//   let current_index = sections.indexOf(prefix);
+//   let prev_index = current_index - 1;
+//   let next_index = current_index + 1;
+
+//   // Disable previous button for first section
+//   if (current_index === 0) {
+//     $('.prev').addClass('disabled');
+//   } else {
+//     $('.prev').removeClass('disabled');
+//   }
+
+//   // Disable next button for last section
+//   if (current_index === sections.length - 1) {
+//     $('.next').addClass('disabled');
+//   } else {
+//     $('.next').removeClass('disabled');
+//   }
+
+//   // Hide sections before current section
+//   for (var i = 0; i < current_index; i++) {
+//     $('#' + sections[i] + '-div').addClass('hidden');
+//     $('#' + sections[i] + '-nav').addClass('disabled');
+//     $('#' + sections[i] + '-nav').removeClass('side-nav-active');
+//   }
+
+//   // Hide sections after current section
+//   for (var j = current_index + 1; j < sections.length; j++) {
+//     $('#' + sections[j] + '-div').addClass('hidden');
+//     $('#' + sections[j] + '-nav').addClass('disabled');
+//     $('#' + sections[j] + '-nav').removeClass('side-nav-active');
+//   }
+
+//   // Show current section
+//   $('#' + prefix + '-div').removeClass('hidden');
+//   $('#' + prefix + '-nav').removeClass('disabled');
+//   $('#' + prefix + '-nav').addClass('side-nav-active');
+//   $('#' + prefix + '-nav').trigger('click');
+// }
 function showContinue(prefix) {
   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
   let current_index = sections.indexOf(prefix);
@@ -1199,7 +1260,6 @@ function showContinue(prefix) {
       showContinue(sections[next_index]);
     }
   });
-
 }
 
 
