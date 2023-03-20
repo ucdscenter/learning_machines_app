@@ -1146,27 +1146,6 @@ function renderVisParams(dbn, qry, method, fromhistory) {
   });
 };
 
-
-// function showContinue(prefix) {
-//   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
-//   let remove_index = false;
-//   for (var i = 0; i < sections.length; i++) {
-//     if (sections[i] == prefix) {
-//       remove_index = true;
-//     }
-//     if (remove_index) {
-
-//       $('#' + sections[i] + '-div').addClass("hidden");
-//       $('#' + sections[i] + '-nav').addClass("disabled");
-//       $('#' + sections[i] + '-nav').removeClass("side-nav-active");
-//     }
-//   }
-//   $('#' + prefix + '-div').removeClass("hidden");
-//   $('#' + prefix + '-nav').removeClass("disabled");
-//   $('#' + prefix + '-nav').addClass("side-nav-active");
-//   $('#' + prefix + '-nav').trigger('click');
-
-// }
 function showContinue(prefix) {
   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
   let current_index = sections.indexOf(prefix);
@@ -1206,10 +1185,26 @@ function showContinue(prefix) {
   $('#' + prefix + '-nav').removeClass('disabled');
   $('#' + prefix + '-nav').addClass('side-nav-active');
   $('#' + prefix + '-nav').trigger('click');
+
+  // Click event for previous button
+  $('.prev').off().on('click', function() {
+    if (prev_index >= 0) {
+      showContinue(sections[prev_index]);
+    }
+  });
+
+  // Click event for next button
+  $('.next').off().on('click', function() {
+    if (next_index < sections.length) {
+      showContinue(sections[next_index]);
+    }
+  });
+
 }
 
+
 function updateSideNav(currentSection) {
-  const sectionIds = ['login-register', 'select-dataset', 'build-query', 'focus-query', 'review-data-sources', 'select-visualization', 'set-parameters', 'run-model'];
+  const sectionIds = ['select-dataset', 'build-query', 'focus-query', 'review-data-sources', 'select-visualization', 'set-parameters'];
 
   sectionIds.forEach((sectionId, index) => {
       const buttonContainer = document.getElementById(`${sectionId}-nav`);
