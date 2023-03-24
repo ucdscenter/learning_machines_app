@@ -73,7 +73,7 @@
 
       <!-- Nav bar -->
       <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item mx-xl-1 active">
             <a class="nav-link" href="/searcher/search/">Create a Model <span class="sr-only">(current)</span></a>
           </li>
@@ -99,9 +99,9 @@
           {% endif %}
         </ul>
 
-        <ul class="navbar-nav navbar-right justify-content-end">
+        <ul class="navbar-nav navbar-right justify-content-end ml-auto">
           {% if user.is_authenticated %}
-          <div class="nav-item mx-xl-1 loginlink">
+          <div class="nav-item mx-xl-1">
             <li class="nav-item  mx-xl-1 dropdown">
               <a class="nav-link pointer clickpointer dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi {{ user.profile.first_name }}</a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -112,7 +112,7 @@
             </li>
           </div>
           {% else %}
-            <div class="nav-item mx-xl-1 loginlink">
+            <div class="nav-item mx-xl-1">
               <a href="/accounts/login/">Login</a>
               <!-- logged in state shown - you may have sublinks here for profile, logout etc. - show "Login" if a user is not logged in -->
             </div>

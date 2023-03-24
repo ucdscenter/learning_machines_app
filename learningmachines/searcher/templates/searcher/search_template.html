@@ -5,152 +5,20 @@
 
 {% block head_css_page %}
 <!--<link rel="stylesheet" href="/static/ext/bootstrap.min.css">-->
-<!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<!-- <style type="text/css" id="page-css">
-  td {
-    font: 10px;
-  }
-
-  MatchedText {
-    background-color: orange;
-  }
-
-  #legend {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    background-color: white;
-  }
-
-  .lightbg {
-    background-color : #ddd;
-  }
-  .darkbg {
-    background-color : #eee;
-  }
-
-  .instructions {
-    color: silver;
-    font-size: 12px;
-  }
-  .db-button {
-    border-color : white;
-  }
-  .db-button:hover {
-     box-shadow: 0px 5px 5px grey;
-     border-color : white;
-  }
-
-  .article-list {
-    cursor: pointer;
-    border-radius: 25px;
-  }
-
+<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style type="text/css" id="page-css">
   .hidden {
     display: none;
   }
-  .line {
-    fill : none;
-    stroke : black;
-    stroke-width : 1px;
-  }
-  .graphtext {
-    font-size : 6px;
-  }
-
-  .error {
-    border: 1px solid #f5c6cb !important;
-  }
-
-  .rowselected {
-    background-color: lightblue;
-  }
-  .article-p {
-    margin-left : 4px;
-    margin-right: 4px
-  }
-  .loading-holder {
-    background: url({% static 'searcher/images/ajax-loader.gif' %}) center center no-repeat;
-  }
-
-  .btn {
-    color : #000;
-  }
-
-  iframe {
-    border-width: 0px;
-  }
-  .content {
-    position : relative;
-    overflow-y: scroll;
-    height: 100%;
-  }
-  .search-section {
-    padding-top: 20px;
-    padding-bottom: 25px;
-  }
-  .tinytext {
-    font-size: 12px;
-  }
-  .nohover {
-    pointer-events: none
-  }
-
-  #search-term:focus {
-    outline: none !important;
-    border:1px solid red;
-    box-shadow: 0 0 10px red;
-  }
-  .figure-caption {
-    font-size : 100%;
-    color : black;
-  }
-
-  .vis-img-hover {
-    left : 0;
-    right : 0;
-    margin : auto;
-    visibility: hidden;
-    opacity: 0;
-    border-radius: 5px;
-    background-color: white;
-    position: absolute;
-    height: 200px;
-    max-width: 400px;
-    width: 93%;
-    transition: opacity .2s, visibility .2s;
-  }
-
-  .fig:hover .vis-img-hover{
-    color : black;
-    visibility: visible;
-    opacity: .9;
-  }
-
-
-
-</style> -->
-<style type="text/css" id="page-css">
-    .hidden {
-    display: none;
-  }
+  .rounded-none {
+  border-radius: 0 !important;
+}
 </style>
 
 {% endblock head_css_page %}
 {% block content %}
-<div class="progreminder buttoncontainer orangepipebg d-none d-xl-block">
-  <div class="graybg p-2">
-      <p><strong>Dataset:</strong>
-          <br /> ER &amp; Urgent Care Reviews
-      </p>
-      <p><strong>Query:</strong>
-          <br /> Bad or Horrible
-          <br /> 2016-2020
-          <br /> One Star
-      </p>
-  </div>
-</div>
+
 <div class="container-fluid limit my-5">
 
   <div class="row" id="titlerow">
@@ -207,7 +75,7 @@
       </ul>
     </div>
 
-    <div class="col-lg-9 m-5 mt-lg-0">
+    <div class="col-lg-8 m-5 mt-lg-0">
 
       <div class="row">
         <div class="search-section row justify-content-center mb-5" id="database-select-div">
@@ -224,31 +92,33 @@
         <div class="search-section row justify-content-center mb-5 hidden" id="search-text-div">
           
           <div class="col-md-6 align-items-center mx-auto">
-            <h3 class="gent">Select your Database
-              <!-- <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Select a database to search for model creation, time estimates are based on time increases in seconds per additional 100 docs" class="material-icons center_icon_h3">info_outlined</i> -->
-            </h3>
+            <div class="col-12 mx-auto d-flex justify-content-center">
+              <h3 class="gent">Build your Query
+                <!-- <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Select a database to search for model creation, time estimates are based on time increases in seconds per additional 100 docs" class="material-icons center_icon_h3">info_outlined</i> -->
+              </h3>
+            </div>
             <form>
               <div class="form-group">
                 <label for="start-year">Start Date</label>
-                <input type="text" class="form-control" id="start-year" placeholder="2016">
+                <input type="text" class="form-control rounded-none" id="start-year" placeholder="2016">
               </div>
               <div class="form-group">
                 <label for="end-year">End Date</label>
-                <input type="text" class="form-control" id="end-year" placeholder="2020">
+                <input type="text" class="form-control rounded-none" id="end-year" placeholder="2020">
               </div>
               <div class="form-group">
                 <label for="search-term">Search Query</label>
-                <input type="text" name="search-term" class="form-control" id="search-term" placeholder="eg: Bad OR Horrible">
+                <input type="text" name="search-term" class="form-control rounded-none" id="search-term" placeholder="eg: Bad OR Horrible">
                 <p class="tinytext">Tip: Use 'AND', 'NOT', 'OR' as logical keywords, nesting and combining them with parentheses. Multi word phrases should be within double quotes e.g. "apple sauce" </p>
               </div>
               <div class="form-group hidden" id="care-rating-low-lab">
                 <label for="journal-options-select" id="care-rating-low-lab">Folter by reviewer's star rating</label>
-                <input type="number" class="form-control" id="care_rating_low" name="care_rating_low" min="-1" max="5" value="-1">
+                <input type="number" class="form-control rounded-none" id="care_rating_low" name="care_rating_low" min="-1" max="5" value="-1">
               </div>
               <div class="form-group hidden" id="archaeology-row-div">
                 <label for="journal-options-select" id="journal-label">Select Journal</label>
                 <div id="journal-div">
-                  <select name="journal" class="form-control form-control-sm" id="journal-options-select">
+                  <select name="journal" class="form-control form-control-sm rounded-none" id="journal-options-select">
                     <option value="all">all</option>
                     <option value="Latin American Antiquity">Latin American Antiquity</option>
                     <option value="Ancient Mesoamerica">Ancient Mesoamerica</option>
@@ -258,7 +128,7 @@
               <div class="form-group hidden" id="caselaw-row-div">
                 <label for="law-options-select" id="juris-label">Jurisdiction:</label>
                 <div id="juris-div">
-                  <select name="jurisdiction" class="form-control form-control-sm" id="law-options-select">
+                  <select name="jurisdiction" class="form-control form-control-sm rounded-none" id="law-options-select">
                     <option value="all">all</option>
                     <option value="federal">federal</option>
                     <option value="other">others</option>
@@ -268,7 +138,7 @@
               <div class="form-group hidden" id="family-row-div">
                 <label for="family-options-select" id="family-label">Keyword:</label>
                 <div id="family-div">
-                  <select name="family" class="form-control form-control-sm" id="family-options-select">
+                  <select name="family" class="form-control form-control-sm rounded-none" id="family-options-select">
                     <option value="all">all</option>
                     <option value="true">true</option>
                     <option value="false">false</option>
@@ -277,7 +147,7 @@
               </div>
               <div class="form-group hidden" id="coi-row-div">
                 <label for="law-options-select" id="auth-s-label">Search Authors:</label>
-                <input type="text" class="form-control" name="search-term" id="search-term" placeholder="search authors">
+                <input type="text" class="form-control rounded-none" name="search-term" id="search-term" placeholder="search authors">
               </div>
             </form>
 
@@ -311,7 +181,9 @@
         
         <div class="col-8 search-section align-items-center justify-content-center mx-auto hidden" id="filter-docs-div" >
           <div class="col-12">
-            <h3 class="gent">Filter Docs containing <span id="search-qry"></span> <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="These bar graphs show the selected doc counts over both time and occurrence of search term. Click and drag across the graphs to additionally filter texts for the model. If documents were fetched with no search term, occurrence is simply the number of words in the document" class="material-icons center_icon_h3">info_outlined</i></h3>
+            <div class="col-12 mx-auto d-flex justify-content-center">
+              <h3 class="gent">Filter Docs containing '<span id="search-qry"></span>' <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="These bar graphs show the selected doc counts over both time and occurrence of search term. Click and drag across the graphs to additionally filter texts for the model. If documents were fetched with no search term, occurrence is simply the number of words in the document" class="material-icons center_icon_h3">info_outlined</i></h3>
+            </div>
             <div class="row ">
               <div class="col-12 text-center">
                 <img src="{% static 'searcher/images/big-ajax-loader.gif' %}" id="loading-img">
@@ -325,11 +197,11 @@
               <div class="col-12 hidden" id="min-count-graph">
                 <p><span class="filter" id="label_for_count_bar"></span></p>
               </div>
-              <div class="col-12 mt-5 hidden" id="explore-docs-time">
-                <h6>Estimated Time for Model :  <span class="explore-estimated-time"></span></h6>
+              <div class="col-12 mt-5 hidden" id="explore-docs-time" align="center">
+                <h6 align="center">Estimated Time for Model :  <span class="explore-estimated-time"></span></h6>
               </div>
-              <div class="col-12 hidden" id="explore-docs-btn-div">
-                <div class="btn btn-lg btn-secondary db-button explore-docs-btn" style="border-color: white;" >Explore Docs</div>
+              <div class="col-12 mx-auto d-flex justify-content-center hidden" id="explore-docs-btn-div" >
+                <div class="btn btn-lg btn-secondary db-button explore-docs-btn rounded-none">Explore Docs</div>
               </div>
             </div>
 
@@ -338,17 +210,19 @@
         
         <div class="row search-section justify-content-center hidden" id="explore-docs-div">
           <div class="col-10">
-            <h3 class="gent">
-              Explore <span class="total-filtered-count"></span> Documents 
-              <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Click on a document in the table to explore its text and view its metadata. Select or deselect the included check box to include or remove it from the model." class="material-icons center_icon_h3">info_outlined</i>
-            </h3>
+            <div class="col-12 mx-auto d-flex justify-content-center">
+              <h3 class="gent">
+                Explore <span class="total-filtered-count"></span> Documents 
+                <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Click on a document in the table to explore its text and view its metadata. Select or deselect the included check box to include or remove it from the model." class="material-icons center_icon_h3">info_outlined</i>
+              </h3>
+            </div>
             
             <div class="row mt-3 mb-3">
-              <div class="col-5" style="overflow-y: auto; height: 600px; border-radius: 5px;">
+              <div class="col-5" style="overflow-y: auto; height: 600px;">
                 <table class="table table-hover dc-doc-table tinytext" id="doc-table" style="table-layout: fixed; width: 100%;"></table>
               </div>
-              <div class="col-7 br-5 article-div" style="height: 600px; border-radius: 5px;">
-                <div id="summary_panel" style="height: 200px; overflow-y: auto;">
+              <div class="col-7 br-5 article-div" style="height: 600px;">
+                <div id="summary_panel" style="height: 200px;">
                   <div class="row">
                     <div class="col-12 summary">
                       <h5 id="article-title" class="mt-1"></h5>
@@ -359,17 +233,17 @@
                       <h6 class=""><b>Pub Date:</b> <span id='article-year' class="normaltext"></span></h6>
                       <h6 class=""><b>Author:</b> <span id='article-author' class="normaltext"></span></h6>
                     </div>
-                    <div class="col-4 d-flex align-items-end">
+                    <div class="col-6 d-flex align-items-end justify-content-end">
                       <div class="row" style="margin-bottom: 0.5rem;">
-                        <div class="col-12 ml-2">
-                          <input type="text" placeholder="Search article text" id="search-article-text" class="form-control" style="display: flex; box-shadow: 0 0 10px var(--main-color); border-radius: 4px;"/>
+                        <div class="col-12">
+                          <input type="text" placeholder="Search article text" id="search-article-text" class="form-control rounded-none" style="display: flex; box-shadow: 0 0 10px var(--main-color); border-radius: 4px;"/>
                         </div>
-                        <div class="col-12 ml-2 highlighted" style="border-radius: 4px; visibility: hidden; opacity: 0; transition: opacity .2s, visibility .2s;" id="article-search-box">
+                        <div class="col-12 highlighted" style="border-radius: 4px; visibility: hidden; opacity: 0; transition: opacity .2s, visibility .2s;" id="article-search-box">
                           <p><span id="article-search-count"></span></p>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div>                  
                 </div>
                 <div class="scroll-pane1" id="article-panel" style="overflow-y: auto; background-color: white; border-radius: 5px; padding: 20px; margin: 10px 0; height: 385px;"></div>
               </div>
@@ -377,12 +251,12 @@
             
             
             <div class="row">
-              <div class="col-12">
+              <div class="col-12 mx-auto d-flex justify-content-center">
                 <div class="padding-left:10px">
                   <h6>Estimated Time for Model :  <span class="vis-estimated-time"></span></h6>
                   <h6><span class="filtered-count"></span> of <span class="total-filtered-count"></span> Documents Selected</h6>
-                  <div class="btn btn-lg btn-success db-button vis-docs-btn" style="border-color: white;" id="choose-vis-btn" >Choose Visualization</div>
-                  <a class="btn btn-lg btn-success db-button vis-docs-btn hidden" style="border-color: white;" id="download-table-btn" >create csv</a>
+                  <div class="btn btn-lg btn-success db-button vis-docs-btn rounded-none" id="choose-vis-btn" >Choose Visualization</div>
+                  <a class="btn btn-lg btn-success db-button vis-docs-btn rounded-none hidden" id="download-table-btn" >create csv</a>
                 </div>
               </div>
             </div>
@@ -390,13 +264,14 @@
         </div>
 
         <div class="row search-section justify-content-center hidden" id="select-vis-div" style="overflow-y: auto" >
-          <div class="col-10">
-            <h3 class="gent">Select Visualization/Model Type <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Choose the model type and visualization you wish to create. We recommend using dfr or pylda to run initial smaller models to establish a good topic number and stop words, then run model of models on a full corpus with those parameters to examine in depth. The vector methods offer additional functionality in terms of exploring intra-word and intra-document relationships" class="material-icons center_icon_h3">info_outlined</i></h3>
+          <div class="col-12">
+            <div class="col-12 mx-auto d-flex justify-content-center">
+              <h3 class="gent">Select Visualization/Model Type <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Choose the model type and visualization you wish to create. We recommend using dfr or pylda to run initial smaller models to establish a good topic number and stop words, then run model of models on a full corpus with those parameters to examine in depth. The vector methods offer additional functionality in terms of exploring intra-word and intra-document relationships" class="material-icons center_icon_h3">info_outlined</i></h3>
+            </div>
             <div class="row">
-      
 
               <div class="col-md-6 col-lg-4 my-3">
-                <div class="card h-100">
+                <div class="card h-100 rounded-none">
                   <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title">Multi Level Model of Models</h5>
                     <div class="card-text mb-3">
@@ -406,14 +281,14 @@
                       <img src="{% static 'searcher/images/btns/mlmom-btn.png' %}" alt="multi level model of models" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig" id="multilevel_lda">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="multilevel_lda">View Visualization</button>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="col-md-6 col-lg-4 my-3">
-                <div class="card h-100">
+                <div class="card h-100 rounded-none">
                   <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title">Topic Browser</h5>
                     <div class="card-text mb-3">
@@ -423,14 +298,14 @@
                       <img src="{% static 'searcher/images/btns/dfr-btn.png' %}" alt="topic browser" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig" id="DFR browser">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="DFR browser">View Visualization</button>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="col-md-6 col-lg-4 my-3">
-                <div class="card h-100">
+                <div class="card h-100 rounded-none">
                   <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title">PyLda Vis</h5>
                     <div class="card-text mb-3">
@@ -440,14 +315,14 @@
                       <img src="{% static 'searcher/images/btns/pylda-btn.png' %}" alt="py lda vis" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig" id="pyLDAvis">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="pyLDAvis">View Visualization</button>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="col-md-6 col-lg-4 my-3">
-                <div class="card h-100">
+                <div class="card h-100 rounded-none">
                   <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title">Word2Vec/Doc2Vec</h5>
                     <div class="card-text mb-3">
@@ -457,14 +332,14 @@
                       <img src="{% static 'searcher/images/btns/w2v-btn.png' %}" alt="word to vector" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig" id="word2vec">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="word2vec">View Visualization</button>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="col-md-6 col-lg-4 my-3">
-                <div class="card h-100">
+                <div class="card h-100 rounded-none">
                   <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title">Sentiment Analysis</h5>
                     <div class="card-text mb-3">
@@ -474,7 +349,7 @@
                       <img src="{% static 'searcher/images/btns/sentiment-btn.png' %}" alt="word to vector" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig" id="sentiment">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="sentiment">View Visualization</button>
                     </div>
                   </div>
                 </div>
@@ -485,158 +360,149 @@
         </div>
 
         <div class="row search-section justify-content-center hidden" id="vis-params-div">
-          <div class="col-10 mt-2">
-            <h3>Set Advanced Model Parameters for <span id="method-name"></span></h3>
-            <div class="row">
-              <div class="col-12 mt-2" id="form-div" style="border-radius : 10px; border-color: white; border-width: 1px">
-                
-                
-                
-                <form id="run-model" target="_blank" action="/searcher/models/">
+          <h3 class="gent">Set Advanced Model Parameters</h3>
+          <div class="col-lg-10 mt-2 mx-auto d-flex justify-content-center align-items-center">
+            
+            <form id="run-model text-center" target="_blank" action="/searcher/models/">
 
-                  <div class="hidden mt-2" id="sentiment-options">
-                    <label for="sentiment-select" class="col-form-label hidden">Select Base Sentiment Model : </label>
-                    <select name="sentiment-select" class="form-control form-control-sm hidden" id="sentiment-select">
-                      <option value="yelp">yelp</option>
-                    </select>
-                  </div>
-      
-                  <div class="hidden mt-2" id="mlmom-options">
-                    <h5>Multi Level Model of Models Parameters</h5>
-                    <div class="form-row hidden">
-                      <label for="levelselect" class="col-form-label">Choose Model Levels <i data-container="body" data-toggle="popover" data-placement="right" data-content="Select article level to run the 6 models normally. Select paragraph level to pull only the paragraphs that contain the search term(s) and use the individual paragraphs as 'documents' in the model. Paragraph level increases performance speed." class="material-icons center_icon_options">info_outlined</i></label>
-                      <select name="level_select" class="form-control form-control-sm" id="level-select">
-                        <option value="article">Article Level</option>
-                        <option value="paragraph">Paragraph Level</option>
-                        <!--<option value="both">Article and Paragraph Level</option>-->
-                      </select>
-                    </div>
-                  </div>
-      
-                  <div class="hidden mt-2 lda-options">
-                    <h5 id="params-label">Latent Dirichlet Parameters</h5>
-                    <div class="form-row hidden" id="word2vec-doc2vec-chooser">
-                      <div class="col-12">
-                        <h6>Choose Model to Run <i data-container="body" data-toggle="popover" data-placement="right" data-content="Word2vec learns 200 dimension vector representions of the words in the corpus using cbow, capturing their inherent relative meanings. Doc2Vec learns these same word vector representations but then uses those words in the documents in the corpus to create document vector meanings." class="material-icons center_icon_options">info_outlined</i></h6>
-                      </div>
-      
-                      <div class="col-12">
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="method-radio">
-                          <label class="btn btn-secondary active" id="word2vec-radio">
-                            <input type="radio"  autocomplete="off" checked>Word2Vec</label>
-                          <label class="btn btn-secondary" id="doc2vec-radio">
-                            <input type="radio" autocomplete="off">Doc2Vec</label>
-                        </div>
-                      </div>
-                    </div>
-      
-                    <div class="form-row">
-                      <div class="form-check"> 
-                        <input type="checkbox" class="form-check-input" id="ngrams-check" name="ngrams" checked>
-                        <label class="form-check-label" for="ngrams-check"><strong>N-Grams</strong> - if checked, will include common ngrams in corpus</label>
-                      </div>
-                      <i data-container="body" data-toggle="popover" data-placement="right" data-content="We calculate up to 4-grams using gensim's phraser model" class="material-icons center_icon_options">info_outlined</i>
-                    </div>
-      
-                    <div class="form-row hidden">
-                      <div class="form-check"> 
-                        <input type="checkbox" class="form-check-input" id="tfidf-check" name="tfidf">
-                        <label class="form-check-label" for="tfidf-check"><strong>TFIDF</strong> - if checked, will run tfidf on the corpus before running the model.</label>
-                      </div>
-                      <i data-container="body" data-toggle="popover" data-placement="right" data-content="Running tfidf on the corpus before creating the model will reweight the words in the corpus, making rarely used words more impactful in the final model." class="material-icons center_icon_options">info_outlined</i>
-                    </div>
-
-                    <div class="form-row not-w2v">
-                      <label for="num-topics" class="col-form-label">Number of Topics  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of topics for the LDA model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="material-icons center_icon_options">info_outlined</i></label>
-                      <input class="form-control form-control-sm" type="number" id="num_topics" name="num_topics" min="2" max="50" value="20">
-                      
-                      <label for="passes-select" class="col-form-label hidden">Passes : </label>
-                      <select name="passes" class="form-control form-control-sm hidden" id="passes-select">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
-                        <option value="20" selected>20</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="150">150</option>
-                        <option value="200">200</option>
-                      </select>
-                    </div>
-      
-                    <div class="form-row vector-options">
-                      <label for="num_clusters" class="col-form-label">Number of Clusters  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of clusters for the vector model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="material-icons center_icon_options">info_outlined</i></label>
-                        <input class="form-control" type="number" id="num_clusters" value="15" min="2" max="50">
-                    </div>
-      
-                    <div class="form-row mt-2">
-                      <label for="stop-word" class="col-3 col-form-label">Stop word list <i data-container="body" data-toggle="popover" data-placement="right" data-content="Often, the top words in many topics will be common filler terms or the original search terms themselves. Add them in here to remove them from the model, making the meaningful words more prominent. Remember to use all forms of a word to completely extirpate it. i.e. animal, animals, animalistic if 'animal' appears in all your topics" class="material-icons center_icon_options">info_outlined</i></label>
-                      <div class="col-9">
-                        <textarea class="form-control" name="stop_words" rows="1" id="stop-word"
-                                  placeholder="Words separted by comma"></textarea>
-                      </div>
-                    </div>
-      
-                    <div class="form-row mt-2">
-                      <label for="phrases" class="col-3 col-form-label">Phrases <i data-container="body" data-toggle="popover" data-placement="right" data-content="By default, we split the corpus into individual words before running LDA or w2v, however if you would like to maintain specific multi-word terms or phrases, include them here and they will replace the individual words." class="material-icons center_icon_options">info_outlined</i></label>
-                      <div class="col-9">
-                      <textarea class="form-control" name="phrases" rows="1" id="phrases"
-                                placeholder="Word phrases separated by comma. e.g. next generation sequencing, DNA sequencing"></textarea>
-                      </div>
-                    </div>
-      
-                    <div class="form-row mt-2 hidden">
-                      <label for='word-replacement' class="col-3 col-form-label">Word replacement <i data-container="body" data-toggle="popover" data-placement="right" data-content="If there are multiple ways a term you would like to capture is written as, e.g. United States and USA, then you can replace one term with the other in the corpus, creating more consistency. In our case, replacing all instances of 'United States' with USA would look like United States->USA" class="material-icons center_icon_options">info_outlined</i></label>
-                      <div class="col-9">
-                        <textarea class="form-control" name="replacement" rows="1" id="word-replacement"
-                                  placeholder="e.g. Next Generation Sequencing->NGS, harm -> damage"></textarea>
-                      </div>
-                    </div>
-                  </div>
-      
-                  <div class="form-row hidden" id="model-options">
-                    <div class="form-group col-2 hidden">
-                      
-                      <!--<input type="text" id="search-year-start" name="start" value="year"/>
-                      <input type="text" id="search-year-end" name="end" value="year"/>-->
-                    </div>
-                    <label for="static-method" class="col-sm-2 col-form-label">Method</label>
-                    <div class="col-sm-10">
-                        <input type="text" readonly name="method" class="form-control" id="static-method" value="">
-                        <input type="text" id="family" name="family"/>
-                        <input type="text" id="auth_s" name="auth_s"/>
-      
-                        <input type="text" id="pk_text" name="filter_pk"/>
-                        <input type="text" id="search_pk" name="search_pk"/>
-                    </div>
-                  </div>
-      
-                  <div class="form-row mt-5 mb-1" style="border-radius: 5px; background-color:white">
-                    <div class="col-12" align="center">
-                      <h6 align="center">Estimated Time for Model :  <span class="vis-estimated-time"></span></h6>
-                      <h6 align="center"><span class="filtered-count"></span> of <span class="total-filtered-count"></span> Documents Selected</h6>
-      
-                    </div>
-                  </div>
-      
-                  <div class="form-row justify-content-center  mb-5">
-                    <div class="col-10">
-                      <p id="submit-wrapper-button" class="btn btn-raised btn-lg btn-block btn-success vis-docs-btn" style="border-color: white">Create Model</p>
-                    
-                    </div>
-                  </div>
-      
-                </form>
-
-                
-                
+              <div class="form-group hidden mt-2" id="sentiment-options">
+                <label for="sentiment-select" class="col-form-label hidden">Select Base Sentiment Model : </label>
+                <select name="sentiment-select" class="form-control form-control-sm hidden" id="sentiment-select">
+                  <option value="yelp">yelp</option>
+                </select>
               </div>
-            </div>
+  
+              <div class="form-group hidden mt-2" id="mlmom-options">
+                <h5>Multi Level Model of Models Parameters</h5>
+                <div class="form-row hidden">
+                  <label for="levelselect" class="col-form-label">Choose Model Levels <i data-container="body" data-toggle="popover" data-placement="right" data-content="Select article level to run the 6 models normally. Select paragraph level to pull only the paragraphs that contain the search term(s) and use the individual paragraphs as 'documents' in the model. Paragraph level increases performance speed." class="material-icons center_icon_options">info_outlined</i></label>
+                  <select name="level_select" class="form-control form-control-sm" id="level-select">
+                    <option value="article">Article Level</option>
+                    <option value="paragraph">Paragraph Level</option>
+                    <!--<option value="both">Article and Paragraph Level</option>-->
+                  </select>
+                </div>
+              </div>
+  
+              <div class="form-group hidden mt-2 lda-options">
+                <h5 id="params-label">Latent Dirichlet Parameters</h5>
+                <div class="form-row hidden" id="word2vec-doc2vec-chooser">
+                  <div class="col-12">
+                    <h6>Choose Model to Run <i data-container="body" data-toggle="popover" data-placement="right" data-content="Word2vec learns 200 dimension vector representions of the words in the corpus using cbow, capturing their inherent relative meanings. Doc2Vec learns these same word vector representations but then uses those words in the documents in the corpus to create document vector meanings." class="material-icons center_icon_options">info_outlined</i></h6>
+                  </div>
+  
+                  <div class="col-12">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons" id="method-radio">
+                      <label class="btn btn-secondary active" id="word2vec-radio">
+                        <input type="radio"  autocomplete="off" checked>Word2Vec</label>
+                      <label class="btn btn-secondary" id="doc2vec-radio">
+                        <input type="radio" autocomplete="off">Doc2Vec</label>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-row">
+                  <div class="form-check"> 
+                    <input type="checkbox" class="form-check-input" id="ngrams-check" name="ngrams" checked>
+                    <label class="form-check-label" for="ngrams-check"><strong>N-Grams</strong> - if checked, will include common ngrams in corpus</label>
+                  </div>
+                  <i data-container="body" data-toggle="popover" data-placement="right" data-content="We calculate up to 4-grams using gensim's phraser model" class="material-icons center_icon_options">info_outlined</i>
+                </div>
+  
+                <div class="form-row hidden">
+                  <div class="form-check"> 
+                    <input type="checkbox" class="form-check-input" id="tfidf-check" name="tfidf">
+                    <label class="form-check-label" for="tfidf-check"><strong>TFIDF</strong> - if checked, will run tfidf on the corpus before running the model.</label>
+                  </div>
+                  <i data-container="body" data-toggle="popover" data-placement="right" data-content="Running tfidf on the corpus before creating the model will reweight the words in the corpus, making rarely used words more impactful in the final model." class="material-icons center_icon_options">info_outlined</i>
+                </div>
+
+                <div class="form-row not-w2v">
+                  <label for="num-topics" class="col-form-label">Number of Topics  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of topics for the LDA model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="material-icons center_icon_options">info_outlined</i></label>
+                  <input class="form-control form-control-sm" type="number" id="num_topics" name="num_topics" min="2" max="50" value="20">
+                  
+                  <label for="passes-select" class="col-form-label hidden">Passes : </label>
+                  <select name="passes" class="form-control form-control-sm hidden" id="passes-select">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20" selected>20</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="150">150</option>
+                    <option value="200">200</option>
+                  </select>
+                </div>
+  
+                <div class="form-row vector-options">
+                  <label for="num_clusters" class="col-form-label">Number of Clusters  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of clusters for the vector model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="material-icons center_icon_options">info_outlined</i></label>
+                    <input class="form-control" type="number" id="num_clusters" value="15" min="2" max="50">
+                </div>
+  
+                <div class="form-row mt-2">
+                  <label for="stop-word" class="col-3 col-form-label">Stop word list <i data-container="body" data-toggle="popover" data-placement="right" data-content="Often, the top words in many topics will be common filler terms or the original search terms themselves. Add them in here to remove them from the model, making the meaningful words more prominent. Remember to use all forms of a word to completely extirpate it. i.e. animal, animals, animalistic if 'animal' appears in all your topics" class="material-icons center_icon_options">info_outlined</i></label>
+                  <div class="col-9">
+                    <textarea class="form-control" name="stop_words" rows="1" id="stop-word"
+                              placeholder="Words separted by comma"></textarea>
+                  </div>
+                </div>
+  
+                <div class="form-row mt-2">
+                  <label for="phrases" class="col-3 col-form-label">Phrases <i data-container="body" data-toggle="popover" data-placement="right" data-content="By default, we split the corpus into individual words before running LDA or w2v, however if you would like to maintain specific multi-word terms or phrases, include them here and they will replace the individual words." class="material-icons center_icon_options">info_outlined</i></label>
+                  <div class="col-9">
+                  <textarea class="form-control" name="phrases" rows="1" id="phrases"
+                            placeholder="Word phrases separated by comma. e.g. next generation sequencing, DNA sequencing"></textarea>
+                  </div>
+                </div>
+  
+                <div class="form-row mt-2 hidden">
+                  <label for='word-replacement' class="col-3 col-form-label">Word replacement <i data-container="body" data-toggle="popover" data-placement="right" data-content="If there are multiple ways a term you would like to capture is written as, e.g. United States and USA, then you can replace one term with the other in the corpus, creating more consistency. In our case, replacing all instances of 'United States' with USA would look like United States->USA" class="material-icons center_icon_options">info_outlined</i></label>
+                  <div class="col-9">
+                    <textarea class="form-control" name="replacement" rows="1" id="word-replacement"
+                              placeholder="e.g. Next Generation Sequencing->NGS, harm -> damage"></textarea>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="form-group form-row hidden" id="model-options">
+                <div class="form-group col-2 hidden">
+                  
+                  <!--<input type="text" id="search-year-start" name="start" value="year"/>
+                  <input type="text" id="search-year-end" name="end" value="year"/>-->
+                </div>
+                <label for="static-method" class="col-sm-2 col-form-label">Method</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly name="method" class="form-control" id="static-method" value="">
+                    <input type="text" id="family" name="family"/>
+                    <input type="text" id="auth_s" name="auth_s"/>
+  
+                    <input type="text" id="pk_text" name="filter_pk"/>
+                    <input type="text" id="search_pk" name="search_pk"/>
+                </div>
+              </div>
+  
+              <div class="form-group form-row mt-5 mb-1 p-2">
+                <div class="col-12" align="center">
+                  <h6 align="center">Estimated Time for Model :  <span class="vis-estimated-time"></span></h6>
+                  <h6 align="center"><span class="filtered-count"></span> of <span class="total-filtered-count"></span> Documents Selected</h6>
+  
+                </div>
+              </div>
+  
+              <div class="form-group form-row justify-content-center mb-5">
+                <div class="col-3">
+                  <p id="submit-wrapper-button" class="btn btn-raised btn-block btn-secondary vis-docs-btn rounded-none" style="background-color: none;">Create Model</p>
+                
+                </div>
+              </div>
+  
+            </form>
           </div>
         </div>
         
 
-          <!-- <div class="col-md-3 mt-4 mt-md-0 hidden" id="explanation mt-4 mt-lg-0">
+        <!-- <div class="col-md-3 mt-4 mt-md-0 hidden" id="explanation mt-4 mt-lg-0">
             <h5>Date Ranges:</h5>
             <p>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
       
@@ -653,15 +519,26 @@
 
       </div>
     </div>
+
+    <div class="col-lg-1 m-5">
+      <div class="progreminder buttoncontainer orangepipebg d-none d-xl-block">
+        <div class="graybg p-2">
+            <p><strong>Dataset:</strong>
+              
+            </p>
+            <p><strong>Query:</strong>
+                
+            </p>
+        </div>
+      </div>
+    </div>
   </div>
   <!--end main content row-->
 
   <div class="row" id="navrow">
       <div class="col d-flex justify-content-between mt-3">
-          <!-- <div class="prev font-weight-bold"><a href="#"><i class="fas fa-angle-left mr-1"></i>&laquo; Previous</a></div>
-          <div class="next font-weight-bold"><a href="#">Next &raquo;<i class="fas fa-angle-right ml-1"></i></a></div> -->
-          <div class="prev font-weight-bold"><a href="#" id="prev-section"><i class="fas fa-angle-left mr-1"></i>&laquo; Previous</a></div>
-          <div class="next font-weight-bold"><a href="#" id="next-section">Next &raquo;<i class="fas fa-angle-right ml-1"></i></a></div>
+        <div class="prev font-weight-bold"><a href="#" id="prev-section"><i class="fas fa-angle-left mr-1"></i>&laquo; Previous</a></div>
+        <div class="next font-weight-bold"><a href="#" id="next-section">Next &raquo;<i class="fas fa-angle-right ml-1"></i></a></div>
       </div>
   </div>
 

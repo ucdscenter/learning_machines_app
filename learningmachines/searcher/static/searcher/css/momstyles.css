@@ -101,7 +101,11 @@
      font-weight: 700;
  }
  /* Header */
- 
+ .navbar{
+    display: flex;
+    justify-content: space-between;
+ }
+
  header nav {
      border-bottom: 1px solid #DDDDDD;
  }

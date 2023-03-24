@@ -27,13 +27,13 @@ async function renderDataBaseSelect(dbdata) {
     .data(Object.keys(dbdata))
     .enter()
     .append("div")
-    .attr("class", "col-9 col-lg-3 col-md-3 col-sm-3 p-3")
+    .attr("class", "col-12 col-lg-4 mb-3 p-3")
     .attr("id", function (d) {
       return d + "_btn";
     });
 
   var dbdivs = dbBtns.append("div")
-    .attr("class", "btn btn-secondary db-button row h-100 card p-3")
+    .attr("class", "btn db-button btn-secondary row h-100 card p-3 rounded-none")
     .style("background-color", function (d) {
       return dbdata[d].color;
     })
@@ -60,35 +60,56 @@ async function renderDataBaseSelect(dbdata) {
 
 
   dbLabels
-    .append("h6")
+    .append("h5")
     .style("display", "inline-block")
-    .classed("pp card-text", true)
+    .style("text-transform", "uppercase")
+    .style("font-weight", "bold")
+    .classed("card-text", true)
     .text(function (d) {
       return dbdata[d].name;
     });
+  
+  dbLabels
+    .append("br")
 
   dbLabels
     .append("p")
     .style("display", "inline-block")
-    .classed("pp card-text", true)
+    .classed("card-text", true)
     .text(function (d) {
       console.log(d)
-      return ": " + formatter(database_runtimes[d].count) + " docs";
+      return "Docs: " + formatter(database_runtimes[d].count);
     });
+  
+  dbLabels
+  .append("br")
+
+  dbLabels
+    .append("p")
+    .style("display", "inline-block")
+    .classed("card-text", true)
+    .text(function(d){
+      yearExt = d3.extent(Object.keys(database_years[d]), function (d) {
+        return d;
+      });
+      var yearstr = ""
+      if (yearExt[0] != undefined) {
+        yearstr = yearExt[0] + "-" + yearExt[1]
+      }
+      return "Time: " + yearstr
+    });
+
+  dbLabels
+    .append("br")
 
   dbLabels.append("p")
     .classed("dataset-btn-p card-text  align-middle", true)
+    .style("display", "inline-block")
     .style("overflow-wrap", "break-word")
     .text(function(d){
-    yearExt = d3.extent(Object.keys(database_years[d]), function (d) {
-      return d;
-    });
-    var yearstr = ""
-    if (yearExt[0] != undefined) {
-      yearstr = yearExt[0] + "-" + yearExt[1] + ": "
-    }
-    return yearstr + database_runtimes[d].description
-  })
+      return database_runtimes[d].description
+  });
+
   let dbthings = dbdivs.append("div")
     .attr("class", "col-12")
     .style("height", "0px");;
@@ -1147,68 +1168,9 @@ function renderVisParams(dbn, qry, method, fromhistory) {
 };
 
 
-// function showContinue(prefix) {
-//   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
-//   let remove_index = false;
-//   for (var i = 0; i < sections.length; i++) {
-//     if (sections[i] == prefix) {
-//       remove_index = true;
-//     }
-//     if (remove_index) {
-
-//       $('#' + sections[i] + '-div').addClass("hidden");
-//       $('#' + sections[i] + '-nav').addClass("disabled");
-//       $('#' + sections[i] + '-nav').removeClass("side-nav-active");
-//     }
-//   }
-//   $('#' + prefix + '-div').removeClass("hidden");
-//   $('#' + prefix + '-nav').removeClass("disabled");
-//   $('#' + prefix + '-nav').addClass("side-nav-active");
-//   $('#' + prefix + '-nav').trigger('click');
-
-// }
-// function showContinue(prefix) {
-//   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
-//   let current_index = sections.indexOf(prefix);
-//   let prev_index = current_index - 1;
-//   let next_index = current_index + 1;
-
-//   // Disable previous button for first section
-//   if (current_index === 0) {
-//     $('.prev').addClass('disabled');
-//   } else {
-//     $('.prev').removeClass('disabled');
-//   }
-
-//   // Disable next button for last section
-//   if (current_index === sections.length - 1) {
-//     $('.next').addClass('disabled');
-//   } else {
-//     $('.next').removeClass('disabled');
-//   }
-
-//   // Hide sections before current section
-//   for (var i = 0; i < current_index; i++) {
-//     $('#' + sections[i] + '-div').addClass('hidden');
-//     $('#' + sections[i] + '-nav').addClass('disabled');
-//     $('#' + sections[i] + '-nav').removeClass('side-nav-active');
-//   }
-
-//   // Hide sections after current section
-//   for (var j = current_index + 1; j < sections.length; j++) {
-//     $('#' + sections[j] + '-div').addClass('hidden');
-//     $('#' + sections[j] + '-nav').addClass('disabled');
-//     $('#' + sections[j] + '-nav').removeClass('side-nav-active');
-//   }
-
-//   // Show current section
-//   $('#' + prefix + '-div').removeClass('hidden');
-//   $('#' + prefix + '-nav').removeClass('disabled');
-//   $('#' + prefix + '-nav').addClass('side-nav-active');
-//   $('#' + prefix + '-nav').trigger('click');
-// }
 function showContinue(prefix) {
   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
+  const sectionIds = ['select-dataset', 'build-query', 'focus-query', 'review-data-sources', 'select-visualization', 'set-parameters'];
   let current_index = sections.indexOf(prefix);
   let prev_index = current_index - 1;
   let next_index = current_index + 1;
@@ -1251,6 +1213,7 @@ function showContinue(prefix) {
   $('.prev').off().on('click', function() {
     if (prev_index >= 0) {
       showContinue(sections[prev_index]);
+      updateSideNav(sectionIds[prev_index]);
     }
   });
 
