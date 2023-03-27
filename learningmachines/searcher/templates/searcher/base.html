@@ -7,7 +7,7 @@
 
   <title>{% block title %}Home {% endblock title %} | Catalyst</title> 
   {% block head_favicon %}
-    <link rel="shortcut icon" type="image/x-icon" href="../../static/searcher/images/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'searcher/images/favicon.ico' %}" />
   {% endblock head_favicon %}
 
   {% block head_meta %}
@@ -68,7 +68,7 @@
     <div class="container-fluid limit my-3">
 
       <!-- Logo -->
-      <a class="navbar-brand" href="/searcher/"><img src="../../static/searcher/images/MOMx4-removebg-preview.png" /></a>
+      <a class="navbar-brand" href="/searcher/"><img src="{% static 'searcher/images/MOMx4-removebg-preview.png' %}" /></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -127,7 +127,7 @@
 
 
   {# Document Body #}
-  <div class="main-content home">
+  <div class="main-content">
     <div class="container-fluid limit">
 
       {% block content %}
@@ -161,10 +161,10 @@
             </div>
 
             <div class="col-md-6 offset-md-6 col-xl-2 offset-xl-2 mt-5 mt-md-0">
-                <img src="../../static/searcher/images/University_of_Cincinnati_logo.svg.png" />
+                <img src="{% static '/searcher/images/University_of_Cincinnati_logo.svg.png' %}" />
             </div>
             <div class="col-md-6 offset-md-6 col-xl-2 offset-xl-0 mt-5 mt-xl-0">
-                <img src="../../static/searcher/images/mellon-new-logo.png" />
+                <img src="{% static '/searcher/images/mellon-new-logo.png' %}" />
             </div>
         </div>
     </div>
