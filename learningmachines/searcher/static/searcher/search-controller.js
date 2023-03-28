@@ -250,7 +250,7 @@ async function renderDataBaseSelect(dbdata) {
 }//renderDatabaseSelect 
 
 async function getArticles(qry, dbn, fromhistory, timeExt, size) {
-  console.log(qry)
+
   $('#search-qry').text((qry == '') ? "' '" : qry);
   $('#loading-img').removeClass("hidden");
   $('#time-graph').addClass("hidden");
@@ -323,6 +323,7 @@ async function getA(dbn, qry, timeExt, size) {
   $('#time-graph').removeClass("hidden");
   $('#min-count-graph').removeClass("hidden");
   $('#explore-docs-btn-div').removeClass("hidden");
+  $('#explore-docs-time').removeClass("hidden");
 
   renderFilterDocs(articles, dbn, qry);
   console.log("getA function has completed");
@@ -1513,39 +1514,39 @@ let DATABASES =
 };
 
 console.log(Object.keys(DATABASES));
-// Object.keys(DATABASES).forEach(function (db, index) {
-//   console.log(db);
+Object.keys(DATABASES).forEach(function (db, index) {
+  console.log(db);
   
-//   // check if #other-color and #third-color elements exist
-//   //let otherColorElement = d3.select("#other-color");
-//   //let thirdColorElement = d3.select("#third-color");
-//   if (!otherColorElement.empty() && !thirdColorElement.empty()) {
-//     let color = d3.color(otherColorElement.style("color")).hex();
-//     let third_color = d3.color(thirdColorElement.style("color"));
-//     let rgbObj = hexToRgb(color);
+  // check if #other-color and #third-color elements exist
+  let otherColorElement = d3.select("#other-color");
+  let thirdColorElement = d3.select("#third-color");
+  if (!otherColorElement.empty() && !thirdColorElement.empty()) {
+    let color = d3.color(otherColorElement.style("color")).hex();
+    let third_color = d3.color(thirdColorElement.style("color"));
+    let rgbObj = hexToRgb(color);
     
 
-//     /*
-//     let rgbObj = hexToRgb(d3.interpolateViridis(index / Object.keys(DATABASES).length));
-//     DATABASES[db].color = "rgb(" + rgbObj.r  + "," + rgbObj.g + "," + rgbObj.b + ", .5)";
-//     DATABASES[db].nonbgcolor = d3.interpolateViridis(index / Object.keys(DATABASES).length);
-//     */
+    /*
+    let rgbObj = hexToRgb(d3.interpolateViridis(index / Object.keys(DATABASES).length));
+    DATABASES[db].color = "rgb(" + rgbObj.r  + "," + rgbObj.g + "," + rgbObj.b + ", .5)";
+    DATABASES[db].nonbgcolor = d3.interpolateViridis(index / Object.keys(DATABASES).length);
+    */
     
 
-//     DATABASES[db].color = color;
-//     DATABASES[db].nonbgcolor = third_color;
+    DATABASES[db].color = color;
+    DATABASES[db].nonbgcolor = third_color;
     
-//     // create a button for the database and set its style
-//     let databaseButton = d3.select("#select-db").append("button")
-//       .attr("id", db + "_btn")
-//       .text(db)
-//       .style("background-color", DATABASES[db].color)
-//       .style("color", DATABASES[db].nonbgcolor);
-//     DATABASES[db].button = databaseButton;
-//   } else {
-//     console.error("Could not find #other-color or #third-color elements");
-//   }
-// });
+    // create a button for the database and set its style
+    let databaseButton = d3.select("#select-db").append("button")
+      .attr("id", db + "_btn")
+      .text(db)
+      .style("background-color", DATABASES[db].color)
+      .style("color", DATABASES[db].nonbgcolor);
+    DATABASES[db].button = databaseButton;
+  } else {
+    console.error("Could not find #other-color or #third-color elements");
+  }
+});
 
 
 function getJsonFromUrl(hashBased) {
