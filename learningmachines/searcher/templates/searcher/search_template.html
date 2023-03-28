@@ -108,7 +108,7 @@
               </div>
               <div class="form-group">
                 <label for="search-term">Search Query</label>
-                <input type="text" name="search-term" class="form-control rounded-none" id="search-term" placeholder="eg: Bad OR Horrible">
+                <input type="text" name="search-term" class="form-control rounded-none" id="search-term" placeholder="eg: treen AND root">
                 <p class="tinytext">Tip: Use 'AND', 'NOT', 'OR' as logical keywords, nesting and combining them with parentheses. Multi word phrases should be within double quotes e.g. "apple sauce" </p>
               </div>
               <div class="form-group hidden" id="care-rating-low-lab">
@@ -147,7 +147,7 @@
               </div>
               <div class="form-group hidden" id="coi-row-div">
                 <label for="law-options-select" id="auth-s-label">Search Authors:</label>
-                <input type="text" class="form-control rounded-none" name="search-term" id="search-term" placeholder="search authors">
+                <input type="text" class="form-control rounded-none" name="search-author" id="search-author" placeholder="search authors">
               </div>
             </form>
 
@@ -197,9 +197,7 @@
               <div class="col-12 hidden" id="min-count-graph">
                 <p><span class="filter" id="label_for_count_bar"></span></p>
               </div>
-              <div class="col-12 mt-5 hidden" id="explore-docs-time" align="center">
-                <h6 align="center">Estimated Time for Model :  <span class="explore-estimated-time"></span></h6>
-              </div>
+              
               <div class="col-12 mx-auto d-flex justify-content-center hidden" id="explore-docs-btn-div" >
                 <div class="btn btn-lg btn-secondary db-button explore-docs-btn rounded-none">Explore Docs</div>
               </div>
@@ -253,7 +251,6 @@
             <div class="row">
               <div class="col-12 mx-auto d-flex justify-content-center">
                 <div class="padding-left:10px">
-                  <h6>Estimated Time for Model :  <span class="vis-estimated-time"></span></h6>
                   <h6><span class="filtered-count"></span> of <span class="total-filtered-count"></span> Documents Selected</h6>
                   <div class="btn btn-lg btn-success db-button vis-docs-btn rounded-none" id="choose-vis-btn" >Choose Visualization</div>
                   <a class="btn btn-lg btn-success db-button vis-docs-btn rounded-none hidden" id="download-table-btn" >create csv</a>
@@ -281,7 +278,7 @@
                       <img src="{% static 'searcher/images/btns/mlmom-btn.png' %}" alt="multi level model of models" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig rounded-none" id="multilevel_lda">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="multilevel_lda">Select</button>
                     </div>
                   </div>
                 </div>
@@ -298,7 +295,7 @@
                       <img src="{% static 'searcher/images/btns/dfr-btn.png' %}" alt="topic browser" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig rounded-none" id="DFR browser">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="DFR browser">Select</button>
                     </div>
                   </div>
                 </div>
@@ -315,7 +312,7 @@
                       <img src="{% static 'searcher/images/btns/pylda-btn.png' %}" alt="py lda vis" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig rounded-none" id="pyLDAvis">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="pyLDAvis">Select</button>
                     </div>
                   </div>
                 </div>
@@ -332,7 +329,7 @@
                       <img src="{% static 'searcher/images/btns/w2v-btn.png' %}" alt="word to vector" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig rounded-none" id="word2vec">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="word2vec">Select</button>
                     </div>
                   </div>
                 </div>
@@ -349,7 +346,7 @@
                       <img src="{% static 'searcher/images/btns/sentiment-btn.png' %}" alt="word to vector" class="img-fluid rounded" style="max-height: 200px;">
                     </div>
                     <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig rounded-none" id="sentiment">View Visualization</button>
+                      <button class="btn btn-secondary db-button fig rounded-none" id="sentiment">Select</button>
                     </div>
                   </div>
                 </div>
@@ -488,7 +485,6 @@
   
               <div class="form-group form-row mt-5 mb-1 p-2">
                 <div class="col-12" align="center">
-                  <h6 align="center">Estimated Time for Model :  <span class="vis-estimated-time"></span></h6>
                   <h6 align="center"><span class="filtered-count"></span> of <span class="total-filtered-count"></span> Documents Selected</h6>
   
                 </div>

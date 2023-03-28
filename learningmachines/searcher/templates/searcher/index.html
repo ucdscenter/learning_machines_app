@@ -1,6 +1,6 @@
 {% extends 'searcher/base.html' %}
 {% block title %}Home{% endblock title %}
-
+{% load static %}
 {% block content %}
 
     <div class="row align-items-center">
@@ -14,12 +14,12 @@
             <div class="btn-toolbar mt-4" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
                     <div class="buttoncontainer orangepipebg">
-                        <button type="button" href="/searcher/models" class="btn btn-main graybg">Create a Model</button>
+                        <a type="button" href="/searcher/search/" class="btn btn-main graybg">Create a Model</a>
                     </div>
                 </div>
                 <div class="btn-group mr-2" role="group" aria-label="Second group">
                     <div class="buttoncontainer orangepipebg">
-                        <button type="button" href="#" class="btn btn-main graybg"><a href="/learning_machines_app/learningmachines/searcher/templates/searcher/Tutorial.html">Start the Tutorial</a></button>
+                        <ba type="button" class="btn btn-main graybg" href="/searcher/search">Start the Tutorial</a>
                     </div>
 
                 </div>
@@ -29,7 +29,7 @@
             <div class="projintro d-flex align-items-end">
                 <h3 class="mr-5 mb-0">Featured Project</h3><a class="ml-5 mb-0" href="#">VIEW ALL</a>
             </div>
-            <div class="projectsnap"><img class="grayborder w-100 my-4" src="../../static/searcher/images/sample model.png" /></div>
+            <div class="projectsnap"><img class="grayborder w-100 my-4" src="{% static 'searcher/images/sample_model.png' %}" /></div>
             <div class="projectdescription">
                 <h3 class="gent">Dakota Access Pipleline Range Twitter Networks</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -41,6 +41,6 @@
 
 {% block footer_javascript_page %}
     <script>
-        $('#site-wrapper').addClass('home-bg')
+        $('.main-content').addClass('home')
     </script>
 {% endblock footer_javascript_page %}
