@@ -40,7 +40,10 @@ async function renderDataBaseSelect(dbdata) {
     .style("border-color", "white")
     .style("text-align", "center")
     .style("max-width", "100%")
-    .style("white-space", "normal");
+    .style("white-space", "normal")
+    .on("click", function(d) {
+      d3.select("#selected-db").text(dbdata[d].name);
+    });
 
 
   //.style("width", "100%")
@@ -326,6 +329,50 @@ async function getA(dbn, qry, timeExt, size) {
   console.log("getA function has completed");
 }
 
+// select the inputs
+var searchTextInput = d3.select("#search-term");
+var startYearInput = d3.select("#start-year");
+var endYearInput = d3.select("#end-year");
+
+// select the document buttons
+var docBtns = d3.selectAll(".doc-button");
+
+// define a function to update the query
+function updateQuery() {
+  // get the selected database name and document limit
+  var selectedDb = d3.select(".db-button.selected").data()[0];
+  var selectedDocLimit = d3.select(".doc-button.selected").attr("id").split("-")[1];
+
+  // get the search text, start and end years from the input fields
+  var searchText = searchTextInput.property("value");
+  var startYear = startYearInput.property("value");
+  var endYear = endYearInput.property("value");
+
+  // create the new query string
+  var newQuery = " Search: " + searchText + " Start Year: " + startYear + " End Year: " + endYear + " Doc limit: " + selectedDocLimit;
+
+  // update the query text on the page
+  d3.select("#query-text").text(newQuery);
+}
+
+// add event listeners to the form inputs
+startYearInput.on("input", updateQuery);
+endYearInput.on("input", updateQuery);
+searchTextInput.on("input", updateQuery);
+
+// add event listeners to the document buttons
+docBtns.on("click", function () {
+  // remove the "selected" class from all buttons
+  docBtns.classed("selected", false);
+
+  // add the "selected" class to the clicked button
+  d3.select(this).classed("selected", true);
+
+  // update the query text on the page
+  updateQuery();
+});
+
+
 function renderSearchInput(d, dbdata) {
 
   $('#search-term').off('keyup');
@@ -569,6 +616,13 @@ function renderFilterDocs(articles, dbn, qry) {
     if (selected_docs.length > database_runtimes[dbn].max) {
       alert("Warning!\nIf you continue with this number of documents we will cut the model to " + database_runtimes[dbn].max + " documents at runtime to save our poor servers.\nPlease contact us at mccabeen@ucmail.uc.edu if you want to run extra large models");
     }
+
+    // append text from label_for_count_bar to query-text
+    var queryTextElement = $('#query-text');
+    var existingText = queryTextElement.text();
+    var countBarText = $('#label_for_count_bar').text();
+    queryTextElement.text(existingText + ' Occurrence values: ' + countBarText);
+
     showContinue('explore-docs');
     updateSideNav('review-data-sources');
     renderExploreDocs(selected_docs, dbn, qry, fromhistory, total_articles);
@@ -1064,7 +1118,12 @@ function renderVisParams(dbn, qry, method, fromhistory) {
 
   console.log(method);
   $('#form-div').css("background-color", DATABASES[dbn].color);
+  var queryTextElement = $('#query-text');
+  var existingText = queryTextElement.text();
+  var methodText = ("");
+
   if (method == "DFR browser") {
+    methodText = " Visualization: Topic Browser ";
     $('#mlmom-options').addClass("hidden");
     $(".not-w2v").removeClass("hidden");
     $(".lda-options").removeClass("hidden");
@@ -1072,6 +1131,7 @@ function renderVisParams(dbn, qry, method, fromhistory) {
     $("#word2vec-doc2vec-chooser").addClass("hidden");
   }
   if (method == "pyLDAvis") {
+    methodText = " Visualization: PyLda Vis ";
     $('#mlmom-options').addClass("hidden");
     $(".not-w2v").removeClass("hidden");
     $(".lda-options").removeClass("hidden");
@@ -1079,6 +1139,7 @@ function renderVisParams(dbn, qry, method, fromhistory) {
     $("#word2vec-doc2vec-chooser").addClass("hidden");
   }
   if (method == "multilevel_lda") {
+    methodText = " Visualization: Multi Level Model of Models";
     $(".lda-options").removeClass("hidden");
     $(".not-w2v").removeClass("hidden");
     $('#mlmom-options').removeClass("hidden");
@@ -1086,6 +1147,7 @@ function renderVisParams(dbn, qry, method, fromhistory) {
     $("#word2vec-doc2vec-chooser").addClass("hidden");
   }
   if (method == "word2vec" || method == 'doc2vec') {
+    methodText = " Visualization: Word2Vec/Doc2Vec ";
     $('#mlmom-options').addClass("hidden");
     $('#params-label').text("Word2Vec/Doc2Vec Parameters");
     $(".not-w2v").addClass("hidden");
@@ -1113,8 +1175,10 @@ function renderVisParams(dbn, qry, method, fromhistory) {
 
   }
   if (method == 'sentiment') {
+    methodText = " Visualization: Sentiment Analysis ";
     $('#sentiment-options').removeClass("hidden");
   }
+  queryTextElement.text(existingText + " " + methodText);
   $('#static-method').val(method);
 
 
