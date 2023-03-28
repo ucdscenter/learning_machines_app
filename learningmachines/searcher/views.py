@@ -31,6 +31,9 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 from learningmachines.es_fields import datasetNames
 
+import base64
+from learningmachines.public_credentials import WIKIARTS_URL
+import requests
 
 
 SEND_WORKER = False
@@ -447,9 +450,10 @@ def searcher(request):
 def wikiarts_method_vis(request):
 	return render(request, 'searcher/wikiarts_method_vis.html')
 
-def s3_image(request):
-	import base64
-	from learningmachines.public_credentials import WIKIARTS_URL
+def upload_image(request):
+	#todo--save image to s3 folder, update the embeddings json file that everything is pulled from?
+
+	#for now, just repeat s3 wikiarts call to calc image url, need work on passing in jpg in POST request
 	s3Obj = boto3.client('s3', config=Config(signature_version='s3v4', region_name='us-east-2'))
 	url = s3Obj.generate_presigned_url('get_object', Params = { 
 												'Bucket': 'wikiart-project', 
@@ -457,9 +461,24 @@ def s3_image(request):
 	sim_urls = []
 	proj_embs = []
 	if request.GET.get("fetch_similarity") == "True":
-		import requests
 		sim_rsp = json.loads(requests.post(WIKIARTS_URL + ":8080/similar_images/", data={'data' : url}).text)
-		proj_embs = sim_rsp['pred_embs']
+		proj_embs = json.loads(requests.post(WIKIARTS_URL + ":8080/embed_image/", data={'data': url}).text)
+		for s in sim_rsp["sim_rslts"]:
+			s_url = s3Obj.generate_presigned_url('get_object', Params = { 
+			 									'Bucket': 'wikiart-project', 
+			 									'Key': 'images/' + s + ".jpg", }, ExpiresIn = 600, )
+			sim_urls.append(s_url)
+	return JsonResponse({"url" : url, "embedding" : emb_rsp})
+
+def s3_image(request):
+	s3Obj = boto3.client('s3', config=Config(signature_version='s3v4', region_name='us-east-2'))
+	url = s3Obj.generate_presigned_url('get_object', Params = { 
+												'Bucket': 'wikiart-project', 
+												'Key': 'images/' + request.GET.get("id") + ".jpg", }, ExpiresIn = 600, )
+	sim_urls = []
+	proj_embs = []
+	if request.GET.get("fetch_similarity") == "True":
+		sim_rsp = json.loads(requests.post(WIKIARTS_URL + ":8080/similar_images/", data={'data' : url}).text)
 		for s in sim_rsp["sim_rslts"]:
 			#Code for reading image here and posting image data, so no need for boto3 in wikairts server
 			#rslt = s3Obj.get_object(Bucket='wikiart-project', Key='images/184896.jpg')
@@ -469,7 +488,7 @@ def s3_image(request):
 			 									'Bucket': 'wikiart-project', 
 			 									'Key': 'images/' + s + ".jpg", }, ExpiresIn = 600, )
 			sim_urls.append(s_url)
-	return JsonResponse({"url" : url, "sim_urls" : sim_urls, 'proj_embs' : proj_embs })#rslt_decode # Function for BERT Visualization
+	return JsonResponse({"url" : url, "sim_urls" : sim_urls, 'proj_embs' : [] })#rslt_decode # Function for BERT Visualization
 
 USE_S3_BERT = True
 
