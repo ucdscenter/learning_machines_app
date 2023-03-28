@@ -498,6 +498,28 @@ datasetNames = {
             'bert': '_Care_Reviews_umap_kmeans'},
             'display_name' : 'Urgent Care Reviews',
          'database': 'Care_Reviews'},
+
+     'chicago-novels': {
+            'num_docs': 1738730,
+         'description': 'The chicago novels corpus split into 500 word chunks',
+         's3_names': {
+            'bert': '_chicago-novels_umap_kmeans' },
+            'display_name' : 'Chicago Novels Chunks',
+         'database': 'chicago-novels'},
+     'chicago-novels-1900': {
+            'num_docs': 59295,
+         'description': 'The chicago novels corpus 1900 to 1910 split into 500 word chunks',
+         's3_names': {
+            'bert': '1900_1910_chicago_novels_test_40e' },
+            'display_name' : 'Chicago Novels 1900-1910',
+         'database': 'chicago-novels'},
+     'chicago-novels-1890': {
+            'num_docs': 59295,
+         'description': 'The chicago novels corpus 1900 to 1910 split into 500 word chunks',
+         's3_names': {
+            'bert': '1900_1910_chicago_novels_test_100e' },
+            'display_name' : 'Chicago Novels 1900-1910 100 epochs',
+         'database': 'chicago-novels'},
      'covid': {
             'num_docs': 144000,
          'description': 'Covid CDC dataset as of November 2020.',
