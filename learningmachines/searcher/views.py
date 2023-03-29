@@ -451,24 +451,38 @@ def wikiarts_method_vis(request):
 	return render(request, 'searcher/wikiarts_method_vis.html')
 
 def upload_image(request):
-	#todo--save image to s3 folder, update the embeddings json file that everything is pulled from?
+	from django.shortcuts import redirect
+	print(request.FILES['image_file'])
 
+	f = request.FILES['image_file']
+	print(f.file)
+	wf = open("test.jpg", 'wb')
+	wf.write(f.file.read())
+	wf.close()
+
+	qry_str = {k: v[0] for k, v in dict(request.POST).items()}
+
+	print(qry_str)
+	#todo--save image to s3 folder, update the embeddings json file that everything is pulled from?
+	#todo--pass image bites through to wikiarts server
 	#for now, just repeat s3 wikiarts call to calc image url, need work on passing in jpg in POST request
-	s3Obj = boto3.client('s3', config=Config(signature_version='s3v4', region_name='us-east-2'))
-	url = s3Obj.generate_presigned_url('get_object', Params = { 
-												'Bucket': 'wikiart-project', 
-												'Key': 'images/' + request.GET.get("id") + ".jpg", }, ExpiresIn = 600, )
-	sim_urls = []
-	proj_embs = []
-	if request.GET.get("fetch_similarity") == "True":
-		sim_rsp = json.loads(requests.post(WIKIARTS_URL + ":8080/similar_images/", data={'data' : url}).text)
-		proj_embs = json.loads(requests.post(WIKIARTS_URL + ":8080/embed_image/", data={'data': url}).text)
-		for s in sim_rsp["sim_rslts"]:
-			s_url = s3Obj.generate_presigned_url('get_object', Params = { 
-			 									'Bucket': 'wikiart-project', 
-			 									'Key': 'images/' + s + ".jpg", }, ExpiresIn = 600, )
-			sim_urls.append(s_url)
-	return JsonResponse({"url" : url, "embedding" : emb_rsp})
+	# s3Obj = boto3.client('s3', config=Config(signature_version='s3v4', region_name='us-east-2'))
+	# url = s3Obj.generate_presigned_url('get_object', Params = { 
+	# 											'Bucket': 'wikiart-project', 
+	# 											'Key': 'images/' + request.GET.get("id") + ".jpg", }, ExpiresIn = 600, )
+	# sim_urls = []
+	# proj_embs = []
+	# if request.GET.get("fetch_similarity") == "True":
+	# 	sim_rsp = json.loads(requests.post(WIKIARTS_URL + ":8080/similar_images/", data={'data' : url}).text)
+	# 	proj_embs = json.loads(requests.post(WIKIARTS_URL + ":8080/embed_image/", data={'data': url}).text)
+	# 	for s in sim_rsp["sim_rslts"]:
+	# 		s_url = s3Obj.generate_presigned_url('get_object', Params = { 
+	# 		 									'Bucket': 'wikiart-project', 
+	# 		 									'Key': 'images/' + s + ".jpg", }, ExpiresIn = 600, )
+	# 		sim_urls.append(s_url)
+	#return JsonResponse({"data": "Image uploaded"})
+	return redirect('/searcher/wikiarts_method_vis')
+	# return JsonResponse({"url" : url, "embedding" : emb_rsp})
 
 def s3_image(request):
 	s3Obj = boto3.client('s3', config=Config(signature_version='s3v4', region_name='us-east-2'))

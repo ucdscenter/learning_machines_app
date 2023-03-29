@@ -54,14 +54,14 @@
 
           <div class="visContainer__searchContainer">
             <!--<h6>Filter Documents : </h6>-->
-            <div class="row">
-              
-            </div>
+
             <div class='row'>
-              <div class="col-12">
-                <label for="imgFile" class="form-label">Upload Image</label>
-                <input class="form-control" type="file" id="imgFile">
-              </div>
+              <form class="col-12" action="/searcher/upload_image/" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="imgFile" class="form-label">Choose Image</label>
+                <input class="form-control mb-2" type="file" name="image_file" id="imgFile" accept="image/png, image/gif, image/jpeg">
+                <input class="btn btn-secondary" type="submit" value="Upload Image">
+              </form>
               <div class="col-12">
             <label for="search">Search:</label>
            <input type="search" style="font-size: 15px" name="search-term"  id="search" class="form-control input-lg" placeholder="Search Documents" data-search/>
