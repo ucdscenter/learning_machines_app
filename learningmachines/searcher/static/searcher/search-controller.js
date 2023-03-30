@@ -349,11 +349,12 @@ function updateQuery() {
   var endYear = endYearInput.property("value");
 
   // create the new query string
-  var newQuery = " Search: " + searchText + " Start Year: " + startYear + " End Year: " + endYear + " Doc limit: " + selectedDocLimit;
+  var newQuery = " <strong>Search:</strong> " + searchText + "<br> <strong>Start Year:</strong> " + startYear + "<br> <strong>End Year:</strong> " + endYear + "<br> <strong>Doc limit:</strong> " + selectedDocLimit;
 
   // update the query text on the page
-  d3.select("#query-text").text(newQuery);
+  d3.select("#query-text").html(newQuery);
 }
+
 
 // add event listeners to the form inputs
 startYearInput.on("input", updateQuery);
@@ -619,9 +620,9 @@ function renderFilterDocs(articles, dbn, qry) {
 
     // append text from label_for_count_bar to query-text
     var queryTextElement = $('#query-text');
-    var existingText = queryTextElement.text();
+    var existingText = queryTextElement.html();
     var countBarText = $('#label_for_count_bar').text();
-    queryTextElement.text(existingText + ' Occurrence values: ' + countBarText);
+    queryTextElement.html(existingText + "<br> <strong>Occurrence Values:</strong> " + countBarText);
 
     showContinue('explore-docs');
     updateSideNav('review-data-sources');
@@ -1119,11 +1120,11 @@ function renderVisParams(dbn, qry, method, fromhistory) {
   console.log(method);
   $('#form-div').css("background-color", DATABASES[dbn].color);
   var queryTextElement = $('#query-text');
-  var existingText = queryTextElement.text();
+  var existingText = queryTextElement.html();
   var methodText = ("");
 
   if (method == "DFR browser") {
-    methodText = " Visualization: Topic Browser ";
+    methodText = "<strong>Visualization:</strong> Topic Browser";
     $('#mlmom-options').addClass("hidden");
     $(".not-w2v").removeClass("hidden");
     $(".lda-options").removeClass("hidden");
@@ -1131,7 +1132,7 @@ function renderVisParams(dbn, qry, method, fromhistory) {
     $("#word2vec-doc2vec-chooser").addClass("hidden");
   }
   if (method == "pyLDAvis") {
-    methodText = " Visualization: PyLda Vis ";
+    methodText = "<strong>Visualization:</strong> PyLda Vis ";
     $('#mlmom-options').addClass("hidden");
     $(".not-w2v").removeClass("hidden");
     $(".lda-options").removeClass("hidden");
@@ -1139,7 +1140,7 @@ function renderVisParams(dbn, qry, method, fromhistory) {
     $("#word2vec-doc2vec-chooser").addClass("hidden");
   }
   if (method == "multilevel_lda") {
-    methodText = " Visualization: Multi Level Model of Models";
+    methodText = "<strong>Visualization:</strong> Multi Level Model of Models ";
     $(".lda-options").removeClass("hidden");
     $(".not-w2v").removeClass("hidden");
     $('#mlmom-options').removeClass("hidden");
@@ -1147,7 +1148,7 @@ function renderVisParams(dbn, qry, method, fromhistory) {
     $("#word2vec-doc2vec-chooser").addClass("hidden");
   }
   if (method == "word2vec" || method == 'doc2vec') {
-    methodText = " Visualization: Word2Vec/Doc2Vec ";
+    methodText = "<strong>Visualization:</strong> Word2Vec/Doc2Vec  ";
     $('#mlmom-options').addClass("hidden");
     $('#params-label').text("Word2Vec/Doc2Vec Parameters");
     $(".not-w2v").addClass("hidden");
@@ -1175,10 +1176,10 @@ function renderVisParams(dbn, qry, method, fromhistory) {
 
   }
   if (method == 'sentiment') {
-    methodText = " Visualization: Sentiment Analysis ";
+    methodText = "<strong>Visualization:</strong> Sentiment Analysis ";
     $('#sentiment-options').removeClass("hidden");
   }
-  queryTextElement.text(existingText + " " + methodText);
+  queryTextElement.html(existingText + "<br>" + methodText);
   $('#static-method').val(method);
 
 
