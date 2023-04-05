@@ -7,6 +7,12 @@ async function wrapper(){
     var dataset;
     var data;
 
+    var ret_arr;
+    var qry_str;
+    var search_rslts;
+    var selectedCluster = undefined;
+    var searchedTerm = undefined;
+
     var height, width, viz_width,
     aspect, fov, near,
     far, camera, color_array,
@@ -58,7 +64,7 @@ async function wrapper(){
 
 
     async function getDocs(qry_str){
-        let search_rslts = await d3.json(qry_str)
+        search_rslts = await d3.json(qry_str)
         console.log(search_rslts)
         searchVis(search_rslts)
     }
@@ -66,7 +72,8 @@ async function wrapper(){
     searchElement.addEventListener('keyup', function(){
         if (event.key === "Enter") {
             qry = searchElement.value;
-            unSearchVis()
+            console.log(selectedCluster)
+            unSearchVis(1, reset_cluster=selectedCluster, reset_search=undefined,)
             if(qry.length == 0){
                 return;
             }
@@ -79,7 +86,7 @@ async function wrapper(){
             else{
                 fullq = base_qry + " AND " + qry; 
             }
-            let qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq
+            qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq
             //special case for decades based chicago corpus models
             if(typeof(parseInt(base_qry.slice(0,4))) == 'number'){
                 fullq = qry
@@ -88,48 +95,104 @@ async function wrapper(){
             
             console.log(qry_str)
             getDocs(qry_str)
+            searchedTerm = qry
             
         }
     })
 
-    function unSearchVis(){
+    async function unSearchVis(e, reset_search=undefined, reset_cluster=undefined){
+        ret_arr = Array.apply(true, Array(data.clusters.length))
+        ret_arr.fill(true)
         scene.remove(s_points)
-        pointsMaterial.opacity = .5;
-        pointsMaterial.needsUpdate = true
-        choose_points = points;
-        choose_generated_points = generated_points;
+        if(reset_search == undefined && reset_cluster == undefined){
+            //ret_arr = Array.apply(true, Array(data.clusters.length))
+            //ret_arr.fill(true)
+            searchedTerm = undefined;
+            selectedCluster = undefined;
+            
+            pointsMaterial.opacity = .5;
+            pointsMaterial.needsUpdate = true
+            choose_points = points;
+            choose_generated_points = generated_points;
+        }
+
         $("#restore-search-button").addClass("hidden")
 
         $('#s-doc-count').text(data.x.length + " documents")
+        $('#c-selected').text("No cluster selected")
+        console.log(reset_search)
+        console.log(reset_cluster)
+        if (reset_cluster != undefined){
+            console.log("getDOcs!")
+            searchVis(search_rslts, add_points=false)
+
+        }
+        if (reset_search != undefined){
+            console.log("highlightcluster!")
+            highlightCluster(selectedCluster, add_points=false)
+        }
+        
 
     }
 
     $('#restore-search-button').on("click", unSearchVis);
 
-    function searchVis(rslts){
+    function searchVis(rslts, add_points=true){
         pointsMaterial.opacity = .01
         rslts_dict = {};
         rslts.results.forEach(function(d){
             rslts_dict[d.id] = 0;
         })
-        let ret_arr = [];
+        //let ret_arr = [];
+        let index = 0
         data.id.forEach(function(i){
             if(rslts_dict[i] == undefined){
-                ret_arr.push(false)
+                //ret_arr.push(false)
+                ret_arr[index] = false
             }
             else{
-                ret_arr.push(true)
+                //ret_arr.push(true)
+                //ret_arr[index] = true
             }
+            index++;
         })
-        createSearchPoints(ret_arr, data)
+        if(add_points == true){
+            createSearchPoints(ret_arr, data)
+            pointsMaterial.needsUpdate = true
+            choose_points = s_points;
+            choose_generated_points = s_generated_points;
+            console.log(s_generated_points)
+            $("#restore-search-button").removeClass("hidden")
+            $('#s-doc-count').text(rslts.results.length + " matching documents")
 
-        pointsMaterial.needsUpdate = true
-        choose_points = s_points;
-        choose_generated_points = s_generated_points;
-        console.log(s_generated_points)
-        $("#restore-search-button").removeClass("hidden")
-        $('#s-doc-count').text(rslts.results.length + " matching documents")
+        }
+        
+    }
 
+    function highlightCluster(clusterN, add_points=true){
+        pointsMaterial.opacity = .01
+        //let ret_arr = []
+        let index = 0
+        data.clusters.forEach(function(i){
+            if(i == clusterN){
+                //ret_arr.push(true);
+                //ret_arr[index] = true
+            }
+            else{
+                //ret_arr.push(false)
+                ret_arr[index] = false
+            }
+            index++;
+        })
+        if(add_points == true){
+            createSearchPoints(ret_arr, data)
+            pointsMaterial.needsUpdate = true
+            choose_points = s_points;
+            choose_generated_points = s_generated_points;
+            $("#restore-search-button").removeClass("hidden")
+            $('#c-selected').text("Cluster " + clusterN + " selected") 
+        }
+       
     }
 
     const getColorForPubmed = function(d){
@@ -168,6 +231,7 @@ async function wrapper(){
 
                 renderClusterInfo()
                 renderTimelines()
+
         // console.log(num_points)
 
          width = window.innerWidth
@@ -258,6 +322,7 @@ async function wrapper(){
             let mouse_position = [mouseX, mouseY];
             checkClickPosition(mouse_position);
         });
+        unSearchVis()
 
             })
         };
@@ -284,8 +349,6 @@ async function wrapper(){
 
 
     function createSearchPoints(f_map, data){
-        console.log(f_map)
-        console.log(data)
         let num_points = data.x.length;
         let s_data_points = [];
         for (let i = 0; i < data.x.length; i++) {
@@ -817,11 +880,31 @@ async function wrapper(){
                             return clusterColor(d, 1)
                         })
                     })
-                    .on("mouseout",function(){
+                    .on("mouseout",function(d){
+                        if(d != selectedCluster)
                         d3.select(this).style("background-color",function(d){
                             return clusterColor(d, .5)
                         })
                     })
+                    .on("click", clickClusterRow)
+
+    async function clickClusterRow(e,d){
+        console.log(d)
+        selectedCluster = d
+        await unSearchVis(1, reset_cluster=d, reset_search=searchedTerm)
+        highlightCluster(d)
+        console.log(selectedCluster)
+        // if (selectedCluster != d){
+        //     selectedCluster = d
+        //     await unSearchVis(1, reset_cluster=undefined, reset_search=searchedTerm)
+        //     highlightCluster(d)
+            
+        // }
+        // else {
+        //     await unSearchVis(1, reset_cluster=undefined, reset_search=searchedTerm)
+        //     selectedCluster = undefined
+        // }
+    }
 
     let c_td = rows.selectAll("td").data(function(d, i){
         return [i, data['clusters_sizes'][i], data['cluster_labels_docs'][i], data['cluster_labels_tfidf'][i]]
