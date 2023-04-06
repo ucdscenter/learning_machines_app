@@ -656,9 +656,12 @@ async function wrapper() {
 
 		});
 
+		console.log("Setting width and height of #network-graph");
 		d3.select("#network-graph").style("width", function (d) {
+			console.log("Setting width to: " + centerWidth);
 			return centerWidth;
 		}).style("height", function (d) {
+			console.log("Setting height to: " + centerHeight);
 			return centerHeight;
 		});
 		console.log(formattedD);

@@ -3,6 +3,7 @@
 
 
 function renderNetwork(formattedData){
+	console.log("HI")
 	console.log(formattedData.nodes.length)
 	console.log(params.nodelabels)
 	var label_show_cutoff = 2
@@ -77,6 +78,7 @@ function renderNetwork(formattedData){
 			}
 			return false
 		})*/
+	
 	console.log(formattedData.edges)
 	 networkGraph = cytoscape({
   		container: document.getElementById('network-graph'),
