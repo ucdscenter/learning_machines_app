@@ -125,6 +125,7 @@ function renderNetwork(formattedData, meta) {
 		networkGraph.elements('edge[weight < ' + KL_LIMIT + ']').style('display', 'none');
 	}
 
+	
 	networkGraph = cytoscape({
 		container: document.getElementById('network-graph'),
 		elements: formattedData,
@@ -168,7 +169,7 @@ function renderNetwork(formattedData, meta) {
 
 	//networkGraph.autolock(true)
 
-
+	
 
 	networkGraph.ready(() => {
 		bubblePaths = networkGraph.bubbleSets();
