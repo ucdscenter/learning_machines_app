@@ -242,6 +242,11 @@
  .cytoscape-height {
     height : 600px
  }
+ .link {
+    stroke: lightgrey;
+    stroke-opacity: 0.5;
+    fill: none;
+ }
  
  .limitheight {
      height: 1000px;
