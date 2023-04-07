@@ -237,6 +237,11 @@
  .selectdoc {
      font-size: 13px;
  }
+
+
+ .cytoscape-height {
+    height : 600px
+ }
  
  .limitheight {
      height: 1000px;
