@@ -187,6 +187,11 @@
      right: 0
  }
  /*Vis*/
+
+.node {
+    font: 7px sans-serif;
+    stroke-width: .5;
+  }
  
  .clustertable,
  .docstable {
@@ -197,6 +202,12 @@
  .docstable tr {
      margin-bottom: 8px;
  }
+
+.cselected {
+      stroke : #ffa500;
+      border : 2px solid #ffa500;
+      transition: stroke .2s, border .2s;
+}
  
  .clustertable td,
  .clustertable th,
