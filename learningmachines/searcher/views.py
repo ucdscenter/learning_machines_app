@@ -154,7 +154,7 @@ def tutorial(request):
 			special_access.append(2)
 			special_access.append(3)
 	ctxt = {'special_access': special_access}
-	return render(request, 'searcher/tutorial.html', ctxt)
+	return render(request, 'searcher/Tutorial.html', ctxt)
 
 
 def show_vis(request):
