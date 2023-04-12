@@ -271,6 +271,51 @@
  .hidden {
     display: none;
   }
+
+/*  Vis Annotation*/
+
+  #note-color-input {
+      height: 50px;
+      margin-top: 2%;
+      margin-left: 1%;
+    }
+
+    #edit-notes-modal {
+      overflow-y: hidden;
+      display: none;
+      width: fit-content;
+      height: fit-content;
+      top: 25%;
+      left: 70%;
+    }
+
+    .note-label-color {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .note-label-container {
+      flex: 1;
+    }
+
+    #note-label-input {
+      width: 100%;
+      margin-top: 2%;
+      margin-right: 2%;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      padding: 4%;
+    }
+
+    .modal-header {
+      cursor: move;
+    }
  /* Media Queries */
  /* Small devices (landscape phones, 576px and up)*/
  

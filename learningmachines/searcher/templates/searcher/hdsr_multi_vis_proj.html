@@ -2,34 +2,97 @@
 {% load static %}
 {% block title %}Model Visualization{% endblock title%}
 
+{% block head_css_section %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+{% endblock head_css_section %}
 
-{% block head_css_page %}
+{% block toasts %}
 
-{% endblock head_css_page %}
+<!-- <div aria-live="polite" class="d-flex justify-content-center align-items-center" aria-atomic="true" style="position: relative; z-index: 1;">
+    <div style="position: absolute; top: 0;">
+      <div class="toast hide" id="note-success" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div style="background-color:green;" class="toast-header">
+          <strong style="color:#ffffff" class="mr-auto" class="mr-auto">Success</strong>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body" id="note-success-body">
+          Note saved successfully!
+        </div>
+      </div>
+
+      <div class="toast hide" id="note-error" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div style="background-color: #FF0000;" class="toast-header">
+          <strong style="color:#ffffff" class="mr-auto">Error</strong>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body" id="note-error-body">
+          Note deleted successfully!
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="modal" tabindex="-1" role="dialog" id="edit-notes-modal" display="none">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Create/Edit Notes</h5>
+          <button type="button" id="c-m-b" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="edit-notes-modal-body">
+          <select class="form-control" id="notes-list">
+            <option selected>Notes</option>
+          </select>
+          <div class="note-label-color">
+            <span class="note-label-container">
+              <textarea placeholder='Label your note' id="note-label-input"></textarea>
+            </span>
+            <input type=color value="#000000" id="note-color-input">
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="n-a-b" class="btn btn-success">New note</button>
+          <button type="button" id="s-a-b" class="btn btn-primary">Save</button>
+          <button type="button" id="r-a-b" class="btn btn-danger">Remove</button>
+          <button type="button" id="d-a-b" class="btn btn-secondary">Discard</button>
+        </div>
+      </div>
+    </div>
+    <a id="export-placeholder" class="hidden" href=""></a>
+  </div>
+{% endblock toasts %}
 {% block content %}
+
+
 
 <div class="row">
     <div class="col-lg-6">
         <div class="row"><!-- Input Nav row -->
             <div class="col d-flex flex-wrap graybg p-2 justify-content-start justify-content-xl-between"><span class="mr-2"><strong>Dataset:</strong> <span id="corpus"></span></span><span class="mr-2"><strong>Query:</strong> <span id="term"></span></span><span class="mr-2"><strong>Parameters:</strong> 100 docs; 20 topics; year-year</span></div>
         </div>
-        <div class="row"><!-- Nodes -->
+    <!--     <div class="row">
             <div class="col d-flex flex-wrap  p-2 justify-content-start">
-                <div class="p-3">Notes Mode:
+                <div class="p-3" >Notes Mode:
                     <i class="fas fa-toggle-on orange"></i>
                 </div>
-                <div class="p-3"><a href="#">Show Tools</a></div>
-                <div class="p-3"><a href="#">Export Notes</a></div>
-
+                <div class="p-3"><a href="#" id="annotation-button">Show Tools</a></div>
+                <div class="p-3"><a href="#" id='s-n-a-b' style="cursor: pointer;">Show Notes Menu</a></div>
+                <div class="p-3"><a href="#" id='ex-a-b' style="cursor: pointer;">Export Network</a></div>
             </div>
-        </div>
+        </div> -->
         <div id="loading_show" align="center">
             <h6>Formatting data, for smaller doc counts please allow a few seconds. For large doc counts > 3000 please
               allow for up to 15 minutes of waiting. </h6>
             <img src="{% static 'searcher/images/big-ajax-loader.gif' %}" alt="loading">
           </div>
         <div id="loading_hide" class="hidden">
-            <div class="row">
+            <div class="row pt-2">
                 <div class="col">
                     <ul class="nav nav-tabs" id="visTabs" role="tablist">
                         <li class="nav-item">
@@ -66,6 +129,18 @@
                         <p> Doc-link limit:<span id="kl_label"></span></p>
                         </div>
                         <div class="col-2" id="slider">
+                        </div>
+                        <div class="col-8">
+                                    <div class="row"><!-- Nodes -->
+            <div class="col d-flex flex-wrap  p-2 justify-content-start">
+                <div class="" >Notes Mode:
+                    <i class="fas fa-toggle-on orange"></i>
+                </div>
+                <div class="pl-2 pr-2"><a href="#" id="annotation-button">Show Tools</a></div>
+                <!-- <div class=""><a href="#" id='s-n-a-b' style="cursor: pointer;">Show Notes Menu</a></div> -->
+                <div class="pl-2 pr-2"><a href="#" id='ex-a-b' style="cursor: pointer;">Export to PNG</a></div>
+            </div>
+        </div>
                         </div>
                         <div class="col-12 cytoscape-height"  id="network-graph">
 
@@ -116,7 +191,10 @@
 {% block footer_javascript_section %}
 <script src="{% static 'searcher/js/jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
-<script src="{% static 'searcher/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<!-- <script src="{% static 'searcher/js/bootstrap.min.js' %}"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> -->
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
 integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 <script src="{% static 'searcher/js/d3.min.js' %}"></script>

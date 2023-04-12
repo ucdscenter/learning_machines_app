@@ -1,9 +1,7 @@
 'use strict'
 
 
-
 function renderNetwork(formattedData){
-	console.log("HI")
 	console.log(formattedData.nodes.length)
 	console.log(params.nodelabels)
 	var label_show_cutoff = 2
