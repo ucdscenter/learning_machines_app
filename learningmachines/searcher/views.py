@@ -139,6 +139,23 @@ def search_page(request):
 	ctxt = {'special_access': special_access}
 	return render(request, 'searcher/search_template.html', ctxt)
 
+@access_required('all')
+def tutorial(request):
+	accesses = request.user.access_set.all()
+	special_access = []
+	for a in accesses:
+		# special_access.append(str(a.endpoint))
+		print(a)
+		if a.endpoint == 'foster':
+			special_access.append(0)
+		if a.endpoint == 'med_apps':
+			special_access.append(1)
+		if a.endpoint == 'mayerson_transcripts':
+			special_access.append(2)
+			special_access.append(3)
+	ctxt = {'special_access': special_access}
+	return render(request, 'searcher/tutorial.html', ctxt)
+
 
 def show_vis(request):
 	ctxt = {"hi": "there"}
