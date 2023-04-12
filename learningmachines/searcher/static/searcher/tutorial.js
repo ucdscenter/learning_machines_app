@@ -1,48 +1,3 @@
-// // Wait for the page to finish loading
-// window.onload = function() {
-//   // Wait for 7 seconds before clicking the database button
-//   setTimeout(function() {
-//     // document.getElementById("Care_Reviews_btn").click();
-//     document.querySelector('#Care_Reviews_btn .btn').click();
-//   }, 7000);
-
-//   // Wait for the form to appear
-//   setTimeout(function() {
-//     // Populate the form fields
-//     document.getElementById("start-year").value = "value1";
-//     document.getElementById("end-year").value = "value2";
-//     document.getElementById("search-term").value = "bad OR horrible OR awful";
-//     document.getElementById("docs-1000").click();
-//   }, 10000);
-
-//   // Wait for 7 seconds before clicking the explore button
-//   setTimeout(function() {
-//     document.getElementsByClassName("explore-docs-btn").click();
-//   }, 7000);
-
-//   // Wait for 7 seconds before clicking the visualize button
-//   setTimeout(function() {
-//     document.getElementsById("choose-vis-btn").click();
-//   }, 7000);
-
-//   // Wait for 7 seconds before clicking the select button
-//   setTimeout(function() {
-//     document.getElementsById("multilevel_lda").click();
-//   }, 7000);
-
-//   // Wait for the form to appear
-//   setTimeout(function() {
-//     // Populate the form fields
-//     // Find the checkbox element
-//     const checkbox = document.getElementById('ngrams-check');
-//     // Check the checkbox
-//     checkbox.checked = true;
-//     document.getElementById("num_topics").value = "15";
-//     document.getElementById("stop-word").value = "bad, horrible, awful, would, told, go, get, could";
-//     document.getElementsByClassName("vis-docs-btn").click();
-//   }, 10000);
-
-// };
 
 var qry, size, selected_database;
 async function renderDataBaseSelect(dbdata) {
@@ -73,13 +28,13 @@ async function renderDataBaseSelect(dbdata) {
     .data(Object.keys(dbdata))
     .enter()
     .append("div")
-    .attr("class", "col-12 col-lg-4 mb-3 p-3")
+    .attr("class", "col-12 mb-3 p-3")
     .attr("id", function (d) {
       return d + "_btn";
     });
 
   var dbdivs = dbBtns.append("div")
-    .attr("class", "btn db-button btn-secondary row h-100 card p-3 rounded-none")
+    .attr("class", "btn db-button btn-secondary row h-60 card p-3 rounded-none")
     .style("background-color", function (d) {
       return dbdata[d].color;
     })
@@ -295,10 +250,6 @@ async function renderDataBaseSelect(dbdata) {
     $('#' + loaded.database + '_btn').trigger("click");
   }
 }//renderDatabaseSelect 
-const button = document.getElementById('Care_Reviews_btn');
-setTimeout(() => {
-  button.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-}, 5000);
 
 
 async function getArticles(qry, dbn, fromhistory, timeExt, size) {
@@ -348,22 +299,22 @@ async function getA(dbn, qry, timeExt, size) {
   let max_care_rating = -1;//$('#care_rating_high').val()
 
 
-  search_year_start = $("#start-year").val();
-  search_year_end = $("#end-year").val();
+  search_year_start = $("#start-year").val("2020");
+  search_year_end = $("#end-year").val("2022");
 
-  var rgxp = new RegExp(/\d{2,}/, 'g');
-  if (timeExt == undefined) {
-    search_year_end = 'year';
-    search_year_start = 'year';
-  }
-  else if (count(search_year_start, rgxp) == 0 || count(search_year_end, rgxp) == 0) {
-    search_year_end = 'year';
-    search_year_start = 'year';
-  }
-  else if (search_year_start == timeExt[0] && search_year_end == timeExt[1]) {
-    search_year_end = 'year';
-    search_year_start = 'year';
-  }
+  // var rgxp = new RegExp(/\d{2,}/, 'g');
+  // if (timeExt == undefined) {
+  //   search_year_end = 'year';
+  //   search_year_start = 'year';
+  // }
+  // else if (count(search_year_start, rgxp) == 0 || count(search_year_end, rgxp) == 0) {
+  //   search_year_end = 'year';
+  //   search_year_start = 'year';
+  // }
+  // else if (search_year_start == timeExt[0] && search_year_end == timeExt[1]) {
+  //   search_year_end = 'year';
+  //   search_year_start = 'year';
+  // }
 
   let qry_str = "/searcher/process_search?database=" + dbn + "&qry=" + qry + '&min_care_rating=' + min_care_rating + '&max_care_rating=' + max_care_rating + '&start=' + search_year_start + '&end=' + search_year_end + '&maximum_hits=' + size + '&journal=' + journal_select + '&auth_s=' + auth_search_qry + '&family=' + family_select + '&jurisdiction=' + jurisdiction_select + query_id_str + "&filter_pk=" + loaded.filter_pk;
   console.log(qry_str);
@@ -513,8 +464,8 @@ function renderSearchInput(d, dbdata) {
 
   if (timeExt[0] != undefined) {
     $('#slider-div').removeClass("hidden");
-    $('#start-year').val(timeExt[0]);
-    $('#end-year').val(timeExt[1]);
+    $('#start-year').val("2020");
+    $('#end-year').val("2022");
   }
   else {
     $('#start-year').val("year");
@@ -524,8 +475,8 @@ function renderSearchInput(d, dbdata) {
 
   if (fromhistory) {
     if (loaded.start != 'year') {
-      $('#start-year').val(loaded.start);
-      $('#end-year').val(loaded.end);
+      $('#start-year').val("2020");
+      $('#end-year').val("2022");
     }
 
     $('#archaeology-row-div select').val(loaded.journal);
@@ -1418,150 +1369,14 @@ $.ajaxSetup({
 
 let DATABASES =
 { 
-  'ACJ': {
-    'options': [],
-    'name': 'AC Justice '
-  },
-  'AA': {
-    'options': [],
-    'name': 'Anesthesiology'
-  },
-  'Archaeology': {
-    'options': [{ "type": "select", "choices": { "name": "Journal", "selects": ["all", "Latin American Antiquity", "Ancient Mesoamerica"] } }],
-    'name': 'Archaeology'
-  },
-  'CaseLaw_v2': {
-    'options': [{ "type": "select", "choices": { "name": "Jurisdiction", "selects": ["all", "federal", "other"] } }],
-    'name': 'CaseLaw'
-  },
-  'caselaw_env': {
-    'options': [],
-    'name': 'CaseLaw Environment'
-  },
-  'chicago-novels' : {
-    'options' : [],
-    'name' : 'Chicago Corpus'
-  },
-    'Covid': {
-    'options': [],
-    'name': 'COVID-19 Articles'
-  },
-  'early_modern': {
-    'options': [],
-    'name': 'Early Modern JSTOR'
-  },
-  'Ehealth': {
-    'options': [],
-    'name': 'Ehealth Alzheimer'
-  },
-  'Care_Reviews': {
-    'options': [],
-    'name': 'ER, Urgent Care Reviews'
-  },
-  'Hathi_Climate' : {
-    'options': [],
-    'name': "Hathi Climate"
-  },
-  'Hathi_Rand' : {
-    'options': [],
-    'name': "Hathi Random"
-  },
-  'Latin': {
-    'options': [],
-    'name': 'Iowa Latin Canon'
-  },
-  'JSTOR': {
-    'options': [],
-    'name': 'Jstor Life Science'
-  },
-  'News_Articles': {
-    'options': [],
-    'name': "News Articles"
-  },
-  'China_news': {
-    'options': [],
-    'name': 'News Transcripts - China'
-  },
 
-  'Mayerson': {
-    'options': [],
-    'name': 'Mayerson'
-  },
-  'Mayerson_qna': {
-    'options': [],
-    'name': 'Mayerson QNA'
-  },
-  'Med_Applications': {
-    'options': [],
-    'name': 'Med Applications'
-  },
-  'NYT_China' : {
-    'options': [],
-    'name': "NYT China"
-  },
-  'NYNPO_taxforms': {
-    'options': [],
-    'name': 'NY NPO Descriptions'
-  },
+  // 'Care_Reviews': {
+  //   'options': [],
+  //   'name': 'ER, Urgent Care Reviews'
+  // }
   'Poetry_Foundation' : {
     'options': [],
     'name': "Poetry Foundation"
-  },
-  'Pubmed': {
-    'options': [],
-    'name': 'Pubmed Abstract'
-  },
-  'PMC': {
-    'options': [],
-    'name': 'Pubmed Central'
-  },
-  'TCP': {
-    'options': [],
-    'name': 'Text Creation'
-  },
-  'CCHMC': {
-    'options': [],
-    'name': 'CCHMC Notes'
-  },
-  'Pulmonary': {
-    'options': [],
-    'name': 'Pulmonary'
-  },
-  'OHNPO_taxforms': {
-    'options': [],
-    'name': 'OH NPO Descriptions'
-  },
-  'Pubmed_COI': {
-    'options': [],
-    'name': 'Pubmed COI'
-  },
-  'Reddit': {
-    'options': [],
-    'name': 'Reddit'
-  },
-  'SAA_Abstracts': {
-    'options': [],
-    'name': 'SAA Abstracts'
-  },
-  'space_news': {
-    'options': [],
-    'name': 'Space News Articles'
-  },
-  'US_Poetics' : {
-    'options' : [],
-    'name': 'US Poetics'
-  },
-  'WSJ_China' : {
-    'options': [],
-    'name': 'WSJ China'
-  },
-  'WAPO_China' : {
-    'options': [],
-    'name': 'WAPO China'
-  },
-  'space_tvnews' : {
-    'options': [],
-    'name': 'Space TV News'
   }
   
 };

@@ -73,15 +73,15 @@
     <div class="col-lg-8 m-5 mt-lg-0"><!-- main content -->
 
       <div class="row" id="mainrow">
-        <div class="search-section row justify-content-center mb-5" id="database-select-div">
-
-          <h3 class="gent">Select your Database
-          <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Select a database to search for model creation, time estimates are based on time increases in seconds per additional 100 docs" class="material-icons center_icon_h3">info_outlined</i>
-          </h3>
-          <div class="row" id="select-db" style="height: 650px; overflow-y:auto; overflow-x: hidden;">
-        
+        <div class="search-section justify-content-center mb-5" id="database-select-div" style=" margin: 0 auto;">
+          <div class="search-section-wrapper" style="display: table;">
+            <h3 class="gent text-center">Select your Database
+            <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Select a database to search for model creation, time estimates are based on time increases in seconds per additional 100 docs" class="material-icons center_icon_h3">info_outlined</i>
+            </h3>
+            <div class="row" id="select-db">
+          
+            </div>
           </div>
-
         </div>
    
         <div class="search-section row justify-content-center mb-5 hidden" id="search-text-div">
@@ -95,15 +95,15 @@
             <form>
               <div class="form-group">
                 <label for="start-year">Start Date</label>
-                <input type="text" class="form-control rounded-none" id="start-year" placeholder="2016">
+                <input type="text" class="form-control rounded-none" id="start-year" value="2017" placeholder="2017">
               </div>
               <div class="form-group">
                 <label for="end-year">End Date</label>
-                <input type="text" class="form-control rounded-none" id="end-year" placeholder="2020">
+                <input type="text" class="form-control rounded-none" id="end-year" value="2020" placeholder="2020">
               </div>
               <div class="form-group">
                 <label for="search-term">Search Query</label>
-                <input type="text" name="search-term" class="form-control rounded-none" id="search-term" placeholder="eg: treen AND root">
+                <input type="text" name="search-term" class="form-control rounded-none" id="search-term" value="bad OR horrible OR awful" placeholder="eg: bad OR horrible OR awful">
                 <p class="tinytext">Tip: Use 'AND', 'NOT', 'OR' as logical keywords, nesting and combining them with parentheses. Multi word phrases should be within double quotes e.g. "apple sauce" </p>
               </div>
               <div class="form-group hidden" id="care-rating-low-lab">
@@ -156,7 +156,7 @@
                     <button class="btn btn-lg db-button doc-button w-100" id="docs-500" style="text-align: center; margin: auto; border-radius: 0%;">500</button>
                   </div>
                   <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-1000" style="text-align: center; margin: auto; border-radius: 0%;">1000</button>
+                    <button class="btn btn-lg db-button doc-button w-100" id="docs-1000" style="text-align: center; margin: auto; border-radius: 0%; outline: 0; box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);">1000</button>
                   </div>
                   <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
                     <button class="btn btn-lg db-button doc-button w-100" id="docs-5000" style="text-align: center; margin: auto; border-radius: 0%;">5000</button>
@@ -395,147 +395,164 @@
         </div>
 
         <div class="row search-section justify-content-center hidden" id="vis-params-div">
-          <h3 class="gent">Set Advanced Model Parameters</h3>
-          <div class="col-lg-10 mt-2 mx-auto d-flex justify-content-center align-items-center">
-            
-            <form id="run-model text-center" target="_blank" action="/searcher/models/">
+          <div class="row">
+            <div class="col-7">
+              <h3 class="gent text-center">Set Advanced Model Parameters</h3>
+              <div class="col-lg-12 mt-2 mx-auto d-flex justify-content-center align-items-center">
+                
+                <form id="run-model text-center" target="_blank" action="/searcher/models/">
 
-              <div class="form-group hidden mt-2" id="sentiment-options">
-                <label for="sentiment-select" class="col-form-label hidden">Select Base Sentiment Model : </label>
-                <select name="sentiment-select" class="form-control form-control-sm rounded-none hidden" id="sentiment-select">
-                  <option value="yelp">yelp</option>
-                </select>
-              </div>
-  
-              <div class="form-group hidden mt-2" id="mlmom-options">
-                <h5>Multi Level Model of Models Parameters</h5>
-                <div class="form-row hidden">
-                  <label for="levelselect" class="col-form-label">Choose Model Levels <i data-container="body" data-toggle="popover" data-placement="right" data-content="Select article level to run the 6 models normally. Select paragraph level to pull only the paragraphs that contain the search term(s) and use the individual paragraphs as 'documents' in the model. Paragraph level increases performance speed." 
-                    class="material-icons center_icon_options">info_outlined</i></label>
-                  <select name="level_select" class="form-control form-control-sm rounded-none" id="level-select">
-                    <option value="article">Article Level</option>
-                    <option value="paragraph">Paragraph Level</option>
-                    <!--<option value="both">Article and Paragraph Level</option>-->
-                  </select>
-                </div>
-              </div>
-  
-              <div class="form-group hidden mt-2 lda-options">
-                <h5 id="params-label">Latent Dirichlet Parameters</h5>
-                <div class="form-row hidden" id="word2vec-doc2vec-chooser">
-                  <div class="col-12">
-                    <h6>Choose Model to Run <i data-container="body" data-toggle="popover" data-placement="right" data-content="Word2vec learns 200 dimension vector representions of the words in the corpus using cbow, capturing their inherent relative meanings. Doc2Vec learns these same word vector representations but then uses those words in the documents in the corpus to create document vector meanings." 
-                      class="material-icons center_icon_options">info_outlined</i></h6>
+                  <div class="form-group hidden mt-2" id="sentiment-options">
+                    <label for="sentiment-select" class="col-form-label hidden">Select Base Sentiment Model : </label>
+                    <select name="sentiment-select" class="form-control form-control-sm rounded-none hidden" id="sentiment-select">
+                      <option value="yelp">yelp</option>
+                    </select>
                   </div>
-  
-                  <div class="col-12">
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons" id="method-radio">
-                      <label class="btn btn-secondary active rounded-none" id="word2vec-radio">
-                        <input type="radio" autocomplete="off" checked>Word2Vec</label>
-                      <label class="btn btn-secondary rounded-none" id="doc2vec-radio">
-                        <input type="radio" autocomplete="off">Doc2Vec</label>
+      
+                  <div class="form-group hidden mt-2" id="mlmom-options">
+                    <h5>Multi Level Model of Models Parameters</h5>
+                    <div class="form-row hidden">
+                      <label for="levelselect" class="col-form-label">Choose Model Levels <i data-container="body" data-toggle="popover" data-placement="right" data-content="Select article level to run the 6 models normally. Select paragraph level to pull only the paragraphs that contain the search term(s) and use the individual paragraphs as 'documents' in the model. Paragraph level increases performance speed." 
+                        class="material-icons center_icon_options">info_outlined</i></label>
+                      <select name="level_select" class="form-control form-control-sm rounded-none" id="level-select">
+                        <option value="article">Article Level</option>
+                        <option value="paragraph">Paragraph Level</option>
+                        <!--<option value="both">Article and Paragraph Level</option>-->
+                      </select>
                     </div>
                   </div>
-                </div>
-  
-                <div class="form-row">
-                  <div class="form-check ml-1 mt-1"> 
-                    <input type="checkbox" class="form-check-input rounded-none" id="ngrams-check" name="ngrams" checked>
-                    <label class="form-check-label" for="ngrams-check"><strong>N-Grams</strong> - if checked, will include common ngrams in corpus</label>
-                  </div>
-                  <i data-container="body" data-toggle="popover" data-placement="right" data-content="We calculate up to 4-grams using gensim's phraser model" class="material-icons center_icon_options">info_outlined</i>
-                </div>
-  
-                <div class="form-row hidden">
-                  <div class="form-check"> 
-                    <input type="checkbox" class="form-check-input rounded-none" id="tfidf-check" name="tfidf">
-                    <label class="form-check-label" for="tfidf-check"><strong>TFIDF</strong> - if checked, will run tfidf on the corpus before running the model.</label>
-                  </div>
-                  <i data-container="body" data-toggle="popover" data-placement="right" data-content="Running tfidf on the corpus before creating the model will reweight the words in the corpus, making rarely used words more impactful in the final model." class="material-icons center_icon_options">info_outlined</i>
-                </div>
+      
+                  <div class="form-group hidden mt-2 lda-options">
+                    <h5 id="params-label">Latent Dirichlet Parameters</h5>
+                    <div class="form-row hidden" id="word2vec-doc2vec-chooser">
+                      <div class="col-12">
+                        <h6>Choose Model to Run <i data-container="body" data-toggle="popover" data-placement="right" data-content="Word2vec learns 200 dimension vector representions of the words in the corpus using cbow, capturing their inherent relative meanings. Doc2Vec learns these same word vector representations but then uses those words in the documents in the corpus to create document vector meanings." 
+                          class="material-icons center_icon_options">info_outlined</i></h6>
+                      </div>
+      
+                      <div class="col-12">
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="method-radio">
+                          <label class="btn btn-secondary active rounded-none" id="word2vec-radio">
+                            <input type="radio" autocomplete="off" checked>Word2Vec</label>
+                          <label class="btn btn-secondary rounded-none" id="doc2vec-radio">
+                            <input type="radio" autocomplete="off">Doc2Vec</label>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <div class="form-row">
+                      <div class="form-check ml-1 mt-1"> 
+                        <input type="checkbox" class="form-check-input rounded-none" id="ngrams-check" name="ngrams" checked>
+                        <label class="form-check-label" for="ngrams-check"><strong>N-Grams</strong> - if checked, will include common ngrams in corpus</label>
+                      </div>
+                      <i data-container="body" data-toggle="popover" data-placement="right" data-content="We calculate up to 4-grams using gensim's phraser model" class="material-icons center_icon_options">info_outlined</i>
+                    </div>
+      
+                    <div class="form-row hidden">
+                      <div class="form-check"> 
+                        <input type="checkbox" class="form-check-input rounded-none" id="tfidf-check" name="tfidf">
+                        <label class="form-check-label" for="tfidf-check"><strong>TFIDF</strong> - if checked, will run tfidf on the corpus before running the model.</label>
+                      </div>
+                      <i data-container="body" data-toggle="popover" data-placement="right" data-content="Running tfidf on the corpus before creating the model will reweight the words in the corpus, making rarely used words more impactful in the final model." class="material-icons center_icon_options">info_outlined</i>
+                    </div>
 
-                <div class="form-row not-w2v">
-                  <label for="num-topics" class="col-form-label">Number of Topics  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of topics for the LDA model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="material-icons center_icon_options">info_outlined</i></label>
-                  <input class="form-control form-control-sm rounded-none" type="number" id="num_topics" name="num_topics" min="2" max="50" value="20">
-                  
-                  <label for="passes-select" class="col-form-label hidden">Passes : </label>
-                  <select name="passes" class="form-control form-control-sm hidden rounded-none" id="passes-select">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20" selected>20</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="150">150</option>
-                    <option value="200">200</option>
-                  </select>
-                </div>
-  
-                <div class="form-row vector-options">
-                  <label for="num_clusters" class="col-form-label">Number of Clusters  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of clusters for the vector model to be created with. Play around with this until you find a number that you think accurately captures the corpus." 
-                    class="material-icons center_icon_options">info_outlined</i></label>
-                    <input class="form-control rounded-none ml-1" type="number" id="num_clusters" value="15" min="2" max="50">
-                </div>
-  
-                <div class="form-row mt-2">
-                  <label for="stop-word" class="col-4 col-form-label">Stop word list <i data-container="body" data-toggle="popover" data-placement="right" data-content="Often, the top words in many topics will be common filler terms or the original search terms themselves. Add them in here to remove them from the model, making the meaningful words more prominent. Remember to use all forms of a word to completely extirpate it. i.e. animal, animals, animalistic if 'animal' appears in all your topics" 
-                    class="material-icons center_icon_options">info_outlined</i></label>
-                  
-                  <textarea class="form-control rounded-none ml-1" name="stop_words" rows="1" id="stop-word"
-                            placeholder="Words separted by comma"></textarea>
-                  
-                </div>
-  
-                <div class="form-row mt-2">
-                  <label for="phrases" class="col-3 col-form-label">Phrases <i data-container="body" data-toggle="popover" data-placement="right" data-content="By default, we split the corpus into individual words before running LDA or w2v, however if you would like to maintain specific multi-word terms or phrases, include them here and they will replace the individual words." 
-                    class="material-icons center_icon_options">info_outlined</i></label>
-                  <textarea class="form-control rounded-none ml-1" name="phrases" rows="1" id="phrases"
-                            placeholder="Word phrases separated by comma. e.g. next generation sequencing, DNA sequencing"></textarea>
-                
-                </div>
-  
-                <div class="form-row mt-2 hidden">
-                  <label for='word-replacement' class="col-4 col-form-label">Word replacement <i data-container="body" data-toggle="popover" data-placement="right" data-content="If there are multiple ways a term you would like to capture is written as, e.g. United States and USA, then you can replace one term with the other in the corpus, creating more consistency. In our case, replacing all instances of 'United States' with USA would look like United States->USA" 
-                    class="material-icons center_icon_options">info_outlined</i></label>
-                    <textarea class="form-control rounded-none ml-1" name="replacement" rows="1" id="word-replacement"
-                              placeholder="e.g. Next Generation Sequencing->NGS, harm -> damage"></textarea>
-                  
-                </div>
-              </div>
-  
-              <div class="form-group form-row hidden" id="model-options">
-                <div class="form-group col-2 hidden">
-                  
-                  <!--<input type="text" id="search-year-start" name="start" value="year"/>
-                  <input type="text" id="search-year-end" name="end" value="year"/>-->
-                </div>
-                <label for="static-method" class="col-sm-2 col-form-label">Method</label>
-                <div class="col-sm-10">
-                  <input type="text" readonly name="method" class="form-control rounded-none" id="static-method" value="">
-                  <input type="text" class="rounded-none" id="family" name="family"/>
-                  <input type="text" class="rounded-none" id="auth_s" name="auth_s"/>
+                    <div class="form-row not-w2v">
+                      <label for="num-topics" class="col-form-label">Number of Topics  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of topics for the LDA model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="material-icons center_icon_options">info_outlined</i></label>
+                      <input class="form-control form-control-sm rounded-none" type="number" id="num_topics" name="num_topics" min="2" max="50" value="15">
+                      
+                      <label for="passes-select" class="col-form-label hidden">Passes : </label>
+                      <select name="passes" class="form-control form-control-sm hidden rounded-none" id="passes-select">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20" selected>20</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="150">150</option>
+                        <option value="200">200</option>
+                      </select>
+                    </div>
+      
+                    <div class="form-row vector-options">
+                      <label for="num_clusters" class="col-form-label">Number of Clusters  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of clusters for the vector model to be created with. Play around with this until you find a number that you think accurately captures the corpus." 
+                        class="material-icons center_icon_options">info_outlined</i></label>
+                        <input class="form-control rounded-none ml-1" type="number" id="num_clusters" value="15" min="2" max="50">
+                    </div>
+      
+                    <div class="form-row mt-2">
+                      <label for="stop-word" class="col-4 col-form-label">Stop word list <i data-container="body" data-toggle="popover" data-placement="right" data-content="Often, the top words in many topics will be common filler terms or the original search terms themselves. Add them in here to remove them from the model, making the meaningful words more prominent. Remember to use all forms of a word to completely extirpate it. i.e. animal, animals, animalistic if 'animal' appears in all your topics" 
+                        class="material-icons center_icon_options">info_outlined</i></label>
+                      
+                      <textarea class="form-control rounded-none ml-1" name="stop_words" rows="1" id="stop-word"
+                                placeholder="Words separted by comma">bad, horrible, awful, would, told, go, get, could</textarea>
+                      
+                    </div>
+      
+                    <div class="form-row mt-2">
+                      <label for="phrases" class="col-3 col-form-label">Phrases <i data-container="body" data-toggle="popover" data-placement="right" data-content="By default, we split the corpus into individual words before running LDA or w2v, however if you would like to maintain specific multi-word terms or phrases, include them here and they will replace the individual words." 
+                        class="material-icons center_icon_options">info_outlined</i></label>
+                      <textarea class="form-control rounded-none ml-1" name="phrases" rows="1" id="phrases" 
+                                placeholder="Word phrases separated by comma. e.g. next generation sequencing, DNA sequencing"></textarea>
+                    
+                    </div>
+      
+                    <div class="form-row mt-2 hidden">
+                      <label for='word-replacement' class="col-4 col-form-label">Word replacement <i data-container="body" data-toggle="popover" data-placement="right" data-content="If there are multiple ways a term you would like to capture is written as, e.g. United States and USA, then you can replace one term with the other in the corpus, creating more consistency. In our case, replacing all instances of 'United States' with USA would look like United States->USA" 
+                        class="material-icons center_icon_options">info_outlined</i></label>
+                        <textarea class="form-control rounded-none ml-1" name="replacement" rows="1" id="word-replacement"
+                                  placeholder="e.g. Next Generation Sequencing->NGS, harm -> damage"></textarea>
+                      
+                    </div>
+                  </div>
+      
+                  <div class="form-group form-row hidden" id="model-options">
+                    <div class="form-group col-2 hidden">
+                      
+                      <!--<input type="text" id="search-year-start" name="start" value="year"/>
+                      <input type="text" id="search-year-end" name="end" value="year"/>-->
+                    </div>
+                    <label for="static-method" class="col-sm-2 col-form-label">Method</label>
+                    <div class="col-sm-10">
+                      <input type="text" readonly name="method" class="form-control rounded-none" id="static-method" value="">
+                      <input type="text" class="rounded-none" id="family" name="family"/>
+                      <input type="text" class="rounded-none" id="auth_s" name="auth_s"/>
 
-                  <input type="text" class="rounded-none" id="pk_text" name="filter_pk"/>
-                  <input type="text" class="rounded-none" id="search_pk" name="search_pk"/>
-                </div>
+                      <input type="text" class="rounded-none" id="pk_text" name="filter_pk"/>
+                      <input type="text" class="rounded-none" id="search_pk" name="search_pk"/>
+                    </div>
+                  </div>
+      
+                  <div class="form-group form-row mt-5 mb-1 p-2">
+                    <div class="col-12" align="center">
+                      <h6 align="center"><span class="filtered-count"></span> of <span class="total-filtered-count"></span> Documents Selected</h6>
+      
+                    </div>
+                  </div>
+      
+                  <div class="form-group form-row justify-content-center mb-5">
+                    <div class="col-4">
+                      <p id="submit-wrapper-button" class="btn btn-lg btn-raised btn-block btn-secondary vis-docs-btn rounded-none" style="background-color: none;">Create Model</p>
+                    
+                    </div>
+                  </div>
+      
+                </form>
               </div>
-  
-              <div class="form-group form-row mt-5 mb-1 p-2">
-                <div class="col-12" align="center">
-                  <h6 align="center"><span class="filtered-count"></span> of <span class="total-filtered-count"></span> Documents Selected</h6>
-  
-                </div>
-              </div>
-  
-              <div class="form-group form-row justify-content-center mb-5">
-                <div class="col-4">
-                  <p id="submit-wrapper-button" class="btn btn-lg btn-raised btn-block btn-secondary vis-docs-btn rounded-none" style="background-color: none;">Create Model</p>
-                
-                </div>
-              </div>
-  
-            </form>
+            </div>
+            <div class="col-5" id="explanation mt-4 mt-lg-0">
+              <h5>Date Ranges:</h5>
+              <p>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+        
+              <h5>Search Queries:</h5>
+              <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+        
+              <h5>Using Logical Operators and Non-Text Searches:</h5>
+              <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+        
+              <h5>Dataset-specific filtering:</h5>
+              <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+            </div>
           </div>
         </div>
 
@@ -585,6 +602,6 @@
 <script src="{% static 'searcher/js/dc.min.js' %}"></script>
 <script src="{% static 'searcher/database_year_count.js' %}"></script>
 <script src="{% static 'searcher/running_time_parameters.js' %}"></script>
-<script src="{% static 'searcher/search-controller.js' %}"></script>
+<script src="{% static 'searcher/tutorial.js' %}"></script>
 {% endblock footer_javascript_section %}
 
