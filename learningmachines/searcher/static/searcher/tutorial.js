@@ -299,8 +299,8 @@ async function getA(dbn, qry, timeExt, size) {
   let max_care_rating = -1;//$('#care_rating_high').val()
 
 
-  search_year_start = $("#start-year").val("2020");
-  search_year_end = $("#end-year").val("2022");
+  search_year_start = $("#start-year").val("2020").val();
+  search_year_end = $("#end-year").val("2022").val();
 
   // var rgxp = new RegExp(/\d{2,}/, 'g');
   // if (timeExt == undefined) {
@@ -1192,8 +1192,10 @@ function renderVisParams(dbn, qry, method, fromhistory) {
 
 
   $('#submit-wrapper-button').click(function (e) {
-    var filters = updateFilters();
+    console.log("SUBMIT CLICKED??")
 
+    var filters = updateFilters();
+    console.log("SUBMIT CLICKED")
     var postObj = {
       start: search_year_start,//$( "#start-year" ).val(),
       end: search_year_end,//$( "#end-year" ).val(),
@@ -1370,14 +1372,14 @@ $.ajaxSetup({
 let DATABASES =
 { 
 
-  // 'Care_Reviews': {
-  //   'options': [],
-  //   'name': 'ER, Urgent Care Reviews'
-  // }
-  'Poetry_Foundation' : {
+  'Care_Reviews': {
     'options': [],
-    'name': "Poetry Foundation"
+    'name': 'ER, Urgent Care Reviews'
   }
+  // 'Poetry_Foundation' : {
+  //   'options': [],
+  //   'name': "Poetry Foundation"
+  // }
   
 };
 

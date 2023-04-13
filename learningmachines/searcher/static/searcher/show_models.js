@@ -102,29 +102,41 @@ function wrapper(){
 								return "Open"
 					})
 					table_body_row.append("td")
-							.append("a").attr("class", "btn btn-warning")//.attr("href", "")
+							.append("a").attr("class", "btn btn-secondary btn-sm")//.attr("href", "")
 							.text(function(d){
 								return "Delete Model"
 					}).on("click", postDeleteQuery)
 				}
 				if(add_info == 'recent_div'){
+					let td = table_body_row.append("td")
+
+					td.append("a").attr("class", function(d){
+						if(d.status == "Cancelled"){
+							return "hidden"
+						}
+						return "btn btn-secondary btn-sm"
+					})
+					.attr("href", function(d){ return "/searcher/vis/?method=" + d.vis_type + "&q_pk=" + d.q_pk })
+					.text("Open")
+
+					td.append("a")
+						.attr("class", function(d){
+							if (d.status == "Cancelled"){
+								return "btn btn-secondary btn-sm"
+							}
+							return "btn btn-secondary btn-sm"
+							
+						})
+						.text(function(d){
+							if(d.status == "Cancelled"){
+								return "Cancelled"
+							}
+							return "Favorite"
+						}).on("click", postSaveQuery)
+
+
 					table_body_row.append("td")
-							.append("a")
-							.attr("class", function(d){
-								if (d.status == "Cancelled"){
-									return "btn btn-danger"
-								}
-								return "btn btn-info"
-								
-							})
-							.text(function(d){
-								if(d.status == "Cancelled"){
-									return "Cancelled"
-								}
-								return "Save"
-							}).on("click", postSaveQuery)
-					table_body_row.append("td")
-							.append("a").attr("class", "btn btn-warning")
+							.append("a").attr("class", "btn btn-secondary btn-sm")
 							.text(function(d){
 								return "Delete Model"
 					}).on("click", postDeleteQuery)
@@ -135,7 +147,7 @@ function wrapper(){
 				let table_col_form = table_body_row.append("td")
 
 				table_col_form.append("button")
-					.attr("class", "btn btn-warning")
+					.attr("class", "btn btn-secondary btn-sm")
 					.text(function(d){
 						return "Cancel"
 					})
@@ -150,10 +162,10 @@ function wrapper(){
 							.append("button")
 							.attr("class", function(d){
 								if (d[c] == "Finished"){
-									return "btn btn-success"
+									return "btn btn-secondary btn-sm"
 								}
 								else {
-									return "btn btn-secondary"
+									return "btn btn-secondary btn-sm"
 								}
 							})
 							.text(function(d){
