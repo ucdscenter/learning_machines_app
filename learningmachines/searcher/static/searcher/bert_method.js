@@ -107,9 +107,12 @@ async function wrapper(){
         if(reset_search == undefined && reset_cluster == undefined){
             //ret_arr = Array.apply(true, Array(data.clusters.length))
             //ret_arr.fill(true)
+            //d3.select("#line" + selectedCluster).dispatch("mouseout")
             searchedTerm = undefined;
             selectedCluster = undefined;
-            
+            d3.selectAll(".cluster-line")
+                .attr("stroke-opacity", .3)
+                .attr("stroke-width", 2)
             pointsMaterial.opacity = .5;
             pointsMaterial.needsUpdate = true
             choose_points = points;
@@ -349,7 +352,7 @@ async function wrapper(){
 
 
     function createSearchPoints(f_map, data){
-        let num_points = data.x.length;
+        let num_points = 0;
         let s_data_points = [];
         for (let i = 0; i < data.x.length; i++) {
             if(f_map[i] == true){
@@ -361,7 +364,9 @@ async function wrapper(){
                 data_id = data.id[i];
                 data_title = data.title[i];
                 let point = {position, category_number, data_id, data_title};
+
                 s_data_points.push(point);
+                num_points++;
             }
             
         }
@@ -369,7 +374,6 @@ async function wrapper(){
         s_generated_points = s_data_points;
 
         s_pointsGeometry = new THREE.BufferGeometry();
-
         s_colors = new Float32Array(num_points * 3);
         s_vertices = new Float32Array(num_points * 3);
         s_sizes = new Float32Array(num_points);
@@ -416,6 +420,7 @@ async function wrapper(){
         
 
         s_points = new THREE.Points(s_pointsGeometry, s_pointsMaterial);
+        console.log(s_points)
         scene.add(s_points);
     }
 
@@ -515,6 +520,7 @@ async function wrapper(){
         removeHighlights();
     
         // let geometry = new THREE.Geometry();
+        console.log(datum)
         let geometry = new THREE.BufferGeometry();
         const vertex = new Float32Array(3);
         vertex[0] = datum.position[0];
@@ -556,7 +562,7 @@ async function wrapper(){
         $tooltip.style.top = tooltip_state.top + 'px';
         $point_tip.innerText = tooltip_state.name;
         $point_tip.style.background = color_array[Number(tooltip_state.group)+1];
-        $group_tip.innerText = `Group ${tooltip_state.group}`;
+        $group_tip.innerText = `Cluster ${tooltip_state.group}`;
     }
 
     function showTooltip(mouse_position, datum) {
@@ -588,10 +594,13 @@ async function wrapper(){
             let index = intersect.index;
             let datum = choose_generated_points[index];
             highlightPoint(datum);
+            d3.selectAll(".cluster-line").dispatch("mouseout")
+            d3.select("#line" + datum.category_number).dispatch("mouseover")
             
             // console.log("Hlc bjvsvjknskjvnjkslo work");
             showTooltip(mouse_position, datum);
         } else {
+            d3.selectAll(".cluster-line").dispatch("mouseout")
             removeHighlights();
             hideTooltip();
         }
@@ -822,18 +831,41 @@ async function wrapper(){
     Object.keys(cluster_line_data).forEach(function(c_time){
 
         let line_color = color_array[parseInt(c_time) + 1];
+        let line_opacity = .3
+        if (line_color == undefined){
+            line_color = "grey"
+            line_opacity = .3
+        }
         svg_g.append("path")
             .datum(Object.keys(cluster_line_data[c_time]))
             .attr("fill", "none")
             .attr("stroke", line_color)
             .attr("stroke-width", 2)
-            .attr("d", d3.line()//.curve(d3.curveBundle.beta(1))
+            .attr("class", "cluster-line")
+            .attr("id", function(d){
+                return "line" + parseInt(c_time);
+            })
+            .attr("stroke-opacity", line_opacity)
+            .on("mouseover", function(d){
+                d3.select(this).raise()
+                d3.select(this).attr("stroke-opacity", 1)
+                d3.select(this).attr("stroke-width", 4)
+            })
+            .on("mouseout", function(d){
+
+                d3.select(this).attr("stroke-opacity", .1)
+                d3.select(this).attr("stroke-width", 2)
+
+            })
+
+            .attr("d", d3.line()//.curve(d3.curveBundle.beta(2))
                 .x(function(d){
                     return x(d)
                 })
                 .y(function(d){
                     return y(cluster_line_data[c_time][d])
                 }))
+            
     })
 
     
@@ -867,7 +899,9 @@ async function wrapper(){
     }
 
     let c_table = d3.select("#dtbody")
-    
+    let sortAscending = true
+
+
     let rows = c_table.selectAll(".row")
                     .data(c_idxs)
                     .enter()
@@ -875,22 +909,45 @@ async function wrapper(){
                     .style("background-color", function(d){
                         return clusterColor(d,.5)
                     })
-                    .on("mouseover", function(){
+                    .on("mouseover", function(d){
                         d3.select(this).style("background-color",function(d){
                             return clusterColor(d, 1)
                         })
+                        d3.select("#line" + d).dispatch("mouseover")
                     })
                     .on("mouseout",function(d){
                         if(d != selectedCluster)
                         d3.select(this).style("background-color",function(d){
+                            d3.select("#line" + d).dispatch("mouseout")
                             return clusterColor(d, .5)
+
                         })
+                   
+                    })
+                    .attr("id", function(d){
+                        return "clusterrow" + d
                     })
                     .on("click", clickClusterRow)
+
+    d3.select("#size-sort").on("click", function(d){
+        if (sortAscending == true) {
+            rows.sort(function(a, b) {
+                console.log(a)
+                return d3.ascending(data['clusters_sizes'][b], data['clusters_sizes'][a]);  });
+            sortAscending = false;
+            //this.className = 'a';
+        } 
+        else {
+            rows.sort(function(a, b) { return d3.descending(data['clusters_sizes'][b], data['clusters_sizes'][a]); });
+            sortAscending = true;
+            //this.className = 'des';
+        }
+    })
 
     async function clickClusterRow(e,d){
         console.log(d)
         selectedCluster = d
+
         await unSearchVis(1, reset_cluster=d, reset_search=searchedTerm)
         highlightCluster(d)
         console.log(selectedCluster)
@@ -920,6 +977,7 @@ async function wrapper(){
 
 
     console.log(data['clusters_sizes'])
+    d3.select('#size-sort').dispatch("click")
    }
 
    
