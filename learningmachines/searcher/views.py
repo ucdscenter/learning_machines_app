@@ -112,6 +112,9 @@ def projects(request):
 
 	return render(request, html, {'projects': PROJECTS})
 
+def interpret(request):
+	html = 'searcher/interpret_model.html'
+	return render(request, html, {'nothing': 'nothing'})
 
 def proxy_static(request):
 	print(request)

@@ -140,6 +140,8 @@
      background: #f3f3f3;
      padding: 20px;
  }
+
+
  /*footer*/
  
  footer {
@@ -178,6 +180,13 @@
  .homecta {
      margin-top: 2em;
  }
+
+ /* My Models */
+ .table-div{
+    min-height: 50px;
+    max-height: 50vh;
+    overflow-y: auto;
+    }
  /* Tutorials */
  
  .progreminder {

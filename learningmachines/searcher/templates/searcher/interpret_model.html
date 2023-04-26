@@ -1,0 +1,21 @@
+{% extends 'searcher/base.html' %}
+{% block title %}Interpret{% endblock title%}
+{% load static %}
+{% block content %}
+    <div class="row align-contents-center">
+        <div class="homecta col-md-12">
+            <div class="container-fluid mt-5 ">
+                <div class="row ">
+                    <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                        <h1 class="mb-4">Hi Erin</h1>
+                        <p>here is some wonderful text</p>
+                        <div class="projectsnap"><img class="grayborder w-100 my-4" src="{% static 'searcher/images/sample_model.png' %}" /></div>
+                        <p>Here is an image</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block footer_javascript_page %}
+{% endblock footer_javascript_page %}
