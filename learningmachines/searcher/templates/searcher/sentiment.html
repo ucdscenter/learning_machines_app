@@ -1,138 +1,47 @@
-{# HTML5 declaration #}
+{% extends 'searcher/base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>sentiment</title>
-  <!--  Simple reset to delete the margins  -->
-  <!--  Simple reset to delete the margins  -->
-  <script src="{% static 'searcher/js/jquery.min.js' %}"></script>
-  <link rel="icon" type="image/x-icon" href="{% static 'searcher/images/favicon.ico' %}" />
-    <!-- For iPhone 4 Retina display: -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'searcher/images/favicon.ico %'" />
-    <!-- For iPad: -->
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'searcher/images/favicon.ico %'" />
-    <!-- For iPhone:-->
-    <link rel="apple-touch-icon-precomposed" href="/static/ext/favicon.ico" /> 
- <!--<link rel="stylesheet" href="/static/searcher/src/bootstrap.min.css">-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="{% static 'searcher/css/bootstrap.min.css' %}">
-  <link href="{% static 'searcher/fonts/roboto_robotoslab.css' %}" rel="stylesheet">
-    <link  href="{% static 'searcher/fonts/material_icons.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'searcher/mymain.css' %}">
+{% block title %}Model Visualization - Sentiment{% endblock title%}
 
-  
-  <style>
-    .doc_row {
-      background-color: white;
-    }
-    .mouseover {
-      position : absolute;
-      background-color: #d3d3d3;
-      width : 250px;
-      z-index : 1000000;
-      font-size: 15px;
-      border-radius: 8px;     
-      pointer-events: none;     
-    }
-  </style>
-  <!--  Three.js CDN  -->
+{% block head_css_section %}
+{% endblock head_css_section %}
 
-</head>
-<body>
 
-    <div class="mouseover" style="opacity: 0">
-    <p class="p-2"></p>
-  </div>
-  <nav class="navbar navbar-expand-lg " id="main-nav">
+{% block content %}
 
-  <div class="navbar-header">
-    <a class="navbar-brand" href="/" style="color: #002a31;">
-      <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
-      <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
-      <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
-      </a>
-  </div>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span ><i class="material-icons center_icon">list</i></span>
-   </button>
-  <div class="navbar-collapse collapse" id="navbarSupportedContent">
-
-    <ul class="nav navbar-nav" align="left">
-    </ul>
-
-  </div>
-
-</nav>
-
-<div class="container-fluid" style="background-color:#eee">
-  <div class="row">
-   <div class="col-12" >
-    <div id="content" style="overflow-y: auto;">
+<div class="row">
+  <div class="col-12" >
+      <div id="content" style="overflow-y: auto;">
           <div class="row">
-        <div class="col-2">
-          <h6>Corpus : <span id="corpus"></span></h6>
-        </div>
-        <div class="col-2">
-          <h6>Term : <span id="term"></span></h6>
-        </div>
-        <div class="col-2">
-          <h6># Docs : <span id="dn"></span></h6>
-        </div>
-         <div class="col-2">
-          <h6>Stopwords : <span id="stop_words" style="font-size:10px"></span></h6>
-        </div>
-        <div class="col-2">
-          <h6>Years : <span id="start"></span>-<span id="end"></span></h6>
+              <div class="col-2">
+                  <h6>Corpus : <span id="corpus"></span></h6>
+              </div>
+              <div class="col-2">
+                  <h6>Term : <span id="term"></span></h6>
+              </div>
+              <div class="col-2">
+                  <h6># Docs : <span id="dn"></span></h6>
+              </div>
+              <div class="col-2">
+                  <h6>Stopwords : <span id="stop_words" style="font-size:10px"></span></h6>
+              </div>
+              <div class="col-2">
+                  <h6>Years : <span id="start"></span>-<span id="end"></span></h6>
+              </div>
+          </div>
       </div>
-    </div>
-      </div>
-      </div>
-    </div>
-
-   
-
-</div>
- </div>
-
-     <div class="row footer align-items-center justify-content-center">
-    <div class="col-10">
-      <div class="row">
-        <div class="col-3">
-           <a class="navbar-brand" href="/" style="color: #002a31;">
-      <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
-      <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
-      <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
-      </a>
-          <h6>UC DIGITAL SCHOLARSHIP CENTER</h6>
-          <h6>LANGSAM LIBRARY | 2911 WOODSIDE DRIVE, CINCINNATI, OH</h6>
-          <h6>PHONE | 513.556.8794</h6>
-        </div>
-        <div class="col-3">
-          <img alt="uc footer logo" src="//lcdn.uc.edu/ucdhs/images/uc-logo@2x.png" style="max-width: 150px; margin-bottom: 1.5rem">
-          <img alt="mellon footer logo" src="{% static 'searcher/images/mellon-foundation-logo.png' %}" style="max-width: 150px; margin-bottom: 1.5rem">
-          
-        </div>
-        <div class="col-3">
-          
-        </div>
-        <div class="col-3">
-          
-        </div>
-      </div>
-    </div>
   </div>
 </div>
- 
-  <script src="{% static 'searcher/js/jquery.min.js' %}"></script>
+
+
+{% endblock content %}
+
+{% block footer_javascript_section %}
+
+<script src="{% static 'searcher/js/jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
-<script src="{% static 'searcher/js/bootstrap.min.js' %}"></script>
-  <!--<script src="/static/searcher/js/jquery-ui.js"></script>-->
-  <script
-  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-  crossorigin="anonymous"></script>
-  <script src="{% static 'searcher/js/d3.min.js' %}"></script>
-  <script src="{% static 'searcher/sentiment.js' %}"></script>
-</body>
-</html>
+<!-- <script src="{% static 'searcher/js/bootstrap.min.js' %}"></script> -->
+<!--<script src="/static/searcher/js/jquery-ui.js"></script>-->
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+<script src="{% static 'searcher/js/d3.min.js' %}"></script>
+<script src="{% static 'searcher/sentiment.js' %}"></script>
+{% endblock footer_javascript_section %}
