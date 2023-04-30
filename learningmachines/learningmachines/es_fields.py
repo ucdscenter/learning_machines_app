@@ -43,7 +43,8 @@ ES_FIELDS = {
         'US_Poetics' : 'us_poetics',
         'space_news': 'space_news',
         'chicago-novels' : 'chicago-novels', 
-        'space_tvnews' : 'space_tvnews'
+        'space_tvnews' : 'space_tvnews',
+        'working_memory' : 'working_memory'
 
     },
     'id': {
@@ -91,7 +92,8 @@ ES_FIELDS = {
         'US_Poetics' : 'uid',
         'space_news' : 'id',
         'chicago-novels' : 'id',
-        'space_tvnews' : 'id'
+        'space_tvnews' : 'id',
+        'working_memory' : 'id'
     },
     'abstract': {
         'Poetry_Foundation' : 'text',
@@ -136,7 +138,8 @@ ES_FIELDS = {
         'US_Poetics' : 'url',
         'space_news' : 'text',
         'chicago-novels' : 'genre',
-        'space_tvnews' : 'abstract'
+        'space_tvnews' : 'abstract',
+        'working_memory' : 'journal'
     },
     'full_text': {
         'Poetry_Foundation' : 'text',
@@ -183,7 +186,8 @@ ES_FIELDS = {
         'US_Poetics' : 'text',
         'space_news' : 'text',
         'chicago-novels' : 'text',
-        'space_tvnews' : 'text'
+        'space_tvnews' : 'text',
+        'working_memory' : 'text'
     },
     'doc_title' :
         {
@@ -232,7 +236,8 @@ ES_FIELDS = {
         'US_Poetics' : 'title',
         'space_news' : 'title',
         'chicago-novels' : 'title',
-        'space_tvnews' : 'title'
+        'space_tvnews' : 'title', 
+        'working_memory' : 'title'
         },
     'author' :
         {
@@ -264,7 +269,8 @@ ES_FIELDS = {
         'US_Poetics' : 'author',
         'space_news' : 'author',
         'chicago-novels' : 'author',
-        'space_tvnews' : 'title'
+        'space_tvnews' : 'title',
+        'working_memory' : 'author'
         },
     'date': {
         'Poetry_Foundation' : 'date',
@@ -311,7 +317,8 @@ ES_FIELDS = {
         'US_Poetics' : 'date',
         'space_news' : 'date',
         'chicago-novels' : 'date',
-        'space_tvnews' : 'date'
+        'space_tvnews' : 'date', 
+        'working_memory' : 'date'
     },
     'doc_type': {
         'foster': 'note',
@@ -361,6 +368,7 @@ ES_FIELDS = {
         'space_news' : ['title', 'author'],
         'chicago-novels' : ['title', 'author'],
         'space_tvnews' : ['title', 'abstract'],
+        'working_memory' : ['title', 'journal']
      }
 }
 MAX_NUM_DOC_VIS = {
@@ -410,7 +418,8 @@ MAX_NUM_DOC_VIS = {
     'US_Poetics' : 52000,
     'space_news' : 10000,
     'chicago-novels' : 18000000,
-    'space_tvnews' : 15000
+    'space_tvnews' : 15000,
+    'working_memory' : 25000
 }
 
 
@@ -594,7 +603,14 @@ datasetNames = {
          's3_names': {
             'bert': '_WSJ_China_umap_kmeans',},
             'display_name' : 'WSJ China',
-         'database': 'WSJ_China'}
+         'database': 'WSJ_China'},    
+      'working_memory': {
+        'num_docs': 24955,
+         'description': 'Journal Articles from JSTOR mentioning Working Memory',
+         's3_names': {
+            'bert': '_working_memory_umap_kmeans',},
+            'display_name' : 'Working Memory JSTOR',
+         'database': 'working_memory'}
 
 }
 
