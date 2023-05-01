@@ -33,7 +33,7 @@ async function renderDataBaseSelect(dbdata) {
     });
 
   var dbdivs = dbBtns.append("div")
-    .attr("class", "btn db-button btn-secondary row h-100 card p-3 rounded-none")
+    .attr("class", "btn db-button row h-100 card p-3 rounded-none")
     .style("background-color", function (d) {
       return dbdata[d].color;
     })
@@ -543,7 +543,7 @@ function renderFilterDocs(articles, dbn, qry) {
     .dimension(monthDimension)
     .group(monthlyMoveGroup)
     .centerBar(true)
-    .colors(DATABASES[dbn].nonbgcolor)
+    .colors("#22587A")
     .x(d3.scaleTime().domain(function () {
       var e = d3.extent(articles.results, function (d) {
         return d.date;
@@ -573,7 +573,7 @@ function renderFilterDocs(articles, dbn, qry) {
     .dimension(countDimension)
     .group(accGroup)
     .centerBar(false)
-    .colors(DATABASES[dbn].nonbgcolor)
+    .colors("#22587A")
     .x(d3.scaleLinear().domain([0, maxCount + 1]))
     .alwaysUseRounding(true)
     .xAxisLabel("Occurrence of search term(s)")
@@ -704,26 +704,26 @@ function updateEstimatedTime(selected, dbn, pre) {
     $('.filtered-count').text(selected);
   }
 
-  if (est_time > 1200) {
-    $('.' + pre + '-docs-btn').css("background-color", "red");
-    $('.' + pre + '-estimated-time').css("color", "red");
-    return "red";
-  }
-  else if (est_time > 600) {
-    $('.' + pre + '-docs-btn').css("background-color", "orange");
-    $('.' + pre + '-estimated-time').css("color", "orange");
-    return "orange";
-  }
-  else if (est_time > 200) {
-    $('.' + pre + '-docs-btn').css("background-color", "yellow");
-    $('.' + pre + '-estimated-time').css("color", "#999900");
-    return "#999900";
-  }
-  else {
-    $('.' + pre + '-docs-btn').css("background-color", "green");
-    $('.' + pre + '-estimated-time').css("color", "green");
-    return "green";
-  }
+  // if (est_time > 1200) {
+  //   $('.' + pre + '-docs-btn').css("background-color", "red");
+  //   $('.' + pre + '-estimated-time').css("color", "red");
+  //   return "red";
+  // }
+  // else if (est_time > 600) {
+  //   $('.' + pre + '-docs-btn').css("background-color", "orange");
+  //   $('.' + pre + '-estimated-time').css("color", "orange");
+  //   return "orange";
+  // }
+  // else if (est_time > 200) {
+  //   $('.' + pre + '-docs-btn').css("background-color", "yellow");
+  //   $('.' + pre + '-estimated-time').css("color", "#999900");
+  //   return "#999900";
+  // }
+  // else {
+  //   $('.' + pre + '-docs-btn').css("background-color", "green");
+  //   $('.' + pre + '-estimated-time').css("color", "green");
+  //   return "green";
+  // }
 
 }
 
@@ -1079,7 +1079,7 @@ function renderExploreDocs(articles, dbn, qry, fromhistory, total_docs) {
 }
 
 function renderVisSelect(dbn, qry) {
-  $('.fig.db-button').css('background-color', DATABASES[dbn].color);
+  //$('.fig.db-button').css('background-color', DATABASES[dbn].color);
   $('.fig.db-button').css('border-color', 'white');
 
   $('.fig').on("click", function (d) {
@@ -1516,7 +1516,7 @@ let DATABASES =
 
 console.log(Object.keys(DATABASES));
 Object.keys(DATABASES).forEach(function (db, index) {
-  console.log(db);
+  //console.log(db);
   
   // check if #other-color and #third-color elements exist
   let otherColorElement = d3.select("#other-color");
@@ -1545,7 +1545,7 @@ Object.keys(DATABASES).forEach(function (db, index) {
       .style("color", DATABASES[db].nonbgcolor);
     DATABASES[db].button = databaseButton;
   } else {
-    console.error("Could not find #other-color or #third-color elements");
+    //console.error("Could not find #other-color or #third-color elements");
   }
 });
 

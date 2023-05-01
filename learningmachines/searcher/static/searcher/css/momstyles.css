@@ -28,6 +28,10 @@
  .graybg {
      background: #F3F3F3;
  }
+ .tinytext {
+    padding-top: 10px;
+    font-size: 80%;
+ }
  
  .graypipebg {
      background: #DEDEDE;
@@ -78,9 +82,10 @@
      border-color: #22587a;
  }
  
- btn-secondary:hover {
+ .btn-secondary:hover {
      background-color: #dedede;
      border-color: #dedede;
+     color: black !important;
  }
  
  .maxout {
@@ -195,6 +200,9 @@
      top: 20%;
      right: 0
  }
+ .highlighted {
+   background-color: #FFBF6E;
+  }
  /*Vis*/
 
 .node {

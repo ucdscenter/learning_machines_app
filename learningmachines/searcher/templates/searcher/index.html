@@ -4,7 +4,7 @@
 {% block content %}
 
     <div class="row align-items-center">
-        <div class="homecta col-md-5 col-xl-4 offset-xl-1">
+        <div class="homecta col-md-6 col-xl-5 offset-xl-1">
             <h1 class="mb-4">Model of Models</h1>
             <div class="maxout">
                 <p>Model of Models is a platform for collaborative language research and teaching, bringing together humanistic methods with technical innovations.</p>
@@ -14,12 +14,12 @@
             <div class="btn-toolbar mt-4" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group mr-2" role="group" aria-label="First group">
                     <div class="buttoncontainer orangepipebg">
-                        <a type="button" href="/searcher/search/" class="btn btn-main graybg">Create a Model</a>
+                        <button onclick="window.location.href='/searcher/search';" class="btn btn-main graybg">Create a Model</button>
                     </div>
                 </div>
                 <div class="btn-group mr-2" role="group" aria-label="Second group">
                     <div class="buttoncontainer orangepipebg">
-                        <ba type="button" class="btn btn-main graybg" href="/searcher/search">Start the Tutorial</a>
+                        <button  class="btn btn-main graybg" onclick="window.location.href='/searcher/tutorial';">Start the Tutorial</button>
                     </div>
 
                 </div>
@@ -42,5 +42,6 @@
 {% block footer_javascript_page %}
     <script>
         $('.main-content').addClass('home')
+
     </script>
 {% endblock footer_javascript_page %}
