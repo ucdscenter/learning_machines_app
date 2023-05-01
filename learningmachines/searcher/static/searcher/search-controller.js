@@ -1352,8 +1352,11 @@ let DATABASES =
   'space_tvnews' : {
     'options': [],
     'name': 'Space TV News'
+  },
+  'working_memory' : {
+    'options': [],
+    'name': 'Working Memory JSTOR'
   }
-  
 };
 let dbi = 0;
 Object.keys(DATABASES).forEach(function (db) {

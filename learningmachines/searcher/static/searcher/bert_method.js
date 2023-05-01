@@ -7,6 +7,12 @@ async function wrapper(){
     var dataset;
     var data;
 
+    var ret_arr;
+    var qry_str;
+    var search_rslts;
+    var selectedCluster = undefined;
+    var searchedTerm = undefined;
+
     var height, width, viz_width,
     aspect, fov, near,
     far, camera, color_array,
@@ -58,7 +64,7 @@ async function wrapper(){
 
 
     async function getDocs(qry_str){
-        let search_rslts = await d3.json(qry_str)
+        search_rslts = await d3.json(qry_str)
         console.log(search_rslts)
         searchVis(search_rslts)
     }
@@ -66,70 +72,130 @@ async function wrapper(){
     searchElement.addEventListener('keyup', function(){
         if (event.key === "Enter") {
             qry = searchElement.value;
-            unSearchVis()
+            console.log(selectedCluster)
+            unSearchVis(1, reset_cluster=selectedCluster, reset_search=undefined,)
             if(qry.length == 0){
                 return;
             }
             let fullq = qry
-            let base_qry = dataset_path.split("_")[0] 
+            let base_qry = dataset_path.split("_")[0]
+
             if (base_qry.length == 0){
                 fullq = qry
             }
             else{
                 fullq = base_qry + " AND " + qry; 
             }
-            let qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq
+            qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq
+            //special case for decades based chicago corpus models
+            if(typeof(parseInt(base_qry.slice(0,4))) == 'number'){
+                fullq = qry
+                qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq + "&start=" + dataset_path.split("_")[0] + "&end=" + dataset_path.split("_")[1]
+            }
+            
             console.log(qry_str)
             getDocs(qry_str)
+            searchedTerm = qry
             
         }
     })
 
-    function unSearchVis(){
+    async function unSearchVis(e, reset_search=undefined, reset_cluster=undefined){
+        ret_arr = Array.apply(true, Array(data.clusters.length))
+        ret_arr.fill(true)
         scene.remove(s_points)
-        pointsMaterial.opacity = .5;
-        pointsMaterial.needsUpdate = true
-        choose_points = points;
-        choose_generated_points = generated_points;
+        if(reset_search == undefined && reset_cluster == undefined){
+            //ret_arr = Array.apply(true, Array(data.clusters.length))
+            //ret_arr.fill(true)
+            //d3.select("#line" + selectedCluster).dispatch("mouseout")
+            searchedTerm = undefined;
+            selectedCluster = undefined;
+            d3.selectAll(".cluster-line")
+                .attr("stroke-opacity", .3)
+                .attr("stroke-width", 2)
+            pointsMaterial.opacity = .5;
+            pointsMaterial.needsUpdate = true
+            choose_points = points;
+            choose_generated_points = generated_points;
+        }
+
         $("#restore-search-button").addClass("hidden")
 
         $('#s-doc-count').text(data.x.length + " documents")
+        $('#c-selected').text("No cluster selected")
+        console.log(reset_search)
+        console.log(reset_cluster)
+        if (reset_cluster != undefined){
+            console.log("getDOcs!")
+            searchVis(search_rslts, add_points=false)
+
+        }
+        if (reset_search != undefined){
+            console.log("highlightcluster!")
+            highlightCluster(selectedCluster, add_points=false)
+        }
+        
 
     }
 
     $('#restore-search-button').on("click", unSearchVis);
 
-    function searchVis(rslts){
+    function searchVis(rslts, add_points=true){
         pointsMaterial.opacity = .01
         rslts_dict = {};
         rslts.results.forEach(function(d){
             rslts_dict[d.id] = 0;
         })
-        let ret_arr = [];
+        //let ret_arr = [];
+        let index = 0
         data.id.forEach(function(i){
             if(rslts_dict[i] == undefined){
-                ret_arr.push(false)
+                //ret_arr.push(false)
+                ret_arr[index] = false
             }
             else{
-                ret_arr.push(true)
+                //ret_arr.push(true)
+                //ret_arr[index] = true
             }
+            index++;
         })
-        // filtered_data = data.filter(function(d){
-        //     if(rslts_dict[d.data_id] == undefined){
-        //         return false
-        //     }
-        //     return true
-        // })
-        // createSearchPoints(filtered_data)
-        createSearchPoints(ret_arr, data)
+        if(add_points == true){
+            createSearchPoints(ret_arr, data)
+            pointsMaterial.needsUpdate = true
+            choose_points = s_points;
+            choose_generated_points = s_generated_points;
+            console.log(s_generated_points)
+            $("#restore-search-button").removeClass("hidden")
+            $('#s-doc-count').text(rslts.results.length + " matching documents")
 
-        pointsMaterial.needsUpdate = true
-        choose_points = s_points;
-        choose_generated_points = s_generated_points;
-        console.log(s_generated_points)
-        $("#restore-search-button").removeClass("hidden")
-        $('#s-doc-count').text(rslts.results.length + " matching documents")
+        }
+        
+    }
 
+    function highlightCluster(clusterN, add_points=true){
+        pointsMaterial.opacity = .01
+        //let ret_arr = []
+        let index = 0
+        data.clusters.forEach(function(i){
+            if(i == clusterN){
+                //ret_arr.push(true);
+                //ret_arr[index] = true
+            }
+            else{
+                //ret_arr.push(false)
+                ret_arr[index] = false
+            }
+            index++;
+        })
+        if(add_points == true){
+            createSearchPoints(ret_arr, data)
+            pointsMaterial.needsUpdate = true
+            choose_points = s_points;
+            choose_generated_points = s_generated_points;
+            $("#restore-search-button").removeClass("hidden")
+            $('#c-selected').text("Cluster " + clusterN + " selected") 
+        }
+       
     }
 
     const getColorForPubmed = function(d){
@@ -168,6 +234,7 @@ async function wrapper(){
 
                 renderClusterInfo()
                 renderTimelines()
+
         // console.log(num_points)
 
          width = window.innerWidth
@@ -258,6 +325,7 @@ async function wrapper(){
             let mouse_position = [mouseX, mouseY];
             checkClickPosition(mouse_position);
         });
+        unSearchVis()
 
             })
         };
@@ -284,9 +352,7 @@ async function wrapper(){
 
 
     function createSearchPoints(f_map, data){
-        console.log(f_map)
-        console.log(data)
-        let num_points = data.x.length;
+        let num_points = 0;
         let s_data_points = [];
         for (let i = 0; i < data.x.length; i++) {
             if(f_map[i] == true){
@@ -298,7 +364,9 @@ async function wrapper(){
                 data_id = data.id[i];
                 data_title = data.title[i];
                 let point = {position, category_number, data_id, data_title};
+
                 s_data_points.push(point);
+                num_points++;
             }
             
         }
@@ -306,7 +374,6 @@ async function wrapper(){
         s_generated_points = s_data_points;
 
         s_pointsGeometry = new THREE.BufferGeometry();
-
         s_colors = new Float32Array(num_points * 3);
         s_vertices = new Float32Array(num_points * 3);
         s_sizes = new Float32Array(num_points);
@@ -353,6 +420,7 @@ async function wrapper(){
         
 
         s_points = new THREE.Points(s_pointsGeometry, s_pointsMaterial);
+        console.log(s_points)
         scene.add(s_points);
     }
 
@@ -452,6 +520,7 @@ async function wrapper(){
         removeHighlights();
     
         // let geometry = new THREE.Geometry();
+        console.log(datum)
         let geometry = new THREE.BufferGeometry();
         const vertex = new Float32Array(3);
         vertex[0] = datum.position[0];
@@ -493,7 +562,7 @@ async function wrapper(){
         $tooltip.style.top = tooltip_state.top + 'px';
         $point_tip.innerText = tooltip_state.name;
         $point_tip.style.background = color_array[Number(tooltip_state.group)+1];
-        $group_tip.innerText = `Group ${tooltip_state.group}`;
+        $group_tip.innerText = `Cluster ${tooltip_state.group}`;
     }
 
     function showTooltip(mouse_position, datum) {
@@ -525,10 +594,13 @@ async function wrapper(){
             let index = intersect.index;
             let datum = choose_generated_points[index];
             highlightPoint(datum);
+            d3.selectAll(".cluster-line").dispatch("mouseout")
+            d3.select("#line" + datum.category_number).dispatch("mouseover")
             
             // console.log("Hlc bjvsvjknskjvnjkslo work");
             showTooltip(mouse_position, datum);
         } else {
+            d3.selectAll(".cluster-line").dispatch("mouseout")
             removeHighlights();
             hideTooltip();
         }
@@ -759,18 +831,41 @@ async function wrapper(){
     Object.keys(cluster_line_data).forEach(function(c_time){
 
         let line_color = color_array[parseInt(c_time) + 1];
+        let line_opacity = .3
+        if (line_color == undefined){
+            line_color = "grey"
+            line_opacity = .3
+        }
         svg_g.append("path")
             .datum(Object.keys(cluster_line_data[c_time]))
             .attr("fill", "none")
             .attr("stroke", line_color)
             .attr("stroke-width", 2)
-            .attr("d", d3.line()//.curve(d3.curveBundle.beta(1))
+            .attr("class", "cluster-line")
+            .attr("id", function(d){
+                return "line" + parseInt(c_time);
+            })
+            .attr("stroke-opacity", line_opacity)
+            .on("mouseover", function(d){
+                d3.select(this).raise()
+                d3.select(this).attr("stroke-opacity", 1)
+                d3.select(this).attr("stroke-width", 4)
+            })
+            .on("mouseout", function(d){
+
+                d3.select(this).attr("stroke-opacity", .1)
+                d3.select(this).attr("stroke-width", 2)
+
+            })
+
+            .attr("d", d3.line()//.curve(d3.curveBundle.beta(2))
                 .x(function(d){
                     return x(d)
                 })
                 .y(function(d){
                     return y(cluster_line_data[c_time][d])
                 }))
+            
     })
 
     
@@ -804,7 +899,9 @@ async function wrapper(){
     }
 
     let c_table = d3.select("#dtbody")
-    
+    let sortAscending = true
+
+
     let rows = c_table.selectAll(".row")
                     .data(c_idxs)
                     .enter()
@@ -812,16 +909,59 @@ async function wrapper(){
                     .style("background-color", function(d){
                         return clusterColor(d,.5)
                     })
-                    .on("mouseover", function(){
+                    .on("mouseover", function(d){
                         d3.select(this).style("background-color",function(d){
                             return clusterColor(d, 1)
                         })
+                        d3.select("#line" + d).dispatch("mouseover")
                     })
-                    .on("mouseout",function(){
+                    .on("mouseout",function(d){
+                        if(d != selectedCluster)
                         d3.select(this).style("background-color",function(d){
+                            d3.select("#line" + d).dispatch("mouseout")
                             return clusterColor(d, .5)
+
                         })
+                   
                     })
+                    .attr("id", function(d){
+                        return "clusterrow" + d
+                    })
+                    .on("click", clickClusterRow)
+
+    d3.select("#size-sort").on("click", function(d){
+        if (sortAscending == true) {
+            rows.sort(function(a, b) {
+                console.log(a)
+                return d3.ascending(data['clusters_sizes'][b], data['clusters_sizes'][a]);  });
+            sortAscending = false;
+            //this.className = 'a';
+        } 
+        else {
+            rows.sort(function(a, b) { return d3.descending(data['clusters_sizes'][b], data['clusters_sizes'][a]); });
+            sortAscending = true;
+            //this.className = 'des';
+        }
+    })
+
+    async function clickClusterRow(e,d){
+        console.log(d)
+        selectedCluster = d
+
+        await unSearchVis(1, reset_cluster=d, reset_search=searchedTerm)
+        highlightCluster(d)
+        console.log(selectedCluster)
+        // if (selectedCluster != d){
+        //     selectedCluster = d
+        //     await unSearchVis(1, reset_cluster=undefined, reset_search=searchedTerm)
+        //     highlightCluster(d)
+            
+        // }
+        // else {
+        //     await unSearchVis(1, reset_cluster=undefined, reset_search=searchedTerm)
+        //     selectedCluster = undefined
+        // }
+    }
 
     let c_td = rows.selectAll("td").data(function(d, i){
         return [i, data['clusters_sizes'][i], data['cluster_labels_docs'][i], data['cluster_labels_tfidf'][i]]
@@ -837,6 +977,7 @@ async function wrapper(){
 
 
     console.log(data['clusters_sizes'])
+    d3.select('#size-sort').dispatch("click")
    }
 
    

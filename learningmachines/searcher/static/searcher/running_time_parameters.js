@@ -317,4 +317,12 @@ var database_runtimes = {
 	"max" : 15000,
 	"description" : "TV News about space!"
 	},
+	'working_memory' : {
+	"a" : 0, 
+	"b" : 0,
+	"count" : 24995,
+	"max" : 25000,
+	"description" : "Journal Articles from JSTOR mentioning Working Memory"
+	}
+
 }
