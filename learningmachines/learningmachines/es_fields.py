@@ -514,20 +514,6 @@ datasetNames = {
             'bert': '_chicago-novels_umap_kmeans' },
             'display_name' : 'Chicago Novels Chunks',
          'database': 'chicago-novels'},
-     'chicago-novels-1900': {
-            'num_docs': 59295,
-         'description': 'The chicago novels corpus 1900 to 1910 split into 500 word chunks',
-         's3_names': {
-            'bert': '1900_1910_chicago_novels_full_fine_tune_2' },
-            'display_name' : 'Chicago Novels 1900-1910',
-         'database': 'chicago-novels'},
-     'chicago-novels-1890': {
-            'num_docs': 59295,
-         'description': 'The chicago novels corpus 1900 to 1910 split into 500 word chunks',
-         's3_names': {
-            'bert': '1900_1910_chicago_novels_full_fine_tune' },
-            'display_name' : 'Fine TuneChicago Novels 1900-1910',
-         'database': 'chicago-novels'},
      'covid': {
             'num_docs': 144000,
          'description': 'Covid CDC dataset as of November 2020.',
@@ -610,7 +596,20 @@ datasetNames = {
          's3_names': {
             'bert': '_working_memory_umap_kmeans',},
             'display_name' : 'Working Memory JSTOR',
-         'database': 'working_memory'}
+         'database': 'working_memory'},
+
+'chicago-novels-1880': {'num_docs': 59295, 'description': 'The chicago novels corpus 1880 to 1890 split into 500 word chunks', 's3_names': {'bert': '1880_1890_chicago_novels' },'display_name' : 'Chicago Novels 1880-1890','database': 'chicago-novels'},
+'chicago-novels-1890': {'num_docs': 59295, 'description': 'The chicago novels corpus 1890 to 1900 split into 500 word chunks', 's3_names': {'bert': '1890_1900_chicago_novels' },'display_name' : 'Chicago Novels 1890-1900','database': 'chicago-novels'},
+'chicago-novels-1900': {'num_docs': 59295, 'description': 'The chicago novels corpus 1900 to 1910 split into 500 word chunks', 's3_names': {'bert': '1900_1910_chicago_novels' },'display_name' : 'Chicago Novels 1900-1910','database': 'chicago-novels'},
+'chicago-novels-1910': {'num_docs': 59295, 'description': 'The chicago novels corpus 1910 to 1920 split into 500 word chunks', 's3_names': {'bert': '1910_1920_chicago_novels' },'display_name' : 'Chicago Novels 1910-1920','database': 'chicago-novels'},
+'chicago-novels-1920': {'num_docs': 59295, 'description': 'The chicago novels corpus 1920 to 1930 split into 500 word chunks', 's3_names': {'bert': '1920_1930_chicago_novels' },'display_name' : 'Chicago Novels 1920-1930','database': 'chicago-novels'},
+'chicago-novels-1930': {'num_docs': 59295, 'description': 'The chicago novels corpus 1930 to 1940 split into 500 word chunks', 's3_names': {'bert': '1930_1940_chicago_novels' },'display_name' : 'Chicago Novels 1930-1940','database': 'chicago-novels'},
+'chicago-novels-1940': {'num_docs': 59295, 'description': 'The chicago novels corpus 1940 to 1950 split into 500 word chunks', 's3_names': {'bert': '1940_1950_chicago_novels' },'display_name' : 'Chicago Novels 1940-1950','database': 'chicago-novels'},
+'chicago-novels-1950': {'num_docs': 59295, 'description': 'The chicago novels corpus 1950 to 1960 split into 500 word chunks', 's3_names': {'bert': '1950_1960_chicago_novels' },'display_name' : 'Chicago Novels 1950-1960','database': 'chicago-novels'},
+'chicago-novels-1960': {'num_docs': 59295, 'description': 'The chicago novels corpus 1960 to 1970 split into 500 word chunks', 's3_names': {'bert': '1960_1970_chicago_novels' },'display_name' : 'Chicago Novels 1960-1970','database': 'chicago-novels'},
+'chicago-novels-1970': {'num_docs': 59295, 'description': 'The chicago novels corpus 1970 to 1980 split into 500 word chunks', 's3_names': {'bert': '1970_1980_chicago_novels' },'display_name' : 'Chicago Novels 1970-1980','database': 'chicago-novels'},
+'chicago-novels-1980': {'num_docs': 59295, 'description': 'The chicago novels corpus 1980 to 1990 split into 500 word chunks', 's3_names': {'bert': '1980_1990_chicago_novels' },'display_name' : 'Chicago Novels 1980-1990','database': 'chicago-novels'},
+'chicago-novels-1990': {'num_docs': 59295, 'description': 'The chicago novels corpus 1990 to 2001 split into 500 word chunks', 's3_names': {'bert': '1990_2001_chicago_novels' },'display_name' : 'Chicago Novels 1990-2001','database': 'chicago-novels'},
 
 }
 

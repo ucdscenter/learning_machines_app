@@ -23,7 +23,7 @@ async function wrapper(){
     colors, vertices, sizes,
     pointsMaterial, points, initial_scale, 
     initial_transform, raycaster, hoverContainer, searchContainer, choose_points, choose_generated_points;
-
+    let colorInterp = d3.interpolateTurbo
      color_array = [
             "#1f78b4",
             "#b2df8a",
@@ -101,7 +101,14 @@ async function wrapper(){
     })
 
     async function unSearchVis(e, reset_search=undefined, reset_cluster=undefined){
-        ret_arr = Array.apply(true, Array(data.clusters.length))
+        console.log("here")
+        // let empty_arr = Array(data.clusters.length)
+        // ret_arr = []
+        // empty_arr.forEach(function(ee){
+        //     ret_arr.push(true)
+        // })
+        ret_arr = Array(data.clusters.length)
+        console.log("here")
         ret_arr.fill(true)
         scene.remove(s_points)
         if(reset_search == undefined && reset_cluster == undefined){
@@ -198,9 +205,26 @@ async function wrapper(){
        
     }
 
-    const getColorForPubmed = function(d){
+
+    const getColor = function(d, hex=true){
+        let tthing = d3.rgb(colorInterp(d['category_number'] / data['cluster_centroids'].length))
+        if(hex == true){
+            let rcolor = tthing.formatHex()
+            return rcolor
+        }
+        else{
+            return tthing
+        }
+        
         // console.log(typeof d["category_number"]);
-            return color_array[Number(d["category_number"])+1];
+        // if (data.colors == undefined){
+        //     return color_array[Number(d["category_number"])+1];
+        // }
+        // else{
+        //     let tthing = colorInterp(d['category_number'] / data['clusters'].length)
+        //     //console.log(tthing)
+        //     return tthing
+        // }
         // Add topic number
                 
         }
@@ -228,6 +252,16 @@ async function wrapper(){
                 console.log(result)
                 dataset = result.dataset_name;
                 console.log(dataset)
+                if (data.colors != undefined){
+                    data.cleaned_colors = []
+                    data.colors.forEach(function(cd){
+                    let colors_split = cd.split("(")[1].split(")")[0].split(",")
+                    cd = [parseFloat(colors_split[0])/255, parseFloat(colors_split[1])/255, parseFloat(colors_split[2])/255]
+                    //cd = [parseInt(colors_split[0]), parseInt(colors_split[1]), parseInt(colors_split[2])]
+                    data.cleaned_colors.push(cd)
+                })
+                }
+                
                 $('#s-doc-count').text(data.x.length + " documents")
                 $('#visContainer__graph').removeClass("hidden")
                 $('#visContainer__loading').addClass("hidden")
@@ -292,7 +326,7 @@ async function wrapper(){
        
         scene = new THREE.Scene();
 
-        scene.background = new THREE.Color(0xefefef);
+        scene.background = new THREE.Color('#efefef');
         console.log(data)
         createPoints(data);
         animate();
@@ -386,7 +420,9 @@ async function wrapper(){
             s_vertices[i + 2] = 0;
              //let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
              //pointsGeometry.vertices.push(vertex);
-            let color = new THREE.Color(getColorForPubmed(datum));
+            
+            let color = new THREE.Color(getColor(datum));
+
             s_colors[i] = color.r;
             s_colors[i+1] = color.g;
             s_colors[i+2] = color.b;
@@ -460,7 +496,7 @@ async function wrapper(){
             vertices[i + 2] = 0;
             // let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
             // pointsGeometry.vertices.push(vertex);
-            let color = new THREE.Color(getColorForPubmed(datum));
+            let color = new THREE.Color(getColor(datum));
             colors[i] = color.r;
             colors[i+1] = color.g;
             colors[i+2] = color.b;
@@ -520,7 +556,6 @@ async function wrapper(){
         removeHighlights();
     
         // let geometry = new THREE.Geometry();
-        console.log(datum)
         let geometry = new THREE.BufferGeometry();
         const vertex = new Float32Array(3);
         vertex[0] = datum.position[0];
@@ -538,7 +573,7 @@ async function wrapper(){
         // geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
         // geometry.colors = [ new THREE.Color(getColor(datum.cluster_name)) ];
         let colors = new Float32Array(3);
-        color = new THREE.Color(getColorForPubmed(datum));
+        color = new THREE.Color(getColor(datum));
         colors[0] = color.r;
         colors[1] = color.g;
         colors[2] = color.b;
@@ -561,7 +596,7 @@ async function wrapper(){
         $tooltip.style.left = tooltip_state.left + 'px';
         $tooltip.style.top = tooltip_state.top + 'px';
         $point_tip.innerText = tooltip_state.name;
-        $point_tip.style.background = color_array[Number(tooltip_state.group)+1];
+        $point_tip.style.background = clusterColor(Number(tooltip_state.group), .3);
         $group_tip.innerText = `Cluster ${tooltip_state.group}`;
     }
 
@@ -653,27 +688,6 @@ async function wrapper(){
         }
     }
 
-
- const getColor = function(d){
-        if(d["rating"] === "1"){
-            return color_array[0];
-        }
-        else if(d["rating"] === "2"){
-            return color_array[1];
-        }
-        else if(d["rating"] === "3"){
-            return color_array[2];
-        }
-        else if(d["rating"] === "4"){
-            return color_array[3];
-        }
-        else if(d["rating"] === "5"){
-            return color_array[4];
-        }
-        else{
-            return color_array[5];
-        }
-    }
 
 
     // Three.js render loop
@@ -830,7 +844,7 @@ async function wrapper(){
 
     Object.keys(cluster_line_data).forEach(function(c_time){
 
-        let line_color = color_array[parseInt(c_time) + 1];
+        let line_color = clusterColor(parseInt(c_time), 1);
         let line_opacity = .3
         if (line_color == undefined){
             line_color = "grey"
@@ -872,7 +886,7 @@ async function wrapper(){
    }//renderTimelines
 
    function clusterColor(cc, op){
-        let ccc = new THREE.Color(color_array[cc + 1]);
+        let ccc = new THREE.Color(getColor({'category_number' : cc}));
         return "rgba(" + (ccc.r * 255) + ',' + (ccc.g * 255) + ',' + (ccc.b * 255) + ","+ op +")";
     }
 
@@ -932,7 +946,6 @@ async function wrapper(){
     d3.select("#size-sort").on("click", function(d){
         if (sortAscending == true) {
             rows.sort(function(a, b) {
-                console.log(a)
                 return d3.ascending(data['clusters_sizes'][b], data['clusters_sizes'][a]);  });
             sortAscending = false;
             //this.className = 'a';
@@ -945,12 +958,10 @@ async function wrapper(){
     })
 
     async function clickClusterRow(e,d){
-        console.log(d)
         selectedCluster = d
 
         await unSearchVis(1, reset_cluster=d, reset_search=searchedTerm)
         highlightCluster(d)
-        console.log(selectedCluster)
         // if (selectedCluster != d){
         //     selectedCluster = d
         //     await unSearchVis(1, reset_cluster=undefined, reset_search=searchedTerm)
@@ -975,8 +986,6 @@ async function wrapper(){
         })
     console.log(data['clusters_sizes'].length)
 
-
-    console.log(data['clusters_sizes'])
     d3.select('#size-sort').dispatch("click")
    }
 
