@@ -27,12 +27,12 @@
         </div>
         <div class="col-md-6 col-xl-5 grayrule pl-md-4 my-5">
             <div class="projintro d-flex align-items-end">
-                <h3 class="mr-5 mb-0">Featured Project</h3><a class="ml-5 mb-0" href="#">VIEW ALL</a>
+                <h3 class="mr-5 mb-0">Featured Project</h3><a class="ml-5 mb-0" href="/searcher/projects/">VIEW ALL</a>
             </div>
-            <div class="projectsnap"><img class="grayborder w-100 my-4" src="{% static 'searcher/images/sample_model.png' %}" /></div>
+            <div class="projectsnap"><a href='/searcher/projects/'><img id='projectimage' class="grayborder w-100 my-4" src="" /></a></div>
             <div class="projectdescription">
                 <h3 class="gent">Dakota Access Pipleline Range Twitter Networks</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Twitter user interaction networks from the DAPL protests. From archive.org archived tweets</p>
             </div>
         </div>
 
@@ -43,5 +43,23 @@
     <script>
         $('.main-content').addClass('home')
 
+        /*Quick function for getting random project*/
+        
+        let data = "{{data|escapejs}}"
+        data = JSON.parse(data)
+        let keys = Object.keys(data)
+        keys = keys.filter(function(d){
+        console.log() 
+            if (data[d].image == ""){
+                return false
+            }
+            return true
+        })
+        let random = Math.floor(Math.random() * keys.length)
+        let staticpath = "{% static 'searcher/images/project-images/'%}"
+
+        $('#projectimage').attr("src", staticpath + data[keys[random]].image)
+        $('.projectdescription h3').text(data[keys[random]].Name)
+        $('.projectdescription p').text(data[keys[random]].Info)
     </script>
 {% endblock footer_javascript_page %}

@@ -6,32 +6,32 @@ PROJECTS = {
 	"Instagram" : {
 		"Name" : "Instagram Hashtag Networks",
 		"Info" : "Network Visualizations of Instagram posts and their hashtags related Public Artwork. Posts are from 2018-2020.",
-		"image" : "",
+		"image" : "Instagram.png",
 		"Links" : [["https://ucdscenter.github.io/public_sculpture_conversations/", "View Visualization"]]
 	},
 	"Crow_Maps" : {
 		"Name" : "1923 Crow Maps",
 		"Info" : "Maps of every allotment on the Crow Reservation from 1923, showing land parcels and their heads of household.",
-		"image" : "",
+		"image" : "Crow_Maps.png",
 		"Links" : [["https://rebeccawingo.com/reframed/map/maps_static/about-map", "Visit Rebecca Wingo's Site"]]
 	},
 	"Library" : {
 		"Name" : "UC Published Documents Dashboard",
 		"Info" : "Dashboard showing 10,000 publications by UC affiliated researchers, allowing you to filter by various attibutes.",
-		"image" : "",
+		"image" : "Library.png",
 		"Links" : [["/searcher/projects/?name=library_docs", "View Dashboard"]]
 	},
 	"CO2" : {
 		"Name" : "CO2 Emissions and Race",
 		"Info" : "Maps and Visualizations showing the relationships between race, income, and CO2 emissions for select cities, from 2010",
-		"image" : "",
+		"image" : "CO2.png",
 		"Links" : [["https://ucdscenter.github.io/climate_race_maps", "View Project Site"],
 			["http://climate-maps-v2.s3-website.us-east-2.amazonaws.com/", "Version 2 Prototype--whole country"]]
 	},
-	"Ventilation" : {
+	"Ventilator" : {
 		"Name" : "Ventilator Timelines",
 		"Info" : "Timelines showing severity of events in newborns on at-home ventilators, for medical exploration",
-		"image" : "",
+		"image" : "Ventilator.png",
 		"Links" : [["/searcher/projects/?name=vent_notes", "View Timelines"]]
 	},
 	"Hathi_Anthro" : {
@@ -46,13 +46,13 @@ PROJECTS = {
 	"Dakota_access" : {
 		"Name" : "Dakota Access Pipeline Twitter Networks",
 		"Info" : "Twitter user interaction networks from the DAPL protests. From archive.org archived tweets",
-		"image" : "",
+		"image" : "Dakota_access.png",
 		"Links" : [[ "/searcher/projects/?name=dapl", "View Network"]]
 	},
 	"Ferguson" : {
 		"Name" : "Ferguson Twitter Networks",
 		"Info" : "Twitter user interaction networks from the Ferguson protests and ensuing events. From archive.org archived tweets. ",
-		"image" : "",
+		"image" : "Ferguson.png",
 		"Links" : [["/searcher/projects/?name=blm&type=networks-aug", "Networks August"],
 ["/searcher/projects/?name=blm&type=networks-novdec", "Networks Nov-Dec"],
 ["/searcher/projects/?name=blm&type=basic-aug", "Timelines August"],
@@ -61,20 +61,21 @@ PROJECTS = {
 	"Debates" : {
 		"Name" : "Presidential Debate Twitter Networks",
 		"Info" : "Twitter user interaction networks from the 2016 Presidential Debates. From archive.org archived tweets",
-		"image" : "",
+		"image" : "Debates.png",
 		"Links" : [["/searcher/projects/?name=debates", "View Debates Network"]]
 	},
 
 	"Covid" : {
 		"Name" : "Hydroxychloroquine Twitter Networks",
 		"Info" : "Twitter user interaction networks from the first six months of 2020, exploring Hydroxychloroquine information. ",
-		"image" : "",
+		"image" : "Hydroxychloroquine.png",
 		"Links" : [
 		["http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=hydroxychloroquinefastgreedy", "Hydroxychloroquine tweets"],
 		["http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=fastgreedy", "Random Sample of 1 million tweets"]]
 	},
 
 }
+
 #http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=hydroxychloroquinefastgreedy
 
 

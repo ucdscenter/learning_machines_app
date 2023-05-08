@@ -72,13 +72,10 @@ def permiss(doc_db, req):
 
 
 def index(request, exception=None):
-	ctxt = {}
+	from learningmachines.external_projects import PROJECTS
+
+	ctxt = {"data": json.dumps(PROJECTS)}
 	return render(request, 'searcher/index.html', ctxt)
-
-
-def home(request):
-	ctxt = {}
-	return render(request, 'searcher/home.html', ctxt)
 
 
 @xframe_options_exempt
@@ -459,7 +456,7 @@ def searcher(request):
 		send_mail(subject,
 				  message, EMAIL_HOST_USER, [recepient], fail_silently=False)
 		return render(request, 'searcher/success.html', {'recepient': recepient})
-	return render(request, 'searcher/index2.html', {'form': sub})
+	return render(request, 'searcher/index.html', {'form': sub})
 
 # Function for BERT Visualization
 
