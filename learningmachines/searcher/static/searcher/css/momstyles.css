@@ -20,6 +20,10 @@
      color: #104262;
      text-decoration: none;
  }
+
+ .setdesc {
+    margin-bottom: 0;
+}
  
  .orange {
      color: #ED8E23;

@@ -27,26 +27,29 @@ async function renderDataBaseSelect(dbdata) {
     .data(Object.keys(dbdata))
     .enter()
     .append("div")
-    .attr("class", "col-12 col-lg-4 mb-3 p-3")
+    .attr("class", "col-12 col-lg-4 pb-1")
     .attr("id", function (d) {
       return d + "_btn";
     });
 
+
   var dbdivs = dbBtns.append("div")
-    .attr("class", "btn db-button row h-100 card p-3 rounded-none")
-    .style("background-color", function (d) {
-      return dbdata[d].color;
-    })
-    .style("border-color", "white")
-    .style("text-align", "center")
-    .style("max-width", "100%")
-    .style("white-space", "normal")
+    .attr("class", "buttoncontainer bluepipebg d-inline-block")
     .on("click", function(d) {
       d3.select("#selected-db").text(dbdata[d].name);
+    })
+    .on("mouseover", function(d){
+      d3.select(this)
+        .classed("bluepipebg", false)
+        .classed("orangepipebg", true)
+    })
+    .on("mouseout", function(d){
+      d3.select(this)
+        .classed("bluepipebg", true)
+        .classed("orangepipebg", false)
     });
 
-
-  //.style("width", "100%")
+  dbdivs = dbdivs.append("div").attr("class", "db-button h-100 p-3 graybg")
 
   dbBtns.on("click", function (d) {
     showContinue('search-text');
@@ -57,41 +60,21 @@ async function renderDataBaseSelect(dbdata) {
   let formatter = d3.format(".3s");
 
   let dbLabels = dbdivs.append("div")
-    .attr("class", "db_label col-12 card-body")
-    .style("max-width", "100%")
-    .style("display", "inline");;
+    .attr("class", "db_label");
 
 
   dbLabels
     .append("h5")
-    .style("display", "inline-block")
-    .style("text-transform", "uppercase")
-    .style("font-weight", "bold")
-    .classed("card-text", true)
+    .attr("class", 'pp')
     .text(function (d) {
       return dbdata[d].name;
     });
   
-  dbLabels
-    .append("br")
 
   dbLabels
     .append("p")
-    .style("display", "inline-block")
-    .classed("card-text", true)
     .text(function (d) {
       console.log(d)
-      return "Docs: " + formatter(database_runtimes[d].count);
-    });
-  
-  dbLabels
-  .append("br")
-
-  dbLabels
-    .append("p")
-    .style("display", "inline-block")
-    .classed("card-text", true)
-    .text(function(d){
       yearExt = d3.extent(Object.keys(database_years[d]), function (d) {
         return d;
       });
@@ -99,16 +82,12 @@ async function renderDataBaseSelect(dbdata) {
       if (yearExt[0] != undefined) {
         yearstr = yearExt[0] + "-" + yearExt[1]
       }
-      return "Time: " + yearstr
+      return  formatter(database_runtimes[d].count) + " docs |" + yearstr ;
     });
 
-  dbLabels
-    .append("br")
 
   dbLabels.append("p")
-    .classed("dataset-btn-p card-text  align-middle", true)
-    .style("display", "inline-block")
-    .style("overflow-wrap", "break-word")
+    .classed("setdesc", true)
     .text(function(d){
       return database_runtimes[d].description
   });
@@ -1242,17 +1221,17 @@ function showContinue(prefix) {
 
   // Disable previous button for first section
   if (current_index === 0) {
-    $('.prev').addClass('disabled');
+    $('.prev').addClass('hidden');
   } else {
-    $('.prev').removeClass('disabled');
+    $('.prev').removeClass('hidden');
   }
 
   // Disable next button for last section
-  if (current_index === sections.length - 1) {
-    $('.next').addClass('disabled');
-  } else {
-    $('.next').removeClass('disabled');
-  }
+  // if (current_index === sections.length - 1) {
+  //   $('.next').addClass('hidden');
+  // } else {
+  //   $('.next').removeClass('hidden');
+  // }
 
   // Hide sections before current section
   for (var i = 0; i < current_index; i++) {

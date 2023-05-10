@@ -1,18 +1,38 @@
 {% extends 'searcher/base.html' %}
 {% block title %}Projects{% endblock title%}
 {% block content %}
+{% load static %}
+
+<!-- <div id="AA_btn">
+            <div class="buttoncontainer bluepipebg d-inline-block">
+                <div class="db-button h-100 p-3 graybg">
+                    <div class="db_label">
+                        <h5 class="pp">Anesthesiology</h5>
+                        <p class="pp">28.0k docs&nbsp;|&nbsp;<span class="dataset-btn-p">2000-2018</span></p>
+
+                        <p class="setdesc">Abstracts related to Anesthesiology research.</p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
     <div class="row">
         <div class="projlist container-fluid mt-5">
             <h2>Projects</h2>
             <div class="row justify-content-evenly" style="margin-bottom: 1.5rem;">
                 {% for key, values in projects.items %}
                 <div class="col-12 col-md-4 col-lg-4 col-xl-4" style="padding: 1.5rem;">
-                    <div class="card h-100 p-3">
-                        <h3><a>{{values.Name}}</a></h3>
-                        <p>{{values.Info}}</p>
+                    <div class="d-inline-block">
+                        <!-- <div style="background: url('{% static '/searcher/images/project-images/Debates.png' %}'); height: 6px"></div> -->
+                        <div style="background: url('{% static '/searcher/images/project-images/'|add:values.image|add:'' %}'); background-size: 100% 10px; height: 10px"></div> 
+                        <div class="db-button h-100 p-3 graybg">
+
+                        <h5 class="pp" style="font-size: 1.5rem"><a>{{values.Name}}</a></h5>
+                        <p class="pp setdesc">{{values.Info}}</p>
                         {% for link in values.Links %}
                             <a href="{{link.0}}">{{link.1}}</a>
                         {% endfor %}
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
