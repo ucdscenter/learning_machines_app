@@ -35,6 +35,7 @@ async function renderDataBaseSelect(dbdata) {
 
   var dbdivs = dbBtns.append("div")
     .attr("class", "buttoncontainer bluepipebg d-inline-block")
+    .style("cursor", "pointer")
     .on("click", function(d) {
       d3.select("#selected-db").text(dbdata[d].name);
     })
@@ -74,7 +75,6 @@ async function renderDataBaseSelect(dbdata) {
   dbLabels
     .append("p")
     .text(function (d) {
-      console.log(d)
       yearExt = d3.extent(Object.keys(database_years[d]), function (d) {
         return d;
       });
@@ -354,7 +354,7 @@ docBtns.on("click", function () {
 
 
 function renderSearchInput(d, dbdata) {
-
+  console.log(d)
   $('#search-term').off('keyup');
   $('.doc-button').off("click");
   $('#archaeology-row-div select').val('all');
@@ -367,7 +367,7 @@ function renderSearchInput(d, dbdata) {
 
   $('.doc-button').css("background-color", dbdata[d].color);
   if (d == 'Care_Reviews') {
-    $('#carereview-row-div').removeClass("hidden");
+    $('#care-rating-low-lab').removeClass("hidden");
     $('#archaeology-row-div').addClass("hidden");
     $('#caselaw-row-div').addClass("hidden");
     $('#family-row-div').addClass("hidden");
@@ -378,7 +378,7 @@ function renderSearchInput(d, dbdata) {
     $('#coi-row-div').addClass("hidden");
     $('#family-row-div').addClass("hidden");
     $('#search-term-div').removeClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-lab').addClass("hidden");
   }
   else if (d == 'Pubmed_COI') {
     $('#coi-row-div').removeClass("hidden");
@@ -390,7 +390,7 @@ function renderSearchInput(d, dbdata) {
     });
     $('#archaeology-row-div').addClass("hidden");
     $('#caselaw-row-div').addClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-lab').addClass("hidden");
   }
   //no more non federal jurisdiction
   /*else if (d == 'CaseLaw_v2'){
@@ -403,7 +403,7 @@ function renderSearchInput(d, dbdata) {
     $('#archaeology-row-div').addClass("hidden");
     $('#search-term-div').removeClass("hidden");
     $('#family-row-div').removeClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-lab').addClass("hidden");
   }
 
   else {
@@ -411,7 +411,7 @@ function renderSearchInput(d, dbdata) {
     $('#caselaw-row-div').addClass("hidden");
     $('#archaeology-row-div').addClass("hidden");
     $('#family-row-div').addClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-lab').addClass("hidden");
     $('#search-term-div').removeClass("hidden");
 
 

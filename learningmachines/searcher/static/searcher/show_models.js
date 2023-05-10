@@ -23,13 +23,13 @@ function wrapper(){
 	let time_p = d3.timeParse("%m/%d/%y %M:%S %p")
 
 	let steps = {
-		"Scheduled" : 0/6,
-		"Fetching Documents" : 1/6,
-		"Learning Ngrams" : 2/6,
-		"Creating Dictionary" : 3/6,
-		"Running Model" : 4/6,
-		"Formatting Data" : 5/6,
-		"Uploading Data" : 6/6,
+		"Scheduled" : "0/6",
+		"Fetching Documents" : "1/6",
+		"Learning Ngrams" : "2/6",
+		"Creating Dictionary" : "3/6",
+		"Running Model" : "4/6",
+		"Formatting Data" : "5/6",
+		"Uploading Data" : "6/6",
 		"Finished" : ""
 	}
 	function add_to_table(table_to_add, model_list_obj, add_info){
@@ -114,7 +114,7 @@ function wrapper(){
 						if(d.status == "Cancelled"){
 							return "hidden"
 						}
-						return "btn btn-secondary btn-sm"
+						return "btn btn-secondary btn-sm m-1"
 					})
 					.attr("href", function(d){ return "/searcher/vis/?method=" + d.vis_type + "&q_pk=" + d.q_pk })
 					.text("Open")
@@ -124,7 +124,7 @@ function wrapper(){
 							if (d.status == "Cancelled"){
 								return "btn btn-secondary btn-sm"
 							}
-							return "btn btn-secondary btn-sm"
+							return "btn btn-secondary btn-sm m-1"
 							
 						})
 						.text(function(d){
@@ -136,7 +136,7 @@ function wrapper(){
 
 
 					table_body_row.append("td")
-							.append("a").attr("class", "btn btn-secondary btn-sm")
+							.append("a").attr("class", "btn btn-secondary btn-sm m-1")
 							.text(function(d){
 								return "Delete Model"
 					}).on("click", postDeleteQuery)
@@ -170,7 +170,7 @@ function wrapper(){
 							})
 							.text(function(d){
 								console.log(d[c])
-								return d[c] + " " + steps_format(steps[d[c]])
+								return d[c] + " " + steps[d[c]]
 							})
 				}
 			}

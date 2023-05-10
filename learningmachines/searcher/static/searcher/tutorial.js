@@ -34,21 +34,24 @@ async function renderDataBaseSelect(dbdata) {
     });
 
   var dbdivs = dbBtns.append("div")
-    .attr("class", "btn db-button btn-secondary row h-60 card p-3 rounded-none")
-    .style("background-color", function (d) {
-      return dbdata[d].color;
-    })
-    .style("border-color", "white")
-    .style("text-align", "center")
-    .style("max-width", "100%")
-    .style("white-space", "normal")
+    .attr("class", "buttoncontainer bluepipebg d-inline-block")
+    .style("cursor", "pointer")
     .on("click", function(d) {
       d3.select("#selected-db").text(dbdata[d].name);
+    })
+    .on("mouseover", function(d){
+      d3.select(this)
+        .classed("bluepipebg", false)
+        .classed("orangepipebg", true)
+    })
+    .on("mouseout", function(d){
+      d3.select(this)
+        .classed("bluepipebg", true)
+        .classed("orangepipebg", false)
     });
 
 
-  //.style("width", "100%")
-  
+  dbdivs = dbdivs.append("div").attr("class", "db-button h-100 p-3 graybg")
 
   dbBtns.on("click", function (d) {
     showContinue('search-text');
@@ -378,7 +381,7 @@ docBtns.on("click", function () {
 
 
 function renderSearchInput(d, dbdata) {
-
+  console.log(d)
   $('#search-term').off('keyup');
   $('.doc-button').off("click");
   $('#archaeology-row-div select').val('all');
@@ -391,7 +394,7 @@ function renderSearchInput(d, dbdata) {
 
   $('.doc-button').css("background-color", dbdata[d].color);
   if (d == 'Care_Reviews') {
-    $('#carereview-row-div').removeClass("hidden");
+    $('#care-rating-low-tab').removeClass("hidden");
     $('#archaeology-row-div').addClass("hidden");
     $('#caselaw-row-div').addClass("hidden");
     $('#family-row-div').addClass("hidden");
@@ -402,7 +405,7 @@ function renderSearchInput(d, dbdata) {
     $('#coi-row-div').addClass("hidden");
     $('#family-row-div').addClass("hidden");
     $('#search-term-div').removeClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-tab').addClass("hidden");
   }
   else if (d == 'Pubmed_COI') {
     $('#coi-row-div').removeClass("hidden");
@@ -414,7 +417,7 @@ function renderSearchInput(d, dbdata) {
     });
     $('#archaeology-row-div').addClass("hidden");
     $('#caselaw-row-div').addClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-tab').addClass("hidden");
   }
   //no more non federal jurisdiction
   /*else if (d == 'CaseLaw_v2'){
@@ -427,7 +430,7 @@ function renderSearchInput(d, dbdata) {
     $('#archaeology-row-div').addClass("hidden");
     $('#search-term-div').removeClass("hidden");
     $('#family-row-div').removeClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-tab').addClass("hidden");
   }
 
   else {
@@ -435,7 +438,7 @@ function renderSearchInput(d, dbdata) {
     $('#caselaw-row-div').addClass("hidden");
     $('#archaeology-row-div').addClass("hidden");
     $('#family-row-div').addClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-tab').addClass("hidden");
     $('#search-term-div').removeClass("hidden");
 
 
@@ -546,7 +549,7 @@ function renderFilterDocs(articles, dbn, qry) {
     .dimension(monthDimension)
     .group(monthlyMoveGroup)
     .centerBar(true)
-    .colors(DATABASES[dbn].nonbgcolor)
+    .colors("#22587A")
     .x(d3.scaleTime().domain(function () {
       var e = d3.extent(articles.results, function (d) {
         return d.date;
@@ -576,7 +579,7 @@ function renderFilterDocs(articles, dbn, qry) {
     .dimension(countDimension)
     .group(accGroup)
     .centerBar(false)
-    .colors(DATABASES[dbn].nonbgcolor)
+    .colors("#22587A")
     .x(d3.scaleLinear().domain([0, maxCount + 1]))
     .alwaysUseRounding(true)
     .xAxisLabel("Occurrence of search term(s)")
@@ -707,26 +710,6 @@ function updateEstimatedTime(selected, dbn, pre) {
     $('.filtered-count').text(selected);
   }
 
-  if (est_time > 1200) {
-    $('.' + pre + '-docs-btn').css("background-color", "red");
-    $('.' + pre + '-estimated-time').css("color", "red");
-    return "red";
-  }
-  else if (est_time > 600) {
-    $('.' + pre + '-docs-btn').css("background-color", "orange");
-    $('.' + pre + '-estimated-time').css("color", "orange");
-    return "orange";
-  }
-  else if (est_time > 200) {
-    $('.' + pre + '-docs-btn').css("background-color", "yellow");
-    $('.' + pre + '-estimated-time').css("color", "#999900");
-    return "#999900";
-  }
-  else {
-    $('.' + pre + '-docs-btn').css("background-color", "green");
-    $('.' + pre + '-estimated-time').css("color", "green");
-    return "green";
-  }
 
 }
 
@@ -1247,17 +1230,17 @@ function showContinue(prefix) {
 
   // Disable previous button for first section
   if (current_index === 0) {
-    $('.prev').addClass('disabled');
+    $('.prev').addClass('hidden');
   } else {
-    $('.prev').removeClass('disabled');
+    $('.prev').removeClass('hidden');
   }
 
   // Disable next button for last section
-  if (current_index === sections.length - 1) {
-    $('.next').addClass('disabled');
-  } else {
-    $('.next').removeClass('disabled');
-  }
+  // if (current_index === sections.length - 1) {
+  //   $('.next').addClass('hidden');
+  // } else {
+  //   $('.next').removeClass('hidden');
+  // }
 
   // Hide sections before current section
   for (var i = 0; i < current_index; i++) {
@@ -1376,6 +1359,7 @@ let DATABASES =
     'options': [],
     'name': 'ER, Urgent Care Reviews'
   }
+  //For dev server
   // 'Poetry_Foundation' : {
   //   'options': [],
   //   'name': "Poetry Foundation"

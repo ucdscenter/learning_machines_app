@@ -75,8 +75,8 @@
       <div class="row" id="mainrow">
         <div class="search-section justify-content-center mb-5" id="database-select-div" style=" margin: 0 auto;">
           <div class="search-section-wrapper" style="display: table;">
-            <h3 class="gent text-center">Select your Database
-            <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Select a database to search for model creation, time estimates are based on time increases in seconds per additional 100 docs" class="material-icons center_icon_h3">info_outlined</i>
+            <h3 class="gent text-center">To begin, select the Dataset you are interested in
+             <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Select a database to search for model creation" class="fa-solid fa-circle-info"></i>
             </h3>
             <div class="row" id="select-db">
           
@@ -88,8 +88,8 @@
           
           <div class="col-md-6 align-items-center mx-auto">
             <div class="col-12 mx-auto d-flex justify-content-center">
-              <h3 class="gent">Build your Query
-              <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Build a query to search for model creation, time estimates are based on time increases in seconds per additional 100 docs" class="material-icons center_icon_h3">info_outlined</i>
+              <h3 class="gent">Build your Query to search Datasets
+              <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Build a query to search for model creation" class="fa-solid fa-circle-info"></i>
               </h3>
             </div>
             <form>
@@ -106,9 +106,9 @@
                 <input type="text" name="search-term" class="form-control rounded-none" id="search-term" value="bad OR horrible OR awful" placeholder="eg: bad OR horrible OR awful">
                 <p class="tinytext">Tip: Use 'AND', 'NOT', 'OR' as logical keywords, nesting and combining them with parentheses. Multi word phrases should be within double quotes e.g. "apple sauce" </p>
               </div>
-              <div class="form-group hidden" id="care-rating-low-lab">
-                <label for="journal-options-select" id="care-rating-low-lab">Folter by reviewer's star rating</label>
-                <input type="number" class="form-control rounded-none" id="care_rating_low" name="care_rating_low" min="-1" max="5" value="-1">
+              <div class="form-group hidden" id="care-rating-low-tab">
+                <label for="journal-options-select" id="care-rating-low-lab">Filter by reviewer's star rating</label>
+                <input type="number" class="form-control rounded-none" id="care_rating_low" name="care_rating_low" min="-1" max="5" value="1">
               </div>
               <div class="form-group hidden" id="archaeology-row-div">
                 <label for="journal-options-select" id="journal-label">Select Journal</label>
@@ -149,41 +149,31 @@
             <div class="justify-content-evenly">
               <div class="col-12" style="padding: 0.5rem;">
                 <div class="row"> 
-                  <!-- <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-100" style="text-align: center; margin: auto; border-radius: 0%;">100</button>
-                  </div>
                   <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-500" style="text-align: center; margin: auto; border-radius: 0%;">500</button>
-                  </div> -->
-                  <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-1000" style="text-align: center; margin: auto; border-radius: 0%; outline: 0; box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);">1000</button>
+                    <button class="btn btn-secondary doc-button w-100" id="docs-1000" style="text-align: center; margin: auto;">1000</button>
                   </div>
-                  <!-- <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-5000" style="text-align: center; margin: auto; border-radius: 0%;">5000</button>
-                  </div>
-                  <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-10000" style="text-align: center; margin: auto; border-radius: 0%;">10000</button>
-                  </div>
-                  <div class="col-4 col-sm-6 col-md-6 col-lg-4 p-2">
-                    <button class="btn btn-lg db-button doc-button w-100" id="docs-20000" style="text-align: center; margin: auto; border-radius: 0%;">20000</button>
-                  </div> -->
+                  
                 </div>
               </div>
               
             </div>
           </div>
           <div class="col-md-6" id="explanation mt-4 mt-lg-0">
+            <h5>Searching:</h5>
+            <p>We need to search for documents in the dataset, these are the data we will use to train and visualize our model.</p>
             <h5>Date Ranges:</h5>
-            <p>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            <p>Input a four digit year to filter the dataset by time.  This is a good function for if you want to compare models run on documents before and after a certain year.</p>
       
-            <h5>Search Queries:</h5>
-            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+            <h5>Search Query:</h5>
+            <p>This will return only documents in the dataset that contain the text, allowing you to filter the data you train your model with. The input accepts multiple word queries (enclosed in quotes)</p>
       
             <h5>Using Logical Operators and Non-Text Searches:</h5>
-            <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+            <p>Logical operators such as AND and OR are supported. You may also nest logical phrases by enclosing them in parentheses. If you leave the input empty, it will return the same random selection of documents. In this example, we will get all documents using any of the three words bad, horrible or awful.  </p>
       
             <h5>Dataset-specific filtering:</h5>
-            <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+            <p>Some datasets have metadata specific fields one can filter by as well. In this case you can select a review rating to filter by. In this case we're only looking at 1 star reviews.</p>
+            <h5>Select Size</h5>
+            <p>Because of the size of some of our datasets, we limit the maximum documents returned. Start with smaller sizes to run models quickly and tweak your searched documents. In this case, click the button to search for 1000 documents.
           </div>
         </div>
         
@@ -191,7 +181,7 @@
           <div class="row">
             <div class="col-6 align-items-center">
               <div class="col-12 mx-auto d-flex justify-content-center">
-                <h3 class="gent">Filter Docs containing '<span id="search-qry"></span>' <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="These bar graphs show the selected doc counts over both time and occurrence of search term. Click and drag across the graphs to additionally filter texts for the model. If documents were fetched with no search term, occurrence is simply the number of words in the document" class="material-icons center_icon_h3">info_outlined</i></h3>
+                <h3 class="gent">Filter Docs containing '<span id="search-qry"></span>' <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="These bar graphs show the selected doc counts over both time and occurrence of search term. Click and drag across the graphs to additionally filter texts for the model. If documents were fetched with no search term, occurrence is simply the number of words in the document" class="fa-solid fa-circle-info"></i></h3>
               </div>
               <div class="row ">
                 <div class="col-12 text-center">
@@ -209,23 +199,17 @@
                 </div>
                 
                 <div class="col-12 mx-auto d-flex justify-content-center hidden" id="explore-docs-btn-div" >
-                  <div class="btn btn-lg btn-secondary db-button explore-docs-btn rounded-none">Explore Docs</div>
+                  <div class="btn btn-lg btn-secondary explore-docs-btn">Explore Docs</div>
                 </div>
               </div>
 
             </div>
             <div class="col-6" id="explanation mt-4 mt-lg-0">
-              <h5>Date Ranges:</h5>
-              <p>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+              <h5>Year Filters:</h5>
+              <p>The top graph shows the year distribution of the returned documents from the search step, this allows you to additionally filter the dataset with more information on how these documents are distributed over time. Filter by clicking and dragging on the graph.</p>
         
-              <h5>Search Queries:</h5>
-              <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-        
-              <h5>Using Logical Operators and Non-Text Searches:</h5>
-              <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
-        
-              <h5>Dataset-specific filtering:</h5>
-              <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+              <h5>Document Occurrence:</h5>
+              <p>The bottom graph shows the distribution of the occurrence of search terms in each returned document. This allows you to filter out documents that only use your searched terms once, or filter out documents that overuse it. If the query input was empty in the previous step, then this shows the lengths of the documents.</p>
             </div>
           </div>
         </div>
@@ -236,7 +220,7 @@
               <div class="col-12 mx-auto d-flex justify-content-center">
                 <h3 class="gent">
                   Explore <span class="total-filtered-count"></span> Documents 
-                  <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Click on a document in the table to explore its text and view its metadata. Select or deselect the included check box to include or remove it from the model." class="material-icons center_icon_h3">info_outlined</i>
+                  <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Click on a document in the table to explore its text and view its metadata. Select or deselect the included check box to include or remove it from the model." class="fa-solid fa-circle-info"></i>
                 </h3>
               </div>
               
@@ -276,25 +260,17 @@
               <div class="row">
                 <div class="col-12 mx-auto d-flex justify-content-center">
                   <div class="padding-left:10px">
-                    <h6><span class="filtered-count"></span> of <span class="total-filtered-count"></span> Documents Selected</h6>
-                    <div class="btn btn-lg btn-success db-button vis-docs-btn rounded-none" id="choose-vis-btn" >Choose Visualization</div>
+                    <h6><b><span class="filtered-count"></span></b> of <span class="total-filtered-count"></span> Documents Selected</h6>
+                     <div class="btn btn-lg btn-secondary vis-docs-btn" id="choose-vis-btn" >Choose Visualization</div>
                     <a class="btn btn-lg btn-success db-button vis-docs-btn rounded-none hidden" id="download-table-btn" >create csv</a>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-4" id="explanation mt-4 mt-lg-0">
-              <h5>Date Ranges:</h5>
-              <p>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-        
-              <h5>Search Queries:</h5>
-              <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-        
-              <h5>Using Logical Operators and Non-Text Searches:</h5>
-              <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
-        
-              <h5>Dataset-specific filtering:</h5>
-              <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+              <h5>Explore the data:</h5>
+              <p>This tab allows to review the texts of the documents you will be creating the model with. It gives you a look at whether you might edit to filters in the previous steps. The score column  in the document table represents search term occurrence counts.</p>
+      
             </div>
           </div>         
         </div>
@@ -302,7 +278,7 @@
         <div class="row search-section justify-content-center hidden" id="select-vis-div" style="overflow-y: auto" >
           <div class="col-12">
             <div class="col-12 mx-auto d-flex justify-content-center">
-              <h3 class="gent">Select Visualization/Model Type <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Choose the model type and visualization you wish to create. We recommend using dfr or pylda to run initial smaller models to establish a good topic number and stop words, then run model of models on a full corpus with those parameters to examine in depth. The vector methods offer additional functionality in terms of exploring intra-word and intra-document relationships" class="material-icons center_icon_h3">info_outlined</i></h3>
+              <h3 class="gent">Select Visualization/Model Type <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Choose the model type and visualization you wish to create. We recommend using dfr or pylda to run initial smaller models to establish a good topic number and stop words, then run model of models on a full corpus with those parameters to examine in depth. The vector methods offer additional functionality in terms of exploring intra-word and intra-document relationships" class="fa-solid fa-circle-info"></i></h3>
             </div>
             
 
@@ -317,79 +293,11 @@
                     <img src="{% static 'searcher/images/btns/mlmom-btn.png' %}" alt="multi level model of models" class="img-fluid rounded" style="max-height: 200px;">
                   </div>
                   <div class="mt-3 d-flex justify-content-center">
-                    <button class="btn btn-secondary db-button fig rounded-none" id="multilevel_lda">Select</button>
+                    <button class="btn btn-secondary db-button fig" id="multilevel_lda">Select</button>
                   </div>
                 </div>
               </div>
             </div>
-
-              <!-- <div class="col-md-6 col-lg-4 my-3">
-                <div class="card h-100 rounded-none">
-                  <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">Topic Browser</h5>
-                    <div class="card-text mb-3">
-                      <p>A good overview vis for exploration. Provides a number methods to explore how topics occur over time as well as an interface to show words in topics, topics in documents and other helpful information.</p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                      <img src="{% static 'searcher/images/btns/dfr-btn.png' %}" alt="topic browser" class="img-fluid rounded" style="max-height: 200px;">
-                    </div>
-                    <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig rounded-none" id="DFR browser">Select</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6 col-lg-4 my-3">
-                <div class="card h-100 rounded-none">
-                  <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">PyLda Vis</h5>
-                    <div class="card-text mb-3">
-                      <p>A good visualization to explore how topics relate to each other in size and meaning, projecting them onto a 2d space. Provides the most robust word-topic exploration functionality of all our tools.</p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                      <img src="{% static 'searcher/images/btns/pylda-btn.png' %}" alt="py lda vis" class="img-fluid rounded" style="max-height: 200px;">
-                    </div>
-                    <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig rounded-none" id="pyLDAvis">Select</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6 col-lg-4 my-3">
-                <div class="card h-100 rounded-none">
-                  <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">Word2Vec/Doc2Vec</h5>
-                    <div class="card-text mb-3">
-                      <p>Learns word (or document) meanings based off of their context and pca projects the words onto 2d space after clustering them. Good for large corpora and looking at word (or document) relationships. Not an lda method.</p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                      <img src="{% static 'searcher/images/btns/w2v-btn.png' %}" alt="word to vector" class="img-fluid rounded" style="max-height: 200px;">
-                    </div>
-                    <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig rounded-none" id="word2vec">Select</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6 col-lg-4 my-3">
-                <div class="card h-100 rounded-none">
-                  <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">Sentiment Analysis</h5>
-                    <div class="card-text mb-3">
-                      <p>Based off of a selected base pretrained model, run sentiment analysis on the selected documents.</p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                      <img src="{% static 'searcher/images/btns/sentiment-btn.png' %}" alt="word to vector" class="img-fluid rounded" style="max-height: 200px;">
-                    </div>
-                    <div class="mt-3 d-flex justify-content-center">
-                      <button class="btn btn-secondary db-button fig rounded-none" id="sentiment">Select</button>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             
           </div>
         </div>
@@ -413,7 +321,7 @@
                     <h5>Multi Level Model of Models Parameters</h5>
                     <div class="form-row hidden">
                       <label for="levelselect" class="col-form-label">Choose Model Levels <i data-container="body" data-toggle="popover" data-placement="right" data-content="Select article level to run the 6 models normally. Select paragraph level to pull only the paragraphs that contain the search term(s) and use the individual paragraphs as 'documents' in the model. Paragraph level increases performance speed." 
-                        class="material-icons center_icon_options">info_outlined</i></label>
+                        class="mate"fa-solid fa-circle-info"></i></label>
                       <select name="level_select" class="form-control form-control-sm rounded-none" id="level-select">
                         <option value="article">Article Level</option>
                         <option value="paragraph">Paragraph Level</option>
@@ -427,7 +335,7 @@
                     <div class="form-row hidden" id="word2vec-doc2vec-chooser">
                       <div class="col-12">
                         <h6>Choose Model to Run <i data-container="body" data-toggle="popover" data-placement="right" data-content="Word2vec learns 200 dimension vector representions of the words in the corpus using cbow, capturing their inherent relative meanings. Doc2Vec learns these same word vector representations but then uses those words in the documents in the corpus to create document vector meanings." 
-                          class="material-icons center_icon_options">info_outlined</i></h6>
+                          class="mate"fa-solid fa-circle-info"></i></h6>
                       </div>
       
                       <div class="col-12">
@@ -445,7 +353,7 @@
                         <input type="checkbox" class="form-check-input rounded-none" id="ngrams-check" name="ngrams" checked>
                         <label class="form-check-label" for="ngrams-check"><strong>N-Grams</strong> - if checked, will include common ngrams in corpus</label>
                       </div>
-                      <i data-container="body" data-toggle="popover" data-placement="right" data-content="We calculate up to 4-grams using gensim's phraser model" class="material-icons center_icon_options">info_outlined</i>
+                      <i data-container="body" data-toggle="popover" data-placement="right" data-content="We calculate up to 4-grams using gensim's phraser model" class="mate"fa-solid fa-circle-info"></i>
                     </div>
       
                     <div class="form-row hidden">
@@ -453,11 +361,11 @@
                         <input type="checkbox" class="form-check-input rounded-none" id="tfidf-check" name="tfidf">
                         <label class="form-check-label" for="tfidf-check"><strong>TFIDF</strong> - if checked, will run tfidf on the corpus before running the model.</label>
                       </div>
-                      <i data-container="body" data-toggle="popover" data-placement="right" data-content="Running tfidf on the corpus before creating the model will reweight the words in the corpus, making rarely used words more impactful in the final model." class="material-icons center_icon_options">info_outlined</i>
+                      <i data-container="body" data-toggle="popover" data-placement="right" data-content="Running tfidf on the corpus before creating the model will reweight the words in the corpus, making rarely used words more impactful in the final model." class="mate"fa-solid fa-circle-info"></i>
                     </div>
 
                     <div class="form-row not-w2v">
-                      <label for="num-topics" class="col-form-label">Number of Topics  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of topics for the LDA model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="material-icons center_icon_options">info_outlined</i></label>
+                      <label for="num-topics" class="col-form-label">Number of Topics  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of topics for the LDA model to be created with. Play around with this until you find a number that you think accurately captures the corpus." class="mate"fa-solid fa-circle-info"></i></label>
                       <input class="form-control form-control-sm rounded-none" type="number" id="num_topics" name="num_topics" min="2" max="50" value="15">
                       
                       <label for="passes-select" class="col-form-label hidden">Passes : </label>
@@ -476,22 +384,22 @@
       
                     <div class="form-row vector-options">
                       <label for="num_clusters" class="col-form-label">Number of Clusters  <i data-container="body" data-toggle="popover" data-placement="right" data-content="The number of clusters for the vector model to be created with. Play around with this until you find a number that you think accurately captures the corpus." 
-                        class="material-icons center_icon_options">info_outlined</i></label>
+                        class="mate"fa-solid fa-circle-info"></i></label>
                         <input class="form-control rounded-none ml-1" type="number" id="num_clusters" value="15" min="2" max="50">
                     </div>
       
                     <div class="form-row mt-2">
                       <label for="stop-word" class="col-4 col-form-label">Stop word list <i data-container="body" data-toggle="popover" data-placement="right" data-content="Often, the top words in many topics will be common filler terms or the original search terms themselves. Add them in here to remove them from the model, making the meaningful words more prominent. Remember to use all forms of a word to completely extirpate it. i.e. animal, animals, animalistic if 'animal' appears in all your topics" 
-                        class="material-icons center_icon_options">info_outlined</i></label>
+                        class="mate"fa-solid fa-circle-info"></i></label>
                       
                       <textarea class="form-control rounded-none ml-1" name="stop_words" rows="1" id="stop-word"
                                 placeholder="Words separted by comma">bad, horrible, awful, would, told, go, get, could</textarea>
                       
                     </div>
       
-                    <div class="form-row mt-2">
+                    <div class="form-row mt-2 hidden">
                       <label for="phrases" class="col-3 col-form-label">Phrases <i data-container="body" data-toggle="popover" data-placement="right" data-content="By default, we split the corpus into individual words before running LDA or w2v, however if you would like to maintain specific multi-word terms or phrases, include them here and they will replace the individual words." 
-                        class="material-icons center_icon_options">info_outlined</i></label>
+                        class="mate"fa-solid fa-circle-info"></i></label>
                       <textarea class="form-control rounded-none ml-1" name="phrases" rows="1" id="phrases" 
                                 placeholder="Word phrases separated by comma. e.g. next generation sequencing, DNA sequencing"></textarea>
                     
@@ -499,7 +407,7 @@
       
                     <div class="form-row mt-2 hidden">
                       <label for='word-replacement' class="col-4 col-form-label">Word replacement <i data-container="body" data-toggle="popover" data-placement="right" data-content="If there are multiple ways a term you would like to capture is written as, e.g. United States and USA, then you can replace one term with the other in the corpus, creating more consistency. In our case, replacing all instances of 'United States' with USA would look like United States->USA" 
-                        class="material-icons center_icon_options">info_outlined</i></label>
+                        class="mate"fa-solid fa-circle-info"></i></label>
                         <textarea class="form-control rounded-none ml-1" name="replacement" rows="1" id="word-replacement"
                                   placeholder="e.g. Next Generation Sequencing->NGS, harm -> damage"></textarea>
                       
@@ -525,14 +433,14 @@
                   
                   <div class="form-group form-row mt-5 mb-1 p-2">
                     <div class="col-12" align="center">
-                      <h6 align="center"><span class="filtered-count"></span> of <span class="total-filtered-count"></span> Documents Selected</h6>
+                      <h6 align="center"><b><span class="filtered-count"></span></b> of <span class="total-filtered-count"></span> Documents Selected</h6>
       
                     </div>
                   </div>
       
                   <div class="form-group form-row justify-content-center mb-5">
                     <div class="col-4">
-                      <p id="submit-wrapper-button" class="btn btn-lg btn-raised btn-block btn-secondary vis-docs-btn rounded-none" style="background-color: none;">Create Model</p>
+                      <p id="submit-wrapper-button" class="btn btn-lg btn-secondary vis-docs-btn">Create Model</p>
                     
                     </div>
                   </div>
@@ -541,17 +449,20 @@
               </div>
             </div>
             <div class="col-5" id="explanation mt-4 mt-lg-0">
-              <h5>Date Ranges:</h5>
-              <p>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+              <h5>Model Parameters:</h5>
+              <p>Now that you've created your filtered data and selected a model method, you can tweak the parameters to improve your results.</p>
         
-              <h5>Search Queries:</h5>
-              <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+              <h5>N-Grams:</h5>
+              <p>Checking this box adds a step to the word dictionary creation of the modeling, it generates bigrams from words that appear next to one another quite often. Common multiple word phrases like 'New York City' will become 'new_york_city'</p>
         
-              <h5>Using Logical Operators and Non-Text Searches:</h5>
-              <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+              <h5>Number of topics:</h5>
+              <p>This is a subjective number, it is good practice to run models with a few different topic numbers to see whether there is a minumum count where certain topics occur. Generally, the smaller your dataset the fewer topics/classes you will have. A good default number is between 10 and 20 topics</p>
         
-              <h5>Dataset-specific filtering:</h5>
-              <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
+              <h5>Stop words:</h5>
+              <p>This is a comma separated list of words to be removed from the documents. Because every document will contain your search terms, they won't add much meaning to your topics and can be removed. If you first run a model and certain words appear too often in topics, you can put those in this list to remove them from future models.</p>
+              <h5>You're ready!:</h5>
+              <p>You're all set! Click the Create Model button to start training your model. Check out the intepreting a model page for help with exploring the visualizations.</p>
+              <p></p>
             </div>
           </div>
         </div>
@@ -576,8 +487,8 @@
   
   <div class="row" id="navrow"><!-- prev and next buttons -->
       <div class="col d-flex justify-content-between mt-3">
-        <div class="prev font-weight-bold"><a href="#" id="prev-section"><i class="fas fa-angle-left mr-1"></i>&laquo; Previous</a></div>
-        <div class="next font-weight-bold"><a href="#" id="next-section">Next &raquo;<i class="fas fa-angle-right ml-1"></i></a></div>
+        <div class="prev hidden"><a href="#" id="prev-section"><i class="fas fa-angle-left ml-1"></i> Previous</a></div>
+        <div class="next hidden"><a href="#" id="next-section">Next <i class="fas fa-angle-right ml-1"></i></a></div>
       </div>
   </div>
 
