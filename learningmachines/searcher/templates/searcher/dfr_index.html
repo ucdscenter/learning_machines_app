@@ -1,61 +1,139 @@
-{% extends 'searcher/base.html' %}
+{# HTML5 declaration #}
 {% load static %}
-{% block title %}Model Visualization - DFR{% endblock title%}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block head_css_section %}
-{% endblock head_css_section %}
+<head>
+  <meta charset="utf-8">
+  <title id="page-title">Topic Model Browser</title>
+  <script type="text/javascript" src="{% static 'searcher/dfr-browser/lib/d3.min.js' %}"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--<link rel="stylesheet" href="/static/searcher/dfr-browser/css/bootstrap.min.css" media="screen">-->
 
 
-{% block content %}
+   <link rel="icon" type="image/x-icon" href="{% static 'searcher/images/favicon.ico' %}" />
+    <!-- For iPhone 4 Retina display: -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'searcher/images/favicon.ico %'" />
+    <!-- For iPad: -->
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'searcher/images/favicon.ico %'" />
+    <!-- For iPhone:-->
+    <link rel="apple-touch-icon-precomposed" href="/static/ext/favicon.ico" /> 
+
+ <!--<link rel="stylesheet" href="/static/searcher/projector/src/bootstrap.min.css">-->
+  <link rel="stylesheet" href="{% static 'searcher/css/bootstrap.min.css' %}">
+  <link href="{% static 'searcher/fonts/roboto_robotoslab.css' %}" rel="stylesheet">
+  <link  href="{% static 'searcher/fonts/material_icons.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'searcher/dfr-browser/css/index.css' %}" type="text/css">
+  <link rel="stylesheet" href="{% static 'searcher/mymain.css' %}">
+
+
+  
+  
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg " id="main-nav">
+
+    <div class="navbar-header">
+    <a class="navbar-brand" href="/" style="color: #002a31;">
+      <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
+      <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
+      <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
+      </a>
+   </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span ><i class="material-icons center_icon">list</i></span>
+   </button>
+  <div class="navbar-collapse collapse" id="navbarSupportContent">
+
+    <ul class="nav navbar-nav" align="left">
+
+      <li class="nav-item dropdown">
+
+        <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Upload
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+         <form method="post" action="upload_dfr" enctype="multipart/form-data">
+          <input type="file" name="modelzip">
+          <input type="submit" value="Upload">
+        </form>
+        </div>
+      </li>
+      <li class="nav-item"><a class="nav-link" id="dfr-download-btn" href="download_dfr">Download</a></li>-->
+      <li class="nav-item" id="nav_model"><a class="nav-link" href="#/model">Overview</a></li>
+      <li id="nav_topic" class="nav-item dropdown">
+        <a href="#/topic" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="#" id="topic_dropdown_toggle">
+          Topic<b class="caret"></b>
+        </a>
+        <ul id="topic_dropdown" class="dropdown-menu scroll-menu" style="margin-top: 0px; border-top-left-radius: 0px; border-top-right-radius: 0px; white-space: nowrap; font-size: 14px; margin-top:3px; margin-bottom:3px; padding-left:20px; padding-right:20px; border-radius: 3px; box-shadow: 0px 0px 5px grey; border: 1px solid var(--main-color)" role="menu" aria-labelledby="topic_dropdown_toggle">
+          <li class="disabled loading_message"><a href="#/topic">Loading topics...</a></li>
+        </ul>
+      </li>
+        <li class="nav-item" id="nav_doc" ><a class="nav-link" href="#/doc">Document</a></li>
+        <li class="nav-item" id="nav_word"><a class="nav-link" href="#/word">Word</a></li>
+        <li class="nav-item" id="nav_bib" ><a class="nav-link" href="#/bib">Bibliography</a></li>
+        <li class="nav-item" id="nav_words" ><a class="nav-link" href="#/words">Word index</a></li>
+
+    </ul>
+
+  </div>
+
+</nav>
+
+
 <div id="loading_show" align="center">
   <h6>Formatting data, for doc counts above 3000 please allow a few seconds</h6>
   <img src="{% static 'searcher/images/big-ajax-loader.gif' %}" alt="loading">
 </div>
 <div id="loading_hide" class="hidden">
-  <div class="modal fade" id="settings_modal" tabindex="-1" role="dialog" aria-labelledby="settings_title" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-          <h4 class="modal-title" id="settings_title">Settings</h4>
-        </div>
-        <div class="modal-body">
-          <p class="help">Use these controls to adjust how much information is displayed on some of the browser pages.</p>
-          <form role="form">
-            <div id="reveal_hidden">
-              <input type="checkbox">
-              <label>Show hidden topics</label>
-            </div>
-            <div id="n_words_list">
-              <input type="number">
-              <label>topic top words in lists</label>
-            </div>
-            <div id="n_words_topic">
-              <input type="number">
-              <label>topic top words on the topic page</label>
-            </div>
-            <div id="n_topic_docs">
-              <input type="number">
-              <label>top articles on the topic page</label>
-            </div>
-            <div id="conditional_streamgraph">
-              <input type="checkbox">
-              <label>Display stacked overview as a streamgraph</label>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-right"
-              data-dismiss="modal">
-            Close
-          </button>
-        </div>
+<div class="modal fade" id="settings_modal" tabindex="-1"
+    role="dialog" aria-labelledby="settings_title" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="settings_title">Settings</h4>
       </div>
+      <div class="modal-body">
+        <p class="help">Use these controls to adjust how much information is displayed on some of the browser pages.</p>
+        <form role="form">
+          <div id="reveal_hidden">
+            <input type="checkbox">
+            <label>Show hidden topics</label>
+          </div>
+          <div id="n_words_list">
+            <input type="number">
+            <label>topic top words in lists</label>
+          </div>
+          <div id="n_words_topic">
+            <input type="number">
+            <label>topic top words on the topic page</label>
+          </div>
+          <div id="n_topic_docs">
+            <input type="number">
+            <label>top articles on the topic page</label>
+          </div>
+          <div id="conditional_streamgraph">
+            <input type="checkbox">
+            <label>Display stacked overview as a streamgraph</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-right"
+            data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="container-fluid">
-  <div class="row">
+   <div class="row">
    <div class="col-12">    
       <div class="row info-header pt-2 pb-2 justify-content-center">
         <div class="col-12">
@@ -83,302 +161,330 @@
     </div>
 </div>
   </div>
-
   <div class="row justify-content-center">
-    <div class="col-10" id="new-main-container" style="background-color:white">
-      <div id="error" class="alert alert-danger alert-dismissable hidden">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      </div>
+  <div class="col-10" id="new-main-container" style="background-color:white">
+  <div id="error" class="alert alert-danger alert-dismissable hidden">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  </div>
 
-      <div id="warning" class="alert alert-warning alert-dismissable hidden">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      </div>
+  <div id="warning" class="alert alert-warning alert-dismissable hidden">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  </div>
 
-      <div id="model_view" class="hidden mt-1">
-        <div class="subnav pt-1" role="navigation">
-          <ul id="nav_model" class="list-inline">
-            <li id="nav_model_grid" class="active list-inline-item n-btn">
-              <a href="#/model/grid" class="btn">Grid</a>
-            </li>
-            <!--<li id="nav_model_scaled" class="list-inline-item">
-              <a href="#/model/scaled">Scaled</a>
-            </li>-->
-            <li id="nav_model_list" class="list-inline-item n-btn">
-              <a href="#/model/list" class="btn">List</a>
-            </li>
-            <li id="nav_model_conditional" class="list-inline-item n-btn">
-              <a href="#/model/conditional" class="btn">Stacked</a>
-            </li>
-          
-            <li class="list-inline-item">
-              <p class="navbar-text help model_view_grid hidden">
-                click a circle for more about a topic
-              </p>
-              <p id="model_view_help"
-              class="navbar-text help model_view_scaled model_view_conditional hidden">
-              scroll to zoom; shift-drag to pan; click for more about a topic</p>
-              <p id="list_view_help"
-              class="navbar-text help model_view_list hidden">
-              click a column label to sort; click a row for more about a topic</p>
-              <p id="conditional_view_help" class="navbar-text help model_view_conditional">
-                y-axis:
-              </p>
-          <!-- <ul id="conditional_choice" class="list-inline model_view_conditional hidden">-->
-              <p id="nav_model_conditional_frac" class="list-inline-item n-btn hidden model_view_conditional">
-                <a href="#/model/conditional/frac">
-                  <span class="not-proper hidden">%</span>
-                  <span class="proper hidden">conditional</span>
-                </a>
-              </p>
-              <p id="nav_model_conditional_raw " class="list-inline-item n-btn hidden model_view_conditional">
-                <a href="#/model/conditional/raw">
-                  <span class="not-proper hidden">word counts</span>
-                  <span class="proper hidden">joint</span>
-                </a>
-              </p>
-          <!-- </ul>-->
-            </li>
-
-            <button id="reset_zoom" type="button"
-              class="btn btn-default navbar-btn
-                model_view_scaled model_view_conditional hidden">
-              Reset zoom
-            </button>
-          </ul>
-        </div>
-        <div id="model_view_list" class="hidden">
-          <table class="table table-condensed">
-            <thead>
-              <tr>
-                <th id="model_view_list_topic" class="sort">
-                  <a href="#/model/list/topic" title="click to sort">
-                    topic
-                  </a><span class="glyphicon glyphicon-sort"></span>
-                </th>
-                <th id="model_view_list_condition" class="sort">
-                  <a href="#/model/list/condition"
-                      title="click to sort by location of peak">
-                    variation
-                  </a><span class="glyphicon glyphicon-sort"></span>
-                </th>
-                <th id="model_view_list_words" class="sort">
-                  <a href="#/model/list/words" title="click to sort">
-                    top words
-                  </a><span class="glyphicon glyphicon-sort"></span>
-                </th>
-                <th colspan="2" id="model_view_list_frac" class="sort text-right">
-                  <a href="#/model/list/frac" title="click to sort">
-                    <span class="not-proper hidden">proportion of corpus</span>
-                    <span class="proper hidden">average probability</span>
-                  </a><span class="glyphicon glyphicon-sort"></span>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="calc-done">
-            </tbody>
-          </table>
-        </div>
-        <div id="model_view_plot" class="hidden">
-        </div>
-        <div id="model_view_conditional" class="hidden">
-        </div>
-      </div>
-
-      <div id="about_view" class="hidden">
-        <div id="meta_info"></div>
-        <div id="about_browser">
-          <p>Model-browser interface by <a class="external" href="http://andrewgoldstone.com">Andrew Goldstone</a>; source available on <a class="external" href="http://agoldst.github.io/dfr-browser/">github</a>. Made using <a class="external" href="http://d3js.org">d3.js</a> and <a class="external" href="http://getbootstrap.com/">Bootstrap</a>. Zip support using <a class="external" href="http://stuk.github.io/jszip/">JSZip</a>.</p>
-        </div>
-      </div>
-
-      <div id="topic_view" class="hidden">
-        <div id="topic_view_help" class="hidden">
-          <p class="help">Select a topic from the "Topic" menu above.</p>
-        </div>
-        <div id="topic_view_main">
-          <div class="row">
-            <div id="topic_view_header" class="col-md-8">
-              <h2 id="topic_header"></h2>
-              <h3 id="topic_subheader" class="hidden">
-                <span class="topic_subtitle"></span>
-              </h3>
-            </div>
-            <div id="topic_view_annotation" class="col-md-4">
-              <!-- insert class="view_topic_nn" specific notes here -->
-            </div>
-          </div>
-          <div class="row">
-            <div id="topic_words" class="col-md-3">
-              <h3 class="h-small">Top words</h3>
-              <table class="table table-condensed" id="topic_words">
-                <thead>
-                  <tr>
-                    <th>Word</th>
-                    <th class="th-right">Weight</th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
-            <div class="col-md-9">
-              <div id="topic_conditional">
-                <h3 class="h-small">Conditional probability
-                  <span class="not-proper hidden">of words in topic</span>
-                  <span class="proper hidden">of topic</span>
-                </h3>
-                <p class="pull-left help">
-                  Click a bar to limit to the documents it represents
-                </p>
-                <div class="pull-right">
-                  <button class="btn btn-default disabled" type="button"
-                    id="topic_condition_clear">clear selected</button>
-                </div>
-                <div id="topic_plot">
-                </div>
-              </div>
-              <div id="topic_docs">
-                <h3 id="topic_docs_header" class="h-small">Top documents<span class="topic_condition"></span></h3>
-                <p class="help none">There are no documents containing this topic<span class="topic_condition"></span>.</p>
-                <table class="table table-condensed hidden calc-done">
-                  <thead>
-                    <tr>
-                      <th id="topic_docs_doc">Document</th>
-                      <th id="topic_docs_weight"></th>
-                      <th id="topic_docs_frac" class="th-right">%</th>
-                      <th id="topic_docs_tokens"
-                        class="th-right not-proper hidden">Tokens</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  </tbody>
-                </table>
-              </div> <!-- #topic_docs -->
-            </div>
-          </div>
-        </div> <!-- #topic_view_main -->
-      </div>
-
-      <div id="doc_view" class="hidden">
-        <div id="doc_view_help">
-          <p class="help">Choose a specific document to view from 
-          <a class="external" href="#/bib">the bibliography</a> or from
-            <a class="external" href="#/topic">a topic page</a>.</p>
-          <p class="help hidden" id="last_doc_help">Below: the last-viewed document. Stable link to this view: <a class="external" id="last_doc" href="#/doc"></a></p>
-        </div>
-        <div id="doc_view_main" class="calc-done">
-          <h2 class="h-small" id="doc_header"></h2>
-          <p id="doc_remark">
-          <span class="not-proper hidden">
-            <span class="token_count">...</span>
-            tokens.
-          </span>
-            (<a class="url external">view on JSTOR</a>)
+  <div id="model_view" class="hidden mt-1">
+    <div class="subnav pt-1" role="navigation">
+        <ul id="nav_model" class="list-inline">
+          <li id="nav_model_grid" class="active list-inline-item n-btn">
+            <a href="#/model/grid" class="btn">Grid</a>
+          </li>
+          <!--<li id="nav_model_scaled" class="list-inline-item">
+            <a href="#/model/scaled">Scaled</a>
+          </li>-->
+          <li id="nav_model_list" class="list-inline-item n-btn">
+            <a href="#/model/list" class="btn">List</a>
+          </li>
+          <li id="nav_model_conditional" class="list-inline-item n-btn">
+            <a href="#/model/conditional" class="btn">Stacked</a>
+          </li>
+        
+        <li class="list-inline-item">
+          <p class="navbar-text help model_view_grid hidden">
+            click a circle for more about a topic
           </p>
-          <table class="table table-condensed" id="doc_topics">
+          <p id="model_view_help"
+          class="navbar-text help model_view_scaled model_view_conditional hidden">
+          scroll to zoom; shift-drag to pan; click for more about a topic</p>
+          <p id="list_view_help"
+          class="navbar-text help model_view_list hidden">
+          click a column label to sort; click a row for more about a topic</p>
+          <p id="conditional_view_help" class="navbar-text help model_view_conditional">
+            y-axis:
+          </p>
+       <!-- <ul id="conditional_choice" class="list-inline model_view_conditional hidden">-->
+            <p id="nav_model_conditional_frac" class="list-inline-item n-btn hidden model_view_conditional">
+              <a href="#/model/conditional/frac">
+                <span class="not-proper hidden">%</span>
+                <span class="proper hidden">conditional</span>
+              </a>
+            </p>
+            <p id="nav_model_conditional_raw " class="list-inline-item n-btn hidden model_view_conditional">
+              <a href="#/model/conditional/raw">
+                <span class="not-proper hidden">word counts</span>
+                <span class="proper hidden">joint</span>
+              </a>
+            </p>
+         <!-- </ul>-->
+          </li>
+
+          <button id="reset_zoom" type="button"
+            class="btn btn-default navbar-btn
+              model_view_scaled model_view_conditional hidden">
+            Reset zoom
+          </button>
+      </ul>
+    </div>
+    <div id="model_view_list" class="hidden">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th id="model_view_list_topic" class="sort">
+              <a href="#/model/list/topic" title="click to sort">
+                topic
+              </a><span class="glyphicon glyphicon-sort"></span>
+            </th>
+            <th id="model_view_list_condition" class="sort">
+              <a href="#/model/list/condition"
+                  title="click to sort by location of peak">
+                variation
+              </a><span class="glyphicon glyphicon-sort"></span>
+            </th>
+            <th id="model_view_list_words" class="sort">
+              <a href="#/model/list/words" title="click to sort">
+                top words
+              </a><span class="glyphicon glyphicon-sort"></span>
+            </th>
+            <th colspan="2" id="model_view_list_frac" class="sort text-right">
+              <a href="#/model/list/frac" title="click to sort">
+                <span class="not-proper hidden">proportion of corpus</span>
+                <span class="proper hidden">average probability</span>
+              </a><span class="glyphicon glyphicon-sort"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="calc-done">
+        </tbody>
+      </table>
+    </div>
+    <div id="model_view_plot" class="hidden">
+    </div>
+    <div id="model_view_conditional" class="hidden">
+    </div>
+  </div>
+
+  <div id="about_view" class="hidden">
+    <div id="meta_info"></div>
+    <div id="about_browser">
+      <p>Model-browser interface by <a class="external" href="http://andrewgoldstone.com">Andrew Goldstone</a>; source available on <a class="external" href="http://agoldst.github.io/dfr-browser/">github</a>. Made using <a class="external" href="http://d3js.org">d3.js</a> and <a class="external" href="http://getbootstrap.com/">Bootstrap</a>. Zip support using <a class="external" href="http://stuk.github.io/jszip/">JSZip</a>.</p>
+    </div>
+  </div>
+
+  <div id="topic_view" class="hidden">
+    <div id="topic_view_help" class="hidden">
+      <p class="help">Select a topic from the "Topic" menu above.</p>
+    </div>
+    <div id="topic_view_main">
+      <div class="row">
+        <div id="topic_view_header" class="col-md-8">
+          <h2 id="topic_header"></h2>
+          <h3 id="topic_subheader" class="hidden">
+            <span class="topic_subtitle"></span>
+          </h3>
+        </div>
+        <div id="topic_view_annotation" class="col-md-4">
+          <!-- insert class="view_topic_nn" specific notes here -->
+        </div>
+      </div>
+      <div class="row">
+        <div id="topic_words" class="col-md-3">
+          <h3 class="h-small">Top words</h3>
+          <table class="table table-condensed" id="topic_words">
             <thead>
               <tr>
-                <th id="doc_view_topic">Topic</th>
-                <th id="doc_view_words">Top words</th>
-                <th id="doc_view_weight"></th>
-                <th id="doc_view_frac" class="th-right">%</th>
-                <th id="doc_view_tokens" class="th-right not-proper hidden">Tokens</th>
+                <th>Word</th>
+                <th class="th-right">Weight</th>
               </tr>
             </thead>
             <tbody>
             </tbody>
           </table>
-        </div><!-- #doc_view_main -->
-      </div>
-
-      <div id="word_view" class="hidden">
-        <div class="row">
-          <div class="col-md-8">
-            <div id="word_view_help">
-              <p class="help">Choose a specific word to view from 
-              <a class="external" href="#/words">the list of all words</a> or from
-                <a class="external" href="#/topic">a topic page</a>.</p>
-              <p class="help hidden" id="last_word_help">Below: the last-viewed word. Stable link to this view: <a class="external" id="last_word" href="#/word"></a></p>
-            </div>
-          </div>
-          <div class="col-md-4 mt-2">
-            <form id="word_view_form" class="form-inline pull-right" role="form">
-              <div class="form-group">
-                <label class="sr-only" for="word_input">Choose a word:</label>
-                <input type="text" class="form-control" id="word_input" placeholder="Enter a word">
-              </div>
-              <button type="submit" class="btn btn-default">List topics</button>
-            </form>
-          </div>
         </div>
-        <div id="word_view_main" class="row">
-          <div class="col-md-12">
-            <h2 id="word_header">Prominent topics for <span class="word"></span></h2>
-            <div id="word_view_explainer">
-              <p class="help">Click row labels to go to the corresponding topic page; click a word to show the topic list for that word.</p>
+        <div class="col-md-9">
+          <div id="topic_conditional">
+            <h3 class="h-small">Conditional probability
+              <span class="not-proper hidden">of words in topic</span>
+              <span class="proper hidden">of topic</span>
+            </h3>
+            <p class="pull-left help">
+              Click a bar to limit to the documents it represents
+            </p>
+            <div class="pull-right">
+              <button class="btn btn-default disabled" type="button"
+                id="topic_condition_clear">clear selected</button>
             </div>
-            <div class="alert alert-info none hidden">
-              <p>There are no topics in which this word is prominent.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="bib_view" class="hidden">
-        <nav id="bib_nav" class="nav navbar-default" role="navigation">
-          <div class="container">
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-              <p class="navbar-text">Sort:</p>
-              <form id="bib_sort_form" class="navbar-form navbar-left">
-                <div class="form-group">
-                  <select class="form-control" id="select_bib_sort">
-                  </select>
-                </div>
-                <div class="form-group">
-                  <select class="form-control" id="select_bib_dir">
-                    <option id="sort_bib_up" value="up">
-                      in ascending order
-                    </option>
-                    <option id="sort_bib_down" value="down">
-                      in descending order
-                    </option>
-                  </select>
-                </div>
-              </form>
+            <div id="topic_plot">
             </div>
           </div>
-        </nav>
-        <div class="row">
-          <div class="col-md-3">
-            <div id="bib_headings" data-spy="affix">
-              <p class="help">jump to:</p>
-              <ul class="list-inline">
-              </ul>
-              <p><a class="top_link" href="#">top</a></p>
-            </div>
-          </div>
-          <div class="col-md-9">
-            <div id="bib_main"></div>
-          </div>
+          <div id="topic_docs">
+            <h3 id="topic_docs_header" class="h-small">Top documents<span class="topic_condition"></span></h3>
+            <p class="help none">There are no documents containing this topic<span class="topic_condition"></span>.</p>
+            <table class="table table-condensed hidden calc-done">
+              <thead>
+                <tr>
+                  <th id="topic_docs_doc">Document</th>
+                  <th id="topic_docs_weight"></th>
+                  <th id="topic_docs_frac" class="th-right">%</th>
+                  <th id="topic_docs_tokens"
+                    class="th-right not-proper hidden">Tokens</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div> <!-- #topic_docs -->
         </div>
       </div>
+    </div> <!-- #topic_view_main -->
+  </div>
 
-      <div id="words_view" class="hidden">
-        <h2>All words prominent in any topic</h2>
-        <p class="help">Words not prominent in any topic are not listed</p>
-        <ul id="vocab_list" class="list-unstyled"></ul>
+  <div id="doc_view" class="hidden">
+    <div id="doc_view_help">
+      <p class="help">Choose a specific document to view from 
+      <a class="external" href="#/bib">the bibliography</a> or from
+        <a class="external" href="#/topic">a topic page</a>.</p>
+      <p class="help hidden" id="last_doc_help">Below: the last-viewed document. Stable link to this view: <a class="external" id="last_doc" href="#/doc"></a></p>
+    </div>
+    <div id="doc_view_main" class="calc-done">
+      <h2 class="h-small" id="doc_header"></h2>
+      <p id="doc_remark">
+      <span class="not-proper hidden">
+        <span class="token_count">...</span>
+        tokens.
+      </span>
+        (<a class="url external">view on JSTOR</a>)
+      </p>
+      <table class="table table-condensed" id="doc_topics">
+        <thead>
+          <tr>
+            <th id="doc_view_topic">Topic</th>
+            <th id="doc_view_words">Top words</th>
+            <th id="doc_view_weight"></th>
+            <th id="doc_view_frac" class="th-right">%</th>
+            <th id="doc_view_tokens" class="th-right not-proper hidden">Tokens</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div><!-- #doc_view_main -->
+  </div>
+
+  <div id="word_view" class="hidden">
+    <div class="row">
+      <div class="col-md-8">
+        <div id="word_view_help">
+          <p class="help">Choose a specific word to view from 
+          <a class="external" href="#/words">the list of all words</a> or from
+            <a class="external" href="#/topic">a topic page</a>.</p>
+          <p class="help hidden" id="last_word_help">Below: the last-viewed word. Stable link to this view: <a class="external" id="last_word" href="#/word"></a></p>
+        </div>
       </div>
-
-      <div class="col-12">
-        <label>This visualization was slightly adapted from Andrew Goldstone's <a href="https://agoldst.github.io/dfr-browser/">dfr-browser</a> project</label>
+      <div class="col-md-4 mt-2">
+        <form id="word_view_form" class="form-inline pull-right" role="form">
+          <div class="form-group">
+            <label class="sr-only" for="word_input">Choose a word:</label>
+            <input type="text" class="form-control" id="word_input" placeholder="Enter a word">
+          </div>
+          <button type="submit" class="btn btn-default">List topics</button>
+        </form>
+      </div>
+    </div>
+    <div id="word_view_main" class="row">
+      <div class="col-md-12">
+        <h2 id="word_header">Prominent topics for <span class="word"></span></h2>
+        <div id="word_view_explainer">
+          <p class="help">Click row labels to go to the corresponding topic page; click a word to show the topic list for that word.</p>
+        </div>
+        <div class="alert alert-info none hidden">
+          <p>There are no topics in which this word is prominent.</p>
+        </div>
       </div>
     </div>
   </div>
+
+  <div id="bib_view" class="hidden">
+    <nav id="bib_nav" class="nav navbar-default" role="navigation">
+      <div class="container">
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <p class="navbar-text">Sort:</p>
+          <form id="bib_sort_form" class="navbar-form navbar-left">
+            <div class="form-group">
+              <select class="form-control" id="select_bib_sort">
+              </select>
+            </div>
+            <div class="form-group">
+              <select class="form-control" id="select_bib_dir">
+                <option id="sort_bib_up" value="up">
+                  in ascending order
+                </option>
+                <option id="sort_bib_down" value="down">
+                  in descending order
+                </option>
+              </select>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="row">
+      <div class="col-md-3">
+        <div id="bib_headings" data-spy="affix">
+          <p class="help">jump to:</p>
+          <ul class="list-inline">
+          </ul>
+          <p><a class="top_link" href="#">top</a></p>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div id="bib_main"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="words_view" class="hidden">
+    <h2>All words prominent in any topic</h2>
+    <p class="help">Words not prominent in any topic are not listed</p>
+    <ul id="vocab_list" class="list-unstyled"></ul>
+  </div>
+
+  <div class="col-12">
+    <label>This visualization was slightly adapted from Andrew Goldstone's <a href="https://agoldst.github.io/dfr-browser/">dfr-browser</a> project</label>
+  </div>
+</div>
+</div>
+<div class="row">
+  
 </div>
 
-{% endblock content %}
+  <div class="row footer align-items-center justify-content-center">
+    <div class="col-10">
+      <div class="row">
+        <div class="col-3">
+           <a class="navbar-brand" href="/" style="color: #002a31;">
+      <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
+      <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
+      <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
+      </a>
+          <h6>UC DIGITAL SCHOLARSHIP CENTER</h6>
+          <h6>LANGSAM LIBRARY | 2911 WOODSIDE DRIVE, CINCINNATI, OH</h6>
+          <h6>PHONE | 513.556.8794</h6>
+        </div>
+        <div class="col-3">
+          <img alt="uc footer logo" src="//lcdn.uc.edu/ucdhs/images/uc-logo@2x.png" style="max-width: 150px; margin-bottom: 1.5rem">
+          <img alt="mellon footer logo" src="{% static 'searcher/images/mellon-foundation-logo.png' %}" style="max-width: 150px; margin-bottom: 1.5rem">
+          
+        </div>
+        <div class="col-3">
+          
+        </div>
+        <div class="col-3">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- /container -->
+</div>
 
-{% block footer_javascript_section %}
 
 <script type="text/javascript" src="{% static 'searcher/dfr-browser/lib/jquery-1.11.0.min.js' %}"></script>
 
@@ -411,6 +517,6 @@
 <script type="text/javascript" src="{% static 'searcher/dfr-browser/src/dfb.js' %}"></script>
 <script type="text/javascript" src="{% static 'searcher/dfr-browser/src/dfr_data_poll.js' %}"></script>
 
-{% endblock footer_javascript_section %}
+</body>
 
-
+</html>
