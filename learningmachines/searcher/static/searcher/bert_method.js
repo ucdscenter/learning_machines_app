@@ -7,6 +7,12 @@ async function wrapper(){
     var dataset;
     var data;
 
+    var ret_arr;
+    var qry_str;
+    var search_rslts;
+    var selectedCluster = undefined;
+    var searchedTerm = undefined;
+
     var height, width, viz_width,
     aspect, fov, near,
     far, camera, color_array,
@@ -17,7 +23,7 @@ async function wrapper(){
     colors, vertices, sizes,
     pointsMaterial, points, initial_scale, 
     initial_transform, raycaster, hoverContainer, searchContainer, choose_points, choose_generated_points;
-
+    let colorInterp = d3.interpolateTurbo
      color_array = [
             "#1f78b4",
             "#b2df8a",
@@ -58,7 +64,7 @@ async function wrapper(){
 
 
     async function getDocs(qry_str){
-        let search_rslts = await d3.json(qry_str)
+        search_rslts = await d3.json(qry_str)
         console.log(search_rslts)
         searchVis(search_rslts)
     }
@@ -66,75 +72,159 @@ async function wrapper(){
     searchElement.addEventListener('keyup', function(){
         if (event.key === "Enter") {
             qry = searchElement.value;
-            unSearchVis()
+            console.log(selectedCluster)
+            unSearchVis(1, reset_cluster=selectedCluster, reset_search=undefined,)
             if(qry.length == 0){
                 return;
             }
             let fullq = qry
-            let base_qry = dataset_path.split("_")[0] 
+            let base_qry = dataset_path.split("_")[0]
+
             if (base_qry.length == 0){
                 fullq = qry
             }
             else{
                 fullq = base_qry + " AND " + qry; 
             }
-            let qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq
+            qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq
+            //special case for decades based chicago corpus models
+            if(typeof(parseInt(base_qry.slice(0,4))) == 'number'){
+                fullq = qry
+                qry_str = "/searcher/process_search?database=" + dataset + "&qry=" + fullq + "&start=" + dataset_path.split("_")[0] + "&end=" + dataset_path.split("_")[1]
+            }
+            
             console.log(qry_str)
             getDocs(qry_str)
+            searchedTerm = qry
             
         }
     })
 
-    function unSearchVis(){
+    async function unSearchVis(e, reset_search=undefined, reset_cluster=undefined){
+        console.log("here")
+        // let empty_arr = Array(data.clusters.length)
+        // ret_arr = []
+        // empty_arr.forEach(function(ee){
+        //     ret_arr.push(true)
+        // })
+        ret_arr = Array(data.clusters.length)
+        console.log("here")
+        ret_arr.fill(true)
         scene.remove(s_points)
-        pointsMaterial.opacity = .5;
-        pointsMaterial.needsUpdate = true
-        choose_points = points;
-        choose_generated_points = generated_points;
+        if(reset_search == undefined && reset_cluster == undefined){
+            //ret_arr = Array.apply(true, Array(data.clusters.length))
+            //ret_arr.fill(true)
+            //d3.select("#line" + selectedCluster).dispatch("mouseout")
+            searchedTerm = undefined;
+            selectedCluster = undefined;
+            d3.selectAll(".cluster-line")
+                .attr("stroke-opacity", .3)
+                .attr("stroke-width", 2)
+            pointsMaterial.opacity = .5;
+            pointsMaterial.needsUpdate = true
+            choose_points = points;
+            choose_generated_points = generated_points;
+        }
+
         $("#restore-search-button").addClass("hidden")
 
         $('#s-doc-count').text(data.x.length + " documents")
+        $('#c-selected').text("No cluster selected")
+        console.log(reset_search)
+        console.log(reset_cluster)
+        if (reset_cluster != undefined){
+            console.log("getDOcs!")
+            searchVis(search_rslts, add_points=false)
+
+        }
+        if (reset_search != undefined){
+            console.log("highlightcluster!")
+            highlightCluster(selectedCluster, add_points=false)
+        }
+        
 
     }
 
     $('#restore-search-button').on("click", unSearchVis);
 
-    function searchVis(rslts){
+    function searchVis(rslts, add_points=true){
         pointsMaterial.opacity = .01
         rslts_dict = {};
         rslts.results.forEach(function(d){
             rslts_dict[d.id] = 0;
         })
-        let ret_arr = [];
+        //let ret_arr = [];
+        let index = 0
         data.id.forEach(function(i){
             if(rslts_dict[i] == undefined){
-                ret_arr.push(false)
+                //ret_arr.push(false)
+                ret_arr[index] = false
             }
             else{
-                ret_arr.push(true)
+                //ret_arr.push(true)
+                //ret_arr[index] = true
             }
+            index++;
         })
-        // filtered_data = data.filter(function(d){
-        //     if(rslts_dict[d.data_id] == undefined){
-        //         return false
-        //     }
-        //     return true
-        // })
-        // createSearchPoints(filtered_data)
-        createSearchPoints(ret_arr, data)
+        if(add_points == true){
+            createSearchPoints(ret_arr, data)
+            pointsMaterial.needsUpdate = true
+            choose_points = s_points;
+            choose_generated_points = s_generated_points;
+            console.log(s_generated_points)
+            $("#restore-search-button").removeClass("hidden")
+            $('#s-doc-count').text(rslts.results.length + " matching documents")
 
-        pointsMaterial.needsUpdate = true
-        choose_points = s_points;
-        choose_generated_points = s_generated_points;
-        console.log(s_generated_points)
-        $("#restore-search-button").removeClass("hidden")
-        $('#s-doc-count').text(rslts.results.length + " matching documents")
-
+        }
+        
     }
 
-    const getColorForPubmed = function(d){
+    function highlightCluster(clusterN, add_points=true){
+        pointsMaterial.opacity = .01
+        //let ret_arr = []
+        let index = 0
+        data.clusters.forEach(function(i){
+            if(i == clusterN){
+                //ret_arr.push(true);
+                //ret_arr[index] = true
+            }
+            else{
+                //ret_arr.push(false)
+                ret_arr[index] = false
+            }
+            index++;
+        })
+        if(add_points == true){
+            createSearchPoints(ret_arr, data)
+            pointsMaterial.needsUpdate = true
+            choose_points = s_points;
+            choose_generated_points = s_generated_points;
+            $("#restore-search-button").removeClass("hidden")
+            $('#c-selected').text("Cluster " + clusterN + " selected") 
+        }
+       
+    }
+
+
+    const getColor = function(d, hex=true){
+        let tthing = d3.rgb(colorInterp(d['category_number'] / data['cluster_centroids'].length))
+        if(hex == true){
+            let rcolor = tthing.formatHex()
+            return rcolor
+        }
+        else{
+            return tthing
+        }
+        
         // console.log(typeof d["category_number"]);
-            return color_array[Number(d["category_number"])+1];
+        // if (data.colors == undefined){
+        //     return color_array[Number(d["category_number"])+1];
+        // }
+        // else{
+        //     let tthing = colorInterp(d['category_number'] / data['clusters'].length)
+        //     //console.log(tthing)
+        //     return tthing
+        // }
         // Add topic number
                 
         }
@@ -161,12 +251,25 @@ async function wrapper(){
                 dataset_path = result.dataset_path;
                 console.log(result)
                 dataset = result.dataset_name;
+                d3.select(".dataset_name").style("font-size", "2rem").text(dataset)
                 console.log(dataset)
+                if (data.colors != undefined){
+                    data.cleaned_colors = []
+                    data.colors.forEach(function(cd){
+                    let colors_split = cd.split("(")[1].split(")")[0].split(",")
+                    cd = [parseFloat(colors_split[0])/255, parseFloat(colors_split[1])/255, parseFloat(colors_split[2])/255]
+                    //cd = [parseInt(colors_split[0]), parseInt(colors_split[1]), parseInt(colors_split[2])]
+                    data.cleaned_colors.push(cd)
+                })
+                }
+                
                 $('#s-doc-count').text(data.x.length + " documents")
                 $('#visContainer__graph').removeClass("hidden")
                 $('#visContainer__loading').addClass("hidden")
 
                 renderClusterInfo()
+                renderTimelines()
+
         // console.log(num_points)
 
          width = window.innerWidth
@@ -195,7 +298,6 @@ async function wrapper(){
         })
 
         
-        console.log(color_array)
 
         renderer = new THREE.WebGLRenderer();
         renderer.setSize(width, height);
@@ -225,7 +327,7 @@ async function wrapper(){
        
         scene = new THREE.Scene();
 
-        scene.background = new THREE.Color(0xefefef);
+        scene.background = new THREE.Color('#efefef');
         console.log(data)
         createPoints(data);
         animate();
@@ -258,6 +360,7 @@ async function wrapper(){
             let mouse_position = [mouseX, mouseY];
             checkClickPosition(mouse_position);
         });
+        unSearchVis()
 
             })
         };
@@ -284,9 +387,7 @@ async function wrapper(){
 
 
     function createSearchPoints(f_map, data){
-        console.log(f_map)
-        console.log(data)
-        let num_points = data.x.length;
+        let num_points = 0;
         let s_data_points = [];
         for (let i = 0; i < data.x.length; i++) {
             if(f_map[i] == true){
@@ -298,7 +399,9 @@ async function wrapper(){
                 data_id = data.id[i];
                 data_title = data.title[i];
                 let point = {position, category_number, data_id, data_title};
+
                 s_data_points.push(point);
+                num_points++;
             }
             
         }
@@ -306,7 +409,6 @@ async function wrapper(){
         s_generated_points = s_data_points;
 
         s_pointsGeometry = new THREE.BufferGeometry();
-
         s_colors = new Float32Array(num_points * 3);
         s_vertices = new Float32Array(num_points * 3);
         s_sizes = new Float32Array(num_points);
@@ -319,7 +421,9 @@ async function wrapper(){
             s_vertices[i + 2] = 0;
              //let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
              //pointsGeometry.vertices.push(vertex);
-            let color = new THREE.Color(getColorForPubmed(datum));
+            
+            let color = new THREE.Color(getColor(datum));
+
             s_colors[i] = color.r;
             s_colors[i+1] = color.g;
             s_colors[i+2] = color.b;
@@ -353,6 +457,7 @@ async function wrapper(){
         
 
         s_points = new THREE.Points(s_pointsGeometry, s_pointsMaterial);
+        console.log(s_points)
         scene.add(s_points);
     }
 
@@ -392,7 +497,7 @@ async function wrapper(){
             vertices[i + 2] = 0;
             // let vertex = new THREE.Vector3(datum.position[0], datum.position[1], 0);
             // pointsGeometry.vertices.push(vertex);
-            let color = new THREE.Color(getColorForPubmed(datum));
+            let color = new THREE.Color(getColor(datum));
             colors[i] = color.r;
             colors[i+1] = color.g;
             colors[i+2] = color.b;
@@ -469,7 +574,7 @@ async function wrapper(){
         // geometry.colors = [ new THREE.Color(color_array[datum.group]) ];
         // geometry.colors = [ new THREE.Color(getColor(datum.cluster_name)) ];
         let colors = new Float32Array(3);
-        color = new THREE.Color(getColorForPubmed(datum));
+        color = new THREE.Color(getColor(datum));
         colors[0] = color.r;
         colors[1] = color.g;
         colors[2] = color.b;
@@ -492,8 +597,8 @@ async function wrapper(){
         $tooltip.style.left = tooltip_state.left + 'px';
         $tooltip.style.top = tooltip_state.top + 'px';
         $point_tip.innerText = tooltip_state.name;
-        $point_tip.style.background = color_array[Number(tooltip_state.group)+1];
-        $group_tip.innerText = `Group ${tooltip_state.group}`;
+        $point_tip.style.background = clusterColor(Number(tooltip_state.group), .3);
+        $group_tip.innerText = `Cluster ${tooltip_state.group}`;
     }
 
     function showTooltip(mouse_position, datum) {
@@ -525,10 +630,13 @@ async function wrapper(){
             let index = intersect.index;
             let datum = choose_generated_points[index];
             highlightPoint(datum);
+            d3.selectAll(".cluster-line").dispatch("mouseout")
+            d3.select("#line" + datum.category_number).dispatch("mouseover")
             
             // console.log("Hlc bjvsvjknskjvnjkslo work");
             showTooltip(mouse_position, datum);
         } else {
+            d3.selectAll(".cluster-line").dispatch("mouseout")
             removeHighlights();
             hideTooltip();
         }
@@ -581,27 +689,6 @@ async function wrapper(){
         }
     }
 
-
- const getColor = function(d){
-        if(d["rating"] === "1"){
-            return color_array[0];
-        }
-        else if(d["rating"] === "2"){
-            return color_array[1];
-        }
-        else if(d["rating"] === "3"){
-            return color_array[2];
-        }
-        else if(d["rating"] === "4"){
-            return color_array[3];
-        }
-        else if(d["rating"] === "5"){
-            return color_array[4];
-        }
-        else{
-            return color_array[5];
-        }
-    }
 
 
     // Three.js render loop
@@ -664,12 +751,149 @@ async function wrapper(){
     d3.select(this).classed("clustershow", !show)
    })
 
-   function renderClusterInfo(){
+   //Do timeline info logic
 
-    function clusterColor(cc, op){
-        let ccc = new THREE.Color(color_array[cc + 1]);
+   d3.select("#visContainer__timelineshow").on("click", function(d){
+    let show = d3.select(this).classed("timelineshow")
+    if (show == true){
+        d3.select('#t-icon-hide').classed("hidden", !show);
+        d3.select('#t-icon-show').classed("hidden", show);
+        d3.select("#visContainer__timelineInfo").classed("hidden", !show)
+    }
+    else {
+        d3.select('#t-icon-hide').classed("hidden", true);
+        d3.select('#t-icon-show').classed("hidden", false);
+        d3.select("#visContainer__timelineInfo").classed("hidden", true)
+    }
+    d3.select(this).classed("timelineshow", !show)
+   })
+
+   function renderTimelines(){
+    console.log("rendering timeline")
+    console.log(data)
+    let square_size = {w:1200, h:350}
+    const margin = {"top": 10, "bottom" : 25, "left" : 35, "right" : 15};
+    var width = square_size.w - margin.left - margin.right,
+        height = square_size.h - margin.top - margin.bottom;
+
+    let cluster_line_data = {}
+
+    let dateParse = d3.timeParse('%Y-%m-%d')
+    let dateFormat = d3.timeFormat("%Y")
+    let yearExt = [5000, -5000];
+    let countExt = [0, -10000000];
+
+    let cc = [... new Set(data.clusters)]
+    //creating formatted dates
+
+    cc.forEach(function(c){
+        cluster_line_data[c] = {};
+    })
+    let ii = 0
+    data.clusters.forEach(function(d){
+        
+        let d_obj = dateParse(data.dates[ii])
+        if(d_obj != null){
+            if(d_obj.getFullYear() < yearExt[0]){
+                yearExt[0] = d_obj.getFullYear()
+            }
+            if(d_obj.getFullYear() > yearExt[1]){
+                yearExt[1] = d_obj.getFullYear()
+            }
+            if(cluster_line_data[d].hasOwnProperty(d_obj.getFullYear())){
+                cluster_line_data[d][d_obj.getFullYear()] += 1
+            }
+            else {
+                cluster_line_data[d][d_obj.getFullYear()] = 1
+            }
+        }
+        ii += 1;
+        
+    })
+
+    Object.keys(cluster_line_data).forEach(function(c){
+        Object.keys(cluster_line_data[c]).forEach(function(d){
+            if(cluster_line_data[c][d] > countExt[1]){
+                countExt[1] = cluster_line_data[c][d]
+            }
+        })
+    })
+
+    var y = d3.scaleLinear()
+      .domain(countExt)
+      .range([ height, 0 ]);
+
+    var x = d3.scaleLinear().domain(yearExt).range([0, width])
+
+     let svg = d3.select('#timeline-div')
+        .append("svg")
+        .attr("id", "timeline-svg")
+        .attr("viewBox", "0 0 " + square_size.w + " " + square_size.h)
+        .attr("preserveAspectRatio", "xMidYMid meet")
+
+    let svg_g = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg_g.append("g")
+        .attr("class", "yaxis")
+        .call(d3.axisLeft(y));
+
+    svg_g.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .attr("class", "xaxis")
+      .call(d3.axisBottom(x).tickFormat(d3.format(".0f")));
+
+    Object.keys(cluster_line_data).forEach(function(c_time){
+
+        let line_color = clusterColor(parseInt(c_time), 1);
+        let line_opacity = .3
+        if (line_color == undefined){
+            line_color = "grey"
+            line_opacity = .3
+        }
+        svg_g.append("path")
+            .datum(Object.keys(cluster_line_data[c_time]))
+            .attr("fill", "none")
+            .attr("stroke", line_color)
+            .attr("stroke-width", 2)
+            .attr("class", "cluster-line")
+            .attr("id", function(d){
+                return "line" + parseInt(c_time);
+            })
+            .attr("stroke-opacity", line_opacity)
+            .on("mouseover", function(d){
+                d3.select(this).raise()
+                d3.select(this).attr("stroke-opacity", 1)
+                d3.select(this).attr("stroke-width", 4)
+            })
+            .on("mouseout", function(d){
+
+                d3.select(this).attr("stroke-opacity", .1)
+                d3.select(this).attr("stroke-width", 2)
+
+            })
+
+            .attr("d", d3.line()//.curve(d3.curveBundle.beta(2))
+                .x(function(d){
+                    return x(d)
+                })
+                .y(function(d){
+                    return y(cluster_line_data[c_time][d])
+                }))
+            
+    })
+
+    
+   }//renderTimelines
+
+   function clusterColor(cc, op){
+        let ccc = new THREE.Color(getColor({'category_number' : cc}));
         return "rgba(" + (ccc.r * 255) + ',' + (ccc.g * 255) + ',' + (ccc.b * 255) + ","+ op +")";
     }
+
+   function renderClusterInfo(){
+
+    
 
     data['clusters_sizes'] = []
 
@@ -690,7 +914,9 @@ async function wrapper(){
     }
 
     let c_table = d3.select("#dtbody")
-    
+    let sortAscending = true
+
+
     let rows = c_table.selectAll(".row")
                     .data(c_idxs)
                     .enter()
@@ -698,16 +924,56 @@ async function wrapper(){
                     .style("background-color", function(d){
                         return clusterColor(d,.5)
                     })
-                    .on("mouseover", function(){
+                    .on("mouseover", function(d){
                         d3.select(this).style("background-color",function(d){
                             return clusterColor(d, 1)
                         })
+                        d3.select("#line" + d).dispatch("mouseover")
                     })
-                    .on("mouseout",function(){
+                    .on("mouseout",function(d){
+                        if(d != selectedCluster)
                         d3.select(this).style("background-color",function(d){
+                            d3.select("#line" + d).dispatch("mouseout")
                             return clusterColor(d, .5)
+
                         })
+                   
                     })
+                    .attr("id", function(d){
+                        return "clusterrow" + d
+                    })
+                    .on("click", clickClusterRow)
+
+    d3.select("#size-sort").on("click", function(d){
+        if (sortAscending == true) {
+            rows.sort(function(a, b) {
+                return d3.ascending(data['clusters_sizes'][b], data['clusters_sizes'][a]);  });
+            sortAscending = false;
+            //this.className = 'a';
+        } 
+        else {
+            rows.sort(function(a, b) { return d3.descending(data['clusters_sizes'][b], data['clusters_sizes'][a]); });
+            sortAscending = true;
+            //this.className = 'des';
+        }
+    })
+
+    async function clickClusterRow(e,d){
+        selectedCluster = d
+
+        await unSearchVis(1, reset_cluster=d, reset_search=searchedTerm)
+        highlightCluster(d)
+        // if (selectedCluster != d){
+        //     selectedCluster = d
+        //     await unSearchVis(1, reset_cluster=undefined, reset_search=searchedTerm)
+        //     highlightCluster(d)
+            
+        // }
+        // else {
+        //     await unSearchVis(1, reset_cluster=undefined, reset_search=searchedTerm)
+        //     selectedCluster = undefined
+        // }
+    }
 
     let c_td = rows.selectAll("td").data(function(d, i){
         return [i, data['clusters_sizes'][i], data['cluster_labels_docs'][i], data['cluster_labels_tfidf'][i]]
@@ -721,8 +987,7 @@ async function wrapper(){
         })
     console.log(data['clusters_sizes'].length)
 
-
-    console.log(data['clusters_sizes'])
+    d3.select('#size-sort').dispatch("click")
    }
 
    

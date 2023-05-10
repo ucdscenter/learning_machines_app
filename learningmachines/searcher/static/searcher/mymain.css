@@ -173,19 +173,6 @@ hr {
 }
 
 
-#visContainer__cluster {
-	position : absolute;
-	top : 2.5vh;
-	left : 80vw;
-	background-color: #eee;
-	width:  17vw;
-}
-
-
-.pp {
-	margin-bottom : 0px
-}
-
 .dataset-btn-p {
 	font-size:  .85em;
 }

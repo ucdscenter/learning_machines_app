@@ -109,6 +109,10 @@
      font-family: 'Gentium Book Basic', serif;
      font-weight: 700;
  }
+
+ .pp {
+    margin-bottom : 0px
+}
  /* Header */
  .navbar{
     display: flex;

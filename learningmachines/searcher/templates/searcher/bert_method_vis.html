@@ -1,160 +1,152 @@
 {% extends 'searcher/base.html' %}
 {% load static %}
 {% block title %}BERT Embeddings Visualization{% endblock title %}
+{% block head_css_page %}
+<link rel="stylesheet" href="{% static 'searcher/bert.css' %}" type="text/css" >
+{% endblock head_css_page %}
 
 {% block content %}
-  <div class="row visContainer">
-    <div class="projlist container-fluid mt-5">
-      <h2>BERT Projection</h2>
-      <div class="row justify-content-evenly" style="margin-bottom: 1.5rem;">
-        {% for dataset, dataset_info in datasets.items %}
-
-        <div class="col-12 col-md-4 col-lg-4 col-xl-4" style="padding: 1.5rem;">
-          <a href="/searcher/bert_method_vis/{{dataset}}">
-            <div class="card h-100 p-3">
-              <div class="card__imageContainer">
-                <h3 style="color: black" >{{dataset_info.display_name}}</h3>
-                <span>{{dataset_info.description}}</span>
-              </div>
+<div class="row justify-content-center">
+      {% for dataset, dataset_info in datasets.items %}
+      
+      <div class="cards">
+        <a href="/searcher/bert_method_vis/{{dataset}}">
+        <div class="card">
+          <div class="card__imageContainer">
+            <!-- <img class="card__image" alt={{dataset}} src="{% static 'searcher/images/bert_images/' %}{{dataset}}.png"> -->
+            <div class="p-5" style="min-height: 100px;">
+              <h5 style="font-size: 1.5rem; color: black">
+                {{dataset_info.display_name}}
+              </h5>
             </div>
-          </a>
-        </div>
-
-        {% endfor %}
-
-        {%if url_parameter %}
-          
-        <div class="row">
-          <div class="col-lg-6">
-              <div class="row"><!-- Input Nav row -->
-                  <div class="col d-flex flex-wrap graybg p-2 justify-content-start justify-content-xl-between"><span class="mr-2"><strong>Dataset:</strong> <span id="corpus"></span></span><span class="mr-2"><strong>Query:</strong> <span id="term"></span></span><span class="mr-2"><strong>Parameters:</strong> 100 docs; 20 topics; year-year</span></div>
-              </div>
-
-              <div id="visContainer__loading" class="visContainer__loading" align="center">
-                  <img src="{% static 'searcher/images/big-ajax-loader.gif' %}" alt="loading">
-              </div>
-              <div id="visContainer__graph" class="visContainer__graph hidden">
-                  <div class="row pt-2">
-                      <div class="col">
-                          <ul class="nav nav-tabs" id="visTabs" role="tablist">
-                              <li class="nav-item">
-                                  <a class="nav-link" id="tree-btn" data-toggle="tab" href="#tree" role="tab" aria-controls="tree" aria-selected="true">Tree <i class="fas fa-info-circle  ml-2" data-container="body" data-toggle="popover" data-placement="bottom"
-                                  data-content="clusters."></i></a>
-                              </li>
-                              <li class="nav-item">
-                                  <a class="nav-link" id="circle-btn" data-toggle="tab" href="#circle" role="tab" aria-controls="circle" aria-selected="true">Circle <i class="fas fa-info-circle  ml-2" data-container="body"
-                                  data-toggle="popover" data-placement="bottom"
-                                  data-content="timeline"></i></a>
-                              </li>
-                              
-
-                          </ul>
-
-                      </div>
-                  </div>
-                  <div class="tab-content gr1ayborder mt-5" id="visTabContent">
-                      <div class="tab-pane fade" id="tree-graph-div" role="tabpanel" aria-labelledby="tree-tab">
-                          
-                      </div>
-                      <div class="tab-pane fade" id="circle-graph-div" role="tabpanel" aria-labelledby="circle-tab">
-                          <p> Selected word: <span id="word_label">none</span></p>
-                      </div>
-                      <div class="tab-pane fade show active" id="network-graph-div" role="tabpanel" aria-labelledby="network-tab">
-                          <div class="row">
-                              <div class="col-2">
-                              <p> Doc-link limit:<span id="kl_label"></span></p>
-                              </div>
-                              <div class="col-2" id="slider">
-                              </div>
-                              <div class="col-8">
-                              <div class="row"><!-- Nodes -->
-                                <div class="col d-flex flex-wrap  p-2 justify-content-start">
-                                    <div class="" >Notes Mode:
-                                        <i class="fas fa-toggle-on orange"></i>
-                                    </div>
-                                    <div class="pl-2 pr-2"><a href="#" id="annotation-button">Show Tools</a></div>
-                                    <!-- <div class=""><a href="#" id='s-n-a-b' style="cursor: pointer;">Show Notes Menu</a></div> -->
-                                    <div class="pl-2 pr-2"><a href="#" id='ex-a-b' style="cursor: pointer;">Export to PNG</a></div>
-                                </div>
-                              </div>
-                              </div>
-                              <div class="col-12 cytoscape-height"  id="network-graph">
-
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div> 
-          <div class="col-lg-6">
-              <div class="row">
-                  <!--nested row for tables -->
-                  <div class="col-xl-7">
-                      <h4 class="gent">Clusters <i class="fas fa-info-circle orange ml-2"></i></h4>
-
-                      <div id="clusters-table" class="table clustertable">
-                          
-                      </div>
-                  </div>
-
-                  <div class="col-xl-5">
-                      <h4 class="gent">Documents <i class="fas fa-info-circle orange ml-2"></i></h4>
-                      <div class="limitheight mt-4" id="topics-table">
-                          <table id="dtable" class="table docstable" style="border-left: 6px solid rgba(64, 70, 136, 0.6);">
-                              
-                          </table>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="visContainer__infoContainer">
-                <div class="row mb-3">
-                    <div class="col mt-4">
-                      <div class="visContainer__searchContainer">
-                        <h4 class="gent">Selected Document</h4>
-                        <div class='row'>
-                          <div class="col-12">
-                            <input type="text" style="font-size: 15px" name="search-term"  id="search-input" class="form-control input-lg" placeholder="Search Documents"/>
-                          </div>
-                          <div class="col-12 mt-2">
-                            <h6 id="s-doc-count"></h6>
-                            <button class="btn btn-secondary hidden" id="restore-search-button">Restore Search</button>
-                          </div>
-                        </div>
-                        <p id="doc_contents" class="table_txt" style="max-height: 100%; overflow-x: auto; overflow-y: auto;"></p>
-                      </div>
-                      <div class="visContainer__info">
-                        <div class="visContainer__info__docText" id="visContainer__info__docText"></div>
-                      </div>
-                    </div>
-
-                </div>
-              </div>
           </div>
-
+  
+          <div class="card__overlay">
+            <div class="card__header">
+              <!--<img class="card__thumb" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="" />-->
+                <div class="card__header-text">
+                  <h3 class="card__title">{{dataset_info.display_name}}</h3>            
+                  <span class="card__text">{{dataset_info.description}}</span>
+                </div>
+            </div>
+          </div>
         </div>
-        {% endif %}
+      </a>
       </div>
-    </div>
-  </div>
 
+    {% endfor %}
+</div>
     
      
 
   
 
-  
+      {%if url_parameter %}
+      <div class="visContainer" style="height: 100vh; width: 100vw;">
+        <div class="visContainer__infoContainer">
+          <div class="titleContainer">
+          <div class="row">
+            <div class="col-12">
+              <h5 class='dataset_name'></h5>
+            </div>
+          </div>
+          </div>
+          <div class="visContainer__dropDownContainer" style='display: none;'>
+            <h6>Select Algorithm</h6>
+            <select class="visContainer__dropDown" id="visContainer__dropDown">
+              <option value="bert">Bert</option>
+              <option value="UMAP">UMAP</option>
+              <option value="tSNE">tSNE</option>
+              <option value="PCA">PCA</option>
+              <option value="KMeans+PCA">KMeansPCA</option>
+              <option value="PCA+KMeans">PCAKMeans</option>
+              <!-- <option value="KMeans+UMAP">KMeansUMAP</option> -->
+              <!-- <option value="KMeans+tSNE">KMeanstSNE</option> -->
+            </select>
+          </div>
+
+          <div class="visContainer__searchContainer">
+            <!--<h6>Filter Documents : </h6>-->
+
+            <div class='row'>
+              <div class="col-12">
+            <input type="text" style="font-size: 15px" name="search-term"  id="search-input" class="form-control input-lg" placeholder="Search Documents"/>
+          </div>
+          <div class="col-12 mt-2">
+            <h6 id="s-doc-count"></h6>
+            <h6 id="c-selected"></h6>
+            <button class="btn btn-secondary hidden" id="restore-search-button">Restore Filter</button>
+            </div>
+          </div>
+          </div>
+          <div class="visContainer__info" style='overflow-y: auto;'>
+            <h5 class="visContainer__info__docTitle" id="visContainer__info__docTitle">Label: </h5>
+            <h6 class="visContainer__info__docTitle" id="visContainer__info__docAuthor">Author: </h6>
+            <h6 class="visContainer__info__docTitle" id="visContainer__info__docTopic">Cluster: </h6>
+            <div class="visContainer__info__docText" id="visContainer__info__docText"></div>
+          </div>
+        </div>
+        <div class="visContainer__graphContainer">
+          <div class="visContainer__loading" id="visContainer__loading">
+              <img class='mt-5' src="{% static 'searcher/images/big-ajax-loader.gif' %}" alt="loading">
+          </div>
+          <div class="visContainer__graph hidden" id="visContainer__graph">
+            <div class="visContainer__cluster" id="visContainer__cluster">
+
+              <div id="visContainer__clustershow" class='clustershow' style="cursor: pointer; color: black"><h5 align="center"> Show Cluster Info<i id="icon-show" class="material-icons center_icon_h3">expand_more</i><i id="icon-hide" class="material-icons center_icon_h3 hidden">expand_less</i></h5></div>
+
+              <div  id="visContainer__clusterInfo" class="visContainer_clusterInfo hidden m-2" style="max-height: 75vh; overflow-y: scroll">
+                <table class="table bert-table">
+                  <thead style="background-color: white;">
+                    <tr>
+                    <th>Cluster</th>
+                    <th id="size-sort">Size</th>
+                    <th>central title</th>
+                    <th>tfidf label</th>
+                  </tr>
+                  </thead>
+                  <tbody id="dtbody" style="font-size: 10px;">
+              
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+
+            <div class="visContainer__timeline" id="visContainer__timeline">
+
+              <div id="visContainer__timelineshow" class='timelineshow' style="cursor: pointer; color: black"><h5 align="center"> Show Timelines<i id="t-icon-show" class="material-icons center_icon_h3">expand_more</i><i id="t-icon-hide" class="material-icons center_icon_h3 hidden">expand_less</i></h5></div>
+
+              <div  id="visContainer__timelineInfo" class="visContainer_timelineInfo hidden m-2" style="max-height: 75vh; overflow-y: scroll">
+                <div id="timeline-div" style="background-color: #fff;">
+                  <p class="p-2">Cluster Timelines</p>
+                </div>
+              </div>
+             
+            </div>
+          </div>
+
+
+
+
+            <!-- <canvas id="visContainer__graphCanvas" width="716" height="820" style="width: 716.6666666666666px; height: 820px;">{{ datasetJsonString }}</canvas> -->
+          </div>
+        </div>
+      </div>
+      {% endif %}
 {% endblock content %}
 
 {% block footer_javascript_page %}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 <script>let static_url = "{% static 'searcher/bert_method_data/' %}"</script>
 <script src="{% static 'searcher/js/jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
-<!-- <script src="{% static 'searcher/js/bootstrap.min.js' %}"></script>-->
-<!--<script src="/static/searcher/js/jquery-ui.js"></script>-->
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+  <!--<script src="/static/searcher/js/jquery-ui.js"></script>-->
+  <script
+  src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+  crossorigin="anonymous"></script>
 <script src="{% static 'searcher/js/d3.min.js' %}"></script>
 <script src="{% static 'searcher/js/three.min.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
@@ -175,9 +167,7 @@
       toBeActive.classList.add('active');
     }
   }
+  d3.select(".main-content").style("padding", 0)
+  d3.select(".contentblock").style("padding", 0)
 </script>
-
 {% endblock footer_javascript_page %}
-
-
-[bert, tsne, pca, pcakmeans, kmeanspca, umap]
