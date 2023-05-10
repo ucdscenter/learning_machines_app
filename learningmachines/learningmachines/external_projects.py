@@ -13,7 +13,7 @@ PROJECTS = {
 		"Name" : "1923 Crow Maps",
 		"Info" : "Maps of every allotment on the Crow Reservation from 1923, showing land parcels and their heads of household.",
 		"image" : "Crow_Maps.png",
-		"Links" : [["https://rebeccawingo.com/reframed/map/maps_static/about-map", "Visit Rebecca Wingo's Site"]]
+		"Links" : [["https://rebeccawingo.com/reframed/map/maps_static/map-proto.html", "Visit Rebecca Wingo's Site"]]
 	},
 	"Library" : {
 		"Name" : "UC Published Documents Dashboard",
@@ -25,8 +25,8 @@ PROJECTS = {
 		"Name" : "CO2 Emissions and Race",
 		"Info" : "Maps and Visualizations showing the relationships between race, income, and CO2 emissions for select cities, from 2010",
 		"image" : "CO2.png",
-		"Links" : [["https://ucdscenter.github.io/climate_race_maps", "View Project Site"],
-			["http://climate-maps-v2.s3-website.us-east-2.amazonaws.com/", "Version 2 Prototype--whole country"]]
+		"Links" : [["https://www.co2-map.modelofmodels.io/", "Project Site"],["https://ucdscenter.github.io/climate_race_maps", "Old Project Maps"]
+			]
 	},
 	"Ventilator" : {
 		"Name" : "Ventilator Timelines",
