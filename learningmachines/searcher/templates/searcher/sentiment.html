@@ -3,10 +3,29 @@
 {% block title %}Model Visualization - Sentiment{% endblock title%}
 
 {% block head_css_section %}
+
+  <style>
+    .doc_row {
+      background-color: white;
+    }
+    .mouseover {
+      position : absolute;
+      background-color: #d3d3d3;
+      width : 250px;
+      z-index : 1000000;
+      font-size: 15px;
+      border-radius: 8px;     
+      pointer-events: none;     
+    }
+  </style>
 {% endblock head_css_section %}
 
 
 {% block content %}
+
+<div class="mouseover" style="opacity: 0">
+    <p class="p-2"></p>
+  </div>
 
 <div class="row">
   <div class="col-12" >
@@ -37,10 +56,6 @@
 
 {% block footer_javascript_section %}
 
-<script src="{% static 'searcher/js/jquery.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
-<!-- <script src="{% static 'searcher/js/bootstrap.min.js' %}"></script> -->
-<!--<script src="/static/searcher/js/jquery-ui.js"></script>-->
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 <script src="{% static 'searcher/js/d3.min.js' %}"></script>
 <script src="{% static 'searcher/sentiment.js' %}"></script>
