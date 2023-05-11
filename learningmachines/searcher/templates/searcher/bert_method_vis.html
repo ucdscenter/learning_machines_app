@@ -7,8 +7,11 @@
 
 {% block content %}
 <div class="row justify-content-center">
+      <!-- <div class="col-12 bert-title">
+        <h5 class="p-4" style="font-size: 3rem; ;">BERT Embeddings</h5>
+      </div> -->
       {% for dataset, dataset_info in datasets.items %}
-      
+
       <div class="cards">
         <a href="/searcher/bert_method_vis/{{dataset}}">
         <div class="card bluepipebg">
