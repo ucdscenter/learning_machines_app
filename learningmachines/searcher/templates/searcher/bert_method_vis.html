@@ -11,8 +11,8 @@
       
       <div class="cards">
         <a href="/searcher/bert_method_vis/{{dataset}}">
-        <div class="card">
-          <div class="card__imageContainer">
+        <div class="card bluepipebg">
+          <div class="card__imageContainer graybg  w-100" > 
             <!-- <img class="card__image" alt={{dataset}} src="{% static 'searcher/images/bert_images/' %}{{dataset}}.png"> -->
             <div class="p-5" style="min-height: 100px;">
               <h5 style="font-size: 1.5rem; color: black">
@@ -169,5 +169,15 @@
   }
   d3.select(".main-content").style("padding", 0)
   d3.select(".contentblock").style("padding", 0)
+  d3.selectAll(".card").on("mouseover", function(d){
+      d3.select(this)
+        .classed("bluepipebg", false)
+        .classed("orangepipebg", true)
+    })
+  d3.selectAll(".card").on("mouseout", function(d){
+      d3.select(this)
+        .classed("bluepipebg", true)
+        .classed("orangepipebg", false)
+    });
 </script>
 {% endblock footer_javascript_page %}

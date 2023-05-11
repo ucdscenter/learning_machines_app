@@ -8,8 +8,6 @@
 
 .card {
     /* background-color: #1c1b29; */
-    border-radius: 20px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
     position: relative;
     /* display: block; */
     overflow: hidden;
@@ -23,7 +21,6 @@
 .card__image { 
     width: 100%;
     display: block;
-    border-radius: 20px 20px;
 }
 
 .card__imageContainer:after {
@@ -33,7 +30,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    border-radius: 20px 20px 0 0;
     opacity: 0.7;
 }
 
@@ -47,7 +43,6 @@
     background-color: #fff;
     transform: translateX(100%);
     transition: .4s ease-in-out;
-    border-radius: 20px;
     /* visibility: hidden; */
     cursor: pointer;
 }
@@ -63,7 +58,6 @@
   align-items: center;
   padding: 1em;
   background-color: #fff;
-  border-radius: 20px;
 }
 
 .card__thumb {
@@ -82,7 +76,7 @@
 
 .visContainer {
     position: relative;
-    color: white;
+    color: black;
 }
 
 .visContainer__timeline {
@@ -112,7 +106,7 @@
     width: 25vw;
     display: flex;
     flex-direction: column;
-    background-color: rgb(34, 34, 34);
+    background-color: #ddd;
 }
 
 .visContainer__dropDownContainer {
