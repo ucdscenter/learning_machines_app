@@ -43,6 +43,26 @@
 {% endblock toasts %}
 {% block content %}
 
+<!-- Modal -->
+<div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="doc_title" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="doc_title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="doc_contents">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <div class="row">
@@ -61,8 +81,7 @@
             </div>
         </div> -->
         <div id="loading_show" align="center">
-            <h6>Formatting data, for smaller doc counts please allow a few seconds. For large doc counts > 3000 please
-              allow for up to 15 minutes of waiting. </h6>
+            <h6></h6>
             <img src="{% static 'searcher/images/big-ajax-loader.gif' %}" alt="loading">
           </div>
         <div id="loading_hide" class="hidden">
@@ -90,11 +109,11 @@
 
                 </div>
             </div>
-            <div class="tab-content gr1ayborder mt-5" id="visTabContent">
-                <div class="tab-pane fade" id="tree-graph-div" role="tabpanel" aria-labelledby="tree-tab">
+            <div class="tab-content " id="visTabContent">
+                <div class="tab-pane fade cytoscape-height" id="tree-graph-div" role="tabpanel" aria-labelledby="tree-tab" style="overflow-y: auto; max-height: 85vh;">
                     
                 </div>
-                <div class="tab-pane fade" id="circle-graph-div" role="tabpanel" aria-labelledby="circle-tab">
+                <div class="tab-pane fade cytoscape-height" id="circle-graph-div" role="tabpanel" aria-labelledby="circle-tab">
                     <p> Selected word: <span id="word_label">none</span></p>
                 </div>
                 <div class="tab-pane fade show active" id="network-graph-div" role="tabpanel" aria-labelledby="network-tab">
@@ -108,7 +127,7 @@
                             <div class="row"><!-- Nodes -->
                                 <div class="col d-flex flex-wrap  p-2 justify-content-start">
                                     <div class="" >Notes Mode:
-                                        <i class="fas fa-toggle-on orange"></i>
+                                        <!-- <i class="fas fa-toggle-on orange"></i> -->
                                     </div>
                                     <div class="pl-2 pr-2"><a href="#" id="annotation-button">Show Tools</a></div>
                                     <!-- <div class=""><a href="#" id='s-n-a-b' style="cursor: pointer;">Show Notes Menu</a></div> -->
@@ -127,34 +146,35 @@
     <div class="col-lg-6">
         <div class="row">
             <!--nested row for tables -->
-            <div class="col-xl-7">
-                <h4 class="gent">Clusters <i class="fas fa-info-circle orange ml-2"></i></h4>
+            <div class="col-xl-7" style="padding-right:0px">
+                <h4 class="gent">Clusters <i class="fas fa-info-circle  ml-2" data-container="body" data-toggle="popover" data-placement="bottom"
+                            data-content="Click on a cluster to view the documents within the topics within the cluster."></i></h4>
 
-                <div id="clusters-table" class="table clustertable">
+                <div id="clusters-table" class="table clustertable vistablediv">
                     
                 </div>
             </div>
 
-            <div class="col-xl-5">
-                <h4 class="gent">Documents <i class="fas fa-info-circle orange ml-2"></i></h4>
-                <div class="limitheight mt-4" id="topics-table">
-                    <table id="dtable" class="table docstable" style="border-left: 6px solid rgba(64, 70, 136, 0.6);">
+            <div class="col-xl-5 " style="padding-left:0px">
+                <h4 class="gent">Documents <i class="fas fa-info-circle  ml-2" data-container="body" data-toggle="popover" data-placement="bottom"
+                            data-content="Click on a document to view the text"></i></h4>
+                <div class="mt-4 vistablediv" id="topics-table">
+                    <table id="dtable" class="table docstable">
                         
                     </table>
                 </div>
             </div>
         </div>
 
-        <div class="row mb-3">
+<!--         <div class="row mb-3">
             <div class="col selectdoc mt-4" id="article">
                 <h4 class="gent" id="doc_title">Selected Document</h4>
 
-                <!-- <p> <strong>Survival of Listeria innocua on Fuji apples under commercial cold storage with or without low dose continuous ozone gaseous.</strong></p> -->
 
                 <p id="doc_contents" class="table_txt" style="max-height: 100%; overflow-x: auto; overflow-y: auto;"></p>
             </div>
 
-        </div>
+        </div> -->
     </div>
 
 </div>
@@ -163,7 +183,7 @@
 {% endblock content %}
 
 {% block footer_javascript_section %}
-<script src="{% static 'searcher/js/jquery.min.js' %}"></script>
+<!-- <script src="{% static 'searcher/js/jquery.min.js' %}"></script> -->
 <script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 

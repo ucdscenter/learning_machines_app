@@ -682,8 +682,8 @@ async function wrapper() {
 			centerHeight = window.innerHeight * .88;
 			clusterHeight = (window.innerHeight * .88) + 54;
 			networkGraph.resize();
-			$('#topics-table').height(centerHeight / 2.1);
-			$('#article').height(centerHeight / 1.85);
+			//$('#topics-table').height(centerHeight / 2.1);
+			//$('#article').height(centerHeight / 1.85);
 			d3.selectAll('.fixedheight').style("height", centerHeight);
 			d3.selectAll('.fixedheight-cluster').style("height", clusterHeight);
 

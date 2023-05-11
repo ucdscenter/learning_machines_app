@@ -217,6 +217,11 @@
     font: 7px sans-serif;
     stroke-width: .5;
   }
+
+.vistablediv {
+    max-height: 90vh;
+    overflow-y: auto;
+}
  
  .clustertable,
  .docstable {
@@ -229,9 +234,9 @@
  }
 
 .cselected {
-      stroke : #ffa500;
-      border : 2px solid #ffa500;
-      transition: stroke .2s, border .2s;
+      stroke : #blue;
+      /*border : 2px solid #ffa500;
+      transition: stroke .2s, border .2s;*/
 }
  
  .clustertable td,
@@ -239,6 +244,7 @@
  .docstable td,
  .docstable th {
      border-top: 0;
+     cursor: pointer;
  }
  
  .colorbar {
@@ -258,7 +264,7 @@
  }
  
  .clustertable td {
-     padding: 0 6px 6px 0;
+     padding: 0 0px 0px 0;
      vertical-align: middle;
  }
  
@@ -276,7 +282,7 @@
 
 
  .cytoscape-height {
-    height : 600px
+    height : 85vh
  }
  .link {
     stroke: lightgrey;
@@ -288,6 +294,7 @@
      height: 1000px;
      overflow-y: auto;
  }
+
 
  .nbr {
     border-radius: 0% !important;

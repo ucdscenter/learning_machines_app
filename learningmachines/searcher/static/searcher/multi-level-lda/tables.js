@@ -51,7 +51,7 @@
 
 	function renderDocsTable(tableData, tcolor){
 		d3.selectAll("#dtbody").remove()
-	  
+	  	d3.select(".docstable").style("border-left", "6px solid rgba(" + hexToRgb(tcolor).r + "," + hexToRgb(tcolor).g +"," + hexToRgb(tcolor).b + ",0.6)")
 		d3.select("#dtitle").on("click", function(d){
 		  console.log("sort by title?")
 		})
@@ -68,14 +68,18 @@
 		  .on("click", function(d){
 			console.log(d);
 			renderDocumentView(d[0][8],d[2]);
-			d3.selectAll("tr").style("border", "none"); // remove border from all tr elements
+			table.selectAll("tr").style("background-color", undefined); // remove border from all tr elements
 			d3.select(this)
-        		.style("border", "1px solid #104262"); // add blue border to the selected tr element // add blue border to the selected tr element
+        		.style("background-color", "rgba(" + hexToRgb(tcolor).r + "," + hexToRgb(tcolor).g +"," + hexToRgb(tcolor).b + ",0.6)"); // add blue border to the selected tr element // add blue border to the selected tr element
 		  	});
+
+
+		dtr.attr("data-toggle", "modal")
+			.attr("data-target", "#docModal")
 	  
 		dtr.append("td")
 		  .html(function(d) {
-			return d[0][1] + "<br/>" + d[0][8];
+			return d[0][1] + "<br/>" ;
 		  });
 	  
 		dtr.sort(function(a,b){
@@ -123,9 +127,11 @@
 			.on("click", function(d){
 				deselectAll();
 				clusterSelect(d.data);
-				d3.selectAll("tr").style("border", "none"); // remove border from all tr elements
+				d3.selectAll("tr").style("background-color", undefined); // remove border from all tr elements
 				d3.select(this)
-        		.style("border", "1px solid #104262"); // add blue border to the selected tr element // add blue border to the selected tr element
+        		.style("background-color", function(d){
+				return "rgba(" + hexToRgb(d.data.color).r + "," + hexToRgb(d.data.color).g +"," + hexToRgb(d.data.color).b + ",0.6)";
+				})
 			});
 	
 		ctr.append("td")
@@ -195,7 +201,7 @@
 			}
 			else{
 				let text = doc_response.data.split("\n")[para_index]
-				d3.select('#doc_contents').text(text)
+				//d3.select('#doc_contents').text(text)
 			}
 			
 		}
