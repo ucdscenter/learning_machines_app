@@ -161,12 +161,17 @@ async function wrapper(){
             let data = { left: d3.event.pageX, top: d3.event.pageY}
             //$('.mouseover').offset(data)
             //$('.mouseover p').text(d[3])
+            let wwidth = window.innerWidth;
+            let xloc = d3.event.pageX
+            if (xloc > wwidth / 2){
+              xloc = xloc - 250;
+            }
             mouseover.select("p").text(d[3])
             mouseover.transition()    
-                .duration(200)    
+                .duration(100)    
                 .style("opacity", .8);    
             mouseover
-                .style("left", (d3.event.pageX) + "px")   
+                .style("left", (xloc) + "px")   
                 .style("top", (d3.event.pageY - 28) + "px");  
       })
       .on("mouseout", function(d){

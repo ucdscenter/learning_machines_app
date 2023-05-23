@@ -1,6 +1,6 @@
 var qry, size, selected_database;
 async function renderDataBaseSelect(dbdata) {
-  console.log(dbdata);
+  console.log("hello:", dbdata);
   console.log(special_access);
   access_obj = JSON.parse(special_access);
   console.log(access_obj);
@@ -27,62 +27,71 @@ async function renderDataBaseSelect(dbdata) {
     .data(Object.keys(dbdata))
     .enter()
     .append("div")
-    .attr("class", "col-xl-4 col-lg-6 col-md-6 col-sm-12 p-3")
+    .attr("class", "col-12 col-lg-4 pb-1")
     .attr("id", function (d) {
       return d + "_btn";
     });
 
+
   var dbdivs = dbBtns.append("div")
-    .attr("class", "btn btn-success db-button row")
-    .style("background-color", function (d) {
-      return dbdata[d].color;
+    .attr("class", "buttoncontainer bluepipebg d-inline-block")
+    .style("cursor", "pointer")
+    .on("click", function(d) {
+      d3.select("#selected-db").text(dbdata[d].name);
     })
-    .style("border-color", "white")
-    .style("text-align", "left");
+    .on("mouseover", function(d){
+      d3.select(this)
+        .classed("bluepipebg", false)
+        .classed("orangepipebg", true)
+    })
+    .on("mouseout", function(d){
+      d3.select(this)
+        .classed("bluepipebg", true)
+        .classed("orangepipebg", false)
+    });
 
-
-  //.style("width", "100%")
+  dbdivs = dbdivs.append("div").attr("class", "db-button h-100 p-3 graybg")
 
   dbBtns.on("click", function (d) {
     showContinue('search-text');
+    updateSideNav('build-query');
     renderSearchInput(d, dbdata, fromhistory);
   });
 
   let formatter = d3.format(".3s");
 
   let dbLabels = dbdivs.append("div")
-    .attr("class", "db_label col-12").style("width", "100%");;
+    .attr("class", "db_label");
 
 
   dbLabels
-    .append("h6")
-    .style("display", "inline-block")
-    .classed("pp", true)
+    .append("h5")
+    .attr("class", 'pp')
     .text(function (d) {
       return dbdata[d].name;
     });
+  
 
   dbLabels
     .append("p")
-    .style("display", "inline-block")
-    .classed("pp", true)
     .text(function (d) {
-      console.log(d)
-      return ": " + formatter(database_runtimes[d].count) + " docs";
+      yearExt = d3.extent(Object.keys(database_years[d]), function (d) {
+        return d;
+      });
+      var yearstr = ""
+      if (yearExt[0] != undefined) {
+        yearstr = yearExt[0] + "-" + yearExt[1]
+      }
+      return  formatter(database_runtimes[d].count) + " docs |" + yearstr ;
     });
 
+
   dbLabels.append("p")
-    .classed("dataset-btn-p", true)
+    .classed("setdesc", true)
     .text(function(d){
-    yearExt = d3.extent(Object.keys(database_years[d]), function (d) {
-      return d;
-    });
-    var yearstr = ""
-    if (yearExt[0] != undefined) {
-      yearstr = yearExt[0] + "-" + yearExt[1] + ": "
-    }
-    return yearstr + database_runtimes[d].description
-  })
+      return database_runtimes[d].description
+  });
+
   let dbthings = dbdivs.append("div")
     .attr("class", "col-12")
     .style("height", "0px");;
@@ -217,7 +226,7 @@ async function renderDataBaseSelect(dbdata) {
   if (fromhistory) {
     $('#' + loaded.database + '_btn').trigger("click");
   }
-}//renderDatabaseSelect
+}//renderDatabaseSelect 
 
 async function getArticles(qry, dbn, fromhistory, timeExt, size) {
 
@@ -252,7 +261,12 @@ async function getArticles(qry, dbn, fromhistory, timeExt, size) {
 }
 
 async function getA(dbn, qry, timeExt, size) {
+  console.log("Function started");
+
   let journal_select = $('#journal-options-select').val();
+  console.log("journal_select: ", journal_select);
+  console.log(d3);
+
   let jurisdiction_select = $('#law-options-select').val();
   let auth_search_qry = $('#search-author').val();
   let family_select = $('#family-options-select').val();
@@ -291,10 +305,56 @@ async function getA(dbn, qry, timeExt, size) {
   $('#explore-docs-time').removeClass("hidden");
 
   renderFilterDocs(articles, dbn, qry);
+  console.log("getA function has completed");
 }
 
-function renderSearchInput(d, dbdata) {
+// select the inputs
+var searchTextInput = d3.select("#search-term");
+var startYearInput = d3.select("#start-year");
+var endYearInput = d3.select("#end-year");
 
+// select the document buttons
+var docBtns = d3.selectAll(".doc-button");
+
+// define a function to update the query
+function updateQuery() {
+  // get the selected database name and document limit
+  var selectedDb = d3.select(".db-button.selected").data()[0];
+  var selectedDocLimit = d3.select(".doc-button.selected").attr("id").split("-")[1];
+
+  // get the search text, start and end years from the input fields
+  var searchText = searchTextInput.property("value");
+  var startYear = startYearInput.property("value");
+  var endYear = endYearInput.property("value");
+
+  // create the new query string
+  var newQuery = " <strong>Search:</strong> " + searchText + "<br> <strong>Start Year:</strong> " + startYear + "<br> <strong>End Year:</strong> " + endYear + "<br> <strong>Doc limit:</strong> " + selectedDocLimit;
+
+  // update the query text on the page
+  d3.select("#query-text").html(newQuery);
+}
+
+
+// add event listeners to the form inputs
+startYearInput.on("input", updateQuery);
+endYearInput.on("input", updateQuery);
+searchTextInput.on("input", updateQuery);
+
+// add event listeners to the document buttons
+docBtns.on("click", function () {
+  // remove the "selected" class from all buttons
+  docBtns.classed("selected", false);
+
+  // add the "selected" class to the clicked button
+  d3.select(this).classed("selected", true);
+
+  // update the query text on the page
+  updateQuery();
+});
+
+
+function renderSearchInput(d, dbdata) {
+  console.log(d)
   $('#search-term').off('keyup');
   $('.doc-button').off("click");
   $('#archaeology-row-div select').val('all');
@@ -307,7 +367,7 @@ function renderSearchInput(d, dbdata) {
 
   $('.doc-button').css("background-color", dbdata[d].color);
   if (d == 'Care_Reviews') {
-    $('#carereview-row-div').removeClass("hidden");
+    $('#care-rating-low-lab').removeClass("hidden");
     $('#archaeology-row-div').addClass("hidden");
     $('#caselaw-row-div').addClass("hidden");
     $('#family-row-div').addClass("hidden");
@@ -318,7 +378,7 @@ function renderSearchInput(d, dbdata) {
     $('#coi-row-div').addClass("hidden");
     $('#family-row-div').addClass("hidden");
     $('#search-term-div').removeClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-lab').addClass("hidden");
   }
   else if (d == 'Pubmed_COI') {
     $('#coi-row-div').removeClass("hidden");
@@ -330,7 +390,7 @@ function renderSearchInput(d, dbdata) {
     });
     $('#archaeology-row-div').addClass("hidden");
     $('#caselaw-row-div').addClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-lab').addClass("hidden");
   }
   //no more non federal jurisdiction
   /*else if (d == 'CaseLaw_v2'){
@@ -343,7 +403,7 @@ function renderSearchInput(d, dbdata) {
     $('#archaeology-row-div').addClass("hidden");
     $('#search-term-div').removeClass("hidden");
     $('#family-row-div').removeClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-lab').addClass("hidden");
   }
 
   else {
@@ -351,7 +411,7 @@ function renderSearchInput(d, dbdata) {
     $('#caselaw-row-div').addClass("hidden");
     $('#archaeology-row-div').addClass("hidden");
     $('#family-row-div').addClass("hidden");
-    $('#carereview-row-div').addClass("hidden");
+    $('#care-rating-low-lab').addClass("hidden");
     $('#search-term-div').removeClass("hidden");
 
 
@@ -364,6 +424,7 @@ function renderSearchInput(d, dbdata) {
     size = size.split('-')[1];
     selected_database = d;
     showContinue('filter-docs');
+    updateSideNav('focus-query');
     getArticles(qry, d, fromhistory, timeExt, size);
   });
 
@@ -461,7 +522,7 @@ function renderFilterDocs(articles, dbn, qry) {
     .dimension(monthDimension)
     .group(monthlyMoveGroup)
     .centerBar(true)
-    .colors(DATABASES[dbn].nonbgcolor)
+    .colors("#22587A")
     .x(d3.scaleTime().domain(function () {
       var e = d3.extent(articles.results, function (d) {
         return d.date;
@@ -491,7 +552,7 @@ function renderFilterDocs(articles, dbn, qry) {
     .dimension(countDimension)
     .group(accGroup)
     .centerBar(false)
-    .colors(DATABASES[dbn].nonbgcolor)
+    .colors("#22587A")
     .x(d3.scaleLinear().domain([0, maxCount + 1]))
     .alwaysUseRounding(true)
     .xAxisLabel("Occurrence of search term(s)")
@@ -520,6 +581,7 @@ function renderFilterDocs(articles, dbn, qry) {
     .on("renderlet", function (d) {
       if (d3.select('#explore-docs-div').classed("hidden") == false) {
         showContinue('filter-docs');
+        updateSideNav('focus-query');
       }
       updateEstimatedTime(d.group().value(), dbn, 'explore');
     });
@@ -534,7 +596,15 @@ function renderFilterDocs(articles, dbn, qry) {
     if (selected_docs.length > database_runtimes[dbn].max) {
       alert("Warning!\nIf you continue with this number of documents we will cut the model to " + database_runtimes[dbn].max + " documents at runtime to save our poor servers.\nPlease contact us at mccabeen@ucmail.uc.edu if you want to run extra large models");
     }
+
+    // append text from label_for_count_bar to query-text
+    var queryTextElement = $('#query-text');
+    var existingText = queryTextElement.html();
+    var countBarText = $('#label_for_count_bar').text();
+    queryTextElement.html(existingText + "<br> <strong>Occurrence Values:</strong> " + countBarText);
+
     showContinue('explore-docs');
+    updateSideNav('review-data-sources');
     renderExploreDocs(selected_docs, dbn, qry, fromhistory, total_articles);
   });
 
@@ -613,26 +683,26 @@ function updateEstimatedTime(selected, dbn, pre) {
     $('.filtered-count').text(selected);
   }
 
-  if (est_time > 1200) {
-    $('.' + pre + '-docs-btn').css("background-color", "red");
-    $('.' + pre + '-estimated-time').css("color", "red");
-    return "red";
-  }
-  else if (est_time > 600) {
-    $('.' + pre + '-docs-btn').css("background-color", "orange");
-    $('.' + pre + '-estimated-time').css("color", "orange");
-    return "orange";
-  }
-  else if (est_time > 200) {
-    $('.' + pre + '-docs-btn').css("background-color", "yellow");
-    $('.' + pre + '-estimated-time').css("color", "#999900");
-    return "#999900";
-  }
-  else {
-    $('.' + pre + '-docs-btn').css("background-color", "green");
-    $('.' + pre + '-estimated-time').css("color", "green");
-    return "green";
-  }
+  // if (est_time > 1200) {
+  //   $('.' + pre + '-docs-btn').css("background-color", "red");
+  //   $('.' + pre + '-estimated-time').css("color", "red");
+  //   return "red";
+  // }
+  // else if (est_time > 600) {
+  //   $('.' + pre + '-docs-btn').css("background-color", "orange");
+  //   $('.' + pre + '-estimated-time').css("color", "orange");
+  //   return "orange";
+  // }
+  // else if (est_time > 200) {
+  //   $('.' + pre + '-docs-btn').css("background-color", "yellow");
+  //   $('.' + pre + '-estimated-time').css("color", "#999900");
+  //   return "#999900";
+  // }
+  // else {
+  //   $('.' + pre + '-docs-btn').css("background-color", "green");
+  //   $('.' + pre + '-estimated-time').css("color", "green");
+  //   return "green";
+  // }
 
 }
 
@@ -907,6 +977,7 @@ function renderExploreDocs(articles, dbn, qry, fromhistory, total_docs) {
   $('.filtered-count').css('color', updateEstimatedTime(total_docs, dbn, 'vis'));
   $('#choose-vis-btn').on("click", function (d) {
     showContinue('select-vis');
+    updateSideNav('select-visualization');
     renderVisSelect(dbn, qry, fromhistory);
   });
 
@@ -987,11 +1058,12 @@ function renderExploreDocs(articles, dbn, qry, fromhistory, total_docs) {
 }
 
 function renderVisSelect(dbn, qry) {
-  $('.fig.db-button').css('background-color', DATABASES[dbn].color);
+  //$('.fig.db-button').css('background-color', DATABASES[dbn].color);
   $('.fig.db-button').css('border-color', 'white');
 
   $('.fig').on("click", function (d) {
     showContinue('vis-params');
+    updateSideNav('set-parameters');
     renderVisParams(dbn, qry, $(this).attr("id"));
   });
 
@@ -1026,7 +1098,12 @@ function renderVisParams(dbn, qry, method, fromhistory) {
 
   console.log(method);
   $('#form-div').css("background-color", DATABASES[dbn].color);
+  var queryTextElement = $('#query-text');
+  var existingText = queryTextElement.html();
+  var methodText = ("");
+
   if (method == "DFR browser") {
+    methodText = "<strong>Visualization:</strong> Topic Browser";
     $('#mlmom-options').addClass("hidden");
     $(".not-w2v").removeClass("hidden");
     $(".lda-options").removeClass("hidden");
@@ -1034,6 +1111,7 @@ function renderVisParams(dbn, qry, method, fromhistory) {
     $("#word2vec-doc2vec-chooser").addClass("hidden");
   }
   if (method == "pyLDAvis") {
+    methodText = "<strong>Visualization:</strong> PyLda Vis ";
     $('#mlmom-options').addClass("hidden");
     $(".not-w2v").removeClass("hidden");
     $(".lda-options").removeClass("hidden");
@@ -1041,6 +1119,7 @@ function renderVisParams(dbn, qry, method, fromhistory) {
     $("#word2vec-doc2vec-chooser").addClass("hidden");
   }
   if (method == "multilevel_lda") {
+    methodText = "<strong>Visualization:</strong> Multi Level Model of Models ";
     $(".lda-options").removeClass("hidden");
     $(".not-w2v").removeClass("hidden");
     $('#mlmom-options').removeClass("hidden");
@@ -1048,6 +1127,7 @@ function renderVisParams(dbn, qry, method, fromhistory) {
     $("#word2vec-doc2vec-chooser").addClass("hidden");
   }
   if (method == "word2vec" || method == 'doc2vec') {
+    methodText = "<strong>Visualization:</strong> Word2Vec/Doc2Vec  ";
     $('#mlmom-options').addClass("hidden");
     $('#params-label').text("Word2Vec/Doc2Vec Parameters");
     $(".not-w2v").addClass("hidden");
@@ -1075,8 +1155,10 @@ function renderVisParams(dbn, qry, method, fromhistory) {
 
   }
   if (method == 'sentiment') {
+    methodText = "<strong>Visualization:</strong> Sentiment Analysis ";
     $('#sentiment-options').removeClass("hidden");
   }
+  queryTextElement.html(existingText + "<br>" + methodText);
   $('#static-method').val(method);
 
 
@@ -1129,25 +1211,81 @@ function renderVisParams(dbn, qry, method, fromhistory) {
   });
 };
 
+
 function showContinue(prefix) {
   let sections = ['database-select', 'search-text', 'filter-docs', 'explore-docs', 'select-vis', 'vis-params'];
-  let remove_index = false;
-  for (var i = 0; i < sections.length; i++) {
-    if (sections[i] == prefix) {
-      remove_index = true;
-    }
-    if (remove_index) {
+  const sectionIds = ['select-dataset', 'build-query', 'focus-query', 'review-data-sources', 'select-visualization', 'set-parameters'];
+  let current_index = sections.indexOf(prefix);
+  let prev_index = current_index - 1;
+  let next_index = current_index + 1;
 
-      $('#' + sections[i] + '-div').addClass("hidden");
-      $('#' + sections[i] + '-nav').addClass("disabled");
-      $('#' + sections[i] + '-nav').removeClass("side-nav-active");
-    }
+  // Disable previous button for first section
+  if (current_index === 0) {
+    $('.prev').addClass('hidden');
+  } else {
+    $('.prev').removeClass('hidden');
   }
-  $('#' + prefix + '-div').removeClass("hidden");
-  $('#' + prefix + '-nav').removeClass("disabled");
-  $('#' + prefix + '-nav').addClass("side-nav-active");
+
+  // Disable next button for last section
+  // if (current_index === sections.length - 1) {
+  //   $('.next').addClass('hidden');
+  // } else {
+  //   $('.next').removeClass('hidden');
+  // }
+
+  // Hide sections before current section
+  for (var i = 0; i < current_index; i++) {
+    $('#' + sections[i] + '-div').addClass('hidden');
+    $('#' + sections[i] + '-nav').addClass('disabled');
+    $('#' + sections[i] + '-nav').removeClass('side-nav-active');
+  }
+
+  // Hide sections after current section
+  for (var j = current_index + 1; j < sections.length; j++) {
+    $('#' + sections[j] + '-div').addClass('hidden');
+    $('#' + sections[j] + '-nav').addClass('disabled');
+    $('#' + sections[j] + '-nav').removeClass('side-nav-active');
+  }
+
+  // Show current section
+  $('#' + prefix + '-div').removeClass('hidden');
+  $('#' + prefix + '-nav').removeClass('disabled');
+  $('#' + prefix + '-nav').addClass('side-nav-active');
   $('#' + prefix + '-nav').trigger('click');
 
+  // Click event for previous button
+  $('.prev').off().on('click', function() {
+    if (prev_index >= 0) {
+      showContinue(sections[prev_index]);
+      updateSideNav(sectionIds[prev_index]);
+    }
+  });
+
+  // Click event for next button
+  $('.next').off().on('click', function() {
+    if (next_index < sections.length) {
+      showContinue(sections[next_index]);
+    }
+  });
+}
+
+
+function updateSideNav(currentSection) {
+  const sectionIds = ['select-dataset', 'build-query', 'focus-query', 'review-data-sources', 'select-visualization', 'set-parameters'];
+
+  sectionIds.forEach((sectionId, index) => {
+      const buttonContainer = document.getElementById(`${sectionId}-nav`);
+      if (sectionId === currentSection) {
+          buttonContainer.classList.add('orangepipebg');
+          buttonContainer.classList.remove('bluepipebg', 'graypipebg');
+      } else if (index < sectionIds.indexOf(currentSection)) {
+          buttonContainer.classList.add('bluepipebg');
+          buttonContainer.classList.remove('orangepipebg', 'graypipebg');
+      } else {
+          buttonContainer.classList.add('graypipebg');
+          buttonContainer.classList.remove('orangepipebg', 'bluepipebg');
+      }
+  });
 }
 
 function hexToRgb(hex) {
@@ -1358,19 +1496,41 @@ let DATABASES =
     'name': 'Working Memory JSTOR'
   }
 };
-let dbi = 0;
-Object.keys(DATABASES).forEach(function (db) {
-  let color = d3.color(d3.select("#other-color").style("color")).hex();
-  let third_color = d3.color(d3.select("#third-color").style("color"));
-  let rgbObj = hexToRgb(color);
-  /*let rgbObj = hexToRgb(d3.interpolateViridis(dbi/ Object.keys(DATABASES).length))
-  DATABASES[db].color = "rgb(" + rgbObj.r  + "," + rgbObj.g + "," + rgbObj.b + ", .5)"
-  DATABASES[db].nonbgcolor = d3.interpolateViridis(dbi/ Object.keys(DATABASES).length)*/
-  DATABASES[db].color = "rgb(" + rgbObj.r + "," + rgbObj.g + "," + rgbObj.b + ", .5)";
-  DATABASES[db].nonbgcolor = third_color;
-  dbi++;
-});
 
+console.log(Object.keys(DATABASES));
+Object.keys(DATABASES).forEach(function (db, index) {
+  //console.log(db);
+  
+  // check if #other-color and #third-color elements exist
+  let otherColorElement = d3.select("#other-color");
+  let thirdColorElement = d3.select("#third-color");
+  if (!otherColorElement.empty() && !thirdColorElement.empty()) {
+    let color = d3.color(otherColorElement.style("color")).hex();
+    let third_color = d3.color(thirdColorElement.style("color"));
+    let rgbObj = hexToRgb(color);
+    
+
+    /*
+    let rgbObj = hexToRgb(d3.interpolateViridis(index / Object.keys(DATABASES).length));
+    DATABASES[db].color = "rgb(" + rgbObj.r  + "," + rgbObj.g + "," + rgbObj.b + ", .5)";
+    DATABASES[db].nonbgcolor = d3.interpolateViridis(index / Object.keys(DATABASES).length);
+    */
+    
+
+    DATABASES[db].color = color;
+    DATABASES[db].nonbgcolor = third_color;
+    
+    // create a button for the database and set its style
+    let databaseButton = d3.select("#select-db").append("button")
+      .attr("id", db + "_btn")
+      .text(db)
+      .style("background-color", DATABASES[db].color)
+      .style("color", DATABASES[db].nonbgcolor);
+    DATABASES[db].button = databaseButton;
+  } else {
+    //console.error("Could not find #other-color or #third-color elements");
+  }
+});
 
 
 function getJsonFromUrl(hashBased) {

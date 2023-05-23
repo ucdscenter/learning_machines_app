@@ -659,31 +659,40 @@ async function wrapper() {
 		cwScale = d3.scaleLinear().domain([0, cwordMax]).range([1, 15]);
 
 
-		$('#tree-btn').on("change", function (evt) {
-			$('#tree-graph-div').removeClass("hidden");
-			$('#circle-graph-div').addClass("hidden");
-			$('#network-graph-div').addClass("hidden");
+		$('#tree-btn').on("click", function (evt) {
+			evt.preventDefault();
+			$('#tree-graph-div').addClass("show active");
+			$('#circle-graph-div').removeClass("show active");
+			$('#network-graph-div').removeClass("show active");
 		});
-		$('#circle-btn').on("change", function (evt) {
-			$('#circle-graph-div').removeClass("hidden");
-			$('#tree-graph-div').addClass("hidden");
-			$('#network-graph-div').addClass("hidden");
+		
+		$('#circle-btn').on("click", function (evt) {
+			evt.preventDefault();
+			$('#tree-graph-div').removeClass("show active");
+			$('#circle-graph-div').addClass("show active");
+			$('#network-graph-div').removeClass("show active");
 		});
-
-		$('#network-btn').on("change", function (evt) {
-			$('#network-graph-div').removeClass("hidden");
-			$('#circle-graph-div').addClass("hidden");
-			$('#tree-graph-div').addClass("hidden");
-
+		
+		$('#network-btn').on("click", function (evt) {
+			evt.preventDefault();
+			$('#tree-graph-div').removeClass("show active");
+			$('#circle-graph-div').removeClass("show active");
+			$('#network-graph-div').addClass("show active");
+		
+			// Trigger a resize event on the networkGraph to make sure it is correctly displayed
 			networkGraph.resize();
 			networkGraph.fit();
 			once = false;
-
 		});
+		
+		
 
+		console.log("Setting width and height of #network-graph");
 		d3.select("#network-graph").style("width", function (d) {
+			console.log("Setting width to: " + centerWidth);
 			return centerWidth;
 		}).style("height", function (d) {
+			console.log("Setting height to: " + centerHeight);
 			return centerHeight;
 		});
 		console.log(formattedD);
@@ -698,8 +707,8 @@ async function wrapper() {
 			centerHeight = window.innerHeight * .88;
 			clusterHeight = (window.innerHeight * .88) + 54;
 			networkGraph.resize();
-			$('#topics-table').height(centerHeight / 2.1);
-			$('#article').height(centerHeight / 1.85);
+			//$('#topics-table').height(centerHeight / 2.1);
+			//$('#article').height(centerHeight / 1.85);
 			d3.selectAll('.fixedheight').style("height", centerHeight);
 			d3.selectAll('.fixedheight-cluster').style("height", clusterHeight);
 

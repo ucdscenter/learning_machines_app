@@ -5,129 +5,128 @@
   <!--  Simple reset to delete the margins  -->
   <!--  Simple reset to delete the margins  -->
   <link rel="icon" type="image/x-icon" href="/static/searcher/images/box.png" />
-    <!-- For iPhone 4 Retina display: -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/searcher/images/box.png" />
-    <!-- For iPad: -->
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/searcher/images/box.png" />
-    <!-- For iPhone:-->
-    <link rel="apple-touch-icon-precomposed" href="/static/ext/box.png" /> 
- <!--<link rel="stylesheet" href="/static/searcher/src/bootstrap.min.css">-->
+  <!-- For iPhone 4 Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/searcher/images/box.png" />
+  <!-- For iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/searcher/images/box.png" />
+  <!-- For iPhone:-->
+  <link rel="apple-touch-icon-precomposed" href="/static/ext/box.png" /> 
+  <!--<link rel="stylesheet" href="/static/searcher/src/bootstrap.min.css">-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/static/searcher/css/bootstrap.min.css">
- <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="/static/searcher/mymain.css">
    
-   <style>
+  <style>
 
-	.hidden{
-		display: none;
-	}
-	body {
-		font-family: helvetica neue, helvetica, liberation sans, arial, sans-serif;
-	}
-	p {
-		font-family: helvetica neue;
-		font-size: 14px;
-	}
-	#cy {
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		z-index: 1;
-	}
-	.selected {
-		stroke : #FF0000;
-	}
-  .cselected {
-    stroke : #ffa500;
-    border : 2px solid #ffa500;
-    transition: stroke .2s, border .2s;
+    .hidden{
+      display: none;
+    }
+    body {
+      font-family: helvetica neue, helvetica, liberation sans, arial, sans-serif;
+    }
+    p {
+      font-family: helvetica neue;
+      font-size: 14px;
+    }
+    #cy {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1;
+    }
+    .selected {
+      stroke : #FF0000;
+    }
+    .cselected {
+      stroke : #ffa500;
+      border : 2px solid #ffa500;
+      transition: stroke .2s, border .2s;
+    }
+
+    /*.popper-div { 
+      border: 1px solid;
+      background: #fff;
+      z-index: 9999;
+      padding: 0.25em;
+      pointer-events: none;
+      font-size: 10px;
+    }*/
+    .table_txt {
+      font-size: 10px;
+    }
+    .node {
+    font: 7px sans-serif;
+    stroke-width: .5;
   }
 
-	/*.popper-div { 
-		border: 1px solid;
-		background: #fff;
-		z-index: 9999;
-		padding: 0.25em;
-		pointer-events: none;
-		font-size: 10px;
-	}*/
-	.table_txt {
-		font-size: 10px;
-	}
-	.node {
-  font: 7px sans-serif;
-  stroke-width: .5;
-}
 
+  .link {
+    stroke: lightgrey;
+    stroke-opacity: 0.5;
+    fill: none;
+  }
+  </style>
 
-.link {
-  stroke: lightgrey;
-  stroke-opacity: 0.5;
-  fill: none;
-}
-	</style>
-   </style>
-   <title></title>
 </head>
+
 <body>
 
-	  <nav class="navbar navbar-expand-lg " id="main-nav">
+	<nav class="navbar navbar-expand-lg " id="main-nav">
 
-  <div class="navbar-header">
+    <div class="navbar-header">
       <a class="navbar-brand" href="/" style="color: #002a31;">
       <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
       <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
       <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
       </a>
+    </di>
+  
+    <div class="navbar-collapse collapse">
 
+      <ul class="nav navbar-nav" align="left">
 
-  </div>
-  <div class="navbar-collapse collapse">
+        <li class="nav-item"><a class="nav-link " id="w2v-download-btn"></a></li>
+      </ul>
 
-    <ul class="nav navbar-nav" align="left">
+    </div>
 
-       <li class="nav-item"><a class="nav-link " id="w2v-download-btn"></a></li>
-    </ul>
-
-  </div>
-
-</nav>
+  </nav>
 
 	<div class="container-fluid" >
- <div class="row">
-   <div class="col-12" >
+    <div class="row">
+      <div class="col-12" >
 
-      <div class="row pt-2 pb-2 info-header justify-content-center" >
-        <div class="col-12">
-          <div class="row">
-        <div class="col-2">
-          <h6>Corpus : <span id="corpus"></span></h6>
-        </div>
-        <div class="col-2">
-          <h6>Term : <span id="term"></span></h6>
-        </div>
-        <div class="col-2">
-          <h6># Docs : <span id="dn"></span></h6>
-        </div>
-         <div class="col-2">
-          <h6># Topics : <span id="topics"></span></h6>
-        </div>
-         <div class="col-2">
-          <h6>Stopwords : <span id="stop_words" style="font-size:10px"></span></h6>
-        </div>
-        <div class="col-2">
-          <h6>Years : <span id="start"></span>-<span id="end"></h6>
-        </div>
+        <div class="row pt-2 pb-2 info-header justify-content-center" >
+          <div class="col-12">
+            <div class="row">
+              <div class="col-2">
+                <h6>Corpus : <span id="corpus"></span></h6>
+              </div>
+              <div class="col-2">
+                <h6>Term : <span id="term"></span></h6>
+              </div>
+              <div class="col-2">
+                <h6># Docs : <span id="dn"></span></h6>
+              </div>
+              <div class="col-2">
+                <h6># Topics : <span id="topics"></span></h6>
+              </div>
+              <div class="col-2">
+                <h6>Stopwords : <span id="stop_words" style="font-size:10px"></span></h6>
+              </div>
+              <div class="col-2">
+                <h6>Years : <span id="start"></span>-<span id="end"></h6>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-</div>
- </div>
 		<div class="row">
 
 			<div class='col-3 mt-2'>
@@ -150,61 +149,70 @@
 						</tbody>
 					</table>
 				</div>
+
 				<div id="article" style="overflow:auto;">
 
 					<h5 id="doc_title">Doc View</h5>
 					<p id="doc_contents" class="table_txt"></p>
 				</div>
+
 			</div>
+
 			<div class='col-6 pt-3' style="background-color:white">
         <div id="loading_show" align="center">
-  <h6>Formatting data, for smaller doc counts please allow a few seconds. For large doc counts > 3000 please allow for up to 15 minutes of waiting. </h6>
-  <img src="/static/searcher/images/big-ajax-loader.gif" alt="loading">
-</div>
-<div id="loading_hide" class="hidden">
-				<div class="row">
-					<div class="col-12">
-						<!--<h6>Triangle-sentence</h6>-->
-						<div class="btn-group btn-group-toggle" data-toggle="buttons">
-  <label class="btn btn-secondary active">
-    <input type="radio" name="options" id="tree-btn" autocomplete="off" checked> Tree <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Shows clustered topics from the 6 models in a hierarchical tree form with the root as model->cluster->topic->words. Colored by cluster. Cluster circle sizes are the sum of topics weights in their cluster. Topic circle sizes are the topic weights." class="center_icon_h3 material-icons ">info_outlined</i>
-  </label>
-  <label class="btn btn-secondary">
-    <input type="radio" name="options" id="circle-btn" autocomplete="off">Circle <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="This graph shows co-occurence of the top words across clusters. The words in each cluster are unions of the top words from each topic in the cluster. A maximum of 250 total words are displayed. Word circle size is the number of occurences of that word in the cluster's topic's top words." class="material-icons center_icon_h3">info_outlined</i>
-  </label>
-  <label class="btn btn-secondary">
-    <input type="radio" name="options" id="network-btn" autocomplete="off"> Network <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="This graph shows two sets of relationships between each of the topics in each of the models. Each node in the graph is a topic. Each edge is the KL-divergence between the two topics. The node locations are projected onto a vector space made up of the top words in all topics, then reduced to 2-dimensions with pca." class="material-icons center_icon_h3">info_outlined</i>
-  </label>
-</div>
+          <h6>Formatting data, for smaller doc counts please allow a few seconds. For large doc counts > 3000 please allow for up to 15 minutes of waiting. </h6>
+          <img src="/static/searcher/images/big-ajax-loader.gif" alt="loading">
+        </div>
 
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 fixedheight" id="tree-graph-div" style="overflow: auto;">
-					</div>
-					<div class="col-12 hidden fixedheight" id="circle-graph-div" style="overflow: auto">
-						<p> Selected word: <span id="word_label" > none</span></p>
-					</div>
-					<div class="col-12 hidden fixedheight" id="network-graph-div" style="overflow: auto;">
-						<div class="row">
-							<div class="col-2">
-							<p> KL limit:<span id="kl_label" ></span></p>
-							</div>
-							<div class="col-2" id="slider">
-							</div>
-							<div class="col-7">
-								<p>Circle – Paragraph Level/Square – Article Level </p>
-							</div>
-							<div class="col-12" id="network-graph">
-								
-							</div>
-						</div>
-						
-					</div>
-				</div>
-      </div>
+        <div id="loading_hide" class="hidden">
+				  <div class="row">
+					  <div class="col-12">
+              <!--<h6>Triangle-sentence</h6>-->
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                  <input type="radio" name="options" id="tree-btn" autocomplete="off" checked> Tree <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Shows clustered topics from the 6 models in a hierarchical tree form with the root as model->cluster->topic->words. Colored by cluster. Cluster circle sizes are the sum of topics weights in their cluster. Topic circle sizes are the topic weights." class="center_icon_h3 material-icons ">info_outlined</i>
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="circle-btn" autocomplete="off">Circle <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="This graph shows co-occurence of the top words across clusters. The words in each cluster are unions of the top words from each topic in the cluster. A maximum of 250 total words are displayed. Word circle size is the number of occurences of that word in the cluster's topic's top words." class="material-icons center_icon_h3">info_outlined</i>
+                </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="options" id="network-btn" autocomplete="off"> Network <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="This graph shows two sets of relationships between each of the topics in each of the models. Each node in the graph is a topic. Each edge is the KL-divergence between the two topics. The node locations are projected onto a vector space made up of the top words in all topics, then reduced to 2-dimensions with pca." class="material-icons center_icon_h3">info_outlined</i>
+                </label>
+              </div>
+
+					  </div>
+				  </div>
+
+				  <div class="row">
+            <div class="col-12 fixedheight" id="tree-graph-div" style="overflow: auto;">
+            </div>
+
+            <div class="col-12 hidden fixedheight" id="circle-graph-div" style="overflow: auto">
+              <p> Selected word: <span id="word_label" > none</span></p>
+            </div>
+
+            <div class="col-12 hidden fixedheight" id="network-graph-div" style="overflow: auto;">
+              <div class="row">
+                <div class="col-2">
+                  <p> KL limit:<span id="kl_label" ></span></p>
+                </div>
+                <div class="col-2" id="slider">
+                </div>
+                <div class="col-7">
+                  <p>Circle – Paragraph Level/Square – Article Level </p>
+                </div>
+                <div class="col-12" id="network-graph">
+                  
+                </div>
+              </div>
+              
+            </div>
+				  </div>
+
+        </div>
 
 			</div>
+
       <div class='col-3 pt-2 fixedheight-cluster' style="overflow:auto;">
       <div id="clusters-table" >  
         <h5>Clusters <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Table of clusters of topics from all six nlp_models. Sorted by the number of topics within the cluster. The #para/#docs column shows the number of documents or the number of paragraphs in the cluster, depending on the model level chosen." class="material-icons center_icon_h3">info_outlined</i></h5>
@@ -212,37 +220,39 @@
       </div>
 
 		</div>
-       <div class="row footer align-items-center justify-content-center">
-    <div class="col-10">
-      <div class="row">
-        <div class="col-3">
-           <a class="navbar-brand" href="/" style="color: #002a31;">
-      <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
-      <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
-      <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
-      </a>
-          <h6>UC DIGITAL SCHOLARSHIP CENTER</h6>
-          <h6>LANGSAM LIBRARY | 2911 WOODSIDE DRIVE, CINCINNATI, OH</h6>
-          <h6>PHONE | 513.556.8794</h6>
-        </div>
-        <div class="col-3">
-          <img alt="uc footer logo" src="//lcdn.uc.edu/ucdhs/images/uc-logo@2x.png" style="max-width: 150px; margin-bottom: 1.5rem">
-          <img alt="mellon footer logo" src="/static/searcher/images/mellon-foundation-logo.png" style="max-width: 150px; margin-bottom: 1.5rem">
-          
-        </div>
-        <div class="col-3">
-          
-        </div>
-        <div class="col-3">
-          
+
+    <div class="row footer align-items-center justify-content-center">
+      <div class="col-10">
+        <div class="row">
+          <div class="col-3">
+            <a class="navbar-brand" href="/" style="color: #002a31;">
+              <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
+              <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
+              <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
+            </a>
+            <h6>UC DIGITAL SCHOLARSHIP CENTER</h6>
+            <h6>LANGSAM LIBRARY | 2911 WOODSIDE DRIVE, CINCINNATI, OH</h6>
+            <h6>PHONE | 513.556.8794</h6>
+          </div>
+          <div class="col-3">
+            <img alt="uc footer logo" src="//lcdn.uc.edu/ucdhs/images/uc-logo@2x.png" style="max-width: 150px; margin-bottom: 1.5rem">
+            <img alt="mellon footer logo" src="/static/searcher/images/mellon-foundation-logo.png" style="max-width: 150px; margin-bottom: 1.5rem">
+            
+          </div>
+          <div class="col-3">
+            
+          </div>
+          <div class="col-3">
+            
+          </div>
         </div>
       </div>
     </div>
+
   </div>
-</div>
  
- <script src="/static/searcher/js/jquery.min.js"></script>
-<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+  <script src="/static/searcher/js/jquery.min.js"></script>
+  <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
   <script type="text/javascript" src="/static/searcher/js/bootstrap.min.js"></script>
   <script
   src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"

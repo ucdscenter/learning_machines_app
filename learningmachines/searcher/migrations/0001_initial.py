@@ -83,6 +83,8 @@ class Migration(migrations.Migration):
             name='Profile',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('first_name', models.CharField(max_length=200, null=True)),
+                ('last_name', models.CharField(max_length=200, null=True)),
                 ('institute', models.CharField(max_length=200, null=True)),
                 ('department', models.CharField(max_length=200, null=True)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),

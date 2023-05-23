@@ -1,18 +1,26 @@
 {% extends 'searcher/base.html' %}
 {% load static %}
 {% block title %}BERT Embeddings Visualization{% endblock title %}
+{% block head_css_page %}
+<link rel="stylesheet" href="{% static 'searcher/bert.css' %}" type="text/css" >
+{% endblock head_css_page %}
 
 {% block content %}
+<div class="row justify-content-center">
+      <!-- <div class="col-12 bert-title">
+        <h5 class="p-4" style="font-size: 3rem; ;">BERT Embeddings</h5>
+      </div> -->
       {% for dataset, dataset_info in datasets.items %}
+
       <div class="cards">
         <a href="/searcher/bert_method_vis/{{dataset}}">
-        <div class="card">
-          <div class="card__imageContainer">
+        <div class="card bluepipebg">
+          <div class="card__imageContainer graybg  w-100" > 
             <!-- <img class="card__image" alt={{dataset}} src="{% static 'searcher/images/bert_images/' %}{{dataset}}.png"> -->
             <div class="p-5" style="min-height: 100px;">
-              <h3 style="color: black">
+              <h5 style="font-size: 1.5rem; color: black">
                 {{dataset_info.display_name}}
-              </h3>
+              </h5>
             </div>
           </div>
   
@@ -28,8 +36,9 @@
         </div>
       </a>
       </div>
+
     {% endfor %}
-    
+</div>
     
      
 
@@ -38,7 +47,13 @@
       {%if url_parameter %}
       <div class="visContainer" style="height: 100vh; width: 100vw;">
         <div class="visContainer__infoContainer">
-
+          <div class="titleContainer">
+          <div class="row">
+            <div class="col-12">
+              <h5 class='dataset_name'></h5>
+            </div>
+          </div>
+          </div>
           <div class="visContainer__dropDownContainer" style='display: none;'>
             <h6>Select Algorithm</h6>
             <select class="visContainer__dropDown" id="visContainer__dropDown">
@@ -55,6 +70,7 @@
 
           <div class="visContainer__searchContainer">
             <!--<h6>Filter Documents : </h6>-->
+
             <div class='row'>
               <div class="col-12">
             <input type="text" style="font-size: 15px" name="search-term"  id="search-input" class="form-control input-lg" placeholder="Search Documents"/>
@@ -83,7 +99,7 @@
               <div id="visContainer__clustershow" class='clustershow' style="cursor: pointer; color: black"><h5 align="center"> Show Cluster Info<i id="icon-show" class="material-icons center_icon_h3">expand_more</i><i id="icon-hide" class="material-icons center_icon_h3 hidden">expand_less</i></h5></div>
 
               <div  id="visContainer__clusterInfo" class="visContainer_clusterInfo hidden m-2" style="max-height: 75vh; overflow-y: scroll">
-                <table class="table">
+                <table class="table bert-table">
                   <thead style="background-color: white;">
                     <tr>
                     <th>Cluster</th>
@@ -129,7 +145,6 @@
 <script>let static_url = "{% static 'searcher/bert_method_data/' %}"</script>
 <script src="{% static 'searcher/js/jquery.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
-<script src="{% static 'searcher/js/bootstrap.min.js' %}"></script>
   <!--<script src="/static/searcher/js/jquery-ui.js"></script>-->
   <script
   src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
@@ -155,8 +170,17 @@
       toBeActive.classList.add('active');
     }
   }
+  d3.select(".main-content").style("padding", 0)
+  d3.select(".contentblock").style("padding", 0)
+  d3.selectAll(".card").on("mouseover", function(d){
+      d3.select(this)
+        .classed("bluepipebg", false)
+        .classed("orangepipebg", true)
+    })
+  d3.selectAll(".card").on("mouseout", function(d){
+      d3.select(this)
+        .classed("bluepipebg", true)
+        .classed("orangepipebg", false)
+    });
 </script>
 {% endblock footer_javascript_page %}
-
-
-[bert, tsne, pca, pcakmeans, kmeanspca, umap]

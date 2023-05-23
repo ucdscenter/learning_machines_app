@@ -1,128 +1,11 @@
-{# HTML5 declaration #}
+{% extends 'searcher/base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>d2v projector</title>
-  <!--  Simple reset to delete the margins  -->
-  <!--  Simple reset to delete the margins  -->
-  <script src="{% static 'searcher/js/jquery.min.js' %}"></script>
-  <link rel="icon" type="image/x-icon" href="{% static 'searcher/images/favicon.ico' %}" />
-    <!-- For iPhone 4 Retina display: -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'searcher/images/favicon.ico %'" />
-    <!-- For iPad: -->
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static 'searcher/images/favicon.ico %'" />
-    <!-- For iPhone:-->
-    <link rel="apple-touch-icon-precomposed" href="/static/ext/favicon.ico" /> 
- <!--<link rel="stylesheet" href="/static/searcher/src/bootstrap.min.css">-->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="{% static 'searcher/css/bootstrap.min.css' %}">
-  <link href="{% static 'searcher/fonts/roboto_robotoslab.css' %}" rel="stylesheet">
-    <link  href="{% static 'searcher/fonts/material_icons.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'searcher/mymain.css' %}">
+{% block title %}Model Visualization - Word2Vec{% endblock title%}
 
-  
-  <style>
-    body { margin: 0; }
-    canvas { width: 100%; height: 100% }
-    #tooltip {
-      position: absolute;
-      text-align: center;
-      z-index: 10000;
-      font-size: 18px;
-    }
-    .hidden { 
-      display: none; 
-    }
+{% block head_css_section %}
+{% endblock head_css_section %}
 
-    #options_div {
-      border: 1px solid;
-    padding: 10px;
-    box-shadow: 5px 10px #888888;
-    }
-    .tinytext {
-      font-size : 10px;
-    }
-    .doc-word {
-      display : inline;
-    }
-    .mouseover {
-      stroke : red;
-      opacity : 1;
-    }
-    .simsclick{
-      opacity : 1;
-    }
-    .notsimsclick{
-      opacity : .1;
-    }
-    .clusterclick {
-      opacity : 1;
-    }
-    .notclusterclick {
-      opacity : .1;
-    }
-    .circleo {
-      stroke : grey;
-    }
-    .circlec {
-      opacity : .7;
-    }
-    .selected {
-      border: 2px solid orange;
-    }
-    .line {
-      fill: none;
-      stroke: #ffab00;
-      stroke-width: 1;
-    }
-  
-  </style>
-  <!--  Three.js CDN  -->
-
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg " id="main-nav">
-
-  <div class="navbar-header">
-    <a class="navbar-brand" href="/" style="color: #002a31;">
-      <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
-      <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
-      <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
-      </a>
-  </div>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span ><i class="material-icons center_icon">list</i></span>
-   </button>
-  <div class="navbar-collapse collapse" id="navbarSupportedContent">
-
-    <ul class="nav navbar-nav" align="left">
-      <!--<li class="nav-item dropdown">
-
-
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Upload Data
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-         <form method="post" action="upload_w2v" enctype="multipart/form-data">
-          <input type="file" name="modelzip">
-          <input type="submit" value="Upload">
-        </form>
-        </div>
-      </li>
-      <li class="nav-item"><a class="nav-link " id="w2v-download-btn">Download Data</a></li>-->
-      <li class="nav-item" >
-        <a class="nav-link" role="button" id="tf-download-btn">Download for Tensorflow</a>
-      </li>
-      
-
-    </ul>
-
-  </div>
-
-</nav>
-
-<div class="container-fluid" style="background-color:#eee">
+{% block content %}
   <div class="row">
    <div class="col-12" >
 
@@ -149,26 +32,13 @@
       </div>
 
 </div>
- </div>
+  </div>
 
   <div class="row">
     <div class="col-12">
       <div class="row">
         <div class="col-3">
-          <!--<div id="docstable-div">
-            <table id="docstable" class="table tinytext">
-              <thead>
-               <tr>
-                  <th>title</th>
-                  <th>journal</th>
-                  <th>date</th>
-                </tr>
-              </thead>
-              <tbody>
-                
-              </tbody>
-            </table>
-          </div>-->
+          
           <div id="docdiv" style="height: 50%; overflow: auto">
             <h6 id="doc-title"></h6>
             <p id="doc-contents" style="font-size: 13px"></p>
@@ -201,11 +71,11 @@
               <i data-container="body" data-toggle="popover" data-placement="bottom" data-content="Each circle is a document vector, projected onto 2-dimensions using pca. They are clustered using Kmeans clustering. click a row to select a cluster, click a circle to select and show the most similar 25 documents based on cosine similarity. Click on the whitespace to deselect" class="material-icons center_icon_h3">info_outlined</i>
           </div>
         </div>
-         <div class="col-3 pt-2" style="height: 100%; overflow: auto">
+        <div class="col-3 pt-2" style="height: 100%; overflow: auto">
           <div id="clustertable-div" >
             <table id="clustertable" class="table">
               <thead>
-               <tr>
+              <tr>
                   <th scope="col">cluster</th>
                   <th scope="col">size</th>
                 </tr>
@@ -233,38 +103,13 @@
       </div>
     </div>
   </div>
-     <div class="row footer align-items-center justify-content-center">
-    <div class="col-10">
-      <div class="row">
-        <div class="col-3">
-           <a class="navbar-brand" href="/" style="color: #002a31;">
-      <span style="font-family: 'Roboto Slab', serif;" class="other-title-color">model</span>
-      <span style="font-family: 'Roboto Slab', serif;" class="t-color" > | of | </span>
-      <span style="font-family: 'Roboto Slab', serif;" class="title-color">models</span>
-      </a>
-          <h6>UC DIGITAL SCHOLARSHIP CENTER</h6>
-          <h6>LANGSAM LIBRARY | 2911 WOODSIDE DRIVE, CINCINNATI, OH</h6>
-          <h6>PHONE | 513.556.8794</h6>
-        </div>
-        <div class="col-3">
-          <img alt="uc footer logo" src="//lcdn.uc.edu/ucdhs/images/uc-logo@2x.png" style="max-width: 150px; margin-bottom: 1.5rem">
-          <img alt="mellon footer logo" src="{% static 'searcher/images/mellon-foundation-logo.png' %}" style="max-width: 150px; margin-bottom: 1.5rem">
-          
-        </div>
-        <div class="col-3">
-          
-        </div>
-        <div class="col-3">
-          
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
- 
+
+{% endblock content %}
+
+{% block footer_javascript_section %}
   <script src="{% static 'searcher/js/jquery.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
-<script src="{% static 'searcher/js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'searcher/popper.js' %}"></script>
+  <script src="{% static 'searcher/js/bootstrap.min.js' %}"></script>
   <!--<script src="/static/searcher/js/jquery-ui.js"></script>-->
   <script
   src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
@@ -272,5 +117,4 @@
   crossorigin="anonymous"></script>
   <script src="{% static 'searcher/js/d3.min.js' %}"></script>
   <script src="{% static 'searcher/2d-doc2vec.js' %}"></script>
-</body>
-</html>
+{% endblock footer_javascript_section %}
