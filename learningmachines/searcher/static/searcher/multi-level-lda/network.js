@@ -1,7 +1,6 @@
 'use strict'
 
 
-
 function renderNetwork(formattedData){
 	console.log(formattedData.nodes.length)
 	console.log(params.nodelabels)
@@ -77,6 +76,7 @@ function renderNetwork(formattedData){
 			}
 			return false
 		})*/
+	
 	console.log(formattedData.edges)
 	 networkGraph = cytoscape({
   		container: document.getElementById('network-graph'),

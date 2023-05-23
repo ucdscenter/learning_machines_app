@@ -53,74 +53,62 @@
 
 	function renderDocsTable(tableData, tcolor){
 		d3.selectAll("#dtbody").remove()
-		
-
+	  	d3.select(".docstable").style("border-left", "6px solid rgba(" + hexToRgb(tcolor).r + "," + hexToRgb(tcolor).g +"," + hexToRgb(tcolor).b + ",0.6)")
 		d3.select("#dtitle").on("click", function(d){
-			console.log("sort by title?")
+		  console.log("sort by title?")
 		})
 		d3.select("#dscore").on("click", function(d){
-			console.log("sort by score")
+		  console.log("sort by score")
 		})
 		let table = d3.select("#dtable")
 		let tb  = table.append("tbody").attr("id", "dtbody")
+	  
 		let dtr = tb.selectAll("tr").data(tableData)
-			.enter()
-			.append("tr")
-			.style("background-color", function(d){
-				return "rgb(" + hexToRgb(tcolor).r + "," + hexToRgb(tcolor).g +"," + hexToRgb(tcolor).b + ",.3)"
-			})
-			.attr("class", "table_txt")
-			.on("click", function(d){
-				console.log(d)
-				renderDocumentView(d[0][8],d[2])
+		  .enter()
+		  .append("tr")
+		  .attr("class", "table_txt")
+		  .on("click", function(d){
+			console.log(d);
+			renderDocumentView(d[0][8],d[2]);
+			table.selectAll("tr").style("background-color", undefined); // remove border from all tr elements
+			d3.select(this)
+        		.style("background-color", "rgba(" + hexToRgb(tcolor).r + "," + hexToRgb(tcolor).g +"," + hexToRgb(tcolor).b + ",0.6)"); // add blue border to the selected tr element // add blue border to the selected tr element
+		  	});
 
-			})
 
-		var dtd = dtr.selectAll("td").data(function(d, i){
-			return [[d[0][1], d[0, 8], d[2]], d[1]]
-		}).enter()
-		.append("td")
-		.text(function(d, i){
-
-			if(i == 0){
-				let page_str = ""
-				//let page_str = "pg. " + d[2]
-				if (d[2] == undefined){
-					page_str = ""
-				}
-				
-
-				return d[0] + " "+ page_str
-			}
-			else{
-				return d
-			}
-		})
-
+		dtr.attr("data-toggle", "modal")
+			.attr("data-target", "#docModal")
+	  
+		dtr.append("td")
+		  .html(function(d) {
+			return d[0][1] + "<br/>" ;
+		  });
+	  
 		dtr.sort(function(a,b){
-			return b[1] - a[1]
+		  return b[1] - a[1]
 		})
-
-	};
-
+	  };
+	  
+	
 	function renderClustersTable(graphData){
 		let ctable = d3.select("#clusters-table").append("table")
 			.attr('id', 'ctable')
-			.attr("class", "table")
+			.attr("class", "table  clustertable")
 
 		let header = ctable.append("thead").append("tr")
 
-		header.append("th").attr("scope", "col").text("cluster").on("click", function(d){
+		header.append("th").attr("scope", "col").text("").on("click", function(d){
 			ctr.sort(function(a,b){
 				return a.data.id - b.data.id;
 			})
 		})
-		header.append("th").attr("scope", "col").text( "documents").on("click", function(d){
+		header.append("th").attr("scope", "col").text("")
+		header.append("th").attr("scope", "col").text( "Docs").on("click", function(d){
 			ctr.sort(function(a,b){
 				return (b.data.docsCount[0] + b.data.docsCount[1]) - (a.data.docsCount[0] + a.data.docsCount[1])
 			})
 		})
-		header.append("th").attr("scope", "col").attr("id", "topics_th").text("topics").on("click", function(d){
+		header.append("th").attr("scope", "col").attr("id", "topics_th").text("Topics").on("click", function(d){
 			ctr.sort(function(a,b){
 				return b.data.subtopics.length - a.data.subtopics.length;
 			})
@@ -128,24 +116,54 @@
 		header.append("th").attr("scope", "col").text("terms")
 
 		let ctbody = ctable.append("tbody")
-		var ctr = ctbody.selectAll("tr")
+		let ctr = ctbody.selectAll("tr")
 			.data(graphData.clusters)
 			.enter()
 			.append("tr")
-			.style("background-color", function(d){
-				return "rgb(" + hexToRgb(d.data.color).r + "," + hexToRgb(d.data.color).g +"," + hexToRgb(d.data.color).b + ",.6)"
-			})
 			.attr("class", function(d){
-				return "table_txt cluster" + d.data.id
+				return "table_txt cluster" + d.data.id;
 			})
 			.attr("id", function(d){
-				return "table_row_cluster_" + d.data.id
+				return "table_row_cluster_" + d.data.id;
 			})
 			.on("click", function(d){
-				deselectAll()
-
-				clusterSelect(d.data)
-			})
+				deselectAll();
+				clusterSelect(d.data);
+				d3.selectAll("tr").style("background-color", undefined); // remove border from all tr elements
+				d3.select(this)
+        		.style("background-color", function(d){
+				return "rgba(" + hexToRgb(d.data.color).r + "," + hexToRgb(d.data.color).g +"," + hexToRgb(d.data.color).b + ",0.6)";
+				})
+			});
+	
+		ctr.append("td")
+			.attr("class", "cindex")
+			.text(function(d){
+				return d.data.id;
+			});
+	
+		ctr.append("td")
+			.attr("class", "indicator")
+			.append("div")
+			.attr("class", "colorbar")
+			.style("background-color", function(d){
+				return "rgba(" + hexToRgb(d.data.color).r + "," + hexToRgb(d.data.color).g +"," + hexToRgb(d.data.color).b + ",0.6)";;
+			});
+	
+		ctr.append("td")
+			.text(function(d){
+				return d.data.docsCount[0] + d.data.docsCount[1];
+			});
+	
+		ctr.append("td")
+			.text(function(d){
+				return d.data.subtopics.length;
+			});
+	
+		ctr.append("td")
+			.text(function(d){
+				return d.data.label;
+			});
 
 		var ctd = ctr.selectAll("td").data(function(d, i){
 			return [d.data.id, d.data.docsCount[1], d.data.subtopics.length, d.data.label]
@@ -157,6 +175,7 @@
 
 		d3.select("#topics_th").dispatch("click")
 	}
+	
 
 	async function renderDocumentView(doc_id, para_index){
 		let MIN_PARAGRAPH_LETTER_COUNT = 10
@@ -184,7 +203,7 @@
 			}
 			else{
 				let text = doc_response.data.split("\n")[para_index]
-				d3.select('#doc_contents').text(text)
+				//d3.select('#doc_contents').text(text)
 			}
 			
 		}

@@ -251,6 +251,7 @@ async function wrapper(){
                 dataset_path = result.dataset_path;
                 console.log(result)
                 dataset = result.dataset_name;
+                d3.select(".dataset_name").style("font-size", "2rem").text(dataset)
                 console.log(dataset)
                 if (data.colors != undefined){
                     data.cleaned_colors = []

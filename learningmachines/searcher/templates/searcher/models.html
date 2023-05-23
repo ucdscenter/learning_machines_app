@@ -1,44 +1,81 @@
-
 {% extends 'searcher/base.html' %}
 {% load static %}
 {% block title %}Model List{% endblock title%}
-{% block head_favicon %}
-{% endblock head_favicon %}
 {% block content %}
-<div class="col-12 page-header pt-3" align="center" >
-       <div id="legend">
-        <h1><span class="main-color">|</span> Models<span class="main-color">|</span></h1>
-      </div>
-</div>
+    <div class="row" id="titlerow">
+        <div class="col">
+            <h2 class="gent mb-4">My Models</h2></div>
+    </div>
+    <div class="row mb-5">
+        <div class="col w-100">
+            <h4 class="gent">Running Models</h4>
+            <div class="table-div table-responsive w-100" >
+                <table class="table table-striped orange-border grayrule-right grayrule-bottom" id="running_div">
+                    <thead>
+                        <tr>
+                            <th scope="col">Query</th>
+                            <th scope="col">Dataset</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Year</th>
+                            <th scope="col">Parameters</th>
+                            <th scope="col">Visualization</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<div class="col-10 pt-3" style="background-color: #d3d3d3;">
-  <h3>Model management</h3>
-  <p>Viewing running, saved and recent models. Once a model finishes running it well be moved to the recent table. Save that model to move it to the save models, and then you can view the generated visualization</p>
-  <p>If you are looking for models run before 06/01/2021, then go to <a href='/searcher/show_history/'>modelofmodels.io/searcher/show_history/</a></p>
-</div>
-<div class="col-10 pt-3" style="background-color:white">
-  <h3>Running Models</h3>
-  <div id="running_div" class="table_div pt-2">
-    <div class="table-holder row mb-2 mr-2 ml-2 pr-2 pl-2">
-      <h7>Nothing Here</h7>
-    </div>
-  </div>
-  <hr>
-  <h3>Saved Models</h3>
-  <div id="saved_div" class="table_div pt-2">
-     <div class="table-holder row mb-2 mr-2 ml-2 pr-2 pl-2">
-      <h7>Nothing Here</h7>
-    </div>
-  </div>
-  <hr>
-  <h3>Recent Models</h3>
-  <div id="recent_div" class="table_div pt-3">
-     <div class="table-holder row mb-2 mr-2 ml-2 pr-2 pl-2">
-      <h7>Nothing Here</h7>
-    </div>
-  </div>
-</div>
 
+    <div class="row mb-5">
+        <div class="col w-100">
+            <h4 class="gent">Favorite Models</h4>
+            <div class="table-div table-responsive w-100" >
+                <table class="table table-striped orange-border grayrule-right grayrule-bottom" id="saved_div">
+                    <thead>
+                        <tr>
+                            <th scope="col">Query</th>
+                            <th scope="col">Dataset</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Year</th>
+                            <th scope="col">Parameters</th>
+                            <th scope="col">Visualization</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row mb-5">
+        <div class="col w-100">
+            <h4 class="gent">All Models</h4>
+            <div class="table-div table-responsive w-100" >
+                <table class="table table-striped orange-border grayrule-right grayrule-bottom" id="recent_div">
+                    <thead>
+                        <tr>
+                            <th scope="col">Query</th>
+                            <th scope="col">Dataset</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Year</th>
+                            <th scope="col">Parameters</th>
+                            <th scope="col">Visualization</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
 
@@ -46,19 +83,20 @@
 {% block footer_javascript_section %}
 
 
-<script>
-  let data = "{{data|escapejs}}"
-  data = JSON.parse(data)
-  let DEV = data.development
-  let RUNNING_MODELS =  data.running_models
-  let SAVED_MODELS = data.saved_models
-  let RECENT_MODELS = data.recent_models
-</script>
+    <script>
+        let data = "{{data|escapejs}}"
+        data = JSON.parse(data)
+        let DEV = data.development
+        let RUNNING_MODELS =  data.running_models
+        let SAVED_MODELS = data.saved_models
+        let RECENT_MODELS = data.recent_models
+    </script>
 
-<script src="{% static 'searcher/js/jquery.min.js' %}"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="{% static 'searcher/js/d3.min.js' %}"></script>
-<script src="{% static 'searcher/js/crossfilter.js' %}"></script>
-<script src="{% static 'searcher/js/dc.min.js' %}"></script>
-<script src="{% static 'searcher/show_models.js' %}"></script>
+    <script src="{% static 'searcher/js/jquery.min.js' %}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{% static 'searcher/js/d3.min.js' %}"></script>
+    <script src="{% static 'searcher/js/crossfilter.js' %}"></script>
+    <script src="{% static 'searcher/js/dc.min.js' %}"></script>
+    <script src="{% static 'searcher/show_models.js' %}"></script>
 {% endblock footer_javascript_section %}
+            

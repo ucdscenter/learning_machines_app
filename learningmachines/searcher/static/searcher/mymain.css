@@ -27,48 +27,8 @@
 	--other-color: #58771E; 
 }
 */
-@font-face {
-  font-family: mainBodyStuff;
-  src: url(/static/ext/fonts/VISION/Vision.otf);
-}
 
-@font-face {
-  font-family: highlightStuff;
-  src: url(/static/ext/fonts/SANTI0/Santio-regular.otf);
-}
-body {
-	background-color: #eee;
-}
 
-p, button {
-	font-family: 'Roboto', serif;
-}
-td {
-	font-family: 'Roboto', serif;
-}
-h1, h2, h3, h4, h5, h6, th, figcaption {
-	font-family: 'Roboto Slab', serif;
-}
-h3 {
-	font-family: 'Roboto Slab', serif;
-}
-li>a {
-	font-family: 'Roboto Slab', sans-serif;
-	color: black;
-	border-radius: 3px;
-	border-top : 1px solid white;
-	border-bottom : 1px solid white;
-}
-li>a:hover {
-	color : black;
-	border-top : 1px solid var(--other-color);
-	border-bottom : 1px solid var(--other-color);
-	transition: border .25s;
-}
-.nav-page-disp {
-	border-top : 1px solid var(--main-color);
-	border-bottom : 1px solid var(--main-color);
-}
 .disabled {
 	pointer-events:none;
 }
@@ -162,16 +122,12 @@ li>a:hover {
 	background-image: linear-gradient(to right, var(--main-color), var(--other-color));
 }
 .highlighted {
-   background-color: var(--main-color);
+   background-color: #FFBF6E;
   }
 thead {
 	background-color : var(--main-color);
 }
-.footer {
-	border-top: 3px solid var(--main-color);
-	background-color: white;
-	height: 300px;
-}
+
 .big-button {
 	border-radius: 10px; 
 	font-size: 30px; 
@@ -215,17 +171,8 @@ hr {
 	max-height: 200px;
 	overflow-y: auto;
 }
-
-
-p, button {
-	font-family: 'Roboto', serif;
-}
-
-.pp {
-	margin-bottom : 0px
-}
-
 .dataset-btn-p {
 	font-size:  .85em;
 }
+
 

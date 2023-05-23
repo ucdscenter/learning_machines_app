@@ -19,17 +19,25 @@ $('#annotation-button').on("click", async function (e) {
 		annotate_mode = true;
 		showNoteOptions();
 		getSavedNotes();
-		$('#main-nav').css("background-color", 'grey');
+		d3.select(this).transition().duration(1000).text("Hide Tools")
+		//$('#main-nav').css("background-color", 'grey');
+	}
+	else {
+		annotate_mode = false;
+		hideNoteOptions();
+		hideAllNotes();
+		emptyNotesDropdown();
+		d3.select(this).transition().duration(1000).text("Show Tools")
 	}
 });
 
-$('#e-a-b').on("click", function (e) {
-	annotate_mode = false;
-	hideNoteOptions();
-	hideAllNotes();
-	emptyNotesDropdown();
-	$('#main-nav').css("background-color", 'white');
-});
+// $('#e-a-b').on("click", function (e) {
+// 	annotate_mode = false;
+// 	hideNoteOptions();
+// 	hideAllNotes();
+// 	emptyNotesDropdown();
+// 	$('#main-nav').css("background-color", 'white');
+// });
 
 $('#s-a-b').on("click", function (e) {
 	const labelTextInput = $('#note-label-input').val();
@@ -46,8 +54,16 @@ $('#s-a-b').on("click", function (e) {
 		saveNote();
 		resetNotesMenu();
 	} else {
-		$('#note-error-body').text('Please create a note before saving!');
-		$('#note-error').toast('show');
+		Toastify({
+			text: 'Please create a note before saving!',
+			gravity: "top", // `top` or `bottom`
+			  position: "center", // `left`, `center` or `right`
+			  style: {
+				background: 'red'
+			}
+		}).showToast()
+		// $('#note-error-body').text('Please create a note before saving!');
+		// $('#note-error').toast('show');
 	}
 });
 
@@ -105,16 +121,33 @@ $('#r-a-b').on("click", async function (e) {
 					}
 				},
 				success: () => {
-					$('#note-success-body').text('Note deleted successfully!');
-					$('#note-success').toast('show');
+
+					Toastify({
+						text: 'Note deleted successfully!',
+						gravity: "top", // `top` or `bottom`
+			  position: "center", // `left`, `center` or `right`
+			  style: {
+							background: 'green'
+						}
+					}).showToast()
+					// $('#note-success-body').text('Note deleted successfully!');
+					// $('#note-success').toast('show');
 					// alert('Note deleted!');
 					networkGraph.remove(`[id = "${highlightedLabelNode}"]`);
 					removeAnnotation();
 				},
 				contentType: 'application/json'
 			}).fail((error) => {
-				$('#note-error-body').text('Error while deleting note!');
-				$('#note-error').toast('show');
+				Toastify({
+					text: 'Error while deleting note!',
+					gravity: "top", // `top` or `bottom`
+			  position: "center", // `left`, `center` or `right`
+			  style: {
+						background: 'red'
+					}
+				}).showToast()
+				// $('#note-error-body').text('Error while deleting note!');
+				// $('#note-error').toast('show');
 				console.log('Error while deleting note', error);
 			});
 		} else {
@@ -161,14 +194,15 @@ $('#ex-a-b').on('click', function (e) {
 });
 
 $('#c-m-b').on('click', function (e) {
-	$('#edit-notes-modal').hide();
-	$('#s-n-a-b').removeClass('hidden');
+	//$('#edit-notes-modal').hide();
+	//$('#s-n-a-b').removeClass('hidden');
+	d3.select("#annotation-button").dispatch("click")
 });
 
-$('#s-n-a-b').on('click', function (e) {
-	$('#edit-notes-modal').show();
-	$('#s-n-a-b').addClass('hidden');
-});
+// $('#s-n-a-b').on('click', function (e) {
+// 	$('#edit-notes-modal').show();
+// 	$('#s-n-a-b').addClass('hidden');
+// });
 
 function emptyNotesDropdown() {
 	const notesDropdown = $('#notes-list');
@@ -203,14 +237,14 @@ function hideNoteOptions() {
 	$('#e-a-b').addClass("hidden");
 	$('#l-a-b').addClass("hidden");
 	$('#c-a-b').addClass("hidden");
-	$('#ex-a-b').addClass("hidden");
+	//$('#ex-a-b').addClass("hidden");
 	$('#edit-notes-modal').hide();
 }
 
 function showNoteOptions() {
 	$('#e-a-b').removeClass("hidden");
 	$('#l-a-b').removeClass("hidden");
-	$('#ex-a-b').removeClass("hidden");
+	//$('#ex-a-b').removeClass("hidden");
 	$('#edit-notes-modal').show();
 	setRandomNoteColor();
 }
@@ -274,11 +308,27 @@ async function saveNote() {
 			notesList.add(option);
 		}
 		labelNode.style('color', 'black');
-		$('#note-success-body').text('Note saved successfully!');
-		$('#note-success').toast('show');
+		Toastify({
+			text: 'Note saved successfully!',
+			gravity: "top", // `top` or `bottom`
+			  position: "center", // `left`, `center` or `right`
+			  style: {
+				background: 'green'
+			}
+		}).showToast()
+		// $('#note-success-body').text('Note saved successfully!');
+		// $('#note-success').toast('show');
 	}).fail((error) => {
-		$('#note-error-body').text('Error while saving note!');
-		$('#note-error').toast('show');
+		Toastify({
+			text: 'Error while saving note!',
+			gravity: "top", // `top` or `bottom`
+			  position: "center", // `left`, `center` or `right`
+			  style: {
+				background: 'red'
+			}
+		}).showToast()
+		// $('#note-error-body').text('Error while saving note!');
+		// $('#note-error').toast('show');
 		console.log('Error while saving note', error);
 	});
 	console.log(networkGraphNotes);
@@ -320,7 +370,9 @@ function showSavedNotes() {
 			const path = bubblePaths.addPath(nodes, edges, null, {
 				//drawPotentialArea: true,
 				virtualEdges: true,
-				style: { 'fill': note.labelColor, 'opacity': 0.6 }
+				gravity: "top", // `top` or `bottom`
+			  position: "center", // `left`, `center` or `right`
+			  style: { 'fill': note.labelColor, 'opacity': 0.6 }
 			});
 			bubblePathMap.set(labelId, path);
 		}

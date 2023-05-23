@@ -3,74 +3,77 @@
 
 
 {% block content %}
-
-<div class="col-6 screen-col bg-color mt-3 mb-3" align="center" style="border-radius: 10px; box-shadow: 0px 0px 5px 2px grey">
-       <div class="mt-3" id="legend">
-        <h1>Create Account</h1>
-      </div>
-
-
-  <form class="form-horizontal" action="" method="POST" id="login-form">
-    {% csrf_token %}
-    <fieldset>
-     
-      <div class="control-group">
-
-        <h5 class="mb-1 mt-2"><label class="control-label mb-1" for="email">E-mail</label></h5>
-        <div class="controls">
-          <input type="text" id="email" name="email" placeholder="" class="form-control input-xlarge" style="width: 40%">
-          <label class="help-block">Please provide your E-mail</label>
+        <div class="row align-contents-center">
+          <div class="col-md-12">
+            <div class="container-fluid mt-5 ">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+                        <div class="card card-outline-secondary" style="margin: 10px; border-radius:0px">
+                            <div class="card-header">
+                                <h3 class="mb-0">Register</h3>
+                            </div>
+                            <div class="card-body">
+                                <form class="form" role="form" autocomplete="off" id="loginForm" novalidate="" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group mt-3">
+                                        <label class="form-label" for="first_name">First name</label>
+                                        <input type="text" class="form-control" name="first_name" id="first_name" required="" style="border-radius:0px">
+                                        <div class="invalid-feedback">Please enter your first name</div>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label class="form-label" for="last_name">Last name</label>
+                                        <input type="text" class="form-control" name="last_name" id="last_name" required="" style="border-radius:0px">
+                                        <div class="invalid-feedback">Please enter your last name</div>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label class="form-label" for="email">E-mail</label>
+                                        <input type="email" class="form-control" name="email" id="email" required="" placeholder="name@example.com" style="border-radius:0px">
+                                        <div class="invalid-feedback">Please enter your email</div>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label class="form-label" for="institute">Institute</label>
+                                        <input type="text" class="form-control" required="" id="institute" name="institute" style="border-radius:0px">
+                                        <div class="invalid-feedback">Please enter your institute</div>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label class="form-label" for="department">Department</label>
+                                        <input type="text" class="form-control" required="" id="department" name="department" style="border-radius:0px">
+                                        <div class="invalid-feedback">Please enter your department</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" required="" style="border-radius:0px">
+                                        <span class="form-text small text-muted">
+                                            The password must be 8-20 characters, and must <em>not</em> contain spaces.
+                                        </span>
+                                        <div class="invalid-feedback">Please enter a password</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password_confirm">Confirm Password</label>
+                                        <input type="password" class="form-control" id="re_password" name="re_password" required="" style="border-radius:0px">
+                                        <span class="form-text small text-muted">
+                                            To confirm, type the new password again.
+                                        </span>
+                                        <div class="invalid-feedback">Please re-enter the correct password</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-secondary submit px-3 float-right" style="border-radius:0px">Register</button>
+                                        <p class="text-center">Already a member? <a data-toggle="tab" href="/accounts/login/?next=/searcher/models/">Login</a></p>
+                                    </div>
+                                </form>
+                                <!-- <p class="text-center">Already a member? <a data-toggle="tab" href="/accounts/login/?next=/searcher/models/">Login</a></p> -->
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
         </div>
       </div>
-
-
-      <div class="control-group">
-
-        <h5 class="mb-1 mt-2"><label class="control-label mb-1" for="institute">Institute</label></h5>
-        <div class="controls">
-          <input type="text" id="institute" name="institute" placeholder="" class=" form-control input-xlarge" style="width: 40%">
-        </div>
-      </div>
-
-      <div class="control-group">
-
-        <h5 class="mb-1 mt-2"><label class="control-label mb-1" for="department">Department</label></h5>
-        <div class="controls">
-          <input type="text" id="department" name="department" placeholder="" class="form-control input-xlarge" style="width: 40%">
-        </div>
-      </div>
-      <div class="w-50"><hr></div>
-      <div class="control-group">
-
-        <h5 class="mb-1 mt-2"><label class="control-label mb-1" for="password">Password</label></h5>
-        <div class="controls">
-          <input type="password" id="password" name="password" placeholder="" class="form-control input-xlarge" style="width: 40%">
-          <label class="help-block mb-1">Password should be at least 6 characters</label>
-        </div>
-      </div>
-
-      <div class="control-group">
-
-        <h5 class="mb-1 mt-2"><label class="control-label mb-1" for="password_confirm">Password (Confirm)</label></h5>
-        <div class="controls">
-          <input type="password" id="re_password" name="re_password" placeholder="" class="form-control input-xlarge" style="width: 40%">
-          <label class="help-block mb-1">Please confirm password</label>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <div class="controls">
-          <br>
-          <button class="btn btn-primary big-button" style="font-size: 20px">Register</button>
-        </div>
-      </div>
-    </fieldset>
-  </form>
-</div>
-
+    </div>
 {% endblock content %}
 {% block footer_javascript_page %}
-  <script>
-      $('#site-wrapper').addClass('home-bg')
-  </script>
+    <script>
+        $('#site-wrapper').addClass('home-bg')
+    </script>
 {% endblock footer_javascript_page %}
