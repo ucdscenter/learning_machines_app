@@ -3,25 +3,63 @@
 {% load static %}
 {% block content %}
 
-<div class="col-12 screen-col align-middle pt-5" align="center">
-      <div class="">
-        <h1 style="font-size: 100px;">model<span style="color: var(--other-color">|</span> of <span style="color: var(--main-color)">|</span>models</h1>
-    <p>A platform for collaborative language research and teaching, bringing together humanistic methods with technical innovations.</p>
-         
-    <a class="btn btn-primary mt-5 big-button"  href="/searcher/search">Get Started</a>
+    <div class="row align-items-center">
+        <div class="homecta col-md-6 col-xl-5 offset-xl-1">
+            <h1 class="mb-4">Model of Models</h1>
+            <div class="maxout">
+                <p>Model of Models is a platform for collaborative language research and teaching, bringing together humanistic methods with technical innovations.</p>
+                <p>Model of Models is a project of the UC Cincinnati Digital Scholarship Center (DSC) funded by the Andrew W. Mellon Foundation</p>
+            </div>
 
-    <h3 class="mt-5">Note</h3>
-    <div class="col-8">
-     <p>The modelofmodels.io tool was created with funding provided by the <a href="https://mellon.org/">Andrew W. Mellon Foundation</a> . We continue to provide updates and improvements to this site as we move into Phase 2 of the tool’s development. Additional documentation and resources are forthcoming and will be updated during our second grant’s award period. </p>
-    <p>Contact us at digitalsc@ucmail.uc.edu or <a href="https://sites.libraries.uc.edu/dsc/contact-us">here</a>  with any questions or comments. </p>
+            <div class="btn-toolbar mt-4" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <div class="buttoncontainer orangepipebg">
+                        <button onclick="window.location.href='/searcher/search';" class="btn btn-main graybg">Create a Model</button>
+                    </div>
+                </div>
+                <div class="btn-group mr-2" role="group" aria-label="Second group">
+                    <div class="buttoncontainer orangepipebg">
+                        <button  class="btn btn-main graybg" onclick="window.location.href='/searcher/tutorial';">Start the Tutorial</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-5 grayrule pl-md-4 my-5">
+            <div class="projintro d-flex align-items-end">
+                <h3 class="mr-5 mb-0">Featured Project</h3><a class="ml-5 mb-0" href="/searcher/projects/">VIEW ALL</a>
+            </div>
+            <div class="projectsnap"><a href='/searcher/projects/'><img id='projectimage' class="grayborder w-100 my-4" src="" /></a></div>
+            <div class="projectdescription">
+                <h3 class="gent">Dakota Access Pipleline Range Twitter Networks</h3>
+                <p>Twitter user interaction networks from the DAPL protests. From archive.org archived tweets</p>
+            </div>
+        </div>
+
     </div>
-
-</div>
-
-
 {% endblock content %}
+
 {% block footer_javascript_page %}
-	<script>
-	    $('#site-wrapper').addClass('home-bg')
-	</script>
+    <script>
+        $('.main-content').addClass('home')
+
+        /*Quick function for getting random project*/
+        
+        let data = "{{data|escapejs}}"
+        data = JSON.parse(data)
+        let keys = Object.keys(data)
+        keys = keys.filter(function(d){
+        console.log() 
+            if (data[d].image == ""){
+                return false
+            }
+            return true
+        })
+        let random = Math.floor(Math.random() * keys.length)
+        let staticpath = "{% static 'searcher/images/project-images/'%}"
+
+        $('#projectimage').attr("src", staticpath + data[keys[random]].image)
+        $('.projectdescription h3').text(data[keys[random]].Name)
+        $('.projectdescription p').text(data[keys[random]].Info)
+    </script>
 {% endblock footer_javascript_page %}

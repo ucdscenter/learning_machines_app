@@ -1,5 +1,3 @@
-from nltk.tokenize import RegexpTokenizer
-from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
 import itertools
 import os
