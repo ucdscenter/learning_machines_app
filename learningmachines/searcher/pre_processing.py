@@ -85,7 +85,7 @@ def get_min_term_occurrence(terms, doc):
     try:
         for term in the_terms:
             count += len(re.findall(term, doc.lower()))
-        return count
+        return count if count > 0 else 1
         #return min([len(re.findall(term, doc.lower())) for term in the_terms])
     except:
-        return count
+        return count if count > 0 else 1
