@@ -116,6 +116,7 @@ class SearchResults_ES:
 						elif self.tokenized:
 								return self.cm.doc2bow(retdoc)
 						else:
+
 								return retdoc
 
 		def get_doc(self, doc_id):
@@ -177,7 +178,7 @@ class SearchResults_ES:
 
 		def _min_count(self, doc):
 				terms = self.qry_obj['qry'].replace("+", " ").split(" ")
-				terms_count = get_min_term_occurrence(terms, doc.text) if doc.text != None else 0
+				terms_count = get_min_term_occurrence(terms, doc.text) if doc.text != None else 1
 				if self.qry_obj == None:
 						return terms_count
 				if self.qry_obj['min_occurrence'] == -1:
