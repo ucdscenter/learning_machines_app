@@ -4,6 +4,86 @@
 
 {% block head_css_section %}
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+<style>
+    .hidden {
+      display: none;
+    }
+
+
+    #cy {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1;
+    }
+
+    .selected {
+      stroke: #FF0000;
+    }
+
+    .cselected {
+      stroke: #ffa500;
+      transition: stroke .2s, border .2s;
+    }
+
+
+    .node {
+      font: 7px sans-serif;
+      stroke-width: .5;
+    }
+
+    .link {
+      stroke: lightgrey;
+      stroke-opacity: 0.5;
+      fill: none;
+    }
+
+    #note-color-input {
+      height: 50px;
+      margin-top: 2%;
+      margin-left: 1%;
+    }
+
+    #edit-notes-modal {
+      overflow-y: hidden;
+      display: none;
+      width: fit-content;
+      height: fit-content;
+      top: 25%;
+      left: 70%;
+    }
+
+    .note-label-color {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .note-label-container {
+      flex: 1;
+    }
+
+    #note-label-input {
+      width: 100%;
+      margin-top: 2%;
+      margin-right: 2%;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      padding: 4%;
+    }
+
+    .modal-header {
+      cursor: move;
+    }
+    </style>
 {% endblock head_css_section %}
 
 {% block toasts %}
