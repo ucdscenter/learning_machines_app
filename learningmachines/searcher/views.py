@@ -32,7 +32,7 @@ from learningmachines.es_fields import datasetNames
 
 
 
-SEND_WORKER = True
+SEND_WORKER = False
 
 
 """
@@ -461,7 +461,7 @@ def searcher(request):
 # Function for BERT Visualization
 
 
-USE_S3_BERT = True
+USE_S3_BERT = False
 
 
 @csrf_exempt

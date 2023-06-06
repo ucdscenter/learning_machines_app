@@ -201,7 +201,9 @@
     overflow-y: auto;
     }
  /* Tutorials */
- 
+ .info-style {
+  color: grey;
+ }
  .progreminder {
      position: fixed;
      width: 160px;
