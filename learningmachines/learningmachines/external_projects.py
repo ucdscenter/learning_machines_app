@@ -2,7 +2,36 @@
 
 
 PROJECTS = {
-	
+	"CO2" : {
+		"Name" : "CO2 Emissions and Race",
+		"Info" : "Maps and Visualizations showing the relationships between race, income, and CO2 emissions for select cities, from 2010",
+		"image" : "CO2.png",
+		"Links" : [["https://www.co2-map.modelofmodels.io/", "Project Site"],["https://ucdscenter.github.io/climate_race_maps", "Old Project Maps"]
+			]
+	},
+	"Ventilator" : {
+		"Name" : "Ventilator Timelines",
+		"Info" : "Timelines showing severity of events in newborns on at-home ventilators, for medical exploration",
+		"image" : "Ventilator.png",
+		"Links" : [["/searcher/projects/?name=vent_notes", "View Timelines"]]
+	},
+	"Covid" : {
+		"Name" : "Hydroxychloroquine Twitter Networks",
+		"Info" : "Twitter user interaction networks from the first six months of 2020, exploring Hydroxychloroquine information. ",
+		"image" : "Hydroxychloroquine.png",
+		"Links" : [
+		["http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=hydroxychloroquinefastgreedy", "Hydroxychloroquine tweets"],
+		["http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=fastgreedy", "Random Sample of 1 million tweets"]]
+	},
+	"Ferguson" : {
+		"Name" : "Ferguson Twitter Networks",
+		"Info" : "Twitter user interaction networks from the Ferguson protests and ensuing events. From archive.org archived tweets. ",
+		"image" : "Ferguson.png",
+		"Links" : [["/searcher/projects/?name=blm&type=networks-aug", "Networks August"],
+["/searcher/projects/?name=blm&type=networks-novdec", "Networks Nov-Dec"],
+["/searcher/projects/?name=blm&type=basic-aug", "Timelines August"],
+["/searcher/projects/?name=blm&type=basic-novdec", "Timelines Nov-Dec"]]
+		},
 	"Instagram" : {
 		"Name" : "Instagram Hashtag Networks",
 		"Info" : "Network Visualizations of Instagram posts and their hashtags related Public Artwork. Posts are from 2018-2020.",
@@ -21,19 +50,6 @@ PROJECTS = {
 		"image" : "Library.png",
 		"Links" : [["/searcher/projects/?name=library_docs", "View Dashboard"]]
 	},
-	"CO2" : {
-		"Name" : "CO2 Emissions and Race",
-		"Info" : "Maps and Visualizations showing the relationships between race, income, and CO2 emissions for select cities, from 2010",
-		"image" : "CO2.png",
-		"Links" : [["https://www.co2-map.modelofmodels.io/", "Project Site"],["https://ucdscenter.github.io/climate_race_maps", "Old Project Maps"]
-			]
-	},
-	"Ventilator" : {
-		"Name" : "Ventilator Timelines",
-		"Info" : "Timelines showing severity of events in newborns on at-home ventilators, for medical exploration",
-		"image" : "Ventilator.png",
-		"Links" : [["/searcher/projects/?name=vent_notes", "View Timelines"]]
-	},
 	"Hathi_Anthro" : {
 		"Name" : "Defining the Anthropocene in the 20th Century",
 		"Info" : "LDA Models using derived Bag-of-Words data from 2100 best-selling 20th century novels",
@@ -49,29 +65,11 @@ PROJECTS = {
 		"image" : "Dakota_access.png",
 		"Links" : [[ "/searcher/projects/?name=dapl", "View Network"]]
 	},
-	"Ferguson" : {
-		"Name" : "Ferguson Twitter Networks",
-		"Info" : "Twitter user interaction networks from the Ferguson protests and ensuing events. From archive.org archived tweets. ",
-		"image" : "Ferguson.png",
-		"Links" : [["/searcher/projects/?name=blm&type=networks-aug", "Networks August"],
-["/searcher/projects/?name=blm&type=networks-novdec", "Networks Nov-Dec"],
-["/searcher/projects/?name=blm&type=basic-aug", "Timelines August"],
-["/searcher/projects/?name=blm&type=basic-novdec", "Timelines Nov-Dec"]]
-		},
 	"Debates" : {
 		"Name" : "Presidential Debate Twitter Networks",
 		"Info" : "Twitter user interaction networks from the 2016 Presidential Debates. From archive.org archived tweets",
 		"image" : "Debates.png",
 		"Links" : [["/searcher/projects/?name=debates", "View Debates Network"]]
-	},
-
-	"Covid" : {
-		"Name" : "Hydroxychloroquine Twitter Networks",
-		"Info" : "Twitter user interaction networks from the first six months of 2020, exploring Hydroxychloroquine information. ",
-		"image" : "Hydroxychloroquine.png",
-		"Links" : [
-		["http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=hydroxychloroquinefastgreedy", "Hydroxychloroquine tweets"],
-		["http://socialmedia.modelofmodels.io/twitter_network/webgl_network?identifier=fastgreedy", "Random Sample of 1 million tweets"]]
 	},
 
 	"Union Kerfuffle" : {

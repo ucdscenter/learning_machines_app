@@ -164,13 +164,6 @@ var database_runtimes = {
 	"max" : 20000,
 	"description" : "Transcriptions of Ted Talks"
 	}, 
-	"Pulmonary" : {
-	"a" : 0,
-	"b" : 0, 
-	"count" : 22711,
-	"max" : 20000,
-	"description" : "No description yet"
-	},
 	"Ehealth_Threads" : {
 	"a" : 0,
 	"b" : 0, 
