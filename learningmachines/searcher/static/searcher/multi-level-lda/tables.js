@@ -74,8 +74,6 @@
 			d3.select(this)
         		.style("background-color", "rgba(" + hexToRgb(tcolor).r + "," + hexToRgb(tcolor).g +"," + hexToRgb(tcolor).b + ",0.6)"); // add blue border to the selected tr element // add blue border to the selected tr element
 		  	});
-
-
 		dtr.attr("data-toggle", "modal")
 			.attr("data-target", "#docModal")
 	  
@@ -83,7 +81,10 @@
 		  .html(function(d) {
 			return d[0][1] + "<br/>" ;
 		  });
-	  
+		dtr.append("td")
+			.html(function(d){
+				return Math.round(d[1] * 100) / 100 + "<br/>"
+			})
 		dtr.sort(function(a,b){
 		  return b[1] - a[1]
 		})

@@ -1451,10 +1451,6 @@ let DATABASES =
     'options': [],
     'name': 'CCHMC Notes'
   },
-  'Pulmonary': {
-    'options': [],
-    'name': 'Pulmonary'
-  },
   'OHNPO_taxforms': {
     'options': [],
     'name': 'OH NPO Descriptions'
