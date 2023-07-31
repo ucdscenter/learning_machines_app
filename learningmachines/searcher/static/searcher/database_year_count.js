@@ -337,8 +337,6 @@ let database_years = {
 	"2017": 89,
 	"2018": 5
 	},
-	"Pulmonary" :
-	{},
 	"Ehealth_Threads" : 
 	{}, 
 	"Cannabis_News" : 
